@@ -19,5 +19,8 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   profiles:
     active: dev

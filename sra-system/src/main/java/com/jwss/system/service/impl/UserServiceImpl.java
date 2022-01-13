@@ -1,5 +1,7 @@
 package com.jwss.system.service.impl;
 
+import com.jwss.system.entity.User;
+import com.jwss.system.param.UserAddParam;
 import com.jwss.system.service.IUserService;
 import com.jwss.system.sqlmethod.UserServiceSqlMethod;
 import com.jwss.system.vo.UserVO;
@@ -19,8 +21,15 @@ public class UserServiceImpl implements IUserService {
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
-    public Page<UserVO> searchFruitOrder(Page pageModel, UserVO userVO) {
-        Page<UserVO> pageBySql = sqlToyLazyDao.findPageBySql(pageModel, UserServiceSqlMethod.SYSTEM_SEARCH_FRUIT_ORDER, userVO);
-        return pageBySql;
+    public Page<UserVO> searchFruitOrder(Page<UserVO> pageModel, UserVO userVO) {
+        return sqlToyLazyDao.findPageBySql(pageModel, UserServiceSqlMethod.SYSTEM_SEARCH_FRUIT_ORDER, userVO);
+    }
+
+    @Override
+    public boolean add(UserAddParam param) {
+        User user = sqlToyLazyDao.convertType(param, User.class);
+        Object save = sqlToyLazyDao.save(user);
+        System.out.println(save);
+        return false;
     }
 }

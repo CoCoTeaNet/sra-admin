@@ -3,58 +3,82 @@
  */
 package com.jwss.system.entity;
 
+import java.io.Serializable;
+import java.util.List;
+import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.SqlToyEntity;
-import java.math.BigInteger;
-import com.jwss.system.entity.base.AbstractUserRole;
+import org.sagacity.sqltoy.config.annotation.Id;
+import org.sagacity.sqltoy.config.annotation.Column;
 
 /**
  * @project sss-rbac-admin
- * @author ${db.author}
  * @version 1.0.0
- * Table: sys_user_role,Remark:用户角色关联表 	
+ * Table: sys_user_role,Remark:用户角色关联表  
  */
-@SqlToyEntity
-public class UserRole extends AbstractUserRole {	
+@Entity(tableName="sys_user_role")
+public class UserRole implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7063853937784637106L;
 	
+	/**
+	 * jdbcType:VARCHAR
+	 * 用户主键ID
+	 */
+	@Column(name="USER_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String userId;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 角色主键ID
+	 */
+	@Column(name="ROLE_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String roleId;
+	
 	/** default constructor */
 	public UserRole() {
-		super();
 	}
 	
-	/*---begin-constructor-area---don't-update-this-area--*/
-	/** pk constructor */
-	public UserRole(BigInteger userId,BigInteger roleId)
-	{
+	
+	/**
+	 *@param userId the userId to set
+	 */
+	public void setUserId(String userId) {
 		this.userId=userId;
+	}
+		
+	/**
+	 *@return the UserId
+	 */
+	public String getUserId() {
+	    return this.userId;
+	}
+	
+	/**
+	 *@param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
 		this.roleId=roleId;
 	}
-	/*---end-constructor-area---don't-update-this-area--*/
+		
+	/**
+	 *@return the RoleId
+	 */
+	public String getRoleId() {
+	    return this.roleId;
+	}
+
 
 	/**
      * @todo vo columns to String
      */
     @Override
 	public String toString() {
-		return super.toString();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public UserRole clone() {
-		try {
-			return (UserRole) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		StringBuilder columnsBuffer=new StringBuilder();
+		columnsBuffer.append("userId=").append(getUserId()).append("\n");
+		columnsBuffer.append("roleId=").append(getRoleId()).append("\n");
+		return columnsBuffer.toString();
 	}
 	
 }

@@ -3,59 +3,441 @@
  */
 package com.jwss.system.entity;
 
+import java.io.Serializable;
+import java.util.List;
+import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.SqlToyEntity;
-import java.math.BigInteger;
+import org.sagacity.sqltoy.config.annotation.Id;
+import org.sagacity.sqltoy.config.annotation.Column;
 import java.time.LocalDateTime;
-import com.jwss.system.entity.base.AbstractUser;
 
 /**
  * @project sss-rbac-admin
- * @author ${db.author}
  * @version 1.0.0
- * Table: sys_user,Remark:系统用户表 	
+ * Table: sys_user,Remark:系统用户表  
  */
-@SqlToyEntity
-public class User extends AbstractUser {	
+@Entity(tableName="sys_user",pk_constraint="PRIMARY")
+public class User implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3203290987069291273L;
 	
+	/**
+	 * jdbcType:VARCHAR
+	 * 主键id
+	 */
+	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
+	@Column(name="ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String id;
+	
+	/**
+	 * jdbcType:INT
+	 * 乐观锁
+	 */
+	@Column(name="REVISION",length=10L,type=java.sql.Types.INTEGER,nullable=true)
+	private Integer revision;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 创建人
+	 */
+	@Column(name="CREATE_BY",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String createBy;
+	
+	/**
+	 * jdbcType:DATETIME
+	 * 创建时间
+	 */
+	@Column(name="CREATE_TIME",length=19L,type=java.sql.Types.DATE,nullable=false)
+	private LocalDateTime createTime;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 更新人
+	 */
+	@Column(name="UPDATE_BY",length=32L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String updateBy;
+	
+	/**
+	 * jdbcType:DATETIME
+	 * 更新时间
+	 */
+	@Column(name="UPDATE_TIME",length=19L,type=java.sql.Types.DATE,nullable=true)
+	private LocalDateTime updateTime;
+	
+	/**
+	 * jdbcType:CHAR
+	 * 删除状态;0删除 1未删除
+	 */
+	@Column(name="DELETE_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
+	private String deleteStatus;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 用户账号
+	 */
+	@Column(name="USERNAME",length=30L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String username;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 用户昵称
+	 */
+	@Column(name="NICKNAME",length=30L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String nickname;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 密码
+	 */
+	@Column(name="PASSWORD",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String password;
+	
+	/**
+	 * jdbcType:CHAR
+	 * 用户性别;0未知 1男 2女
+	 */
+	@Column(name="SEX",length=1L,type=java.sql.Types.CHAR,nullable=false)
+	private String sex;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 用户邮箱
+	 */
+	@Column(name="EMAIL",length=64L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String email;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 手机号
+	 */
+	@Column(name="MOBILEPHONE",length=11L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String mobilephone;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 部门id
+	 */
+	@Column(name="DEPARTMENT_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String departmentId;
+	
+	/**
+	 * jdbcType:CHAR
+	 * 账号状态;0停用 1正常 2冻结 3封禁
+	 */
+	@Column(name="ACCOUNT_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
+	private String accountStatus;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 头像地址
+	 */
+	@Column(name="AVATAR",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String avatar;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 最后登录IP
+	 */
+	@Column(name="LAST_LOGIN_IP",length=64L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String lastLoginIp;
+	
+	/**
+	 * jdbcType:DATETIME
+	 * 最后登录时间
+	 */
+	@Column(name="LAST_LOGIN_TIME",length=19L,type=java.sql.Types.DATE,nullable=true)
+	private LocalDateTime lastLoginTime;
+	
 	/** default constructor */
 	public User() {
-		super();
 	}
 	
-	/*---begin-constructor-area---don't-update-this-area--*/
 	/** pk constructor */
-	public User(BigInteger userId,String id)
+	public User(String id)
 	{
-		this.userId=userId;
 		this.id=id;
 	}
-	/*---end-constructor-area---don't-update-this-area--*/
+	
+	/**
+	 *@param id the id to set
+	 */
+	public void setId(String id) {
+		this.id=id;
+	}
+		
+	/**
+	 *@return the Id
+	 */
+	public String getId() {
+	    return this.id;
+	}
+	
+	/**
+	 *@param revision the revision to set
+	 */
+	public void setRevision(Integer revision) {
+		this.revision=revision;
+	}
+		
+	/**
+	 *@return the Revision
+	 */
+	public Integer getRevision() {
+	    return this.revision;
+	}
+	
+	/**
+	 *@param createBy the createBy to set
+	 */
+	public void setCreateBy(String createBy) {
+		this.createBy=createBy;
+	}
+		
+	/**
+	 *@return the CreateBy
+	 */
+	public String getCreateBy() {
+	    return this.createBy;
+	}
+	
+	/**
+	 *@param createTime the createTime to set
+	 */
+	public void setCreateTime(LocalDateTime createTime) {
+		this.createTime=createTime;
+	}
+		
+	/**
+	 *@return the CreateTime
+	 */
+	public LocalDateTime getCreateTime() {
+	    return this.createTime;
+	}
+	
+	/**
+	 *@param updateBy the updateBy to set
+	 */
+	public void setUpdateBy(String updateBy) {
+		this.updateBy=updateBy;
+	}
+		
+	/**
+	 *@return the UpdateBy
+	 */
+	public String getUpdateBy() {
+	    return this.updateBy;
+	}
+	
+	/**
+	 *@param updateTime the updateTime to set
+	 */
+	public void setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime=updateTime;
+	}
+		
+	/**
+	 *@return the UpdateTime
+	 */
+	public LocalDateTime getUpdateTime() {
+	    return this.updateTime;
+	}
+	
+	/**
+	 *@param deleteStatus the deleteStatus to set
+	 */
+	public void setDeleteStatus(String deleteStatus) {
+		this.deleteStatus=deleteStatus;
+	}
+		
+	/**
+	 *@return the DeleteStatus
+	 */
+	public String getDeleteStatus() {
+	    return this.deleteStatus;
+	}
+	
+	/**
+	 *@param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username=username;
+	}
+		
+	/**
+	 *@return the Username
+	 */
+	public String getUsername() {
+	    return this.username;
+	}
+	
+	/**
+	 *@param nickname the nickname to set
+	 */
+	public void setNickname(String nickname) {
+		this.nickname=nickname;
+	}
+		
+	/**
+	 *@return the Nickname
+	 */
+	public String getNickname() {
+	    return this.nickname;
+	}
+	
+	/**
+	 *@param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password=password;
+	}
+		
+	/**
+	 *@return the Password
+	 */
+	public String getPassword() {
+	    return this.password;
+	}
+	
+	/**
+	 *@param sex the sex to set
+	 */
+	public void setSex(String sex) {
+		this.sex=sex;
+	}
+		
+	/**
+	 *@return the Sex
+	 */
+	public String getSex() {
+	    return this.sex;
+	}
+	
+	/**
+	 *@param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email=email;
+	}
+		
+	/**
+	 *@return the Email
+	 */
+	public String getEmail() {
+	    return this.email;
+	}
+	
+	/**
+	 *@param mobilephone the mobilephone to set
+	 */
+	public void setMobilephone(String mobilephone) {
+		this.mobilephone=mobilephone;
+	}
+		
+	/**
+	 *@return the Mobilephone
+	 */
+	public String getMobilephone() {
+	    return this.mobilephone;
+	}
+	
+	/**
+	 *@param departmentId the departmentId to set
+	 */
+	public void setDepartmentId(String departmentId) {
+		this.departmentId=departmentId;
+	}
+		
+	/**
+	 *@return the DepartmentId
+	 */
+	public String getDepartmentId() {
+	    return this.departmentId;
+	}
+	
+	/**
+	 *@param accountStatus the accountStatus to set
+	 */
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus=accountStatus;
+	}
+		
+	/**
+	 *@return the AccountStatus
+	 */
+	public String getAccountStatus() {
+	    return this.accountStatus;
+	}
+	
+	/**
+	 *@param avatar the avatar to set
+	 */
+	public void setAvatar(String avatar) {
+		this.avatar=avatar;
+	}
+		
+	/**
+	 *@return the Avatar
+	 */
+	public String getAvatar() {
+	    return this.avatar;
+	}
+	
+	/**
+	 *@param lastLoginIp the lastLoginIp to set
+	 */
+	public void setLastLoginIp(String lastLoginIp) {
+		this.lastLoginIp=lastLoginIp;
+	}
+		
+	/**
+	 *@return the LastLoginIp
+	 */
+	public String getLastLoginIp() {
+	    return this.lastLoginIp;
+	}
+	
+	/**
+	 *@param lastLoginTime the lastLoginTime to set
+	 */
+	public void setLastLoginTime(LocalDateTime lastLoginTime) {
+		this.lastLoginTime=lastLoginTime;
+	}
+		
+	/**
+	 *@return the LastLoginTime
+	 */
+	public LocalDateTime getLastLoginTime() {
+	    return this.lastLoginTime;
+	}
+
 
 	/**
      * @todo vo columns to String
      */
     @Override
 	public String toString() {
-		return super.toString();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public User clone() {
-		try {
-			return (User) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		StringBuilder columnsBuffer=new StringBuilder();
+		columnsBuffer.append("id=").append(getId()).append("\n");
+		columnsBuffer.append("revision=").append(getRevision()).append("\n");
+		columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
+		columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
+		columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
+		columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
+		columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
+		columnsBuffer.append("username=").append(getUsername()).append("\n");
+		columnsBuffer.append("nickname=").append(getNickname()).append("\n");
+		columnsBuffer.append("password=").append(getPassword()).append("\n");
+		columnsBuffer.append("sex=").append(getSex()).append("\n");
+		columnsBuffer.append("email=").append(getEmail()).append("\n");
+		columnsBuffer.append("mobilephone=").append(getMobilephone()).append("\n");
+		columnsBuffer.append("departmentId=").append(getDepartmentId()).append("\n");
+		columnsBuffer.append("accountStatus=").append(getAccountStatus()).append("\n");
+		columnsBuffer.append("avatar=").append(getAvatar()).append("\n");
+		columnsBuffer.append("lastLoginIp=").append(getLastLoginIp()).append("\n");
+		columnsBuffer.append("lastLoginTime=").append(getLastLoginTime()).append("\n");
+		return columnsBuffer.toString();
 	}
 	
 }

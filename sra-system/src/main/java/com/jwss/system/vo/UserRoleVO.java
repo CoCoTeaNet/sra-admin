@@ -4,7 +4,6 @@
 package com.jwss.system.vo;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 /**
  * @project sss-rbac-admin
@@ -20,16 +19,6 @@ public class UserRoleVO implements Serializable {
 	
 /*---begin-auto-generate-don't-update-this-area--*/	
 	/**
-	 * 用户ID
-	 */
-	private BigInteger userId;
-	
-	/**
-	 * 角色ID
-	 */
-	private BigInteger roleId;
-	
-	/**
 	 * 用户主键ID
 	 */
 	private String userId;
@@ -39,34 +28,6 @@ public class UserRoleVO implements Serializable {
 	 */
 	private String roleId;
 	
-	
-	/**
-	 *@param userId the userId to set
-	 */
-	public void setUserId(BigInteger userId) {
-		this.userId=userId;
-	}
-		
-	/**
-	 *@return the UserId
-	 */
-	public BigInteger getUserId() {
-	    return this.userId;
-	}
-	
-	/**
-	 *@param roleId the roleId to set
-	 */
-	public void setRoleId(BigInteger roleId) {
-		this.roleId=roleId;
-	}
-		
-	/**
-	 *@return the RoleId
-	 */
-	public BigInteger getRoleId() {
-	    return this.roleId;
-	}
 	
 	/**
 	 *@param userId the userId to set

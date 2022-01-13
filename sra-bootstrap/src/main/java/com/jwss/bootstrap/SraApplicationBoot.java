@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * @date 2022-1-12 14:12:24
  * @author jwss
+ * @date 2022-1-12 14:12:24
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.jwss.system"})

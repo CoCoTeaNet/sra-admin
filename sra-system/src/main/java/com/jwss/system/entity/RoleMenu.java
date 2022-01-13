@@ -3,58 +3,82 @@
  */
 package com.jwss.system.entity;
 
+import java.io.Serializable;
+import java.util.List;
+import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.SqlToyEntity;
-import java.math.BigInteger;
-import com.jwss.system.entity.base.AbstractRoleMenu;
+import org.sagacity.sqltoy.config.annotation.Id;
+import org.sagacity.sqltoy.config.annotation.Column;
 
 /**
  * @project sss-rbac-admin
- * @author ${db.author}
  * @version 1.0.0
- * Table: sys_role_menu,Remark:角色菜单关联表 	
+ * Table: sys_role_menu,Remark:角色菜单关联表  
  */
-@SqlToyEntity
-public class RoleMenu extends AbstractRoleMenu {	
+@Entity(tableName="sys_role_menu")
+public class RoleMenu implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6844523408155256370L;
 	
+	/**
+	 * jdbcType:VARCHAR
+	 * 角色主键ID
+	 */
+	@Column(name="ROLE_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String roleId;
+	
+	/**
+	 * jdbcType:VARCHAR
+	 * 菜单主键ID
+	 */
+	@Column(name="MENU_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String menuId;
+	
 	/** default constructor */
 	public RoleMenu() {
-		super();
 	}
 	
-	/*---begin-constructor-area---don't-update-this-area--*/
-	/** pk constructor */
-	public RoleMenu(BigInteger roleId,BigInteger menuId)
-	{
+	
+	/**
+	 *@param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
 		this.roleId=roleId;
+	}
+		
+	/**
+	 *@return the RoleId
+	 */
+	public String getRoleId() {
+	    return this.roleId;
+	}
+	
+	/**
+	 *@param menuId the menuId to set
+	 */
+	public void setMenuId(String menuId) {
 		this.menuId=menuId;
 	}
-	/*---end-constructor-area---don't-update-this-area--*/
+		
+	/**
+	 *@return the MenuId
+	 */
+	public String getMenuId() {
+	    return this.menuId;
+	}
+
 
 	/**
      * @todo vo columns to String
      */
     @Override
 	public String toString() {
-		return super.toString();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public RoleMenu clone() {
-		try {
-			return (RoleMenu) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		StringBuilder columnsBuffer=new StringBuilder();
+		columnsBuffer.append("roleId=").append(getRoleId()).append("\n");
+		columnsBuffer.append("menuId=").append(getMenuId()).append("\n");
+		return columnsBuffer.toString();
 	}
 	
 }
