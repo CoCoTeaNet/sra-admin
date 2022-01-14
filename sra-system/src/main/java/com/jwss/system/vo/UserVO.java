@@ -82,7 +82,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 手机号
 	 */
-	private String mobilephone;
+	private String mobilePhone;
 	
 	/**
 	 * 部门id
@@ -279,17 +279,17 @@ public class UserVO implements Serializable {
 	}
 	
 	/**
-	 *@param mobilephone the mobilephone to set
+	 *@param mobilePhone the mobilePhone to set
 	 */
-	public void setMobilephone(String mobilephone) {
-		this.mobilephone=mobilephone;
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone=mobilePhone;
 	}
 		
 	/**
-	 *@return the Mobilephone
+	 *@return the MobilePhone
 	 */
-	public String getMobilephone() {
-	    return this.mobilephone;
+	public String getMobilePhone() {
+	    return this.mobilePhone;
 	}
 	
 	/**

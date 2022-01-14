@@ -1,5 +1,9 @@
-package com.jwss.system.param;
+package com.jwss.system.param.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -8,17 +12,22 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_user,系统用户表  
  */
+@ApiModel(value = "新增用户参数")
 public class UserAddParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
 	/**
 	 * 用户账号
 	 */
+	@NotBlank(message = "账号名不能为空")
+	@ApiModelProperty(name = "用户账号", required = true)
 	private String username;
 	
 	/**
 	 * 密码
 	 */
+	@NotBlank(message = "密码不能为空")
+	@ApiModelProperty(name = "用户密码", required = true)
 	private String password;
 	
 	/**

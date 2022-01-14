@@ -112,8 +112,8 @@ public class User implements Serializable {
 	 * jdbcType:VARCHAR
 	 * 手机号
 	 */
-	@Column(name="MOBILEPHONE",length=11L,type=java.sql.Types.VARCHAR,nullable=true)
-	private String mobilephone;
+	@Column(name="MOBILE_PHONE",length=11L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String mobilePhone;
 	
 	/**
 	 * jdbcType:VARCHAR
@@ -329,17 +329,17 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 *@param mobilephone the mobilephone to set
+	 *@param mobilePhone the mobilePhone to set
 	 */
-	public void setMobilephone(String mobilephone) {
-		this.mobilephone=mobilephone;
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone=mobilePhone;
 	}
 		
 	/**
-	 *@return the Mobilephone
+	 *@return the MobilePhone
 	 */
-	public String getMobilephone() {
-	    return this.mobilephone;
+	public String getMobilePhone() {
+	    return this.mobilePhone;
 	}
 	
 	/**
@@ -431,7 +431,7 @@ public class User implements Serializable {
 		columnsBuffer.append("password=").append(getPassword()).append("\n");
 		columnsBuffer.append("sex=").append(getSex()).append("\n");
 		columnsBuffer.append("email=").append(getEmail()).append("\n");
-		columnsBuffer.append("mobilephone=").append(getMobilephone()).append("\n");
+		columnsBuffer.append("mobilePhone=").append(getMobilePhone()).append("\n");
 		columnsBuffer.append("departmentId=").append(getDepartmentId()).append("\n");
 		columnsBuffer.append("accountStatus=").append(getAccountStatus()).append("\n");
 		columnsBuffer.append("avatar=").append(getAvatar()).append("\n");

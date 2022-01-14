@@ -12,7 +12,6 @@ import org.sagacity.sqltoy.config.annotation.Column;
 import java.time.LocalDateTime;
 
 /**
- * @author jwss
  * @project sss-rbac-admin
  * @version 1.0.0
  * Table: sys_menu,Remark:系统菜单表  

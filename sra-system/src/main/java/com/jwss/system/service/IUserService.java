@@ -1,6 +1,7 @@
 package com.jwss.system.service;
 
-import com.jwss.system.param.UserAddParam;
+import com.jwss.system.param.user.UserAddParam;
+import com.jwss.system.param.user.UserLoginParam;
 import com.jwss.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
 
@@ -23,4 +24,11 @@ public interface IUserService {
      * @return 成功返回TRUE
      */
     boolean add(UserAddParam param);
+
+    /**
+     * 用户登录
+     * @param param 登录参数
+     * @return token
+     */
+    String login(UserLoginParam param);
 }
