@@ -26,8 +26,8 @@ public enum SexEnum {
         this.desc = desc;
     }
 
-    public Integer getCode() {
-        return code;
+    public String getCode() {
+        return String.valueOf(code);
     }
 
     public String getDesc() {
