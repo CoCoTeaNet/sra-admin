@@ -1,7 +1,6 @@
 package com.jwss.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.util.IdUtil;
 import com.jwss.common.enums.AccountStatusEnum;
 import com.jwss.common.enums.SexEnum;
 import com.jwss.system.entity.User;
@@ -15,8 +14,6 @@ import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * @date 2022-1-12 15:35:00

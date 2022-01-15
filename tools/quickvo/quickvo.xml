@@ -8,20 +8,11 @@
     <property name="project.name" value="sss-rbac-admin" />
     <property name="project.package" value="com.strict.modules"/>
     <property name="include.schema" value="false"/>
-    <!-- set method 是否支持返回对象自身(默认是true),即: public VO setName(String name){this.name=name;return this;} -->
-    <property name="field.support.linked.set" value="false"/>
+    <!-- set method 是否支持返回对象自身(默认是true) -->
+    <property name="field.support.linked.set" value="true"/>
     <!-- 是否在抽象类中生成SelectFieldImpl内部类,默认值为false	-->
     <property name="generate.selectFields.class" value="false"/>
 
-    <api-doc>
-        <imports value="io.swagger.v3.oas.annotations.media.Schema"/>
-        <doc-class-template>
-            <![CDATA[@Schema(name="${className}",description="${tableRemark}")]]>
-        </doc-class-template>
-        <doc-field-template>
-            <![CDATA[@Schema(name="${fieldName}",description="${colRemark}",nullable=${nullable})]]>
-        </doc-field-template>
-    </api-doc>
     <!-- schema 对照关系:mysql 对应 db 名称; oracle 对应 用户名称，如出现字段重复等情况，请结合schema和catalog进行配置过滤 -->
     <!-- 注意:当在多schema或tablespace场景下,在POJO中会出现重复字段，是因为schema和catalog 配置不正确，没有完成隔离 -->
     <datasource name="strict" url="${db.url}" driver="${db.driver_class}"
@@ -30,7 +21,7 @@
     <!-- dist 定义生成的java代码存放路径 -->
     <tasks dist="${db.dist}" encoding="UTF-8">
         <!-- 可以设置多个任务便于将pojo生成到不同包路径下 -->
-        <task datasource="strict" author="${db.author}" active="true">
+        <task author="jwss" datasource="strict" active="true">
             <!-- entity 配置中存在has-abstract:默认为true,可以设置extends="package.parentClass"指定父类,
                5.0开始支持 lombok="true" lombok-chain="true" -->
             <entity package="${db.package_entity}" substr="Sys" name="#{subName}" has-abstract="false"/>
