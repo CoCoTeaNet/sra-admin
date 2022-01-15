@@ -7,9 +7,18 @@
 
 <script>
 import LoginView from "@/views/system/login/index";
+import { index } from "@/api/system/test-api";
 
 export default {
   components: { LoginView },
+  mounted() {
+    setTimeout(async () => {
+      let res = await index();
+      if (res.code === 200) {
+        console.log(res.data);
+      }
+    }, 800);
+  }
 };
 </script>
 

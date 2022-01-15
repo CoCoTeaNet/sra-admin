@@ -12,4 +12,14 @@
 			]]>
         </value>
     </sql>
+
+    <sql id="SYSTEM_LOAD_USER_DETAIL">
+        <value>
+            <![CDATA[
+			select * from sys_user su
+			where #[su.USERNAME = :username]
+			and #[su.PASSWORD = :password]
+			]]>
+        </value>
+    </sql>
 </sqltoy>

@@ -28,9 +28,16 @@
         <hutool.version>5.7.19</hutool.version>
         <sa-token-redis.version>1.28.0</sa-token-redis.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
+        <sra-common.version>1.0-SNAPSHOT</sra-common.version>
     </properties>
 
     <dependencies>
+        <!-- 常用工具集合 -->
+        <dependency>
+            <groupId>com.jwss</groupId>
+            <artifactId>sra-common</artifactId>
+            <version>${sra-common.version}</version>
+        </dependency>
         <!-- springboot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

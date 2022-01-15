@@ -1,7 +1,9 @@
 package com.jwss.system.service;
 
+import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
+import com.jwss.system.vo.LoginUserVO;
 import com.jwss.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
 
@@ -29,6 +31,7 @@ public interface IUserService {
      * 用户登录
      * @param param 登录参数
      * @return token
+     * @throws BusinessException 业务异常
      */
-    String login(UserLoginParam param);
+    LoginUserVO login(UserLoginParam param) throws BusinessException;
 }

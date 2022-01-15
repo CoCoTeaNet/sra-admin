@@ -14,15 +14,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <sra-config.version>1.0-SNAPSHOT</sra-config.version>
     </properties>
 
-    <dependencies>
-        <!-- 引入配置模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-config</artifactId>
-            <version>${sra-config.version}</version>
-        </dependency>
-    </dependencies>
 </project>

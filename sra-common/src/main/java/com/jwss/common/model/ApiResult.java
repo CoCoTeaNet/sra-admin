@@ -4,6 +4,7 @@ import com.jwss.common.enums.ApiResultEnum;
 import com.jwss.common.utils.StringUtil;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 返回数据模型
@@ -16,11 +17,13 @@ public class ApiResult<T> implements Serializable {
     private Integer code;
     private T data;
     private String message;
+    private Date time;
 
     public ApiResult(Integer code, T data, String message) {
         this.code = code;
         this.data = data;
         this.message = message;
+        this.time = new Date();
     }
 
     /**
@@ -54,11 +57,29 @@ public class ApiResult<T> implements Serializable {
     }
 
     /**
-     * 失败通知结果
+     * 失败通知结果（无数据返回）
      * @return 错误结果
      */
     public static ApiResult<String> error() {
         return new ApiResult<>(ApiResultEnum.ERROR.getCode(), StringUtil.EMPTY_STRING, ApiResultEnum.ERROR.getDesc());
+    }
+
+    /**
+     * 失败通知结果
+     * @param data 数据
+     * @return 成功结果
+     */
+    public static<T> ApiResult<T> error(T data) {
+        return error(data, ApiResultEnum.ERROR.getCode());
+    }
+
+    /**
+     * 失败通知结果
+     * @param data 数据
+     * @return 成功结果
+     */
+    public static<T> ApiResult<T> error(T data, Integer errorCode) {
+        return new ApiResult<>(errorCode, data, ApiResultEnum.SUCCESS.getDesc());
     }
 
     public Integer getCode() {
@@ -83,5 +104,13 @@ public class ApiResult<T> implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setRequestTime(Date time) {
+        this.time = time;
+    }
+
+    public Date getRequestTime() {
+        return time;
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2022-1-12 14:12:24
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.jwss.system", "com.jwss.config"})
+@ComponentScan(basePackages = {"com.jwss.system", "com.jwss.config", "com.jwss.framework"})
 public class SraApplicationBoot {
 
     public static void main(String[] args) {

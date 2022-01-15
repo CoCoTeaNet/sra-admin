@@ -9,9 +9,4 @@ public class StringUtil {
      * 空字符串
      */
     public final static String EMPTY_STRING = "";
-
-    /**
-     * 字符串0
-     */
-    public final static String ZERO = "0";
 }

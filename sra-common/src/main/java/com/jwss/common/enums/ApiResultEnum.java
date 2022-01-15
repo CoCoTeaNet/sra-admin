@@ -20,8 +20,12 @@ public enum ApiResultEnum {
     /**
      * 拒绝请求
      */
-    REFUSE(401, "拒绝请求");
-
+    REFUSE(401, "拒绝请求"),
+    /**
+     * 未登录
+     */
+    NOT_LOGIN(4001, "未登录"),
+    ;
     Integer code;
     String desc;
 

@@ -1,10 +1,11 @@
 import axios from "axios";
+import store from '@/store';
 
-export function request(url, data, method) {
-    return axios.request(
+export async function request(url, data, method) {
+    let res = await axios.request(
         {
             // `url` 是用于请求的服务器 URL
-            url: url,
+            url: `/api/${url}`,
             // `method` 是创建请求时使用的方法
             method: method, // 默认是 get
             // `transformRequest` 允许在向服务器发送前，修改请求数据
@@ -12,15 +13,19 @@ export function request(url, data, method) {
             // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
             transformRequest: [function (data) {
                 // 对 data 进行任意转换处理
-                return data;
+                return JSON.stringify(data);
             }],
             // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
             transformResponse: [function (data) {
                 // 对 data 进行任意转换处理
-                return data;
+                return JSON.parse(data);
             }],
             // `headers` 是即将被发送的自定义请求头
-            headers: { "X-Requested-With": "XMLHttpRequest", "satoken": "token value" },
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "satoken": store.state.user.userInfo.token,
+                'Content-Type': 'application/json;charset=utf-8'
+            },
             // `params` 是即将与请求一起发送的 URL 参数
             // 必须是一个无格式对象(plain object)或 URLSearchParams 对象
             params: method === 'GET' ? data : '',
@@ -48,4 +53,5 @@ export function request(url, data, method) {
             }
         }
     );
+    return res.data;
 }

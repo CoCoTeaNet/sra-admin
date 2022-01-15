@@ -1,9 +1,11 @@
 package com.jwss.system.controller;
 
 import com.jwss.common.model.ApiResult;
+import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
 import com.jwss.system.service.IUserService;
+import com.jwss.system.vo.LoginUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -35,8 +37,8 @@ public class UserController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public ApiResult<String> login(@Valid @RequestBody UserLoginParam param){
-        String s = userService.login(param);
+    public ApiResult<LoginUserVO> login(@Valid @RequestBody UserLoginParam param) throws BusinessException {
+        LoginUserVO s = userService.login(param);
         return ApiResult.ok(s);
     }
 }
