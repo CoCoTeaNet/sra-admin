@@ -3,10 +3,13 @@
     <!-- 导航菜单 -->
     <admin-drawer-nav/>
 
-    <!-- 搜索 -->
-    <v-app-bar app clipped-right flat height="72">
+    <!-- 顶部条 -->
+    <v-app-bar app clipped-right flat height="72" class="elevation-2">
+      <!-- 顶部导航栏 -->
+      <AdminTagsNav style="width: 86%" />
+      <!-- 间隔 -->
       <v-spacer></v-spacer>
-
+      <!-- 搜索框 -->
       <v-responsive max-width="156">
         <v-text-field
             dense
@@ -21,7 +24,7 @@
     <!-- 主要内容 -->
     <v-main>
       <v-container>
-        {{ $store.state.user.userInfo.userDetail.nickname.substring(0, 2) }}
+        <router-view></router-view>
       </v-container>
     </v-main>
 
@@ -34,9 +37,10 @@
 
 <script>
 import AdminDrawerNav from "@/components/navigation/admin-drawer-nav";
+import AdminTagsNav from "@/components/navigation/admin-tags-nav";
 
 export default {
-  components: {AdminDrawerNav},
+  components: {AdminTagsNav, AdminDrawerNav},
   data: () => ({}),
 };
 </script>

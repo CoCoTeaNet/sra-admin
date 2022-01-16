@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer
       app
+      class="elevation-2"
       permanent
       width="300"
       v-model="drawer"

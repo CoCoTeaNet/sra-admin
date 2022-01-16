@@ -9,10 +9,17 @@ Vue.use(VueRouter);
  */
 const routes = [
     { path: '/login', component: () => import('@/layout/login-layout') },
-    { path: '/admin', component: () => import('@/layout/admin-layout') }
+    {
+        path: '/admin',
+        component: () => import('@/layout/admin-layout'),
+        children: [
+            { path: 'menu', component: () => import('@/views/system/menu/index') }
+        ]
+    }
 ]
 
 const router = new VueRouter({
+    mode: 'history',
     routes
 })
 
@@ -24,8 +31,9 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
     let isAuthenticated = store.state.user.userInfo.loginStatus;
+    let adminFlag = /\/admin\/*/.test(to.path);
     // 如果认证了直接跳转admin首页
-    if (to.path !== '/admin' && isAuthenticated) {
+    if (!adminFlag && isAuthenticated) {
         next({ path: '/admin' });
     }
     // 如果未认证且不是跳转登录页就重定向到登录页

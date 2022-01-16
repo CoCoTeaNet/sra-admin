@@ -1,5 +1,9 @@
-package com.jwss.system.vo;
+package com.jwss.system.param.menu;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -8,89 +12,77 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
-public class MenuVO implements Serializable {
+@ApiModel("菜单新增参数")
+public class MenuAddParam implements Serializable {
 
-	private static final long serialVersionUID = 6856092554842076547L;
-
-	/**
-	 * 主键id
-	 */
-	private String id;
+	private static final long serialVersionUID = -4698497422245539378L;
 	
 	/**
 	 * 菜单名称
 	 */
+	@NotBlank(message = "菜单名称为空")
+	@ApiModelProperty(value = "菜单名称", required = true)
 	private String menuName;
 	
 	/**
 	 * 权限编号
 	 */
+	@NotBlank(message = "权限编号为空")
+	@ApiModelProperty(value = "权限编号", required = true)
 	private String permissionCode;
 	
 	/**
 	 * 路由地址
 	 */
+	@NotBlank(message = "路由地址为空")
+	@ApiModelProperty(value = "路由地址", required = true)
 	private String routerPath;
 	
 	/**
 	 * 父主键ID
 	 */
+	@ApiModelProperty(value = "父主键ID")
 	private String parentId;
 	
 	/**
 	 * 按钮类型;0目录 1菜单 2按钮
 	 */
+	@NotBlank(message = "按钮类型为空")
+	@ApiModelProperty(value = "按钮类型;0目录 1菜单 2按钮", required = true)
 	private String menuType;
 	
 	/**
 	 * 是否菜单
 	 */
+	@NotBlank(message = "是否菜单为空")
+	@ApiModelProperty(value = "是否菜单", required = true)
 	private String isMenu;
 	
 	/**
 	 * 显示顺序
 	 */
+	@ApiModelProperty(value = "显示顺序")
 	private Integer sort;
 	
 	/**
 	 * 组件路径
 	 */
+	@NotBlank(message = "组件路径为空")
+	@ApiModelProperty(value = "组件路径", required = true)
 	private String componentPath;
 	
 	/**
 	 * 是否外链;0是 1否
 	 */
+	@NotBlank(message = "是否外链为空")
+	@ApiModelProperty(value = "是否外链;0是 1否", required = true)
 	private String isExternalLink;
 	
 	/**
 	 * 菜单图标
 	 */
+	@ApiModelProperty(value = "菜单图标")
 	private String iconPath;
-
-	@Override
-	public String toString() {
-		return "MenuVO{" +
-				"id='" + id + '\'' +
-				", menuName='" + menuName + '\'' +
-				", permissionCode='" + permissionCode + '\'' +
-				", routerPath='" + routerPath + '\'' +
-				", parentId='" + parentId + '\'' +
-				", menuType='" + menuType + '\'' +
-				", isMenu='" + isMenu + '\'' +
-				", sort=" + sort +
-				", componentPath='" + componentPath + '\'' +
-				", isExternalLink='" + isExternalLink + '\'' +
-				", iconPath='" + iconPath + '\'' +
-				'}';
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getMenuName() {
 		return menuName;
