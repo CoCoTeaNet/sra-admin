@@ -4,7 +4,7 @@
     <admin-drawer-nav :items="menuList" />
 
     <!-- 顶部条 -->
-    <v-app-bar app clipped-right flat height="72" class="elevation-2">
+    <v-app-bar app clipped-right flat height="50" class="elevation-1">
       <!-- 顶部导航栏 -->
       <admin-tags-nav style="width: 86%" />
       <!-- 间隔 -->
@@ -23,7 +23,7 @@
     </v-main>
 
     <!-- 底部信息 -->
-    <v-footer app color="transparent" height="72" inset>
+    <v-footer app color="transparent" height="72" inset style="background: white">
       Apache License 2.0 | Copyright 2022-sra-sss-admin
     </v-footer>
   </v-app>
@@ -32,7 +32,6 @@
 <script>
 import AdminDrawerNav from "@/components/navigation/admin-drawer-nav";
 import AdminTagsNav from "@/components/navigation/admin-tags-nav";
-import {listByPage} from "@/api/system/menu-api";
 
 export default {
   components: {AdminTagsNav, AdminDrawerNav},
@@ -47,17 +46,7 @@ export default {
      * 获取菜单列表
      */
     async getMenuList() {
-      let param = {
-        "menuVO": {
-          "menuName": "",
-        },
-        "pageNo": 0,
-        "pageSize": 0,
-      };
-      let res = await listByPage(param);
-      if (res.code === 200) {
-        this.menuList = res.data.rows;
-      }
+      this.menuList = this.$store.state.user.userInfo.permissions;
     }
   }
 };

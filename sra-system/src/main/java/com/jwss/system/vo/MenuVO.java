@@ -1,5 +1,8 @@
 package com.jwss.system.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
@@ -8,64 +11,46 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
+@ApiModel("系统菜单表返回对象")
 public class MenuVO implements Serializable {
 
 	private static final long serialVersionUID = 6856092554842076547L;
 
-	/**
-	 * 主键id
-	 */
+	@ApiModelProperty("主键id")
 	private String id;
 	
-	/**
-	 * 菜单名称
-	 */
+	@ApiModelProperty("菜单名称")
 	private String menuName;
 	
-	/**
-	 * 权限编号
-	 */
+	@ApiModelProperty("权限编号")
 	private String permissionCode;
 	
-	/**
-	 * 路由地址
-	 */
+	@ApiModelProperty("路由地址")
 	private String routerPath;
 	
-	/**
-	 * 父主键ID
-	 */
+	@ApiModelProperty("父主键ID")
 	private String parentId;
 	
-	/**
-	 * 按钮类型;0目录 1菜单 2按钮
-	 */
+	@ApiModelProperty("按钮类型;0目录 1菜单 2按钮")
 	private String menuType;
 	
-	/**
-	 * 是否菜单
-	 */
+	@ApiModelProperty("是否菜单")
 	private String isMenu;
 	
-	/**
-	 * 显示顺序
-	 */
+	@ApiModelProperty("显示顺序")
 	private Integer sort;
 	
-	/**
-	 * 组件路径
-	 */
+	@ApiModelProperty("组件路径")
 	private String componentPath;
 	
-	/**
-	 * 是否外链;0是 1否
-	 */
+	@ApiModelProperty("是否外链;0是 1否")
 	private String isExternalLink;
 	
-	/**
-	 * 菜单图标
-	 */
+	@ApiModelProperty("菜单图标")
 	private String iconPath;
+
+	@ApiModelProperty("菜单子节点")
+	private MenuVO child;
 
 	@Override
 	public String toString() {
@@ -82,6 +67,14 @@ public class MenuVO implements Serializable {
 				", isExternalLink='" + isExternalLink + '\'' +
 				", iconPath='" + iconPath + '\'' +
 				'}';
+	}
+
+	public MenuVO getChild() {
+		return child;
+	}
+
+	public void setChild(MenuVO child) {
+		this.child = child;
 	}
 
 	public String getId() {

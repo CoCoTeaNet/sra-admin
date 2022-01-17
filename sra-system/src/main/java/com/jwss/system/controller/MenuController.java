@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @date 2022-1-16 15:37:26
@@ -39,12 +40,5 @@ public class MenuController {
     public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) {
         boolean b = menuService.update(param);
         return ApiResult.flag(b);
-    }
-
-    @ApiOperation("分页查询菜单")
-    @PostMapping("listByPage")
-    public ApiResult<Page<MenuVO>> listByPage(@Valid @RequestBody MenuPageParam param) {
-        Page<MenuVO> list = menuService.listByPage(param);
-        return ApiResult.ok(list);
     }
 }

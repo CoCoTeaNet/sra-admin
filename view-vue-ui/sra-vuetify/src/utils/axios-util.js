@@ -2,8 +2,8 @@ import axios from "axios";
 import store from '@/store';
 
 export async function request(url, data, method) {
-    let res = await axios.request(
-        {
+    // 请求服务器
+    let res = await axios.request({
             // `url` 是用于请求的服务器 URL
             url: `/api/${url}`,
             // `method` 是创建请求时使用的方法
@@ -23,8 +23,8 @@ export async function request(url, data, method) {
             // `headers` 是即将被发送的自定义请求头
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                "satoken": store.state.user.userInfo ? store.state.user.userInfo.token : 'no token',
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8',
+                "satoken": store.state.user.userInfo && store.state.user.userInfo.token !== 'sa-token',
             },
             // `params` 是即将与请求一起发送的 URL 参数
             // 必须是一个无格式对象(plain object)或 URLSearchParams 对象
@@ -46,7 +46,7 @@ export async function request(url, data, method) {
             // `maxContentLength` 定义允许的响应内容的最大尺寸
             maxContentLength: 2000,
             // `validateStatus` 定义对于给定的HTTP 响应状态码是 resolve 或 reject  promise 。
-            // 如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve; 
+            // 如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve;
             // 否则，promise 将被 rejecte
             validateStatus: function (status) {
                 return status === 200 ? status : 500; // 默认的

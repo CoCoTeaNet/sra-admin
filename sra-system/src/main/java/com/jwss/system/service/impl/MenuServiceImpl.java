@@ -9,9 +9,16 @@ import com.jwss.system.sqlmethod.MenuSqlMethod;
 import com.jwss.system.vo.MenuVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.model.QueryExecutor;
+import org.sagacity.sqltoy.model.QueryResult;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author jwss
@@ -42,5 +49,11 @@ public class MenuServiceImpl implements IMenuService {
         Menu menu = sqlToyLazyDao.convertType(param, Menu.class);
         Long update = sqlToyLazyDao.update(menu);
         return update > 0;
+    }
+
+    @Override
+    public List<MenuVO> listByUserId() {
+        QueryExecutor resultType = new QueryExecutor(MenuSqlMethod.SYSTEM_FIND_USER_MENU).resultType(MenuVO.class);
+        return sqlToyLazyDao.findByQuery(resultType).getRows();
     }
 }

@@ -33,7 +33,7 @@ public class RoleController {
         return ApiResult.flag(b);
     }
 
-    @ApiOperation(value = "新增角色")
+    @ApiOperation(value = "更新角色")
     @PostMapping("/update")
     public ApiResult<String> update(@Valid @RequestBody RoleAddParam param) throws BusinessException {
         boolean b = roleService.add(param);

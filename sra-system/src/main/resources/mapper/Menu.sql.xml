@@ -28,4 +28,29 @@
 			]]>
         </value>
     </sql>
+
+    <!-- 这里是演示，正常单表查询无需写sql -->
+    <sql id="SYSTEM_FIND_USER_MENU">
+        <value>
+            <![CDATA[
+                SELECT
+                	sys_menu.ID,
+                	sys_menu.MENU_NAME,
+                	sys_menu.PERMISSION_CODE,
+                	sys_menu.ROUTER_PATH,
+                	sys_menu.PARENT_ID,
+                	sys_menu.MENU_TYPE,
+                	sys_menu.IS_MENU,
+                	sys_menu.SORT,
+                	sys_menu.COMPONENT_PATH,
+                	sys_menu.IS_EXTERNAL_LINK,
+                	sys_menu.ICON_PATH
+                FROM
+                	sys_menu
+                WHERE
+                	DELETE_STATUS = 1
+                ORDER BY SORT
+			]]>
+        </value>
+    </sql>
 </sqltoy>

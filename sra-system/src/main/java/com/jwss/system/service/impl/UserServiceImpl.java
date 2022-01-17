@@ -7,6 +7,7 @@ import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.User;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
+import com.jwss.system.service.IMenuService;
 import com.jwss.system.service.IUserService;
 import com.jwss.system.sqlmethod.UserSqlMethod;
 import com.jwss.system.vo.LoginUserVO;
@@ -25,6 +26,9 @@ import javax.annotation.Resource;
 public class UserServiceImpl implements IUserService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
+
+    @Resource
+    private IMenuService menuService;
 
     @Override
     public boolean add(UserAddParam param) {
@@ -50,6 +54,7 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
         loginUserVO.setUserDetail(sqlToyLazyDao.convertType(user, UserVO.class));
+        loginUserVO.setPermissions(menuService.listByUserId());
         return loginUserVO;
     }
 }

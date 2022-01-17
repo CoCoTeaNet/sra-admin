@@ -16,10 +16,15 @@ const actions = {}
 
 // mutations
 const mutations = {
+    /**
+     * 配置用户信息
+     * @param state
+     * @param userInfo
+     */
     setUserInfo(state, userInfo) {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         state.userInfo = userInfo;
-    }
+    },
 }
 
 export default {

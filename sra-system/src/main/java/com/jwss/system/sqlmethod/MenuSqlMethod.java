@@ -10,4 +10,9 @@ public class MenuSqlMethod {
      * 分页加载菜单
      */
     public final static String SYSTEM_FIND_PAGE_MENU = "SYSTEM_FIND_PAGE_MENU";
+
+    /**
+     * 根据用户获取所有菜单
+     */
+    public final static String SYSTEM_FIND_USER_MENU = "SYSTEM_FIND_USER_MENU";
 }

@@ -6,6 +6,8 @@ import com.jwss.system.param.menu.MenuUpdateParam;
 import com.jwss.system.vo.MenuVO;
 import org.sagacity.sqltoy.model.Page;
 
+import java.util.List;
+
 /**
  * @date 2022-1-16 15:47:03
  * @author jwss
@@ -31,4 +33,10 @@ public interface IMenuService {
      * @return 成功返回TRUE
      */
     boolean update(MenuUpdateParam param);
+
+    /**
+     * 获取用户的所有菜单
+     * @return 用户菜单集合
+     */
+    List<MenuVO> listByUserId();
 }

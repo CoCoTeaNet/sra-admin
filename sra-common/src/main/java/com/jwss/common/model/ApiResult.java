@@ -106,11 +106,11 @@ public class ApiResult<T> implements Serializable {
         this.message = message;
     }
 
-    public void setRequestTime(Date time) {
-        this.time = time;
+    public Date getTime() {
+        return time;
     }
 
-    public Date getRequestTime() {
-        return time;
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

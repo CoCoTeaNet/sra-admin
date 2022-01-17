@@ -24,6 +24,7 @@ sra:
   sa-token:
     # 路由放行
     excludes:
+      - /test/index
       - /favicon.ico
       # swagger和knife
       - /v2/api-docs
@@ -33,9 +34,8 @@ sra:
       - /doc.html
       - /webjars/**
       # 登录
-      - /system/user/login
-      - /system/**
-
+      - /user/login
+      - /file/verificationCode
 spring:
   mvc:
     pathmatch:

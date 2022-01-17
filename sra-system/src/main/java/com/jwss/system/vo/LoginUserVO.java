@@ -22,7 +22,7 @@ public class LoginUserVO implements Serializable {
 	private UserVO userDetail;
 
 	@ApiModelProperty("权限集合")
-	private List<String> permissions;
+	private List<MenuVO> permissions;
 
 	@ApiModelProperty("token")
 	private String token;
@@ -43,11 +43,11 @@ public class LoginUserVO implements Serializable {
 		this.userDetail = userDetail;
 	}
 
-	public List<String> getPermissions() {
+	public List<MenuVO> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(List<String> permissions) {
+	public void setPermissions(List<MenuVO> permissions) {
 		this.permissions = permissions;
 	}
 

@@ -1,67 +1,71 @@
 <template>
   <v-app id="menuView">
-    <v-data-table :headers="headers" :items="menuTrees" sort-by="calories" class="elevation-1">
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>系统菜单</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
+    <v-row>
+      <v-col cols="3" style="background: #EEEEEE"><menu-tree style="background: white"/></v-col>
+      <v-col cols="9" class="fill-height" style="background: #EEEEEE">
+        <v-data-table :headers="headers" :items="menuTrees" sort-by="calories">
+          <template v-slot:top>
+            <v-toolbar flat>
+              <v-toolbar-title>系统菜单</v-toolbar-title>
+              <v-divider class="mx-4" inset vertical></v-divider>
+              <v-spacer></v-spacer>
 
-          <!-- 新增菜单 -->
-          <v-btn color="primary" dark class="mb-2" @click="editItem(0)">
-            新增菜单
-          </v-btn>
+              <!-- 新增菜单 -->
+              <v-btn color="primary" dark class="mb-2" @click="editItem(0)">
+                新增菜单
+              </v-btn>
 
-          <!-- 删除一条对话框 -->
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+              <!-- 删除一条对话框 -->
+              <v-dialog v-model="dialogDelete" max-width="500px">
+                <v-card>
+                  <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
-        </v-toolbar>
-      </template>
-      <!-- 格式化数据 -->
-      <template v-slot:item.menuType="{ item }">
-        <span>{{ getMenuTypeName(item.menuType) }}</span>
-      </template>
-      <template v-slot:item.isMenu="{ item }">
-        <span>{{ item.isMenu === "1" ? "接口权限" : "导航菜单" }}</span>
-      </template>
-      <template v-slot:item.isExternalLink="{ item }">
-        <span>{{ item.isExternalLink === "0" ? "外链" : "非外链" }}</span>
-      </template>
-      <template v-slot:item.iconPath="{ item }">
-        <v-icon>{{ item.iconPath }}</v-icon>
-      </template>
-      <!-- 删除和编辑按钮 -->
-      <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(1, item)">mdi-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-      </template>
-    </v-data-table>
+            </v-toolbar>
+          </template>
+          <!-- 格式化数据 -->
+          <template v-slot:item.menuType="{ item }">
+            <span>{{ getMenuTypeName(item.menuType) }}</span>
+          </template>
+          <template v-slot:item.isMenu="{ item }">
+            <span>{{ item.isMenu === "1" ? "接口权限" : "导航菜单" }}</span>
+          </template>
+          <template v-slot:item.isExternalLink="{ item }">
+            <span>{{ item.isExternalLink === "0" ? "外链" : "非外链" }}</span>
+          </template>
+          <template v-slot:item.iconPath="{ item }">
+            <v-icon>{{ item.iconPath }}</v-icon>
+          </template>
+          <!-- 删除和编辑按钮 -->
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(1, item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
     <menu-edit :edited-item="editedItem" :show-dialog="dialogEdit" @close="closeEdit" />
   </v-app>
 </template>
 
 <script>
 import MenuEdit from "@/views/system/menu/modules/menu-edit";
-import { listByPage } from "@/api/system/menu-api";
+import MenuTree from "@/views/system/menu/modules/menu-tree";
 
 export default {
   name: "MenuView",
-  components: {MenuEdit},
+  components: {MenuTree, MenuEdit},
   data: () => ({
     dialogEdit: false,
     dialogDelete: false,
     headers: [
-      {text: '菜单名称', align: 'start', sortable: false, value: 'menuName'},
       {text: '权限编号', value: 'permissionCode'},
       {text: '路由地址', value: 'routerPath'},
       {text: '按钮类型', value: 'menuType'},
@@ -89,17 +93,6 @@ export default {
 
   methods: {
     async initialize() {
-      let param = {
-        "menuVO": {
-          "menuName": "",
-        },
-        "pageNo": 0,
-        "pageSize": 0,
-      };
-      let res = await listByPage(param);
-      if (res.code === 200) {
-        this.menuTrees = res.data.rows;
-      }
     },
 
     /**
