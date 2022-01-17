@@ -37,6 +37,9 @@
       <template v-slot:item.isExternalLink="{ item }">
         <span>{{ item.isExternalLink === "0" ? "外链" : "非外链" }}</span>
       </template>
+      <template v-slot:item.iconPath="{ item }">
+        <v-icon>{{ item.iconPath }}</v-icon>
+      </template>
       <!-- 删除和编辑按钮 -->
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(1, item)">mdi-pencil</v-icon>

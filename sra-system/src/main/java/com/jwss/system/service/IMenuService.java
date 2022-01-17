@@ -2,6 +2,7 @@ package com.jwss.system.service;
 
 import com.jwss.system.param.menu.MenuAddParam;
 import com.jwss.system.param.menu.MenuPageParam;
+import com.jwss.system.param.menu.MenuUpdateParam;
 import com.jwss.system.vo.MenuVO;
 import org.sagacity.sqltoy.model.Page;
 
@@ -23,4 +24,11 @@ public interface IMenuService {
      * @return 分页结果集
      */
     Page<MenuVO> listByPage(MenuPageParam pageParam);
+
+    /**
+     * 更新菜单
+     * @param param 更新菜单参数
+     * @return 成功返回TRUE
+     */
+    boolean update(MenuUpdateParam param);
 }

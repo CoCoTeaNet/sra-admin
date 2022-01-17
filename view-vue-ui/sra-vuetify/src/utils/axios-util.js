@@ -23,7 +23,7 @@ export async function request(url, data, method) {
             // `headers` 是即将被发送的自定义请求头
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                "satoken": store.state.user.userInfo.token,
+                "satoken": store.state.user.userInfo ? store.state.user.userInfo.token : 'no token',
                 'Content-Type': 'application/json;charset=utf-8'
             },
             // `params` 是即将与请求一起发送的 URL 参数

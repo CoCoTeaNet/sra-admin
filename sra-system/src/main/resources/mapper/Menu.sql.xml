@@ -23,6 +23,8 @@
                 	sys_menu
                 WHERE
                 	DELETE_STATUS = 1
+                	#[and IS_MENU = :isMenu]
+                ORDER BY SORT
 			]]>
         </value>
     </sql>

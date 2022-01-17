@@ -3,6 +3,7 @@ package com.jwss.system.service.impl;
 import com.jwss.system.entity.Menu;
 import com.jwss.system.param.menu.MenuAddParam;
 import com.jwss.system.param.menu.MenuPageParam;
+import com.jwss.system.param.menu.MenuUpdateParam;
 import com.jwss.system.service.IMenuService;
 import com.jwss.system.sqlmethod.MenuSqlMethod;
 import com.jwss.system.vo.MenuVO;
@@ -34,5 +35,12 @@ public class MenuServiceImpl implements IMenuService {
     public Page<MenuVO> listByPage(MenuPageParam pageParam) {
         Page<MenuVO> page = sqlToyLazyDao.findPageBySql(pageParam, MenuSqlMethod.SYSTEM_FIND_PAGE_MENU, pageParam.getMenuVO());
         return page;
+    }
+
+    @Override
+    public boolean update(MenuUpdateParam param) {
+        Menu menu = sqlToyLazyDao.convertType(param, Menu.class);
+        Long update = sqlToyLazyDao.update(menu);
+        return update > 0;
     }
 }

@@ -1,8 +1,10 @@
 <template>
-  <div class="login-layout-outbox">
-    <!-- 登录页-组件 -->
-    <login-view />
-  </div>
+  <v-app id="loginLayout">
+    <div class="login-layout-outbox">
+      <!-- 登录页-组件 -->
+        <login-view />
+    </div>
+  </v-app>
 </template>
 
 <script>

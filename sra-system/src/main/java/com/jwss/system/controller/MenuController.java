@@ -3,6 +3,7 @@ package com.jwss.system.controller;
 import com.jwss.common.model.ApiResult;
 import com.jwss.system.param.menu.MenuAddParam;
 import com.jwss.system.param.menu.MenuPageParam;
+import com.jwss.system.param.menu.MenuUpdateParam;
 import com.jwss.system.service.IMenuService;
 import com.jwss.system.vo.MenuVO;
 import io.swagger.annotations.Api;
@@ -30,6 +31,13 @@ public class MenuController {
     @PostMapping("add")
     public ApiResult<String> add(@Valid @RequestBody MenuAddParam param) {
         boolean b = menuService.add(param);
+        return ApiResult.flag(b);
+    }
+
+    @ApiOperation("新增菜单")
+    @PostMapping("update")
+    public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) {
+        boolean b = menuService.update(param);
         return ApiResult.flag(b);
     }
 

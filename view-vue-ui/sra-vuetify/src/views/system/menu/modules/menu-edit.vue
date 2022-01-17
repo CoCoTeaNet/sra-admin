@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { add } from "@/api/system/menu-api";
+import { add, update } from "@/api/system/menu-api";
 import CommonTip from "@/components/common/tip";
 
 export default {
@@ -139,6 +139,13 @@ export default {
         }
       } else {
         // 更新
+        let res = await update(this.editedItem);
+        if (res.code === 200) {
+          this.$refs.commonTip.success('更新成功');
+          this.close();
+        } else {
+          this.$refs.commonTip.error(res.data);
+        }
       }
     },
     close() {
