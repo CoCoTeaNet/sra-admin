@@ -31,7 +31,7 @@ public class Swagger2Configuration {
         ParameterBuilder ticketPar = new ParameterBuilder();
         List<Parameter> parameters = new ArrayList<>();
         ticketPar.name("satoken")
-                .description("user ticket")
+                .description("用户凭证")
                 .modelRef(new ModelRef("string")).parameterType("header")
                 //header中的ticket参数非必填，传空也可以
                 .required(false).build();

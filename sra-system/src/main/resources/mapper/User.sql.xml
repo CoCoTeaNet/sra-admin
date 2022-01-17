@@ -3,16 +3,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <!-- 这里是演示，正常单表查询无需写sql -->
-    <sql id="system_search_fruitOrder">
-        <value>
-            <![CDATA[
-			select * from sqltoy_fruit_order t
-			where #[t.FRUIT_NAME like :fruitName]
-			]]>
-        </value>
-    </sql>
-
     <sql id="SYSTEM_LOAD_USER_DETAIL">
         <value>
             <![CDATA[

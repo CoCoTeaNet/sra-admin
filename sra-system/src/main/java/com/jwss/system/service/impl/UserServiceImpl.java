@@ -27,19 +27,13 @@ public class UserServiceImpl implements IUserService {
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
-    public Page<UserVO> searchFruitOrder(Page<UserVO> pageModel, UserVO userVO) {
-        return sqlToyLazyDao.findPageBySql(pageModel, UserSqlMethod.SYSTEM_SEARCH_FRUIT_ORDER, userVO);
-    }
-
-    @Override
     public boolean add(UserAddParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
         user.setNickname(String.format("SRA-%s", System.currentTimeMillis()))
                 .setSex(SexEnum.MAN.getCode())
                 .setAccountStatus(AccountStatusEnum.NORMAL.getCode());
         Object save = sqlToyLazyDao.save(user);
-        System.out.println(save);
-        return false;
+        return save != null;
     }
 
     @Override

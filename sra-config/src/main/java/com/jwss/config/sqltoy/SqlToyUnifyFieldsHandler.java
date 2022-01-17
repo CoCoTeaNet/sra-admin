@@ -26,12 +26,18 @@ public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
         map.put("updateBy", loginId);
         map.put("updateTime", nowTime);
         map.put("deleteStatus", Character.UPPERCASE_LETTER);
+        map.put("sort", Character.UPPERCASE_LETTER);
         return map;
     }
 
     @Override
     public Map<String, Object> updateUnifyFields() {
-        return IUnifyFieldsHandler.super.updateUnifyFields();
+        LocalDateTime nowTime = DateUtil.getDateTime();
+        String loginId = (String) StpUtil.getLoginId();
+        Map<String, Object> map = new HashMap<>(Character.TITLECASE_LETTER);
+        map.put("updateBy", loginId);
+        map.put("updateTime", nowTime);
+        return map;
     }
 
     @Override

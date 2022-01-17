@@ -2,6 +2,7 @@ server:
   servlet:
     # 上下文路径：比如 localhost:7777/sra-api/**
     context-path: /sra-api
+
 # Sa-Token 配置
 sa-token:
   # token名称 (同时也是cookie名称)
@@ -18,6 +19,23 @@ sa-token:
   token-style: random-64
   # 是否输出操作日志
   is-log: false
+
+sra:
+  sa-token:
+    # 路由放行
+    excludes:
+      - /favicon.ico
+      # swagger和knife
+      - /v2/api-docs
+      - /configuration/ui
+      - /swagger-resources/**
+      - /configuration/security
+      - /doc.html
+      - /webjars/**
+      # 登录
+      - /system/user/login
+      - /system/**
+
 spring:
   mvc:
     pathmatch:
