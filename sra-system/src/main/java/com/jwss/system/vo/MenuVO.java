@@ -50,7 +50,10 @@ public class MenuVO implements Serializable {
 	private String iconPath;
 
 	@ApiModelProperty("菜单子节点")
-	private MenuVO child;
+	private MenuVO children;
+
+	@ApiModelProperty("菜单名称，用来生成树结构")
+	private String name;
 
 	@Override
 	public String toString() {
@@ -66,15 +69,25 @@ public class MenuVO implements Serializable {
 				", componentPath='" + componentPath + '\'' +
 				", isExternalLink='" + isExternalLink + '\'' +
 				", iconPath='" + iconPath + '\'' +
+				", children=" + children +
+				", name='" + name + '\'' +
 				'}';
 	}
 
-	public MenuVO getChild() {
-		return child;
+	public MenuVO getChildren() {
+		return children;
 	}
 
-	public void setChild(MenuVO child) {
-		this.child = child;
+	public void setChildren(MenuVO children) {
+		this.children = children;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getId() {

@@ -22,3 +22,10 @@ export function update(data) {
 export function listByPage(data) {
     return request('menu/listByPage', data, 'POST');
 }
+
+/**
+ * 菜单树
+ */
+export function listByTree(data) {
+    return request('menu/listByTree', data, 'GET');
+}

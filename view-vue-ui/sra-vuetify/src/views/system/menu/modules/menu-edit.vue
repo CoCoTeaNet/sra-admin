@@ -3,7 +3,7 @@
     <v-dialog v-model="showDialog" max-width="500px" persistent>
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{ editedItem.editType === 0 ? '新增菜单' : '编辑菜单' }}</span>
+          <span class="text-h5">{{ editedItem.editType === 1 ? '编辑菜单' : '新增菜单' }}</span>
         </v-card-title>
 
         <v-card-text>
@@ -41,13 +41,6 @@
                   (v) => (v && v.length <= 255) || '路由地址长度不能超过255个字符'
               ]"
             ></v-text-field>
-
-            <v-select
-                v-model="editedItem.parentId"
-                :items="parentItems"
-                filled
-                label="上级菜单"
-            ></v-select>
 
             <v-radio-group row v-model="editedItem.menuType" mandatory>
               <v-radio label="目录" value="0"></v-radio>
@@ -103,53 +96,74 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <common-tip ref="commonTip" />
+    <common-tip ref="commonTip"/>
   </div>
 </template>
 
 <script>
-import { add, update } from "@/api/system/menu-api";
+import {add, update} from "@/api/system/menu-api";
 import CommonTip from "@/components/common/tip";
 
 export default {
   name: "MenuEdit",
   components: {CommonTip},
   props: {
-    editedItem: { type: Object, required: true, default: null },
-    showDialog: { type: Boolean, required: false, default: false }
+    editedItem: {type: Object, required: true, default: null},
+    showDialog: {type: Boolean, required: false, default: false}
   },
   data: () => ({
-    // 上级菜单集合
-    parentItems: [],
-    valid: true
+    valid: true,
+    saveParam: {},
   }),
   methods: {
-    async save() {
+    /**
+     * 编辑菜单
+     * @returns {Promise<void>}
+     */
+    async editItem() {
       if (!this.$refs.form.validate()) {
         return;
       }
-      if (this.editedItem.editType === 0) {
-        // 保存
-        let res = await add(this.editedItem);
-        if (res.code === 200) {
-          this.$refs.commonTip.success('保存成功');
-          this.close();
-        } else {
-          this.$refs.commonTip.error(res.data);
-        }
-      } else {
-        // 更新
-        let res = await update(this.editedItem);
-        if (res.code === 200) {
-          this.$refs.commonTip.success('更新成功');
-          this.close();
-        } else {
-          this.$refs.commonTip.error(res.data);
-        }
+      switch (this.editedItem.editType) {
+        case 1:
+          return this.update();
+        case 2:
+          return this.save();
       }
     },
+    /**
+     * 关闭窗口
+     */
     close() {
       this.$emit('close');
+    },
+    /**
+     * 新增
+     * @returns {Promise<void>}
+     */
+    async save() {
+      const param = this.editedItem;
+      param.parentId = this.editedItem.id;
+      let res = await add(param);
+      if (res.code === 200) {
+        this.$refs.commonTip.success('保存成功');
+        this.close();
+      } else {
+        this.$refs.commonTip.error(res.data);
+      }
+    },
+    /**
+     * 更新
+     * @returns {Promise<void>}
+     */
+    async update() {
+      let res = await update(this.editedItem);
+      if (res.code === 200) {
+        this.$refs.commonTip.success('更新成功');
+        this.close();
+      } else {
+        this.$refs.commonTip.error(res.data);
+      }
     }
   }
 }

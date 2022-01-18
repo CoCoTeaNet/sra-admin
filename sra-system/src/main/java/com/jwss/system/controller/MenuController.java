@@ -35,10 +35,17 @@ public class MenuController {
         return ApiResult.flag(b);
     }
 
-    @ApiOperation("新增菜单")
+    @ApiOperation("更新菜单")
     @PostMapping("update")
     public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) {
         boolean b = menuService.update(param);
         return ApiResult.flag(b);
+    }
+
+    @ApiOperation("获取菜单树")
+    @GetMapping("listByTree")
+    public ApiResult<List<MenuVO>> listByTree() {
+        List<MenuVO> menus = menuService.listByTree();
+        return ApiResult.ok(menus);
     }
 }

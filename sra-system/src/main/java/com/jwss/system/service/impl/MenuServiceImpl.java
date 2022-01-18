@@ -10,15 +10,10 @@ import com.jwss.system.vo.MenuVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.model.QueryExecutor;
-import org.sagacity.sqltoy.model.QueryResult;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * @author jwss
@@ -42,6 +37,29 @@ public class MenuServiceImpl implements IMenuService {
     public Page<MenuVO> listByPage(MenuPageParam pageParam) {
         Page<MenuVO> page = sqlToyLazyDao.findPageBySql(pageParam, MenuSqlMethod.SYSTEM_FIND_PAGE_MENU, pageParam.getMenuVO());
         return page;
+    }
+
+    @Override
+    public List<MenuVO> listByTree() {
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql(MenuSqlMethod.SYSTEM_FIND_USER_MENU, new MenuVO());
+        Map<String, MenuVO> menuRootMap = new HashMap<>(menuVOList.size() + 1);
+        Map<String, MenuVO> menuChildMap = new HashMap<>(menuVOList.size() + 1);
+        String root = String.valueOf(0);
+        menuVOList.forEach(item -> {
+            if (root.equals(item.getParentId())) {
+                menuRootMap.put(item.getId(), item);
+            } else {
+                menuChildMap.put(item.getId(), item);
+            }
+            item.setName(item.getMenuName());
+        });
+        for (Map.Entry<String, MenuVO> item : menuChildMap.entrySet()) {
+            MenuVO parent = menuRootMap.get(item.getValue().getParentId());
+            if (parent != null) {
+                parent.setChildren(item.getValue());
+            }
+        }
+        return new ArrayList<>(menuRootMap.values());
     }
 
     @Override

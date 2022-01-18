@@ -24,7 +24,7 @@ export async function request(url, data, method) {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 'Content-Type': 'application/json;charset=utf-8',
-                "satoken": store.state.user.userInfo && store.state.user.userInfo.token !== 'sa-token',
+                "satoken": store.state.user.userInfo ? store.state.user.userInfo.token : 'sa-token',
             },
             // `params` 是即将与请求一起发送的 URL 参数
             // 必须是一个无格式对象(plain object)或 URLSearchParams 对象

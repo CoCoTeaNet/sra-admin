@@ -28,6 +28,12 @@ public interface IMenuService {
     Page<MenuVO> listByPage(MenuPageParam pageParam);
 
     /**
+     * 分页查询菜单
+     * @return 分页结果集
+     */
+    List<MenuVO> listByTree();
+
+    /**
      * 更新菜单
      * @param param 更新菜单参数
      * @return 成功返回TRUE

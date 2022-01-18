@@ -1,10 +1,10 @@
 <template>
   <v-app id="adminLayout">
     <!-- 导航菜单 -->
-    <admin-drawer-nav :items="menuList" />
+    <admin-drawer-nav :items="menuList"/>
 
     <!-- 顶部条 -->
-    <v-app-bar app clipped-right flat height="72" color="white">
+    <v-app-bar app clipped-right flat height="52" color="white">
       <!-- 顶部导航栏 -->
       <template>
         <v-btn text rounded>
@@ -18,6 +18,7 @@
 
     <!-- 主要内容 -->
     <v-main>
+      <v-divider></v-divider>
       <v-container>
         <router-view></router-view>
       </v-container>
