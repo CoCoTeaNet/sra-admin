@@ -1,18 +1,19 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="adminLayout">
     <!-- 导航菜单 -->
     <admin-drawer-nav :items="menuList" />
 
     <!-- 顶部条 -->
-    <v-app-bar app clipped-right flat height="50" class="elevation-1">
+    <v-app-bar app clipped-right flat height="72" color="white">
       <!-- 顶部导航栏 -->
-      <admin-tags-nav style="width: 86%" />
+      <template>
+        <v-btn text rounded>
+          <v-icon>mdi-format-list-bulleted-square</v-icon>
+        </v-btn>
+        <admin-tags-nav/>
+      </template>
       <!-- 间隔 -->
       <v-spacer></v-spacer>
-      <!-- 搜索框 -->
-      <v-responsive max-width="156">
-        <v-text-field dense flat hide-details rounded solo-inverted></v-text-field>
-      </v-responsive>
     </v-app-bar>
 
     <!-- 主要内容 -->
@@ -23,7 +24,7 @@
     </v-main>
 
     <!-- 底部信息 -->
-    <v-footer app color="transparent" height="72" inset style="background: white">
+    <v-footer app color="transparent" height="72" inset light>
       Apache License 2.0 | Copyright 2022-sra-sss-admin
     </v-footer>
   </v-app>

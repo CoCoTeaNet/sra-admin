@@ -1,19 +1,23 @@
 <template>
   <v-app id="menuView">
     <v-row>
-      <v-col cols="3" style="background: #EEEEEE"><menu-tree style="background: white"/></v-col>
-      <v-col cols="9" class="fill-height" style="background: #EEEEEE">
+      <v-col cols="3"><menu-tree/></v-col>
+      <v-col cols="9" class="fill-height">
         <v-data-table :headers="headers" :items="menuTrees" sort-by="calories">
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>系统菜单</v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
-              <v-spacer></v-spacer>
-
               <!-- 新增菜单 -->
               <v-btn color="primary" dark class="mb-2" @click="editItem(0)">
                 新增菜单
               </v-btn>
+              <v-spacer></v-spacer>
+              <!-- 搜索栏 -->
+              <v-text-field
+                  append-icon="mdi-magnify"
+                  label="Search"
+                  single-line
+                  hide-details
+              ></v-text-field>
 
               <!-- 删除一条对话框 -->
               <v-dialog v-model="dialogDelete" max-width="500px">
@@ -27,7 +31,6 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-
             </v-toolbar>
           </template>
           <!-- 格式化数据 -->

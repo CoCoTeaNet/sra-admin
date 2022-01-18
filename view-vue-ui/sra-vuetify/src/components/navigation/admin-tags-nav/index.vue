@@ -1,25 +1,36 @@
 <template>
-  <v-tabs center-active>
-    <v-tab>One</v-tab>
-    <v-tab>Two</v-tab>
-    <v-tab>Three</v-tab>
-    <v-tab>Four</v-tab>
-    <v-tab>Five</v-tab>
-    <v-tab>Six</v-tab>
-    <v-tab>Seven</v-tab>
-    <v-tab>Eight</v-tab>
-    <v-tab>Nine</v-tab>
-    <v-tab>Ten</v-tab>
-    <v-tab>Eleven</v-tab>
-  </v-tabs>
+  <v-breadcrumbs :items="items">
+    <template v-slot:item="{ item }">
+      <v-breadcrumbs-item
+          :href="item.href"
+          :disabled="item.disabled"
+      >
+        {{ item.text.toUpperCase() }}
+      </v-breadcrumbs-item>
+    </template>
+  </v-breadcrumbs>
 </template>
 
 <script>
 export default {
-  name: "AdminTagsNav"
+  data: () => ({
+    items: [
+      {
+        text: 'Dashboard',
+        disabled: false,
+        href: 'breadcrumbs_dashboard',
+      },
+      {
+        text: 'Link 1',
+        disabled: false,
+        href: 'breadcrumbs_link_1',
+      },
+      {
+        text: 'Link 2',
+        disabled: true,
+        href: 'breadcrumbs_link_2',
+      },
+    ],
+  }),
 }
 </script>
-
-<style scoped>
-
-</style>

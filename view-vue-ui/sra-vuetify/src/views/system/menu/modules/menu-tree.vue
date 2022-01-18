@@ -1,12 +1,5 @@
 <template>
-  <v-treeview
-      rounded
-      hoverable
-      activatable
-      :items="items"
-      class="fill-height"
-      style="border-radius: 3px"
-  ></v-treeview>
+  <v-treeview open-all activatable :items="items"></v-treeview>
 </template>
 
 <script>
