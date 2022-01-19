@@ -1,5 +1,6 @@
 package com.jwss.system.service.impl;
 
+import com.jwss.common.enums.DeleteStatusEnum;
 import com.jwss.system.entity.Menu;
 import com.jwss.system.param.menu.MenuAddParam;
 import com.jwss.system.param.menu.MenuPageParam;
@@ -51,12 +52,27 @@ public class MenuServiceImpl implements IMenuService {
             } else {
                 menuChildMap.put(item.getId(), item);
             }
-            item.setName(item.getMenuName());
         });
         for (Map.Entry<String, MenuVO> item : menuChildMap.entrySet()) {
-            MenuVO parent = menuRootMap.get(item.getValue().getParentId());
-            if (parent != null) {
-                parent.setChildren(item.getValue());
+            MenuVO value = item.getValue();
+            if (menuRootMap.get(value.getParentId()) != null) {
+                List<MenuVO> children = menuRootMap.get(item.getValue().getParentId()).getChildren();
+                if (children != null) {
+                    children.add(value);
+                } else {
+                    ArrayList<MenuVO> list = new ArrayList<>();
+                    list.add(value);
+                    menuRootMap.get(value.getParentId()).setChildren(list);
+                }
+            } else if(menuChildMap.get(value.getParentId()) != null) {
+                List<MenuVO> children = menuChildMap.get(value.getParentId()).getChildren();
+                if (children != null) {
+                    children.add(value);
+                } else {
+                    ArrayList<MenuVO> list = new ArrayList<>();
+                    list.add(value);
+                    menuChildMap.get(value.getParentId()).setChildren(list);
+                }
             }
         }
         return new ArrayList<>(menuRootMap.values());
@@ -73,5 +89,12 @@ public class MenuServiceImpl implements IMenuService {
     public List<MenuVO> listByUserId() {
         QueryExecutor resultType = new QueryExecutor(MenuSqlMethod.SYSTEM_FIND_USER_MENU).resultType(MenuVO.class);
         return sqlToyLazyDao.findByQuery(resultType).getRows();
+    }
+
+    @Override
+    public boolean delete(String id) {
+        Menu menu = new Menu().setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+        Long update = sqlToyLazyDao.update(menu);
+        return update > 0;
     }
 }

@@ -82,7 +82,6 @@
                 placeholder="图标名称"
                 :counter="255"
                 :rules="[
-                  (v) => !!v || '图标名称为空',
                   (v) => (v && v.length <= 255) || '图标名称长度不能超过255个字符'
               ]"
             ></v-text-field>
@@ -108,29 +107,24 @@ export default {
   name: "MenuEdit",
   components: {CommonTip},
   props: {
-    editedItem: {type: Object, required: true, default: null},
+    item: {type: Object, required: true, default: null},
     showDialog: {type: Boolean, required: false, default: false}
   },
   data: () => ({
     valid: true,
     saveParam: {},
+    editedItem: {}
   }),
+  watch: {
+    // 监听窗口，用于给表单赋值
+    showDialog: {
+      immediate: true,
+      handler(val) {
+        this.editedItem = JSON.parse(JSON.stringify(this.item));
+      }
+    }
+  },
   methods: {
-    /**
-     * 编辑菜单
-     * @returns {Promise<void>}
-     */
-    async editItem() {
-      if (!this.$refs.form.validate()) {
-        return;
-      }
-      switch (this.editedItem.editType) {
-        case 1:
-          return this.update();
-        case 2:
-          return this.save();
-      }
-    },
     /**
      * 关闭窗口
      */
@@ -138,26 +132,23 @@ export default {
       this.$emit('close');
     },
     /**
-     * 新增
+     * 新增&更新
      * @returns {Promise<void>}
      */
     async save() {
-      const param = this.editedItem;
-      param.parentId = this.editedItem.id;
-      let res = await add(param);
-      if (res.code === 200) {
-        this.$refs.commonTip.success('保存成功');
-        this.close();
-      } else {
-        this.$refs.commonTip.error(res.data);
+      if (!this.$refs.form.validate()) {
+        return;
       }
-    },
-    /**
-     * 更新
-     * @returns {Promise<void>}
-     */
-    async update() {
-      let res = await update(this.editedItem);
+      let res;
+      const param = this.editedItem;
+      // 判断操作类型
+      if (this.editedItem.editType === 1) {
+        res = await update(param);
+      } else if (this.editedItem.editType === 2){
+        param.parentId = this.editedItem.id;
+        res = await add(param);
+      }
+      console.log(res)
       if (res.code === 200) {
         this.$refs.commonTip.success('更新成功');
         this.close();

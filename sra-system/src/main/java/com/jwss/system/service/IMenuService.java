@@ -45,4 +45,11 @@ public interface IMenuService {
      * @return 用户菜单集合
      */
     List<MenuVO> listByUserId();
+
+    /**
+     * 删除菜单
+     * @param id 主键id
+     * @return 成功返回TRUE
+     */
+    boolean delete(String id);
 }

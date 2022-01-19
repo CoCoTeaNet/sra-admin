@@ -35,6 +35,13 @@ public class MenuController {
         return ApiResult.flag(b);
     }
 
+    @ApiOperation("删除菜单")
+    @PostMapping("delete/{id}")
+    public ApiResult<String> delete(@PathVariable String id) {
+        boolean b = menuService.delete(id);
+        return ApiResult.flag(b);
+    }
+
     @ApiOperation("更新菜单")
     @PostMapping("update")
     public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) {

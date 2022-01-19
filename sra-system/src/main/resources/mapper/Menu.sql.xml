@@ -49,7 +49,7 @@
                 	sys_menu
                 WHERE
                 	DELETE_STATUS = 1
-                ORDER BY SORT
+                ORDER BY CREATE_TIME DESC
 			]]>
         </value>
     </sql>

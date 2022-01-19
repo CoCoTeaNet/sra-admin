@@ -17,6 +17,15 @@ export function update(data) {
 }
 
 /**
+ * 删除菜单
+ * @param data
+ * @returns {Promise<*>}
+ */
+export function del(data) {
+    return request(`menu/delete/${data}`, null, 'POST');
+}
+
+/**
  * 菜单列表
  */
 export function listByPage(data) {

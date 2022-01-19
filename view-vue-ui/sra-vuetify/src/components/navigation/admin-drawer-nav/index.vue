@@ -1,12 +1,13 @@
 <template>
   <v-navigation-drawer app permanent>
-    <!-- 用户头像 -->
-    <user-info-card/>
-
-    <v-divider></v-divider>
-
     <v-list nav dense>
-      <v-list-item v-for="item in items" :key="item.id" :to="item.routerPath" link>
+      <!-- 用户头像 -->
+      <v-list-item>
+        <user-info-card/>
+      </v-list-item>
+      <v-divider></v-divider>
+      <!-- 菜单列表 -->
+      <v-list-item v-for="(item, index) in items" :key="index" :to="item.routerPath">
         <v-list-item-icon>
           <v-icon>{{ item.iconPath }}</v-icon>
         </v-list-item-icon>

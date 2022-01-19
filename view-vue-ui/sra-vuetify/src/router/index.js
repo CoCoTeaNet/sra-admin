@@ -13,7 +13,8 @@ const routes = [
         path: '/admin',
         component: () => import('@/layout/admin-layout'),
         children: [
-            { path: 'menu', component: () => import('@/views/system/menu/index') }
+            { path: 'menu', component: () => import('@/views/system/menu/index') },
+            { path: 'role', component: () => import('@/views/system/role/index') },
         ]
     }
 ]

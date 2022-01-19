@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author jwss
@@ -50,10 +51,7 @@ public class MenuVO implements Serializable {
 	private String iconPath;
 
 	@ApiModelProperty("菜单子节点")
-	private MenuVO children;
-
-	@ApiModelProperty("菜单名称，用来生成树结构")
-	private String name;
+	private List<MenuVO> children;
 
 	@Override
 	public String toString() {
@@ -70,24 +68,15 @@ public class MenuVO implements Serializable {
 				", isExternalLink='" + isExternalLink + '\'' +
 				", iconPath='" + iconPath + '\'' +
 				", children=" + children +
-				", name='" + name + '\'' +
 				'}';
 	}
 
-	public MenuVO getChildren() {
+	public List<MenuVO> getChildren() {
 		return children;
 	}
 
-	public void setChildren(MenuVO children) {
+	public void setChildren(List<MenuVO> children) {
 		this.children = children;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getId() {
