@@ -1,0 +1,38 @@
+server:
+  port: 7777
+  #完整路径:spring.sqltoy
+spring:
+  sqltoy:
+    # 配置sql文件路径,多个用逗号分割
+    sqlResourcesDir: classpath:mapper
+    # 默认为false，debug模式将打印执行sql,并自动检测sql文件更新并重新加载
+    debug: true
+  datasource:
+    name: dataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://106.52.139.93:3306/DB_SRA_V1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: root
+    password: root
+    druid:
+      initial-size: 5
+      min-idle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      numTestsPerEvictionRun: 3
+      keepAlive: true
+      # 切记切记不要打开poolPreparedStatements 和设置maxOpenPreparedStatements，druid这里有bug，会报关闭的语句，让你找不到错误的原因
+      #poolPreparedStatements: false
+      #注意maxOpenPreparedStatements设置>0 就等同于设置poolPreparedStatements=true
+      #maxOpenPreparedStatements: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 100000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 600000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: true
+      testOnReturn: false
+      removeAbandoned: true
+      removeAbandonedTimeout: 300
