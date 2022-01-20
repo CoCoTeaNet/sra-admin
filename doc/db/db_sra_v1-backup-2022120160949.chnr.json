@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-1-12 21:59:25",
+  "updatedTime": "2022-1-15 00:44:44",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -656,7 +656,7 @@
           "id": "5E61E826-2D9A-4D52-AD45-69AEEC809D60"
         },
         {
-          "defKey": "ROLE_SORT",
+          "defKey": "SORT",
           "defName": "显示排序",
           "comment": "",
           "type": "",
@@ -664,7 +664,7 @@
           "scale": "",
           "primaryKey": false,
           "notNull": true,
-          "autoIncrement": true,
+          "autoIncrement": false,
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
@@ -688,24 +688,7 @@
           "id": "64C31982-EB4A-49B7-B192-E5BC9ABEEFF5"
         }
       ],
-      "correlations": [
-        {
-          "myField": "955A5F70-AB44-48A4-91BD-E68CD12D4069",
-          "refEntity": "30600614-A11A-40C3-9AC3-052F79978E12",
-          "refField": "40B0AD66-91B0-4413-9611-652D2D76B0C5",
-          "myRows": "n",
-          "refRows": "1",
-          "innerType": ""
-        },
-        {
-          "myField": "955A5F70-AB44-48A4-91BD-E68CD12D4069",
-          "refEntity": "0875E2EC-C66A-496D-A0A1-47E847218E1D",
-          "refField": "77285098-F72A-4AAC-9BC6-75C6D0EC371B",
-          "myRows": "n",
-          "refRows": "1",
-          "innerType": ""
-        }
-      ],
+      "correlations": [],
       "indexes": []
     },
     {
@@ -1066,7 +1049,7 @@
           "id": "63BCFE9E-7D87-4C56-9F0E-FF1BE965DC4A"
         },
         {
-          "defKey": "MOBILEPHONE",
+          "defKey": "MOBILE_PHONE",
           "defName": "手机号",
           "comment": "",
           "type": "",
@@ -1528,16 +1511,7 @@
           "id": "1D8F97B6-B83C-4E11-B09F-1F203527CAEB"
         }
       ],
-      "correlations": [
-        {
-          "myField": "1695E1E6-2E42-4AB5-90E3-1C3F6EA80D6B",
-          "refEntity": "0875E2EC-C66A-496D-A0A1-47E847218E1D",
-          "refField": "CCCB86E0-F3AB-42C8-BEE5-E5B1E76F3CC3",
-          "myRows": "n",
-          "refRows": "1",
-          "innerType": ""
-        }
-      ],
+      "correlations": [],
       "indexes": []
     },
     {
@@ -1658,16 +1632,7 @@
           "id": "40B0AD66-91B0-4413-9611-652D2D76B0C5"
         }
       ],
-      "correlations": [
-        {
-          "myField": "94197DB1-4B41-4F1C-8C4D-F9EA1F333C36",
-          "refEntity": "8B5A7FB0-9D6C-47AF-AB82-F235585BB770",
-          "refField": "397D8CEB-B660-4CC2-AA87-6B6868FA4B85",
-          "myRows": "n",
-          "refRows": "1",
-          "innerType": ""
-        }
-      ],
+      "correlations": [],
       "indexes": []
     },
     {

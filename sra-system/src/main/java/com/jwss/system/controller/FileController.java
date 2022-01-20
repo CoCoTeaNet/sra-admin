@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author jwss
  * @date 2022-1-12 14:25:41
  */
-@Api(tags = "文件接口")
+@Api(tags = "系统文件接口")
 @Validated
 @RestController
 @RequestMapping("/file")

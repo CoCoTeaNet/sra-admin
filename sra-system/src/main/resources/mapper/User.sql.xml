@@ -3,12 +3,14 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <sql id="SYSTEM_LOAD_USER_DETAIL">
+    <!-- 根据实体参数获取查询用户 -->
+    <sql id="system_user_findByEntityParam">
         <value>
             <![CDATA[
-			select * from sys_user su
-			where #[su.USERNAME = :username]
-			and #[su.PASSWORD = :password]
+			    select * from sys_user su
+			    where
+			    #[su.USERNAME = :username]
+			    #[and su.PASSWORD = :password]
 			]]>
         </value>
     </sql>

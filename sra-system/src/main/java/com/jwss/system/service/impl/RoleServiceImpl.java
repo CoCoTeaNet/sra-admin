@@ -2,12 +2,15 @@ package com.jwss.system.service.impl;
 
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.Role;
+import com.jwss.system.entity.RoleMenu;
 import com.jwss.system.param.role.RoleAddParam;
 import com.jwss.system.param.role.RoleUpdateParam;
 import com.jwss.system.service.IRoleService;
+import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -47,5 +50,22 @@ public class RoleServiceImpl implements IRoleService {
                 "select ID,ROLE_NAME,ROLE_KEY where DELETE_STATUS=1",
                 null
         );
+    }
+
+    @Override
+    public boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) {
+        List<RoleMenu> roleMenuList = sqlToyLazyDao.convertType(roleMenuVOList, RoleMenu.class);
+        Long aLong = sqlToyLazyDao.saveOrUpdateAll(roleMenuList);
+        return aLong > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean delete(String id) {
+        // 删除角色
+        sqlToyLazyDao.delete(new Role().setId(id));
+        // 删除角色权限关联关系
+        Long aLong = sqlToyLazyDao.delete(new RoleMenu().setRoleId(id));
+        return aLong > 0;
     }
 }

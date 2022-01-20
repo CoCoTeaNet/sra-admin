@@ -1,5 +1,8 @@
 package com.jwss.system.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_role_menu,角色菜单关联表  
  */
+@ApiModel("角色菜单关联表")
 public class RoleMenuVO implements Serializable {
 
 	private static final long serialVersionUID = 5632526424183418214L;
@@ -16,11 +20,13 @@ public class RoleMenuVO implements Serializable {
 	/**
 	 * 角色主键ID
 	 */
+	@ApiModelProperty(value = "角色主键ID", required = true)
 	private String roleId;
 	
 	/**
 	 * 菜单主键ID
 	 */
+	@ApiModelProperty(value = "菜单主键ID", required = true)
 	private String menuId;
 	
 	

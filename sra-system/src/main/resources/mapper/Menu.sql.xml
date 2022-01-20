@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <!-- 这里是演示，正常单表查询无需写sql -->
-    <sql id="SYSTEM_FIND_PAGE_MENU">
+    <!-- 根据实体参数获取查询菜单 -->
+    <sql id="system_menu_findByEntityParam">
         <value>
             <![CDATA[
                 SELECT
@@ -22,15 +22,15 @@
                 FROM
                 	sys_menu
                 WHERE
-                	DELETE_STATUS = 1
                 	#[and IS_MENU = :isMenu]
+                	and DELETE_STATUS = 1
                 ORDER BY SORT
 			]]>
         </value>
     </sql>
 
-    <!-- 这里是演示，正常单表查询无需写sql -->
-    <sql id="SYSTEM_FIND_USER_MENU">
+    <!-- 查询用户的权限，参数为用户id -->
+    <sql id="system_menu_findUserPermission">
         <value>
             <![CDATA[
                 SELECT
@@ -45,12 +45,11 @@
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
                 	sys_menu.ICON_PATH
-                FROM
-                	sys_menu
-                WHERE
-                	DELETE_STATUS = 1
-                ORDER BY CREATE_TIME DESC
-			]]>
+                from sys_menu
+                where ID in
+                      (select MENU_ID from sys_role_menu where ROLE_ID in (select ROLE_ID from sys_user_role where USER_ID = :userId))
+                  and DELETE_STATUS = 1
+            ]]>
         </value>
     </sql>
 </sqltoy>

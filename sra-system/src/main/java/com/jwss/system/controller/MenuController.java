@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2022-1-16 15:37:26
  * @author jwss
  */
-@Api(tags = "菜单接口")
+@Api(tags = "系统菜单接口")
 @Validated
 @RestController
 @RequestMapping("/menu")

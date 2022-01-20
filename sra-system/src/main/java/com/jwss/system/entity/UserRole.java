@@ -17,7 +17,11 @@ import org.sagacity.sqltoy.config.annotation.Column;
 public class UserRole implements Serializable {
 
 	private static final long serialVersionUID = 7063853937784637106L;
-	
+
+	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
+	@Column(name="ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String id;
+
 	/**
 	 * jdbcType:VARCHAR
 	 * 用户主键ID
@@ -35,8 +39,15 @@ public class UserRole implements Serializable {
 	/** default constructor */
 	public UserRole() {
 	}
-	
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	/**
 	 *@param userId the userId to set
 	 */

@@ -17,7 +17,15 @@ import org.sagacity.sqltoy.config.annotation.Column;
 public class RoleMenu implements Serializable {
 
 	private static final long serialVersionUID = 6844523408155256370L;
-	
+
+	/**
+	 * jdbcType:VARCHAR
+	 * 主键id
+	 */
+	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
+	@Column(name="ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+	private String id;
+
 	/**
 	 * jdbcType:VARCHAR
 	 * 角色主键ID
@@ -35,8 +43,15 @@ public class RoleMenu implements Serializable {
 	/** default constructor */
 	public RoleMenu() {
 	}
-	
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	/**
 	 *@param roleId the roleId to set
 	 */

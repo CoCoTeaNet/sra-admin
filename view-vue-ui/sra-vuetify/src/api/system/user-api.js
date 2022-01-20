@@ -13,3 +13,11 @@ export function add(data) {
 export function login(data) {
     return request('user/login', data, 'POST');
 }
+
+/**
+ * 用户退出登录
+ * @returns {Promise<*>}
+ */
+export function logout() {
+    return request('user/logout', {}, 'POST');
+}

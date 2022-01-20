@@ -3,8 +3,8 @@ package com.jwss.system.service;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
 import com.jwss.system.param.role.RoleUpdateParam;
+import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
-import org.sagacity.sqltoy.model.Page;
 
 import java.util.List;
 
@@ -35,4 +35,18 @@ public interface IRoleService {
      * @return 角色集合
      */
     List<RoleVO> findAll();
+
+    /**
+     * 给角色赋予权限
+     * @param roleMenuVOList 角色菜单列表
+     * @return 成功返回true
+     */
+    boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList);
+
+    /**
+     * 删除角色
+     * @param id 角色id
+     * @return 成功返回true
+     */
+    boolean delete(String id);
 }

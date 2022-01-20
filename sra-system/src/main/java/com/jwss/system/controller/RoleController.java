@@ -4,6 +4,7 @@ import com.jwss.common.model.ApiResult;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
 import com.jwss.system.service.IRoleService;
+import com.jwss.system.vo.RoleMenuVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author jwss
@@ -37,6 +39,13 @@ public class RoleController {
     @PostMapping("/update")
     public ApiResult<String> update(@Valid @RequestBody RoleAddParam param) throws BusinessException {
         boolean b = roleService.add(param);
+        return ApiResult.flag(b);
+    }
+
+    @ApiOperation(value = "给角色赋予权限")
+    @PostMapping("/grantPermissionsByRoleId")
+    public ApiResult<String> grantPermissionsByRoleId(@Valid @RequestBody List<RoleMenuVO> param) throws BusinessException {
+        boolean b = roleService.grantPermissionsByRoleId(param);
         return ApiResult.flag(b);
     }
 

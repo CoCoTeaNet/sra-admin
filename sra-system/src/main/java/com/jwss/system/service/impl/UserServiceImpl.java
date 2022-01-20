@@ -9,12 +9,11 @@ import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
 import com.jwss.system.service.IMenuService;
 import com.jwss.system.service.IUserService;
-import com.jwss.system.sqlmethod.UserSqlMethod;
 import com.jwss.system.vo.LoginUserVO;
 import com.jwss.system.vo.UserVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
-import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -30,6 +29,7 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private IMenuService menuService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean add(UserAddParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
@@ -37,18 +37,19 @@ public class UserServiceImpl implements IUserService {
                 .setSex(SexEnum.MAN.getCode())
                 .setAccountStatus(AccountStatusEnum.NORMAL.getCode());
         Object save = sqlToyLazyDao.save(user);
+        // 授予用户角色
         return save != null;
     }
 
     @Override
     public LoginUserVO login(UserLoginParam param) throws BusinessException {
         User user = sqlToyLazyDao.convertType(param, User.class);
-        user = sqlToyLazyDao.loadBySql(UserSqlMethod.SYSTEM_LOAD_USER_DETAIL, user);
+        user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", user);
         if (user == null) {
             throw new BusinessException("登录失败，用户名或密码错误");
         }
         // 默认记住我模式
-        StpUtil.login(param.getUsername(), true);
+        StpUtil.login(user.getId(), true);
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setLoginStatus(true);

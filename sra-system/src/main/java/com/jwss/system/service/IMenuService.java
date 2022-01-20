@@ -47,9 +47,10 @@ public interface IMenuService {
     List<MenuVO> listByUserId();
 
     /**
-     * 删除菜单
+     * 删除菜单以及所有子菜单
      * @param id 主键id
      * @return 成功返回TRUE
      */
     boolean delete(String id);
+
 }

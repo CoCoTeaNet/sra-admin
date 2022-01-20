@@ -69,7 +69,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="primary" text @click="menu = false">
+        <v-btn color="primary" text @click="logout">
           退出账号
         </v-btn>
       </v-card-actions>
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import {logout} from "@/api/system/user-api";
+
 export default {
   data: () => ({
     fav: true,
@@ -85,5 +87,20 @@ export default {
     message: false,
     hints: true,
   }),
+  methods: {
+    /**
+     * 退出登录
+     */
+    logout() {
+      let self = this;
+      logout().then(res => {
+        if(res.code === 200) {
+          self.$store.commit('user/setUserInfo', null);
+          self.$router.push({path: '/login'});
+          self.menu = false;
+        }
+      });
+    }
+  }
 }
 </script>

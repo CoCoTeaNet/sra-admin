@@ -1,5 +1,6 @@
 package com.jwss.system.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.common.model.ApiResult;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.user.UserAddParam;
@@ -40,5 +41,12 @@ public class UserController {
     public ApiResult<LoginUserVO> login(@Valid @RequestBody UserLoginParam param) throws BusinessException {
         LoginUserVO s = userService.login(param);
         return ApiResult.ok(s);
+    }
+
+    @ApiOperation(value = "用户退出登录")
+    @PostMapping("/logout")
+    public ApiResult<String> logout(){
+        StpUtil.logout();
+        return ApiResult.ok();
     }
 }
