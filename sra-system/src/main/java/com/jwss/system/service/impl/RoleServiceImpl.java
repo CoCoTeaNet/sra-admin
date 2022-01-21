@@ -4,11 +4,13 @@ import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.Role;
 import com.jwss.system.entity.RoleMenu;
 import com.jwss.system.param.role.RoleAddParam;
+import com.jwss.system.param.role.RolePageParam;
 import com.jwss.system.param.role.RoleUpdateParam;
 import com.jwss.system.service.IRoleService;
 import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,11 @@ public class RoleServiceImpl implements IRoleService {
         // 删除角色权限关联关系
         Long aLong = sqlToyLazyDao.delete(new RoleMenu().setRoleId(id));
         return aLong > 0;
+    }
+
+    @Override
+    public Page<RoleVO> listByPage(RolePageParam param) {
+        Page<RoleVO> page = sqlToyLazyDao.findPageBySql(param, "system_role_findByEntityParam", param.getRoleVO());
+        return page;
     }
 }

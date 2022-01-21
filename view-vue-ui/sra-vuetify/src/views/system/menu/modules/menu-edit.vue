@@ -148,7 +148,6 @@ export default {
         param.parentId = this.editedItem.id;
         res = await add(param);
       }
-      console.log(res)
       if (res.code === 200) {
         this.$refs.commonTip.success('更新成功');
         this.close();

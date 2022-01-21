@@ -2,9 +2,11 @@ package com.jwss.system.service;
 
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
+import com.jwss.system.param.role.RolePageParam;
 import com.jwss.system.param.role.RoleUpdateParam;
 import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
+import org.sagacity.sqltoy.model.Page;
 
 import java.util.List;
 
@@ -49,4 +51,10 @@ public interface IRoleService {
      * @return 成功返回true
      */
     boolean delete(String id);
+
+    /**
+     * 分页获取角色
+     * @return 角色分页集合
+     */
+    Page<RoleVO> listByPage(RolePageParam param);
 }

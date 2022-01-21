@@ -3,10 +3,13 @@ package com.jwss.system.controller;
 import com.jwss.common.model.ApiResult;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
+import com.jwss.system.param.role.RolePageParam;
 import com.jwss.system.service.IRoleService;
 import com.jwss.system.vo.RoleMenuVO;
+import com.jwss.system.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,4 +52,10 @@ public class RoleController {
         return ApiResult.flag(b);
     }
 
+    @ApiOperation(value = "分页获取角色")
+    @PostMapping("/listByPage")
+    public ApiResult<Page<RoleVO>> listByPage(@Valid @RequestBody RolePageParam param) {
+        Page<RoleVO> p = roleService.listByPage(param);
+        return ApiResult.ok(p);
+    }
 }
