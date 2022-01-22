@@ -3,16 +3,21 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-spacer></v-spacer>
+        <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
+          新建角色
+        </v-btn>
         <!-- 编辑对话框 -->
-        <role-edit :dialog-edit="dialogEdit" />
+        <role-edit :data="editedItem" :dialog-edit="dialogEdit" @close="closeEdit" />
+        <!-- 设置角色权限对话框 -->
+        <role-permission :show="dialogPermission" :item="editedItem" @close="dialogPermission = false"/>
         <!-- 删除对话框 -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">确定删除该角色?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text>取消</v-btn>
-              <v-btn color="blue darken-1" text>删除</v-btn>
+              <v-btn color="blue darken-1" text @click="dialogDelete = false">取消</v-btn>
+              <v-btn color="blue darken-1" text @click="del">删除</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -21,7 +26,10 @@
     </template>
     <!-- 操作 -->
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">
+      <v-icon small class="mr-2" @click="showPermissionDialog(item)">
+        mdi-cog
+      </v-icon>
+      <v-icon small class="mr-2" @click="editItem(item, 2)">
         mdi-pencil
       </v-icon>
       <v-icon small @click="deleteItem(item)">
@@ -34,17 +42,22 @@
 
 <script>
 import RoleEdit from "@/views/system/role/modules/role-edit";
-import {listByPage} from "@/api/system/role-api";
+import {listByPage,del} from "@/api/system/role-api";
+import RolePermission from "@/views/system/role/modules/role-permission";
 
 export default {
   name: "RoleView",
-  components: {RoleEdit},
+  components: {RolePermission, RoleEdit},
   data: () => ({
     // 删除对话框
     dialogDelete: false,
     // 编辑对话框
     dialogEdit: false,
+    // 权限设置对话框
+    dialogPermission: false,
+    // 角色列表
     roleList: [],
+    // 表单标题
     headers: [
       { text: '角色名称', value: 'roleName' },
       { text: '角色标识', value: 'roleKey' },
@@ -54,6 +67,7 @@ export default {
     ],
     // 编辑项
     editedItem: {},
+    // 分页参数
     pageParam: {
       pageSize: 10,
       pageNo: 1,
@@ -85,20 +99,49 @@ export default {
     },
     /**
      * 编辑弹窗
-      * @param item
+     * @param item
+     * @param editType
      */
-    editItem (item) {},
+    editItem (item, editType) {
+      item.editType = editType;
+      this.editedItem = item;
+      this.dialogEdit = true;
+    },
     /**
      * 删除弹窗
       * @param item
      */
-    deleteItem (item) {},
+    deleteItem (item) {
+      this.editedItem = item;
+      this.dialogDelete = true;
+    },
     /**
      * 关闭编辑弹窗
+     * @param flag true表示获取数据
      */
-    closeEdit() {
+    closeEdit(flag) {
       this.dialogEdit = false;
-      this.initialize();
+      if (flag) {
+        this.initialize();
+      }
+    },
+    /**
+     * 删除菜单
+     */
+    del() {
+      del(this.editedItem.id).then(res => {
+        if (res.code === 200) {
+          this.initialize();
+          this.dialogDelete = false;
+        }
+      });
+    },
+    /**
+     * 显示权限设置对话框
+     */
+    showPermissionDialog(item) {
+      this.dialogPermission = true;
+      this.editedItem = item;
     }
   },
 }

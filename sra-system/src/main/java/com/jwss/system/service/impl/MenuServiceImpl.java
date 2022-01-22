@@ -116,4 +116,12 @@ public class MenuServiceImpl implements IMenuService {
         return true;
     }
 
+    @Override
+    public List<MenuVO> listByRoleId(String roleId) {
+        Map<String, Object> hashMap = new HashMap<>(1);
+        hashMap.put("roleId", roleId);
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByCommonParam", hashMap, MenuVO.class);
+        return menuVOList;
+    }
+
 }

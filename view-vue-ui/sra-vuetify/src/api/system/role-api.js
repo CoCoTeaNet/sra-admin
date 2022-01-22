@@ -8,6 +8,13 @@ export function add(data) {
 }
 
 /**
+ * 删除角色
+ */
+export function del(data) {
+    return request(`role/delete/${data}`, {}, 'POST');
+}
+
+/**
  * 更新角色
  */
 export function update(data) {
@@ -19,4 +26,11 @@ export function update(data) {
  */
 export function listByPage(data) {
     return request('role/listByPage', data, 'POST');
+}
+
+/**
+ * 给角色分配权限
+ */
+export function grantPermissionsByRoleId(data) {
+    return request('role/grantPermissionsByRoleId', data, 'POST');
 }

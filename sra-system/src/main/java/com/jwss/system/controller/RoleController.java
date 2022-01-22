@@ -4,6 +4,7 @@ import com.jwss.common.model.ApiResult;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
 import com.jwss.system.param.role.RolePageParam;
+import com.jwss.system.param.role.RoleUpdateParam;
 import com.jwss.system.service.IRoleService;
 import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
@@ -11,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -40,8 +38,15 @@ public class RoleController {
 
     @ApiOperation(value = "更新角色")
     @PostMapping("/update")
-    public ApiResult<String> update(@Valid @RequestBody RoleAddParam param) throws BusinessException {
-        boolean b = roleService.add(param);
+    public ApiResult<String> update(@Valid @RequestBody RoleUpdateParam param) throws BusinessException {
+        boolean b = roleService.update(param);
+        return ApiResult.flag(b);
+    }
+
+    @ApiOperation(value = "删除角色")
+    @PostMapping("/delete/{id}")
+    public ApiResult<String> delete(@PathVariable String id) throws BusinessException {
+        boolean b = roleService.delete(id);
         return ApiResult.flag(b);
     }
 

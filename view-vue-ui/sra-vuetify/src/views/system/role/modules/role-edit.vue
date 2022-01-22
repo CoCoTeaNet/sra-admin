@@ -1,15 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-        新建角色
-      </v-btn>
-    </template>
-
+  <v-dialog v-model="dialogEdit" max-width="600px" persistent>
     <v-card>
       <!-- 卡片标题 -->
       <v-card-title>
-        <span class="text-h5">{{ editedItem.editType === 1 ? '编辑' : '新增' }}</span>
+        <span class="text-h5">{{ editedItem.editType === 1 ? '新增' : '编辑' }}</span>
       </v-card-title>
 
       <!-- 编辑表单 -->
@@ -49,7 +43,7 @@
       <!-- 表单操作 -->
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false">
+        <v-btn color="blue darken-1" text @click="close">
           取消
         </v-btn>
         <v-btn color="blue darken-1" text @click="saveOrUpdate">
@@ -62,18 +56,28 @@
 </template>
 
 <script>
-import {add,update} from "@/api/system/role-api";
+import {add, update} from "@/api/system/role-api";
 import CommonTip from "@/components/common/tip";
 
 export default {
   name: "RoleEdit",
   components: {CommonTip},
-  props: {dialogEdit: {type: Boolean, required: true, default: false}},
-  data(){
-    return{
-      dialog: this.dialogEdit,
+  props: {
+    dialogEdit: {type: Boolean, required: false},
+    data: {type: Object, required: true}
+  },
+  data() {
+    return {
       editedItem: {},
       valid: true
+    }
+  },
+  watch: {
+    dialogEdit: {
+      immediate: true,
+      handler(val) {
+        this.editedItem = JSON.parse(JSON.stringify(this.data));
+      }
     }
   },
   methods: {
@@ -88,17 +92,21 @@ export default {
       let res;
       if (this.editedItem.editType === 1) {
         res = await add(param);
-      } else if(this.editedItem.editType === 2) {
+      } else if (this.editedItem.editType === 2) {
         res = await update(param);
       }
       if (res.code === 200) {
-        this.$emit('close');
+        this.$emit('close', true);
       } else {
         this.$refs.commonTip.error(res.data);
       }
     },
-
-
+    /**
+     * 关闭窗口
+     */
+    close() {
+      this.$emit('close', false);
+    },
   }
 }
 </script>

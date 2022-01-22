@@ -43,7 +43,7 @@ public interface IRoleService {
      * @param roleMenuVOList 角色菜单列表
      * @return 成功返回true
      */
-    boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList);
+    boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException;
 
     /**
      * 删除角色

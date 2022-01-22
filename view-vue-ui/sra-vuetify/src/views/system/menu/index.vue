@@ -34,6 +34,7 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- 编辑菜单对话框 -->
     <menu-edit :item="editedItem" :show-dialog="dialogEdit" @close="closeEdit" />
   </v-app>
 </template>
