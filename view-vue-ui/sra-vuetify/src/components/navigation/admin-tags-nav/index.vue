@@ -1,10 +1,7 @@
 <template>
-  <v-breadcrumbs :items="items">
+  <v-breadcrumbs :items="items" class="pl-1">
     <template v-slot:item="{ item }">
-      <v-breadcrumbs-item
-          :href="item.href"
-          :disabled="item.disabled"
-      >
+      <v-breadcrumbs-item :disabled="item.disabled" :to="item.href">
         {{ item.text.toUpperCase() }}
       </v-breadcrumbs-item>
     </template>

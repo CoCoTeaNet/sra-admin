@@ -1,6 +1,6 @@
 <template>
   <v-app id="menuView">
-    <div>
+    <v-card class="pa-2">
       <!-- 表头 -->
       <v-row align="baseline">
         <!-- 新增菜单 -->
@@ -17,7 +17,7 @@
       <v-row>
         <!-- 菜单树 -->
         <v-col>
-          <menu-tree class="rounded-xl grey lighten-5 elevation-1" @editItem="editItem" :item-list="items" />
+          <menu-tree class="lighten-5" @editItem="editItem" :item-list="items" />
         </v-col>
       </v-row>
       <!-- 删除项对话框 -->
@@ -33,7 +33,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </div>
+    </v-card>
     <!-- 编辑菜单对话框 -->
     <menu-edit :item="editedItem" :show-dialog="dialogEdit" @close="closeEdit" />
   </v-app>

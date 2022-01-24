@@ -5,6 +5,7 @@ import com.jwss.common.enums.AccountStatusEnum;
 import com.jwss.common.enums.SexEnum;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.User;
+import com.jwss.system.entity.UserRole;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
 import com.jwss.system.service.IMenuService;
@@ -36,9 +37,11 @@ public class UserServiceImpl implements IUserService {
         user.setNickname(String.format("SRA-%s", System.currentTimeMillis()))
                 .setSex(SexEnum.MAN.getCode())
                 .setAccountStatus(AccountStatusEnum.NORMAL.getCode());
-        Object save = sqlToyLazyDao.save(user);
+        Object userId = sqlToyLazyDao.save(user);
         // 授予用户角色
-        return save != null;
+        UserRole userRole = new UserRole().setUserId((String) userId).setRoleId(param.getRoleId());
+        sqlToyLazyDao.save(userRole);
+        return userId != null;
     }
 
     @Override

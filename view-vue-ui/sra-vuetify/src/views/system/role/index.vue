@@ -1,11 +1,17 @@
 <template>
-  <v-data-table :headers="headers" :items="roleList"class="elevation-1">
+  <v-data-table :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
     <template v-slot:top>
       <v-toolbar flat>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
-          新建角色
-        </v-btn>
+        <v-row>
+          <v-col cols="9">
+            <v-btn color="primary" dark rounded class="mb-2" @click="editItem({}, 1)">
+              新建角色
+            </v-btn>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+          </v-col>
+        </v-row>
         <!-- 编辑对话框 -->
         <role-edit :data="editedItem" :dialog-edit="dialogEdit" @close="closeEdit" />
         <!-- 设置角色权限对话框 -->
@@ -61,8 +67,8 @@ export default {
     headers: [
       { text: '角色名称', value: 'roleName' },
       { text: '角色标识', value: 'roleKey' },
-      { text: '备注', value: 'remark' },
       { text: '创建时间', value: 'createTime' },
+      { text: '备注', value: 'remark' },
       { text: '操作', value: 'actions', sortable: false },
     ],
     // 编辑项
@@ -90,11 +96,14 @@ export default {
      * 初始化数据
      */
     initialize () {
-      listByPage(this.pageParam).then(res => {
-        if (res.code === 200) {
-          this.roleList = res.data.rows;
-          this.pageParam.recordCount = res.recordCount;
-        }
+      let self = this;
+      self.$nextTick(function () {
+        listByPage(self.pageParam).then(res => {
+          if (res.code === 200) {
+            self.roleList = res.data.rows;
+            self.pageParam.recordCount = res.recordCount;
+          }
+        });
       });
     },
     /**
@@ -142,6 +151,14 @@ export default {
     showPermissionDialog(item) {
       this.dialogPermission = true;
       this.editedItem = item;
+    },
+    /**
+     * 页面发生改变
+     */
+    onPageChange(num) {
+      console.log(num)
+      this.pageParam.pageNo = num;
+      this.initialize();
     }
   },
 }

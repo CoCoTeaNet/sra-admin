@@ -1,5 +1,5 @@
 <template>
-  <v-treeview rounded open-on-click activatable :items="items">
+  <v-treeview open-on-click activatable :items="items">
     <template v-slot:prepend="{ item }">
       <v-icon>{{item.iconPath}}</v-icon>
     </template>
