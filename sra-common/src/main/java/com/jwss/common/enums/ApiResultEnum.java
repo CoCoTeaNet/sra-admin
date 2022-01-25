@@ -25,6 +25,10 @@ public enum ApiResultEnum {
      * 未登录
      */
     NOT_LOGIN(4001, "未登录"),
+    /**
+     * 无权限访问
+     */
+    NOT_PERMISSION(4002, "无权限访问"),
     ;
     Integer code;
     String desc;

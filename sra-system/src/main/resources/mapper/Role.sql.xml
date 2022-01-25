@@ -4,16 +4,15 @@
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
     <!-- 根据实体参数获取查询用户 -->
-    <sql id="system_user_findByEntityParam">
+    <sql id="system_role_findByEntityParam">
         <value>
             <![CDATA[
-			    select su.*,
-			    (select ROLE_NAME from sys_role where ID = (select ROLE_ID from sys_user_role where USER_ID = su.ID)) roleName
-			    from sys_user su
+			    select * from sys_role
 			    where
-			    #[su.USERNAME = :username]
-			    #[and su.PASSWORD = :password]
-			    and DELETE_STATUS=1
+			    #[and ROLE_NAME = :roleName]
+			    #[and ROLE_KEY = :roleKey]
+			    #[and DELETE_STATUS = 1]
+			    order by SORT, CREATE_TIME desc
 			]]>
         </value>
     </sql>

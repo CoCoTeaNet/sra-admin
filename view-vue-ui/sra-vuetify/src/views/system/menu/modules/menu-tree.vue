@@ -1,7 +1,7 @@
 <template>
-  <v-treeview rounded open-on-click activatable :items="items">
+  <v-treeview open-on-click activatable :items="items">
     <template v-slot:prepend="{ item }">
-      <v-icon>{{item.iconPath}}</v-icon>
+      <v-icon>{{item.iconPath ? item.iconPath : 'mdi-key-chain-variant'}}</v-icon>
     </template>
     <template v-slot:label="{ item }">
       <span>{{item.menuName}}</span>

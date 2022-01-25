@@ -53,4 +53,10 @@ public interface IMenuService {
      */
     boolean delete(String id);
 
+    /**
+     * 获取角色请所有菜单
+     * @param roleId 角色主键id
+     * @return 菜单列表
+     */
+    List<MenuVO> listByRoleId(String roleId);
 }

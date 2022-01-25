@@ -8,6 +8,15 @@ export function add(data) {
 }
 
 /**
+ * 分页获取用户
+ * @param data
+ * @returns {Promise<any>}
+ */
+export function listByPage(data) {
+    return request('user/listByPage', data, 'POST');
+}
+
+/**
  * 用户登录
  */
 export function login(data) {

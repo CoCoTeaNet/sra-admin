@@ -5,13 +5,16 @@ import com.jwss.common.enums.AccountStatusEnum;
 import com.jwss.common.enums.SexEnum;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.User;
+import com.jwss.system.entity.UserRole;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
+import com.jwss.system.param.user.UserPageParam;
 import com.jwss.system.service.IMenuService;
 import com.jwss.system.service.IUserService;
 import com.jwss.system.vo.LoginUserVO;
 import com.jwss.system.vo.UserVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,11 +37,19 @@ public class UserServiceImpl implements IUserService {
     public boolean add(UserAddParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
         user.setNickname(String.format("SRA-%s", System.currentTimeMillis()))
-                .setSex(SexEnum.MAN.getCode())
+                .setSex(SexEnum.UNKNOWN.getCode())
                 .setAccountStatus(AccountStatusEnum.NORMAL.getCode());
-        Object save = sqlToyLazyDao.save(user);
+        Object userId = sqlToyLazyDao.save(user);
         // 授予用户角色
-        return save != null;
+        UserRole userRole = new UserRole().setUserId((String) userId).setRoleId(param.getRoleId());
+        Object roleId = sqlToyLazyDao.save(userRole);
+        return userId != null && roleId != null;
+    }
+
+    @Override
+    public Page<UserVO> listByPage(UserPageParam param) {
+        Page<UserVO> page = sqlToyLazyDao.findPageBySql(param, "system_user_findByEntityParam", param.getUserVO());
+        return page;
     }
 
     @Override
@@ -56,6 +67,7 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setToken(StpUtil.getTokenValue());
         loginUserVO.setUserDetail(sqlToyLazyDao.convertType(user, UserVO.class));
         loginUserVO.setPermissions(menuService.listByUserId());
+        // TODO 缓存权限
         return loginUserVO;
     }
 }

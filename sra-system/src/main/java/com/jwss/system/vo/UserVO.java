@@ -60,9 +60,9 @@ public class UserVO implements Serializable {
 	private String nickname;
 	
 	/**
-	 * 密码
+	 * 角色名称
 	 */
-	private String password;
+	private String roleName;
 	
 	/**
 	 * 用户性别;0未知 1男 2女
@@ -239,22 +239,15 @@ public class UserVO implements Serializable {
 	public String getNickname() {
 	    return this.nickname;
 	}
-	
-	/**
-	 *@param password the password to set
-	 */
-	public UserVO setPassword(String password) {
-		this.password=password;
-		return this;
+
+	public String getRoleName() {
+		return roleName;
 	}
-		
-	/**
-	 *@return the Password
-	 */
-	public String getPassword() {
-	    return this.password;
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
-	
+
 	/**
 	 *@param sex the sex to set
 	 */
@@ -390,7 +383,7 @@ public class UserVO implements Serializable {
 			columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
 			columnsBuffer.append("username=").append(getUsername()).append("\n");
 			columnsBuffer.append("nickname=").append(getNickname()).append("\n");
-			columnsBuffer.append("password=").append(getPassword()).append("\n");
+			columnsBuffer.append("roleName=").append(getRoleName()).append("\n");
 			columnsBuffer.append("sex=").append(getSex()).append("\n");
 			columnsBuffer.append("email=").append(getEmail()).append("\n");
 			columnsBuffer.append("mobilePhone=").append(getMobilePhone()).append("\n");

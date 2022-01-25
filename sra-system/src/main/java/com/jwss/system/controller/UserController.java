@@ -1,14 +1,18 @@
 package com.jwss.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.common.model.ApiResult;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
+import com.jwss.system.param.user.UserPageParam;
 import com.jwss.system.service.IUserService;
 import com.jwss.system.vo.LoginUserVO;
+import com.jwss.system.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +38,14 @@ public class UserController {
     public ApiResult<String> add(@Valid @RequestBody UserAddParam param){
         boolean b = userService.add(param);
         return ApiResult.flag(b);
+    }
+
+    @ApiOperation(value = "分页获取用户")
+    @SaCheckPermission("system:user:listByPage")
+    @PostMapping("/listByPage")
+    public ApiResult<Page<UserVO>> listByPage(@Valid @RequestBody UserPageParam param){
+        Page<UserVO> list = userService.listByPage(param);
+        return ApiResult.ok(list);
     }
 
     @ApiOperation(value = "用户登录")

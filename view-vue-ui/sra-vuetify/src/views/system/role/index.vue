@@ -1,245 +1,165 @@
 <template>
-  <v-data-table
-      :headers="headers"
-      :items="desserts"
-      sort-by="calories"
-      class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
     <template v-slot:top>
-      <v-toolbar
-          flat
-      >
-        <v-spacer></v-spacer>
-        <v-dialog
-            v-model="dialog"
-            max-width="500px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                color="primary"
-                dark
-                class="mb-2"
-                v-bind="attrs"
-                v-on="on"
-            >
-              New Item
+      <v-toolbar flat>
+        <v-row>
+          <v-col cols="9">
+            <v-btn color="primary" dark rounded class="mb-2" @click="editItem({}, 1)">
+              新建角色
             </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.name"
-                        label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.calories"
-                        label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.fat"
-                        label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.carbs"
-                        label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedItem.protein"
-                        label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="close"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="save"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+          </v-col>
+        </v-row>
+        <!-- 编辑对话框 -->
+        <role-edit :data="editedItem" :dialog-edit="dialogEdit" @close="closeEdit" />
+        <!-- 设置角色权限对话框 -->
+        <role-permission :show="dialogPermission" :item="editedItem" @close="dialogPermission = false"/>
+        <!-- 删除对话框 -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h5">确定删除该角色?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="dialogDelete = false">取消</v-btn>
+              <v-btn color="blue darken-1" text @click="del">删除</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
+    <!-- 操作 -->
     <template v-slot:item.actions="{ item }">
-      <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-      >
+      <v-icon small class="mr-2" @click="showPermissionDialog(item)">
+        mdi-cog
+      </v-icon>
+      <v-icon small class="mr-2" @click="editItem(item, 2)">
         mdi-pencil
       </v-icon>
-      <v-icon
-          small
-          @click="deleteItem(item)"
-      >
+      <v-icon small @click="deleteItem(item)">
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-          color="primary"
-          @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
+    <template v-slot:no-data>无数据</template>
   </v-data-table>
 </template>
 
 <script>
+import RoleEdit from "@/views/system/role/modules/role-edit";
+import {listByPage,del} from "@/api/system/role-api";
+import RolePermission from "@/views/system/role/modules/role-permission";
+
 export default {
   name: "RoleView",
+  components: {RolePermission, RoleEdit},
   data: () => ({
-    dialog: false,
+    // 删除对话框
     dialogDelete: false,
+    // 编辑对话框
+    dialogEdit: false,
+    // 权限设置对话框
+    dialogPermission: false,
+    // 角色列表
+    roleList: [],
+    // 表单标题
     headers: [
       { text: '角色名称', value: 'roleName' },
       { text: '角色标识', value: 'roleKey' },
+      { text: '创建时间', value: 'createTime' },
       { text: '备注', value: 'remark' },
-      { text: '创建时间', value: 'createTIme' },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: '操作', value: 'actions', sortable: false },
     ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-    defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
+    // 编辑项
+    editedItem: {},
+    // 分页参数
+    pageParam: {
+      pageSize: 10,
+      pageNo: 1,
+      recordCount: 0,
+      roleVO: {
+        roleName: '',
+        roleKey: ''
+      }
+    }
   }),
 
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    },
-  },
-
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-    dialogDelete (val) {
-      val || this.closeDelete()
-    },
-  },
+  watch: {},
 
   created () {
     this.initialize()
   },
 
   methods: {
+    /**
+     * 初始化数据
+     */
     initialize () {
+      let self = this;
+      self.$nextTick(function () {
+        listByPage(self.pageParam).then(res => {
+          if (res.code === 200) {
+            self.roleList = res.data.rows;
+            self.pageParam.recordCount = res.recordCount;
+          }
+        });
+      });
     },
-
-    editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+    /**
+     * 编辑弹窗
+     * @param item
+     * @param editType
+     */
+    editItem (item, editType) {
+      item.editType = editType;
+      this.editedItem = item;
+      this.dialogEdit = true;
     },
-
+    /**
+     * 删除弹窗
+      * @param item
+     */
     deleteItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+      this.editedItem = item;
+      this.dialogDelete = true;
     },
-
-    deleteItemConfirm () {
-      this.desserts.splice(this.editedIndex, 1)
-      this.closeDelete()
-    },
-
-    close () {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    closeDelete () {
-      this.dialogDelete = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    save () {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
+    /**
+     * 关闭编辑弹窗
+     * @param flag true表示获取数据
+     */
+    closeEdit(flag) {
+      this.dialogEdit = false;
+      if (flag) {
+        this.initialize();
       }
-      this.close()
     },
+    /**
+     * 删除菜单
+     */
+    del() {
+      del(this.editedItem.id).then(res => {
+        if (res.code === 200) {
+          this.initialize();
+          this.dialogDelete = false;
+        }
+      });
+    },
+    /**
+     * 显示权限设置对话框
+     */
+    showPermissionDialog(item) {
+      this.dialogPermission = true;
+      this.editedItem = item;
+    },
+    /**
+     * 页面发生改变
+     */
+    onPageChange(num) {
+      console.log(num)
+      this.pageParam.pageNo = num;
+      this.initialize();
+    }
   },
 }
 </script>

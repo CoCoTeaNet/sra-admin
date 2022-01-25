@@ -36,7 +36,6 @@ sra:
       # 登录
       - /user/login
       - /file/verificationCode
-      - /menu/**
 spring:
   mvc:
     pathmatch:

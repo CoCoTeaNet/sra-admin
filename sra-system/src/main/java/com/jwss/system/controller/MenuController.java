@@ -55,4 +55,11 @@ public class MenuController {
         List<MenuVO> menus = menuService.listByTree();
         return ApiResult.ok(menus);
     }
+
+    @ApiOperation("获取菜单树")
+    @GetMapping("listByRoleId/{roleId}")
+    public ApiResult<List<MenuVO>> listByRoleId(@PathVariable String roleId) {
+        List<MenuVO> menus = menuService.listByRoleId(roleId);
+        return ApiResult.ok(menus);
+    }
 }

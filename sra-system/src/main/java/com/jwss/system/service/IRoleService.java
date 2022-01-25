@@ -2,9 +2,11 @@ package com.jwss.system.service;
 
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.role.RoleAddParam;
+import com.jwss.system.param.role.RolePageParam;
 import com.jwss.system.param.role.RoleUpdateParam;
 import com.jwss.system.vo.RoleMenuVO;
 import com.jwss.system.vo.RoleVO;
+import org.sagacity.sqltoy.model.Page;
 
 import java.util.List;
 
@@ -40,8 +42,9 @@ public interface IRoleService {
      * 给角色赋予权限
      * @param roleMenuVOList 角色菜单列表
      * @return 成功返回true
+     * @throws BusinessException 业务异常
      */
-    boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList);
+    boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException;
 
     /**
      * 删除角色
@@ -49,4 +52,11 @@ public interface IRoleService {
      * @return 成功返回true
      */
     boolean delete(String id);
+
+    /**
+     * 分页获取角色
+     * @param param 分页参数
+     * @return 角色分页集合
+     */
+    Page<RoleVO> listByPage(RolePageParam param);
 }

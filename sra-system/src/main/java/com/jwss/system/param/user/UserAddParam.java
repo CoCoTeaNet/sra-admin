@@ -19,17 +19,29 @@ public class UserAddParam implements Serializable {
 	/**
 	 * 用户账号
 	 */
-	@NotBlank(message = "账号名不能为空")
+	@NotBlank(message = "账号名为空")
 	@ApiModelProperty(name = "用户账号", required = true)
 	private String username;
 	
 	/**
 	 * 密码
 	 */
-	@NotBlank(message = "密码不能为空")
+	@NotBlank(message = "密码为空")
 	@ApiModelProperty(name = "用户密码", required = true)
 	private String password;
-	
+
+	@NotBlank(message = "角色ID为空")
+	@ApiModelProperty(name = "角色ID", required = true)
+	private String roleId;
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
 	/**
 	 *@param username the username to set
 	 */
