@@ -82,7 +82,7 @@
                 placeholder="图标名称"
                 :counter="255"
                 :rules="[
-                  (v) => (v && v.length <= 255) || '图标名称长度不能超过255个字符'
+                  (v) => (v.length <= 255) || '图标名称长度不能超过255个字符'
               ]"
             ></v-text-field>
           </v-form>

@@ -6,7 +6,7 @@ spring:
     # 配置sql文件路径,多个用逗号分割
     sqlResourcesDir: classpath:mapper
     # 默认为false，debug模式将打印执行sql,并自动检测sql文件更新并重新加载
-    debug: true
+    debug: false
   datasource:
     name: dataSource
     type: com.alibaba.druid.pool.DruidDataSource

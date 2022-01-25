@@ -21,6 +21,7 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
+        // TODO 目前是直接操作数据库获取权限集合，性能较低，后期需要缓存到Redis
         List<MenuVO> menuList = menuService.listByUserId();
         List<String> list = new ArrayList<>();
         menuList.forEach(item -> list.add(item.getPermissionCode()));

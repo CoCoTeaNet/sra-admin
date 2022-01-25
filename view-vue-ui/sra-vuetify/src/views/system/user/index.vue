@@ -31,11 +31,15 @@
           </v-dialog>
         </v-toolbar>
       </template>
+      <!-- 格式化数据 -->
+      <template v-slot:item.sex="{ item }">
+        <span>{{getSexText(item.sex)}}</span>
+      </template>
+      <template v-slot:item.accountStatus="{ item }">
+        <span>{{getAccountStatusText(item.accountStatus)}}</span>
+      </template>
       <!-- 操作 -->
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="showPermissionDialog(item)">
-          mdi-cog
-        </v-icon>
         <v-icon small class="mr-2" @click="editItem(item, 2)">
           mdi-pencil
         </v-icon>
@@ -49,8 +53,9 @@
 </template>
 
 <script>
-import {del, listByPage} from "@/api/system/role-api";
+import {listByPage} from "@/api/system/user-api";
 import UserEdit from "@/views/system/user/modules/user-edit";
+import {getSexText,getAccountStatusText} from "@/utils/format-util";
 
 export default {
   name: "UserView",
@@ -66,10 +71,12 @@ export default {
     roleList: [],
     // 表单标题
     headers: [
-      { text: '角色名称', value: 'roleName' },
-      { text: '角色标识', value: 'roleKey' },
-      { text: '创建时间', value: 'createTime' },
-      { text: '备注', value: 'remark' },
+      { text: '用户账号', value: 'username' },
+      { text: '用户昵称', value: 'nickname' },
+      { text: '用户角色', value: 'roleName' },
+      { text: '用户邮箱', value: 'email' },
+      { text: '性别', value: 'sex' },
+      { text: '账号状态', value: 'accountStatus' },
       { text: '操作', value: 'actions', sortable: false },
     ],
     // 编辑项
@@ -79,9 +86,9 @@ export default {
       pageSize: 10,
       pageNo: 1,
       recordCount: 0,
-      roleVO: {
-        roleName: '',
-        roleKey: ''
+      userVO: {
+        username: '',
+        nickname: ''
       }
     }
   }),
@@ -136,30 +143,28 @@ export default {
       }
     },
     /**
-     * 删除菜单
+     * 删除用户
      */
     del() {
-      del(this.editedItem.id).then(res => {
-        if (res.code === 200) {
-          this.initialize();
-          this.dialogDelete = false;
-        }
-      });
-    },
-    /**
-     * 显示权限设置对话框
-     */
-    showPermissionDialog(item) {
-      this.dialogPermission = true;
-      this.editedItem = item;
+      // del(this.editedItem.id).then(res => {
+      //   if (res.code === 200) {
+      //     this.initialize();
+      //     this.dialogDelete = false;
+      //   }
+      // });
     },
     /**
      * 页面发生改变
      */
     onPageChange(num) {
-      console.log(num)
       this.pageParam.pageNo = num;
       this.initialize();
+    },
+    getSexText(num) {
+      return getSexText(num);
+    },
+    getAccountStatusText(num) {
+      return getAccountStatusText(num);
     }
   },
 }

@@ -5,7 +5,7 @@
         <span class="text-h5">设置角色权限</span>
       </v-card-title>
       <!-- 权限列表 -->
-      <v-treeview :items="items" selectable @input="input" v-model="selectedPermissions">
+      <v-treeview :items="items" selectable selection-type="independent" v-model="selectedPermissions">
         <template v-slot:label="{ item }">
           <span>{{ item.menuName }}</span>
         </template>
@@ -91,9 +91,6 @@ export default {
     close() {
       this.$emit('close');
     },
-    input(arr) {
-      // this.selectedPermissions = arr;
-    }
   }
 }
 </script>

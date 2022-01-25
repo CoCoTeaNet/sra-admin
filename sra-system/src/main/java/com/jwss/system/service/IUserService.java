@@ -3,6 +3,7 @@ package com.jwss.system.service;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.param.user.UserAddParam;
 import com.jwss.system.param.user.UserLoginParam;
+import com.jwss.system.param.user.UserPageParam;
 import com.jwss.system.vo.LoginUserVO;
 import com.jwss.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
@@ -18,6 +19,13 @@ public interface IUserService {
      * @return 成功返回TRUE
      */
     boolean add(UserAddParam param);
+
+    /**
+     * 用户分页参数
+     * @param param 分页参数
+     * @return 用户分页集合
+     */
+    Page<UserVO> listByPage(UserPageParam param);
 
     /**
      * 用户登录

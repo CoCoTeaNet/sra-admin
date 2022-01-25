@@ -42,6 +42,7 @@ public interface IRoleService {
      * 给角色赋予权限
      * @param roleMenuVOList 角色菜单列表
      * @return 成功返回true
+     * @throws BusinessException 业务异常
      */
     boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException;
 
@@ -54,6 +55,7 @@ public interface IRoleService {
 
     /**
      * 分页获取角色
+     * @param param 分页参数
      * @return 角色分页集合
      */
     Page<RoleVO> listByPage(RolePageParam param);

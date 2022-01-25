@@ -10,33 +10,34 @@
       <v-card-text>
         <v-form ref="form" v-model="valid">
           <v-text-field
-              v-model="editedItem.roleName"
-              label="角色名称"
-              placeholder="角色名称"
+              v-model="editedItem.username"
+              label="账号名"
+              placeholder="账号名"
               :counter="30"
               :rules="[
-                  (v) => !!v || '角色名称为空',
-                  (v) => (v && v.length <= 30) || '角色名称长度不能超过30个字符'
+                  (v) => !!v || '账号名为空',
+                  (v) => (v && v.length <= 30) || '账号名长度不能超过30个字符'
               ]"
           ></v-text-field>
 
           <v-text-field
-              v-model="editedItem.roleKey"
-              label="角色编号"
-              placeholder="角色编号"
-              :counter="100"
+              v-model="editedItem.password"
+              label="用户密码"
+              placeholder="用户密码"
+              :counter="30"
               :rules="[
-                  (v) => !!v || '角色编号为空',
-                  (v) => (v && v.length <= 100) || '角色编号长度不能超过100个字符'
+                  (v) => !!v || '用户密码为空',
+                  (v) => (v && v.length <= 30) || '用户密码长度不能超过30个字符'
               ]"
           ></v-text-field>
 
-          <v-text-field
-              v-model="editedItem.sort"
-              label="显示顺序"
-              type="number"
-              placeholder="显示顺序"
-          ></v-text-field>
+          <v-select
+              v-model="selectRole"
+              :items="roleList"
+              item-text="roleName"
+              item-value="id"
+              label="选择角色"
+          ></v-select>
         </v-form>
       </v-card-text>
 
@@ -56,7 +57,8 @@
 </template>
 
 <script>
-import {add, update} from "@/api/system/role-api";
+import {listByPage} from "@/api/system/role-api";
+import {add} from "@/api/system/user-api";
 import CommonTip from "@/components/common/tip";
 
 export default {
@@ -69,8 +71,24 @@ export default {
   data() {
     return {
       editedItem: {},
-      valid: true
+      valid: true,
+      // 分页参数
+      pageParam: {
+        pageSize: 10,
+        pageNo: 1,
+        recordCount: 0,
+        roleVO: {
+          roleName: '',
+          roleKey: ''
+        }
+      },
+      selectRole: {roleId: '', roleName: ''},
+      // 角色列表
+      roleList: []
     }
+  },
+  created() {
+    this.roleListByPage();
   },
   watch: {
     dialogEdit: {
@@ -91,6 +109,7 @@ export default {
       let param = this.editedItem;
       let res;
       if (this.editedItem.editType === 1) {
+        param.roleId = this.selectRole;
         res = await add(param);
       } else if (this.editedItem.editType === 2) {
         res = await update(param);
@@ -107,6 +126,16 @@ export default {
     close() {
       this.$emit('close', false);
     },
+    /**
+     * 搜索角色列表
+     */
+    roleListByPage() {
+      listByPage(this.pageParam).then(res => {
+        if (res.code === 200) {
+          this.roleList = res.data.rows;
+        }
+      });
+    }
   }
 }
 </script>
