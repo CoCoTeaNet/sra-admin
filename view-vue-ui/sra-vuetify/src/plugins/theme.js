@@ -7,7 +7,7 @@ export default {
     theme: {
         themes: {
             light: {
-                primary: colors.indigo.accent1,
+                primary: colors.teal.lighten1,
                 secondary: colors.red.lighten4,
                 accent: colors.indigo.base,
             },

@@ -42,9 +42,10 @@ public interface IMenuService {
 
     /**
      * 获取用户的所有菜单
+     * @param isMenu 是否菜单
      * @return 用户菜单集合
      */
-    List<MenuVO> listByUserId();
+    List<MenuVO> listByUserId(String isMenu);
 
     /**
      * 删除菜单以及所有子菜单

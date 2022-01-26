@@ -2,6 +2,8 @@ package com.jwss.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.common.enums.AccountStatusEnum;
+import com.jwss.common.enums.IsSomethingEnum;
+import com.jwss.common.enums.MenuTypeEnum;
 import com.jwss.common.enums.SexEnum;
 import com.jwss.common.model.BusinessException;
 import com.jwss.system.entity.User;
@@ -66,7 +68,7 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
         loginUserVO.setUserDetail(sqlToyLazyDao.convertType(user, UserVO.class));
-        loginUserVO.setPermissions(menuService.listByUserId());
+        loginUserVO.setPermissions(menuService.listByUserId(IsSomethingEnum.YSE.getCode()));
         // TODO 缓存权限
         return loginUserVO;
     }

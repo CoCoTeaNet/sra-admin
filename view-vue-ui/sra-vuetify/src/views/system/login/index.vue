@@ -12,6 +12,7 @@
         :rules="usernameRules"
         label="账号名称"
         required
+        @keyup.enter="validate"
       ></v-text-field>
 
       <v-text-field
@@ -20,10 +21,12 @@
         :rules="passwordRules"
         label="账号密码"
         required
+        type="password"
+        @keyup.enter="validate"
       ></v-text-field>
 
       <div style="display: flex;align-items: center">
-        <v-text-field v-model="verifyCode" :counter="4" :rules="verifyCodeRules" label="验证码" required>
+        <v-text-field @keyup.enter="validate" v-model="verifyCode" :counter="4" :rules="verifyCodeRules" label="验证码" required>
         </v-text-field>
         <img style="width: 100px;height: 50px" :src="`data:image/jpeg;base64,${codeImageBase64}`" alt="codeImage">
       </div>

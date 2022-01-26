@@ -88,9 +88,10 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<MenuVO> listByUserId() {
+    public List<MenuVO> listByUserId(String isMenu) {
         Map<String, Object> hashMap = new HashMap<>(1);
         hashMap.put("userId", StpUtil.getLoginId());
+        hashMap.put("isMenu", isMenu);
         List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findUserPermission", hashMap, MenuVO.class);
         return menuVOList;
     }

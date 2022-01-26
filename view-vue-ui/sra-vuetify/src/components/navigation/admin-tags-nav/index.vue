@@ -1,7 +1,7 @@
 <template>
   <v-breadcrumbs :items="items" class="pl-1">
     <template v-slot:item="{ item }">
-      <v-breadcrumbs-item :disabled="item.disabled" :to="item.href">
+      <v-breadcrumbs-item :disabled="item.disabled" href="#" @click="$router.push({path: item.href})">
         {{ item.text.toUpperCase() }}
       </v-breadcrumbs-item>
     </template>

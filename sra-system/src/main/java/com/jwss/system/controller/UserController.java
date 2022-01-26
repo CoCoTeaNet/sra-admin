@@ -34,6 +34,7 @@ public class UserController {
     private IUserService userService;
 
     @ApiOperation(value = "新增用户")
+    @SaCheckPermission("system:user:add")
     @PostMapping("/add")
     public ApiResult<String> add(@Valid @RequestBody UserAddParam param){
         boolean b = userService.add(param);

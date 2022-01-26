@@ -1,6 +1,8 @@
 package com.jwss.system.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.jwss.common.enums.IsSomethingEnum;
+import com.jwss.common.enums.MenuTypeEnum;
 import com.jwss.system.service.IMenuService;
 import com.jwss.system.vo.MenuVO;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         // TODO 目前是直接操作数据库获取权限集合，性能较低，后期需要缓存到Redis
-        List<MenuVO> menuList = menuService.listByUserId();
+        List<MenuVO> menuList = menuService.listByUserId(IsSomethingEnum.NO.getCode());
         List<String> list = new ArrayList<>();
         menuList.forEach(item -> list.add(item.getPermissionCode()));
         return list;

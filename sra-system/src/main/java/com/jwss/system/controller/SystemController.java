@@ -1,7 +1,7 @@
 package com.jwss.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.jwss.common.model.ApiResult;
-import com.jwss.system.vo.SystemInfoVO;
 import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,22 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @date 2022-1-12 14:25:41
+ * @date 2022-1-26 11:36:32
  * @author jwss
  */
-@Api(tags = "测试接口")
+@Api(tags = "仪表盘接口")
 @Validated
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/dashboard")
+public class SystemController {
 
     @GetMapping("index")
+    @SaCheckPermission("system:dashboard:getSystemInfo")
     public ApiResult<String> index() {
         return ApiResult.ok("Hello sss-rbac-admin.");
     }
 
-    @GetMapping("result")
-    public ApiResult<SystemInfoVO> getResult() {
-        return ApiResult.ok(new SystemInfoVO());
-    }
 }
