@@ -15,7 +15,6 @@
         <module>sra-config</module>
         <module>sra-framework</module>
         <module>sra-system</module>
-        <module>sra-generator</module>
     </modules>
 
     <properties>
