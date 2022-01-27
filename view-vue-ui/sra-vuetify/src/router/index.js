@@ -15,16 +15,17 @@ Vue.use(VueRouter);
  * 路由配置
  */
 const routes = [
-    { path: '/login', component: () => import('@/layout/login-layout') },
+    {path: '/login', meta:{title: '系统登录'}, component: () => import('@/layout/login-layout')},
     {
         path: '/admin',
-        name: 'HOME',
+        name: 'home',
+        meta:{title: '系统首页'},
         component: () => import('@/layout/admin-layout'),
         children: [
-            { path: 'home', name: 'Dashboard', component: () => import('@/views/system/home/index') },
-            { path: 'menu', name: '菜单管理', component: () => import('@/views/system/menu/index') },
-            { path: 'role', name: '角色管理', component: () => import('@/views/system/role/index') },
-            { path: 'user', name: '用户管理', component: () => import('@/views/system/user/index') },
+            {path: 'home', name: 'Dashboard', meta:{title: 'Dashboard'}, component: () => import('@/views/system/home/index')},
+            {path: 'menu', name: '菜单管理', meta:{title: '菜单管理'}, component: () => import('@/views/system/menu/index')},
+            {path: 'role', name: '角色管理', meta:{title: '角色管理'}, component: () => import('@/views/system/role/index')},
+            {path: 'user', name: '用户管理', meta:{title: '用户管理'}, component: () => import('@/views/system/user/index')},
         ]
     }
 ]
@@ -45,14 +46,25 @@ router.beforeEach((to, from, next) => {
     let adminFlag = /\/admin\/*/.test(to.path);
     // 如果认证了直接跳转admin首页
     if (!adminFlag && isAuthenticated || to.path === '/admin') {
-        next({ path: '/admin/home' });
+        next({path: '/admin/home'});
     }
     // 如果未认证且不是跳转登录页就重定向到登录页
     if (to.path !== '/login' && !isAuthenticated) {
-        next({ path: `/login?from=${encodeURI(to.path)}`});
+        next({path: `/login?from=${encodeURI(to.path)}`});
     } else {
         next();
     }
 })
+
+router.afterEach(function (to, from) {
+    let title = '';
+    to.matched.forEach((item, index) => {
+        title += item.meta.title + (index === to.matched.length - 1 ? '' : ' - ');
+    });
+    // 动态刷新title
+    if(title){
+        document.title = title;
+    }
+});
 
 export default router;

@@ -7,7 +7,7 @@
     <groupId>com.jwss</groupId>
     <artifactId>sss-rbac-admin</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <modules>
         <module>sra-bootstrap</module>
@@ -15,7 +15,6 @@
         <module>sra-config</module>
         <module>sra-framework</module>
         <module>sra-system</module>
-        <module>code-generator</module>
     </modules>
 
     <properties>

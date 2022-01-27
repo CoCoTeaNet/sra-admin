@@ -3,12 +3,14 @@
     <v-dialog v-model="showDialog" max-width="500px" persistent>
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{ editedItem.editType === 1 ? '编辑菜单' : '新增菜单' }}</span>
+          <span class="text-h5" v-if="editedItem.editType !== 0">
+            {{ editedItem.editType === 1 ? '编辑菜单' : '新增菜单' }}
+          </span>
         </v-card-title>
 
         <v-card-text>
           <!-- 表单 -->
-          <v-form ref="form" v-model="valid">
+          <v-form ref="form" v-model="valid" :disabled="editedItem.editType === 0">
             <v-text-field
                 v-model="editedItem.menuName"
                 label="菜单名称"
@@ -61,13 +63,12 @@
             ></v-text-field>
 
             <v-text-field
-                v-model="editedItem.componentPath"
-                label="组件路径"
-                placeholder="组件路径"
-                :counter="64"
-                :rules="[
-                  (v) => !!v || '组件路径为空',
-                  (v) => (v && v.length <= 64) || '组件路径长度不能超过64个字符'
+              v-model="editedItem.componentPath"
+              label="组件路径"
+              placeholder="组件路径"
+              :counter="64"
+              :rules="[
+                (v) => (v.length <= 64) || '组件路径长度不能超过64个字符'
               ]"
             ></v-text-field>
 
@@ -77,12 +78,12 @@
             </v-radio-group>
 
             <v-text-field
-                v-model="editedItem.iconPath"
-                label="图标名称（可从vuetifyjs官网查找）"
-                placeholder="图标名称"
-                :counter="255"
-                :rules="[
-                  (v) => (v.length <= 255) || '图标名称长度不能超过255个字符'
+              v-model="editedItem.iconPath"
+              label="图标名称（可从vuetifyjs官网查找）"
+              placeholder="图标名称"
+              :counter="255"
+              :rules="[
+                (v) => (v.length <= 255) || '图标名称长度不能超过255个字符'
               ]"
             ></v-text-field>
           </v-form>
@@ -91,7 +92,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="close">取消</v-btn>
-          <v-btn color="blue darken-1" text @click="save">保存</v-btn>
+          <v-btn color="blue darken-1" text @click="save" v-if="editedItem.editType !== 0">保存</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

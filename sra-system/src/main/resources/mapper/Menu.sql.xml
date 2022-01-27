@@ -48,6 +48,7 @@
                 from sys_menu
                 where ID in
                       (select MENU_ID from sys_role_menu where ROLE_ID in (select ROLE_ID from sys_user_role where USER_ID = :userId))
+                  #[and sys_menu.IS_MENU = :isMenu]
                   and DELETE_STATUS = 1
                 ORDER BY SORT, CREATE_TIME desc
             ]]>

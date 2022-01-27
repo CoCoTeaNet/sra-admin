@@ -73,9 +73,9 @@ export default {
         // 删除提示
         this.deleteItem = item;
         this.dialogDelete = true;
-      } if (editType === 2) {
-        this.saveItem();
-      } else {
+      } else if (editType === 2) {
+        this.saveItem(item);
+      } else if (editType === 0 || editType === 1){
         this.editedItem = item;
         this.editedItem.editType = editType;
         this.dialogEdit = true;
@@ -84,8 +84,8 @@ export default {
     /**
      * 新增菜单
      */
-    saveItem() {
-      this.editedItem = {};
+    saveItem(item) {
+      this.editedItem = item;
       this.editedItem.editType = 2;
       this.dialogEdit = true;
     },
