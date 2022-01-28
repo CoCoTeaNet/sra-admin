@@ -16,7 +16,7 @@ public enum SexEnum {
     /**
      * 女
      */
-    WOMAN(1, "女");
+    WOMAN(2, "女");
 
     Integer code;
     String desc;

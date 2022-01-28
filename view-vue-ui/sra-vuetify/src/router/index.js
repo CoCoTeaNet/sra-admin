@@ -22,7 +22,7 @@ const routes = [
         meta:{title: '系统首页'},
         component: () => import('@/layout/admin-layout'),
         children: [
-            {path: 'home', name: 'Dashboard', meta:{title: 'Dashboard'}, component: () => import('@/views/system/home/index')},
+            {path: 'home', name: '仪表盘', meta:{title: '仪表盘'}, component: () => import('@/views/system/home/index')},
             {path: 'menu', name: '菜单管理', meta:{title: '菜单管理'}, component: () => import('@/views/system/menu/index')},
             {path: 'role', name: '角色管理', meta:{title: '角色管理'}, component: () => import('@/views/system/role/index')},
             {path: 'user', name: '用户管理', meta:{title: '用户管理'}, component: () => import('@/views/system/user/index')},
