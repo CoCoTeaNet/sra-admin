@@ -4,6 +4,7 @@ import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
 import com.jwss.sra.system.param.user.UserPageParam;
+import com.jwss.sra.system.param.user.UserUpdateParam;
 import com.jwss.sra.system.vo.LoginUserVO;
 import com.jwss.sra.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
@@ -19,6 +20,20 @@ public interface IUserService {
      * @return 成功返回TRUE
      */
     boolean add(UserAddParam param);
+
+    /**
+     * 更新用户
+     * @param param 更新用户参数
+     * @return 成功返回true
+     */
+    boolean update(UserUpdateParam param);
+
+    /**
+     * 删除用户
+     * @param id 主键id
+     * @return 成功返回true
+     */
+    boolean delete(String id);
 
     /**
      * 用户分页参数

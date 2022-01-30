@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
+  <v-data-table :loading="tableLoading" :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
     <template v-slot:top>
       <v-toolbar flat>
         <v-row>
@@ -82,7 +82,9 @@ export default {
         roleName: '',
         roleKey: ''
       }
-    }
+    },
+    // 表格loading状态
+    tableLoading: true
   }),
 
   watch: {},
@@ -102,6 +104,7 @@ export default {
           if (res.code === 200) {
             self.roleList = res.data.rows;
             self.pageParam.recordCount = res.recordCount;
+            self.tableLoading = false;
           }
         });
       });

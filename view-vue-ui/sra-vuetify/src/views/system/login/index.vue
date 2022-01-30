@@ -50,6 +50,7 @@
 <script>
 import { verificationCode } from "@/api/system/file-api";
 import { login } from "@/api/system/user-api";
+import { passwordRule } from "@/utils/rules-util";
 
 export default {
   // 登录页面
@@ -66,7 +67,7 @@ export default {
     password: "",
     passwordRules: [
       (v) => !!v || "密码为空",
-      (v) => /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/.test(v) || "密码中必须包含字母、数字，至少6个字符，最多30个字符",
+      (v) => passwordRule().rule.test(v) || passwordRule().message,
     ],
     // 验证码
     verifyCode: "",

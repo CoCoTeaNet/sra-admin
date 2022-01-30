@@ -1,6 +1,6 @@
 <template>
   <v-app id="userManager">
-    <v-data-table :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
+    <v-data-table :loading="tableLoading" :headers="headers" :items="roleList" class="elevation-1" @update:page="onPageChange">
       <template v-slot:top>
         <v-toolbar flat>
           <v-row>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import {listByPage} from "@/api/system/user-api";
+import {listByPage, del} from "@/api/system/user-api";
 import UserEdit from "@/views/system/user/modules/user-edit";
 import {getSexText,getAccountStatusText} from "@/utils/format-util";
 
@@ -90,7 +90,9 @@ export default {
         username: '',
         nickname: ''
       }
-    }
+    },
+    // 表格加载
+    tableLoading: true
   }),
 
   watch: {},
@@ -110,6 +112,7 @@ export default {
           if (res.code === 200) {
             self.roleList = res.data.rows;
             self.pageParam.recordCount = res.recordCount;
+            self.tableLoading = false;
           }
         });
       });
@@ -146,12 +149,12 @@ export default {
      * 删除用户
      */
     del() {
-      // del(this.editedItem.id).then(res => {
-      //   if (res.code === 200) {
-      //     this.initialize();
-      //     this.dialogDelete = false;
-      //   }
-      // });
+      del(this.editedItem.id).then(res => {
+        if (res.code === 200) {
+          this.initialize();
+          this.dialogDelete = false;
+        }
+      });
     },
     /**
      * 页面发生改变

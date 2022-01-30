@@ -114,14 +114,16 @@ export default {
   data: () => ({
     valid: true,
     saveParam: {},
-    editedItem: {}
+    editedItem: {menuType:"1", isMenu:"0", sort:1, componentPath: '', isExternalLink:"1", iconPath:''}
   }),
   watch: {
     // 监听窗口，用于给表单赋值
     showDialog: {
       immediate: true,
       handler(val) {
-        this.editedItem = JSON.parse(JSON.stringify(this.item));
+        if(this.item.id) {
+          this.editedItem = JSON.parse(JSON.stringify(this.item));
+        }
       }
     }
   },

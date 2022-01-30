@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
      **/
     @ExceptionHandler(Exception.class)
     public ApiResult<String> handlerException(Exception e) {
-        logger.error("error :" + e);
+        logger.error("error :" + e.getMessage());
         if (e instanceof NotLoginException) {
             return ApiResult.error(ApiResultEnum.NOT_LOGIN.getDesc(), ApiResultEnum.NOT_LOGIN.getCode());
         } else if (e instanceof NotPermissionException){

@@ -14,7 +14,7 @@
     </v-app-bar>
 
     <!-- 主要内容 -->
-    <v-main>
+    <v-main class="grey lighten-3">
       <v-divider></v-divider>
       <v-container>
         <transition name="slide-fade" mode="out-in">
