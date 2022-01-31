@@ -1,5 +1,5 @@
 <template>
-  <v-app id="home">
+  <v-app id="home" class="pa-2">
     <v-row>
       <v-col><system-count/></v-col>
     </v-row>

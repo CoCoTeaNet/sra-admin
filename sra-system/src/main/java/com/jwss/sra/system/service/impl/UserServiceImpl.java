@@ -7,6 +7,7 @@ import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.common.enums.SexEnum;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.system.param.role.RoleUpdateParam;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
 import com.jwss.sra.system.entity.User;
@@ -14,6 +15,7 @@ import com.jwss.sra.system.entity.UserRole;
 import com.jwss.sra.system.param.user.UserPageParam;
 import com.jwss.sra.system.param.user.UserUpdateParam;
 import com.jwss.sra.system.service.IMenuService;
+import com.jwss.sra.system.service.IRoleService;
 import com.jwss.sra.system.service.IUserService;
 import com.jwss.sra.system.vo.LoginUserVO;
 import com.jwss.sra.system.vo.UserVO;
@@ -37,6 +39,9 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private IMenuService menuService;
 
+    @Resource
+    private IRoleService roleService;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean add(UserAddParam param) {
@@ -56,10 +61,17 @@ public class UserServiceImpl implements IUserService {
         return userId != null && roleId != null;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean update(UserUpdateParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
         Long aLong = sqlToyLazyDao.update(user);
+        // 更新用户角色
+        if(!StringUtils.isEmpty(param.getRoleId())){
+            sqlToyLazyDao.deleteByQuery(UserRole.class,EntityQuery.create().where("USER_ID=:userId").names("userId").values(param.getId()));
+            UserRole userRole = new UserRole().setUserId(param.getId()).setRoleId(param.getRoleId());
+            sqlToyLazyDao.save(userRole);
+        }
         return aLong > 0;
     }
 

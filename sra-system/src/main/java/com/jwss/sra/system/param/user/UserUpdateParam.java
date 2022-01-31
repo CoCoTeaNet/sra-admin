@@ -34,8 +34,7 @@ public class UserUpdateParam implements Serializable {
 	@ApiModelProperty(name = "用户密码")
 	private String password;
 
-	@NotBlank(message = "角色ID为空")
-	@ApiModelProperty(name = "角色ID", required = true)
+	@ApiModelProperty(name = "角色ID")
 	private String roleId;
 
 	public String getId() {

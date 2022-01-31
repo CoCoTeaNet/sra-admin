@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
-@ApiModel("菜单新增参数")
+@ApiModel("菜单更新参数")
 public class MenuUpdateParam implements Serializable {
 
 	private static final long serialVersionUID = -4698497422245539378L;

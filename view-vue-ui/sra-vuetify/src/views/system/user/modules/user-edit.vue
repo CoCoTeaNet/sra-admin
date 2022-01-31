@@ -114,6 +114,7 @@ export default {
         param.roleId = this.selectRole;
         res = await add(param);
       } else if (this.editedItem.editType === 2) {
+        param.roleId = this.selectRole;
         res = await update(param);
       }
       if (res.code === 200) {

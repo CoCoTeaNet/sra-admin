@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_user,系统用户表  
  */
-@ApiModel(value = "新增用户参数")
+@ApiModel(value = "用户登录参数")
 public class UserLoginParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
