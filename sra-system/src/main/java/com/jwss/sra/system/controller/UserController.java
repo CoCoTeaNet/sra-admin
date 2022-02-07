@@ -1,9 +1,12 @@
 package com.jwss.sra.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.framework.constant.RedisKey;
+import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
 import com.jwss.sra.system.param.user.UserPageParam;
@@ -30,6 +33,8 @@ import javax.validation.Valid;
 public class UserController {
     @Resource
     private IUserService userService;
+    @Resource
+    private IRedisService redisService;
 
     @ApiOperation(value = "新增用户")
     @SaCheckPermission("system:user:add")
@@ -74,6 +79,15 @@ public class UserController {
     @PostMapping("/logout")
     public ApiResult<String> logout(){
         StpUtil.logout();
+        return ApiResult.ok();
+    }
+
+    @ApiOperation(value = "记录用户在线状态")
+    @SaCheckLogin
+    @PostMapping("/online")
+    public ApiResult<String> online(){
+        String loginId = String.valueOf(StpUtil.getLoginId());
+        redisService.save(String.format(RedisKey.ONLINE_USER, loginId), loginId,30L);
         return ApiResult.ok();
     }
 }

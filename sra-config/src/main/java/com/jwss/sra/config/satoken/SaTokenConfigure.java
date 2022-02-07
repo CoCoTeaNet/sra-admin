@@ -35,17 +35,6 @@ public class SaTokenConfigure implements WebMvcConfigurer{
         SaServletFilter saServletFilter = new SaServletFilter()
             // 指定 拦截路由
             .addInclude("/**")
-            // 认证函数: 每次请求执行
-            .setAuth(obj -> {
-                logger.info("---------- 进入Sa-Token全局认证 -----------");
-                // 登录认证 -- 拦截所有路由，并排除/user/doLogin 用于开放登录
-                SaRouter.match("/**", "/user/doLogin", StpUtil::checkLogin);
-            })
-            // 异常处理函数：每次认证函数发生异常时执行此函数
-            .setError(e -> {
-                logger.error("---------- 进入Sa-Token异常处理 -----------");
-                return e.getMessage();
-            })
             // 前置函数：在每次认证函数之前执行
             .setBeforeAuth(r -> {
                 // ---------- 设置一些安全响应头 ----------

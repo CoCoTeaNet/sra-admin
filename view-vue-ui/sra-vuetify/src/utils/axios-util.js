@@ -53,5 +53,11 @@ export async function request(url, data, method) {
             }
         }
     );
+    // 判断请求状态
+    if (res.data.code === 4001) {
+        // 未登录
+        window.location.href = '/login';
+        localStorage.setItem("userInfo", null);
+    }
     return res.data;
 }

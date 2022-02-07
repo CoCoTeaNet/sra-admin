@@ -48,3 +48,10 @@ export function login(data) {
 export function logout() {
     return request('user/logout', {}, 'POST');
 }
+
+/**
+ * 记录用户在线状态
+ */
+export function online() {
+    return request('user/online', {}, 'POST');
+}

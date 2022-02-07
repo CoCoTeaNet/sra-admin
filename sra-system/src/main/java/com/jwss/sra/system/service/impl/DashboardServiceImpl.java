@@ -1,5 +1,8 @@
 package com.jwss.sra.system.service.impl;
 
+import com.jwss.sra.common.util.StringUtils;
+import com.jwss.sra.framework.constant.RedisKey;
+import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.system.service.IDashboardService;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import java.util.Map;
 public class DashboardServiceImpl implements IDashboardService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
+    @Resource
+    private IRedisService IRedisService;
 
     @Override
     public List<Map<String, Object>> getCount() {
@@ -39,7 +44,9 @@ public class DashboardServiceImpl implements IDashboardService {
         hashMap.put("title", "角色数量");
         hashMap.put("count", countRole);
         mapList.add(hashMap);
-        Long countOnline = 0L;
+        Long countOnline = (long) IRedisService.keys(
+                String.format(RedisKey.ONLINE_USER, StringUtils.ASTERISK)
+        ).size();
         hashMap=new HashMap<>(2);
         hashMap.put("title", "在线用户");
         hashMap.put("count", countOnline);

@@ -4,7 +4,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.framework.constant.RedisKey;
-import com.jwss.sra.framework.service.RedisService;
+import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.system.param.file.VerificationCodeParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/file")
 public class FileController {
     @Resource
-    private RedisService redisService;
+    private IRedisService IRedisService;
 
     @ApiOperation(value = "验证码生成")
     @PostMapping("/verificationCode")
@@ -33,7 +33,7 @@ public class FileController {
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(
                 200, 100, 4, 20
         );
-        redisService.save(
+        IRedisService.save(
                 String.format(RedisKey.VERIFY_CODE, param.getCodeType(), param.getOtherParam()),
                 captcha.getCode(),
                 300L

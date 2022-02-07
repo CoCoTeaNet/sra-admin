@@ -9,4 +9,9 @@ public class StringUtils {
      * 空字符串
      */
     public final static String EMPTY_STRING = "";
+
+    /**
+     * 星号通配符 *
+     */
+    public final static String ASTERISK = "*";
 }

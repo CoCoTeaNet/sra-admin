@@ -1,9 +1,11 @@
 package com.jwss.sra.framework.service;
 
+import java.util.Set;
+
 /**
  * @author jwss
  */
-public interface RedisService {
+public interface IRedisService {
     /**
      * 保存方法，时间为秒
      *
@@ -44,4 +46,19 @@ public interface RedisService {
      * @return 值
      */
     String get(String key);
+
+    /**
+     * 哈希
+     * @param key 集合key
+     * @param hashKey 元素key
+     * @param value 元素值
+     */
+    void hashPut(String key, String hashKey, String value);
+
+    /**
+     * 匹配键
+     * @param pattern 正则表达式
+     * @return 键集合
+     */
+    Set<String> keys(String pattern);
 }
