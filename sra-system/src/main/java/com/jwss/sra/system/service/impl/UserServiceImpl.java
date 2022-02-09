@@ -35,10 +35,8 @@ import javax.annotation.Resource;
 public class UserServiceImpl implements IUserService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
-
     @Resource
     private IMenuService menuService;
-
     @Resource
     private IRoleService roleService;
 

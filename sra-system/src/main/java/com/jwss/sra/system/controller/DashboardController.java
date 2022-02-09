@@ -1,8 +1,10 @@
 package com.jwss.sra.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.system.service.IDashboardService;
+import com.jwss.sra.system.vo.SystemInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,15 @@ public class DashboardController {
     public ApiResult<List<Map<String, Object>>> getCount() {
         List<Map<String, Object>> count = dashboardService.getCount();
         return ApiResult.ok(count);
+    }
+
+    @ApiOperation("获取系统信息")
+    @GetMapping("getSystemInfo")
+    @SaCheckPermission("system:dashboard:getSystemInfo")
+    @SaCheckLogin
+    public ApiResult<SystemInfoVO> getSystemInfo() throws UnknownHostException {
+        SystemInfoVO vo = dashboardService.getSystemInfo();
+        return ApiResult.ok(vo);
     }
 
 }

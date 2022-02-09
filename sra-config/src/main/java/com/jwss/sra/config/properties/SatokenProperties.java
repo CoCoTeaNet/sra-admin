@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * satoken配置
  * @date 2022-1-17 16:33:35
- * @author Administrator
+ * @author jwss
  */
 @Component
 @ConfigurationProperties(prefix = "sra.sa-token")

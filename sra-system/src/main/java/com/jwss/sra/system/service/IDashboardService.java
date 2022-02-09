@@ -1,5 +1,8 @@
 package com.jwss.sra.system.service;
 
+import com.jwss.sra.system.vo.SystemInfoVO;
+
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,4 +17,10 @@ public interface IDashboardService {
      * @return 数量集合
      */
     List<Map<String, Object>> getCount();
+
+    /**
+     * 获取系统信息
+     * @return 系统信息
+     */
+    SystemInfoVO getSystemInfo() throws UnknownHostException;
 }
