@@ -36,6 +36,9 @@ sra:
       # 登录
       - /user/login
       - /file/verificationCode
+  package-scan:
+    # 多个包用冒号隔开
+    swagger-packages: com.jwss.sra.system.controller
 spring:
   mvc:
     pathmatch:

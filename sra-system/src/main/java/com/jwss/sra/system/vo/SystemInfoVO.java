@@ -1,6 +1,7 @@
 package com.jwss.sra.system.vo;
 
-import cn.hutool.system.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
@@ -8,115 +9,241 @@ import java.io.Serializable;
  * @date 2022-1-26 11:41:05
  * @author jwss
  */
+@ApiModel("服务器系统信息")
 public class SystemInfoVO implements Serializable {
     private static final long serialVersionUID = 8671770549214978920L;
 
-    private JvmSpecInfo jvmSpecInfo;
-    private JvmInfo jvmInfo;
-    private JavaSpecInfo javaSpecInfo;
-    private JavaInfo javaInfo;
-    private JavaRuntimeInfo javaRuntimeInfo;
-    private OsInfo osInfo;
-    private UserInfo userInfo;
-    private HostInfo hostInfo;
-    private RuntimeInfo runtimeInfo;
+    @ApiModelProperty("操作系统")
+    private String os;
 
-    public SystemInfoVO(){
-        this.jvmSpecInfo=SystemUtil.getJvmSpecInfo();
-        this.jvmInfo=SystemUtil.getJvmInfo();
-        this.javaSpecInfo=SystemUtil.getJavaSpecInfo();
-        this.javaInfo=SystemUtil.getJavaInfo();
-        this.javaRuntimeInfo=SystemUtil.getJavaRuntimeInfo();
-        this.osInfo=SystemUtil.getOsInfo();
-        this.userInfo=SystemUtil.getUserInfo();
-        this.hostInfo=SystemUtil.getHostInfo();
-        this.runtimeInfo=SystemUtil.getRuntimeInfo();
+    @ApiModelProperty("服务器名称")
+    private String serverName;
+
+    @ApiModelProperty("服务器IP")
+    private String serverIp;
+
+    @ApiModelProperty("系统架构")
+    private String serverArchitecture;
+
+    @ApiModelProperty("Java名称")
+    private String javaName;
+
+    @ApiModelProperty("Java版本")
+    private String javaVersion;
+
+    @ApiModelProperty("java安装路径")
+    private String javaPath;
+
+    @ApiModelProperty("项目路径")
+    private String projectPath;
+
+    @ApiModelProperty("服务运行时长（单位秒）")
+    private Long runningTime;
+
+    @ApiModelProperty("CPU系统使用率")
+    private Double cpuSystemUsed;
+
+    @ApiModelProperty("CPU用户使用率")
+    private Double cpuUserUsed;
+
+    @ApiModelProperty("CPU空闲率")
+    private Double cpuFree;
+
+    @ApiModelProperty("CPU核心数")
+    private Integer cpuCount;
+
+    @ApiModelProperty("内存总大小")
+    private Long memoryTotalSize;
+
+    @ApiModelProperty("已用大小")
+    private Long memoryUsedSize;
+
+    @ApiModelProperty("磁盘总大小（单位字节）")
+    private Long diskTotalSize;
+
+    @ApiModelProperty("磁盘剩余大小（单位字节）")
+    private Long diskFreeSize;
+
+    @ApiModelProperty("磁盘路径")
+    private String diskPath;
+
+    @ApiModelProperty("磁盘分隔符")
+    private String diskSeparator;
+
+    public Long getDiskFreeSize() {
+        return diskFreeSize;
     }
 
-    public JvmSpecInfo getJvmSpecInfo() {
-        return jvmSpecInfo;
+    public void setDiskFreeSize(Long diskFreeSize) {
+        this.diskFreeSize = diskFreeSize;
     }
 
-    public void setJvmSpecInfo(JvmSpecInfo jvmSpecInfo) {
-        this.jvmSpecInfo = jvmSpecInfo;
+    public String getDiskPath() {
+        return diskPath;
     }
 
-    public JvmInfo getJvmInfo() {
-        return jvmInfo;
+    public void setDiskPath(String diskPath) {
+        this.diskPath = diskPath;
     }
 
-    public void setJvmInfo(JvmInfo jvmInfo) {
-        this.jvmInfo = jvmInfo;
+    public String getDiskSeparator() {
+        return diskSeparator;
     }
 
-    public JavaSpecInfo getJavaSpecInfo() {
-        return javaSpecInfo;
+    public void setDiskSeparator(String diskSeparator) {
+        this.diskSeparator = diskSeparator;
     }
 
-    public void setJavaSpecInfo(JavaSpecInfo javaSpecInfo) {
-        this.javaSpecInfo = javaSpecInfo;
+    public Double getCpuSystemUsed() {
+        return cpuSystemUsed;
     }
 
-    public JavaInfo getJavaInfo() {
-        return javaInfo;
+    public void setCpuSystemUsed(Double cpuSystemUsed) {
+        this.cpuSystemUsed = cpuSystemUsed;
     }
 
-    public void setJavaInfo(JavaInfo javaInfo) {
-        this.javaInfo = javaInfo;
+    public Double getCpuUserUsed() {
+        return cpuUserUsed;
     }
 
-    public JavaRuntimeInfo getJavaRuntimeInfo() {
-        return javaRuntimeInfo;
+    public void setCpuUserUsed(Double cpuUserUsed) {
+        this.cpuUserUsed = cpuUserUsed;
     }
 
-    public void setJavaRuntimeInfo(JavaRuntimeInfo javaRuntimeInfo) {
-        this.javaRuntimeInfo = javaRuntimeInfo;
+    public String getOs() {
+        return os;
     }
 
-    public OsInfo getOsInfo() {
-        return osInfo;
+    public void setOs(String os) {
+        this.os = os;
     }
 
-    public void setOsInfo(OsInfo osInfo) {
-        this.osInfo = osInfo;
+    public String getServerName() {
+        return serverName;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public String getServerIp() {
+        return serverIp;
     }
 
-    public HostInfo getHostInfo() {
-        return hostInfo;
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
     }
 
-    public void setHostInfo(HostInfo hostInfo) {
-        this.hostInfo = hostInfo;
+    public String getServerArchitecture() {
+        return serverArchitecture;
     }
 
-    public RuntimeInfo getRuntimeInfo() {
-        return runtimeInfo;
+    public void setServerArchitecture(String serverArchitecture) {
+        this.serverArchitecture = serverArchitecture;
     }
 
-    public void setRuntimeInfo(RuntimeInfo runtimeInfo) {
-        this.runtimeInfo = runtimeInfo;
+    public String getJavaName() {
+        return javaName;
+    }
+
+    public void setJavaName(String javaName) {
+        this.javaName = javaName;
+    }
+
+    public String getJavaVersion() {
+        return javaVersion;
+    }
+
+    public void setJavaVersion(String javaVersion) {
+        this.javaVersion = javaVersion;
+    }
+
+    public String getJavaPath() {
+        return javaPath;
+    }
+
+    public void setJavaPath(String javaPath) {
+        this.javaPath = javaPath;
+    }
+
+    public String getProjectPath() {
+        return projectPath;
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
+    }
+
+    public Long getRunningTime() {
+        return runningTime;
+    }
+
+    public void setRunningTime(Long runningTime) {
+        this.runningTime = runningTime;
+    }
+
+    public Double getCpuFree() {
+        return cpuFree;
+    }
+
+    public void setCpuFree(Double cpuFree) {
+        this.cpuFree = cpuFree;
+    }
+
+    public Integer getCpuCount() {
+        return cpuCount;
+    }
+
+    public void setCpuCount(Integer cpuCount) {
+        this.cpuCount = cpuCount;
+    }
+
+    public Long getMemoryTotalSize() {
+        return memoryTotalSize;
+    }
+
+    public void setMemoryTotalSize(Long memoryTotalSize) {
+        this.memoryTotalSize = memoryTotalSize;
+    }
+
+    public Long getMemoryUsedSize() {
+        return memoryUsedSize;
+    }
+
+    public void setMemoryUsedSize(Long memoryUsedSize) {
+        this.memoryUsedSize = memoryUsedSize;
+    }
+
+    public Long getDiskTotalSize() {
+        return diskTotalSize;
+    }
+
+    public void setDiskTotalSize(Long diskTotalSize) {
+        this.diskTotalSize = diskTotalSize;
     }
 
     @Override
     public String toString() {
         return "SystemInfoVO{" +
-                "jvmSpecInfo=" + jvmSpecInfo +
-                ", jvmInfo=" + jvmInfo +
-                ", javaSpecInfo=" + javaSpecInfo +
-                ", javaInfo=" + javaInfo +
-                ", javaRuntimeInfo=" + javaRuntimeInfo +
-                ", osInfo=" + osInfo +
-                ", userInfo=" + userInfo +
-                ", hostInfo=" + hostInfo +
-                ", runtimeInfo=" + runtimeInfo +
+                "os='" + os + '\'' +
+                ", serverName='" + serverName + '\'' +
+                ", serverIp='" + serverIp + '\'' +
+                ", serverArchitecture='" + serverArchitecture + '\'' +
+                ", javaName='" + javaName + '\'' +
+                ", javaVersion='" + javaVersion + '\'' +
+                ", javaPath='" + javaPath + '\'' +
+                ", projectPath='" + projectPath + '\'' +
+                ", runningTime=" + runningTime +
+                ", cpuSystemUsed=" + cpuSystemUsed +
+                ", cpuUserUsed=" + cpuUserUsed +
+                ", cpuFree=" + cpuFree +
+                ", cpuCount=" + cpuCount +
+                ", memoryTotalSize=" + memoryTotalSize +
+                ", memoryUsedSize=" + memoryUsedSize +
+                ", diskTotalSize=" + diskTotalSize +
+                ", diskFreeSize=" + diskFreeSize +
+                ", diskPath='" + diskPath + '\'' +
+                ", diskSeparator='" + diskSeparator + '\'' +
                 '}';
     }
 }

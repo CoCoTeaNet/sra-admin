@@ -7,13 +7,13 @@
     <sql id="system_user_findByEntityParam">
         <value>
             <![CDATA[
-			    select su.*,
-			    (select ROLE_NAME from sys_role where ID = (select ROLE_ID from sys_user_role where USER_ID = su.ID)) roleName
-			    from sys_user su
-			    where
-			    #[su.USERNAME = :username]
+                select su.*, sr.ROLE_NAME
+                from sys_user su
+                left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
+                where
+                #[and su.USERNAME = :username]
 			    #[and su.PASSWORD = :password]
-			    and DELETE_STATUS=1
+                and su.DELETE_STATUS=1
 			]]>
         </value>
     </sql>

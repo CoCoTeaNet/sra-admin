@@ -8,6 +8,24 @@ export function add(data) {
 }
 
 /**
+ * 删除一名用户
+ * @param data
+ * @returns {Promise<any>}
+ */
+export function del(data) {
+    return request(`user/delete/${data}`, {}, 'POST');
+}
+
+/**
+ * 更新用户
+ * @param data
+ * @returns {Promise<any>}
+ */
+export function update(data) {
+    return request('user/update', data, 'POST');
+}
+
+/**
  * 分页获取用户
  * @param data
  * @returns {Promise<any>}
@@ -29,4 +47,11 @@ export function login(data) {
  */
 export function logout() {
     return request('user/logout', {}, 'POST');
+}
+
+/**
+ * 记录用户在线状态
+ */
+export function online() {
+    return request('user/online', {}, 'POST');
 }

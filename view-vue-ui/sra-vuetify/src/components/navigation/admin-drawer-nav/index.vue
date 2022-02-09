@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer app permanent :mini-variant="mini" light class="white overflow-hidden">
-    <v-row class="fill-height" no-gutters>
+  <v-navigation-drawer app permanent :mini-variant="mini" light class="white">
+    <v-row class="fill-height overflow-hidden" no-gutters>
       <!-- 嵌套导航 -->
       <v-navigation-drawer dark mini-variant mini-variant-width="56" permanent>
         <v-list class="fill-height">
@@ -34,7 +34,7 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-col v-if="!mini">
+      <v-col v-show="!mini">
         <v-list dense>
           <!-- 用户信息 -->
           <v-btn v-if="!mini" icon @click.stop="packUpNav" absolute right style="z-index: 999">

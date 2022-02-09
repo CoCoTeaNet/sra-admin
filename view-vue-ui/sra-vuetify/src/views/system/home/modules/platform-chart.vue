@@ -1,5 +1,7 @@
 <template>
-  <div id="platformChart" style="height: 300px"></div>
+  <v-card>
+    <div id="platformChart" style="height: 300px"></div>
+  </v-card>
 </template>
 
 <script>
@@ -49,9 +51,9 @@ export default {
               show: false
             },
             data: [
-              {value: 1048, name: 'Search Engine'},
-              {value: 735, name: 'Direct'},
-              {value: 580, name: 'Email'}
+              {value: 1048, name: 'Android'},
+              {value: 735, name: 'IOS'},
+              {value: 580, name: 'Window'}
             ]
           }
         ]

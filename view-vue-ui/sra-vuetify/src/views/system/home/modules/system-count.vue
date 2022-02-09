@@ -1,42 +1,55 @@
 <template>
   <v-row>
-    <!-- 用户数量 -->
-    <v-col>
+    <v-col v-for="(item,index) in items" :key="index">
       <v-card>
-        <v-card-title>用户数量</v-card-title>
-        <v-card-text>15</v-card-text>
-      </v-card>
-    </v-col>
-    <!-- 角色数量 -->
-    <v-col>
-      <v-card>
-        <v-card-title>角色数量</v-card-title>
-        <v-card-text>15</v-card-text>
-      </v-card>
-    </v-col>
-    <!-- 菜单数量 -->
-    <v-col>
-      <v-card>
-        <v-card-title>菜单数量</v-card-title>
-        <v-card-text>15</v-card-text>
-      </v-card>
-    </v-col>
-    <!-- 在线人数：30秒发送一次请求告诉服务器在线 -->
-    <v-col>
-      <v-card>
-        <v-card-title>在线人数</v-card-title>
-        <v-card-text>15</v-card-text>
+        <v-card-title class="justify-center">{{ item.title }}</v-card-title>
+        <v-card-text class="text-center font-weight-medium" style="font-size: 1.5em">{{ item.count }}</v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import {getCount} from "@/api/system/dashboard-api";
+
 export default {
-  name: "system-count"
+  name: "system-count",
+  data() {
+    return {
+      items: [],
+      timer: null
+    }
+  },
+  created() {
+    let self = this;
+    self.getCount();
+    self.timer = setInterval(() => {
+      self.getCount();
+    }, 30000);
+  },
+  beforeDestroy() {
+    this.clearTimer();
+  },
+  watch: {
+    $route: {
+      handler(v, v1){
+        console.log(v,v1)
+      },
+      deep: true
+    }
+  },
+  methods: {
+    getCount() {
+      getCount().then(res => {
+        if (res.code === 200) {
+          this.items = res.data;
+        }
+      });
+    },
+    clearTimer() {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>

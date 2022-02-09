@@ -1,5 +1,6 @@
 package com.jwss.sra.bootstrap;
 
+import com.jwss.sra.framework.constant.GlobalValue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,5 +15,6 @@ public class SraApplicationBoot {
 
     public static void main(String[] args) {
         SpringApplication.run(SraApplicationBoot.class, args);
+        GlobalValue.START_TIME = System.currentTimeMillis();
     }
 }

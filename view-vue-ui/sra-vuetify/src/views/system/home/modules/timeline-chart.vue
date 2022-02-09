@@ -1,5 +1,7 @@
 <template>
-  <div id="timelineChart" style="height: 300px;"></div>
+  <v-card>
+    <div id="timelineChart" style="height: 300px;"></div>
+  </v-card>
 </template>
 
 <script>

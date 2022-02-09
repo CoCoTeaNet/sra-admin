@@ -25,10 +25,7 @@
               label="用户密码"
               placeholder="用户密码"
               :counter="30"
-              :rules="[
-                  (v) => !!v || '用户密码为空',
-                  (v) => (v && v.length <= 30) || '用户密码长度不能超过30个字符'
-              ]"
+              :rules="passwordRules"
           ></v-text-field>
 
           <v-select
@@ -58,8 +55,9 @@
 
 <script>
 import {listByPage} from "@/api/system/role-api";
-import {add} from "@/api/system/user-api";
+import {add,update} from "@/api/system/user-api";
 import CommonTip from "@/components/common/tip";
+import {passwordRule} from "@/utils/rules-util";
 
 export default {
   name: "UserEdit",
@@ -70,7 +68,10 @@ export default {
   },
   data() {
     return {
-      editedItem: {},
+      editedItem: {password: ''},
+      passwordRules: [
+        (v) => (passwordRule().rule.test(v) || !v) || passwordRule().message,
+      ],
       valid: true,
       // 分页参数
       pageParam: {
@@ -99,6 +100,7 @@ export default {
     }
   },
   methods: {
+    passwordRule() {return passwordRule},
     /**
      * 保存或更新
      */
@@ -112,6 +114,7 @@ export default {
         param.roleId = this.selectRole;
         res = await add(param);
       } else if (this.editedItem.editType === 2) {
+        param.roleId = this.selectRole;
         res = await update(param);
       }
       if (res.code === 200) {

@@ -13,9 +13,14 @@ import java.io.Serializable;
  * @description sys_user,系统用户表  
  */
 @ApiModel(value = "新增用户参数")
-public class UserAddParam implements Serializable {
+public class UserUpdateParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
+
+	@NotBlank(message = "主键ID为空")
+	@ApiModelProperty(name = "主键ID", required = true)
+	private String id;
+
 	/**
 	 * 用户账号
 	 */
@@ -29,9 +34,16 @@ public class UserAddParam implements Serializable {
 	@ApiModelProperty(name = "用户密码")
 	private String password;
 
-	@NotBlank(message = "角色ID为空")
-	@ApiModelProperty(name = "角色ID", required = true)
+	@ApiModelProperty(name = "角色ID")
 	private String roleId;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getRoleId() {
 		return roleId;
