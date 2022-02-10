@@ -2,6 +2,7 @@ package com.jwss.sra.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
+import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.entity.Menu;
 import com.jwss.sra.system.param.menu.MenuAddParam;
@@ -10,6 +11,7 @@ import com.jwss.sra.system.service.IMenuService;
 import com.jwss.sra.system.vo.MenuVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.utils.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +43,13 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<MenuVO> listByTree() {
-        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByEntityParam", new MenuVO());
+    public List<MenuVO> listByTree(Integer isMenu) {
+        MenuVO vo = new MenuVO();
+        // 如果是0或者1就根据类型获取，否则无视此条件
+        if (isMenu.equals(IsSomethingEnum.YSE.getCodeInt()) || isMenu.equals(IsSomethingEnum.NO.getCodeInt())) {
+            vo.setIsMenu(String.valueOf(isMenu));
+        }
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByEntityParam", vo);
         Map<String, MenuVO> menuRootMap = new HashMap<>(menuVOList.size() + 1);
         Map<String, MenuVO> menuChildMap = new HashMap<>(menuVOList.size() + 1);
         String root = String.valueOf(0);
@@ -99,7 +106,7 @@ public class MenuServiceImpl implements IMenuService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean delete(String id) {
-        Menu menu = new Menu().setId(id).setDeleteStatus(DeleteStatusEnum.NOT_DELETE.getCode());
+        Menu menu = new Menu().setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
         Long update = sqlToyLazyDao.update(menu);
         if (update <= 0) {
             return false;

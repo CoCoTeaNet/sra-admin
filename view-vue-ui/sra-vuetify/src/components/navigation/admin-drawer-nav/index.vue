@@ -12,7 +12,7 @@
           </v-list-item>
           <v-list-item> <v-divider></v-divider> </v-list-item>
           <!-- 顶级菜单 -->
-          <v-list-item v-for="(item, index) in items" :key="index">
+          <v-list-item v-for="(item, index) in firstLevelMenus" :key="index">
             <v-icon>{{ item.iconPath }}</v-icon>
           </v-list-item>
           <!-- 退出按钮 -->
@@ -46,16 +46,18 @@
         </v-list>
         <!-- 分割线 -->
         <v-divider></v-divider>
+        <!-- 二级菜单列表 -->
         <v-list nav dense>
-          <!-- 二级菜单列表 -->
-          <v-list-item-group>
-            <v-list-item v-for="(item, index) in items" :key="index" :to="item.routerPath">
-              <v-list-item-icon>
-                <v-icon>{{ item.iconPath }}</v-icon>
-              </v-list-item-icon>
+          <!-- :prepend-icon="item.iconPath"-->
+          <v-list-group v-for="(item, index) in secondLevelMenus" :key="index">
+            <template v-slot:activator>
               <v-list-item-title v-text="item.menuName"></v-list-item-title>
+            </template>
+            <!-- 三级菜单 -->
+            <v-list-item v-for="i in 5" :key="i" link>
+              <v-list-item-title v-text="'title'"></v-list-item-title>
             </v-list-item>
-          </v-list-item-group>
+          </v-list-group>
         </v-list>
       </v-col>
     </v-row>
@@ -73,13 +75,56 @@ export default {
   },
   data() {
     return {
+      firstLevelMenus: [],
+      firstLevelIds: [],
+      secondLevelMenus: [],
+      threeLevelMenus: [],
       menu: false,
       mini: false
     }
   },
+  created() {
+    this.getLevelMenus();
+  },
   methods: {
+    /**
+     * 收起导航栏
+     */
     packUpNav() {
       this.mini = !this.mini;
+    },
+    /**
+     * 获取菜单并且分级
+     */
+    getLevelMenus() {
+      let firstLevel = [];
+      // 映射一级id
+      this.items.forEach(item => {
+        if (item.parentId === '0') {
+          firstLevel.push(item.id);
+        }
+      });
+      // 映射二级id
+      let secondLevel = [];
+      this.items.forEach(item => {
+        if (firstLevel.includes(item.parentId)){
+          secondLevel.push(item.id);
+        }
+      });
+      this.items.forEach(item => {
+        // 获取一级
+        if (firstLevel.includes(item.id)) {
+          this.firstLevelMenus.push(item);
+        }
+        // 获取二级
+        if (firstLevel.includes(item.parentId)) {
+          this.secondLevelMenus.push(item);
+        }
+        // 获取三级
+        if (!firstLevel.includes(item.parentId) && !secondLevel.includes(item.parentId)){
+          this.threeLevelMenus.push(item);
+        }
+      });
     },
     /**
      * 退出登录

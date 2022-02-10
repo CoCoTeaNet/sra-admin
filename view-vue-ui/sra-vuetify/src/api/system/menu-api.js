@@ -36,7 +36,7 @@ export function listByPage(data) {
  * 菜单树
  */
 export function listByTree(data) {
-    return request('menu/listByTree', data, 'GET');
+    return request(`menu/listByTree/${data}`, {}, 'GET');
 }
 
 /**

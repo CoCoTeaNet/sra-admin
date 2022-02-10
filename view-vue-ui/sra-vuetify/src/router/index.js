@@ -24,6 +24,7 @@ const routes = [
         children: [
             {path: 'home', name: '仪表盘', meta:{title: '仪表盘'}, component: () => import('@/views/system/home/index')},
             {path: 'menu', name: '菜单管理', meta:{title: '菜单管理'}, component: () => import('@/views/system/menu/index')},
+            {path: 'permission', name: '权限管理', meta:{title: '权限管理'}, component: () => import('@/views/system/menu/permission-index')},
             {path: 'role', name: '角色管理', meta:{title: '角色管理'}, component: () => import('@/views/system/role/index')},
             {path: 'user', name: '用户管理', meta:{title: '用户管理'}, component: () => import('@/views/system/user/index')},
         ]
@@ -65,6 +66,6 @@ router.afterEach(function (to, from) {
     if(title){
         document.title = title;
     }
-});
+})
 
 export default router;

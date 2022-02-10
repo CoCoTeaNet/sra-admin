@@ -26,6 +26,10 @@ public enum IsSomethingEnum {
         return String.valueOf(code);
     }
 
+    public Integer getCodeInt() {
+        return code;
+    }
+
     public String getDesc() {
         return desc;
     }
