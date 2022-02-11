@@ -68,7 +68,7 @@ export default {
   }),
   created() {
     let self = this;
-    self.isMenu = self.$route.path === '/admin/menu' ? 0 : 1;
+    self.isMenu = self.$route.path === '/admin/sys-manager/menu' ? 0 : 1;
     self.$nextTick(() => {
       self.listByTree();
     });

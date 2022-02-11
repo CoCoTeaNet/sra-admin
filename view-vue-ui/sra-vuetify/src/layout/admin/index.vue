@@ -6,9 +6,7 @@
     <!-- 顶部条 -->
     <v-app-bar app clipped-right flat height="52" color="white">
       <!-- 顶部导航栏 -->
-      <template>
-        <admin-tags-nav/>
-      </template>
+      <template><admin-tags-nav/></template>
       <!-- 间隔 -->
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -16,11 +14,7 @@
     <!-- 主要内容 -->
     <v-main class="grey lighten-3">
       <v-divider></v-divider>
-      <v-container>
-        <transition name="slide-fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </v-container>
+      <v-container><router-view></router-view></v-container>
     </v-main>
 
     <!-- 底部信息 -->

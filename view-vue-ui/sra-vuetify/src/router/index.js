@@ -18,15 +18,39 @@ const routes = [
     {path: '/login', meta:{title: '系统登录'}, component: () => import('@/layout/login-layout')},
     {
         path: '/admin',
-        name: 'home',
-        meta:{title: '系统首页'},
-        component: () => import('@/layout/admin-layout'),
+        name: 'admin',
+        meta:{title: '首页'},
+        redirect: { name: 'dashboard' },
+        component: () => import('@/layout/admin'),
         children: [
-            {path: 'home', name: '仪表盘', meta:{title: '仪表盘'}, component: () => import('@/views/system/home/index')},
-            {path: 'menu', name: '菜单管理', meta:{title: '菜单管理'}, component: () => import('@/views/system/menu/index')},
-            {path: 'permission', name: '权限管理', meta:{title: '权限管理'}, component: () => import('@/views/system/menu/permission-index')},
-            {path: 'role', name: '角色管理', meta:{title: '角色管理'}, component: () => import('@/views/system/role/index')},
-            {path: 'user', name: '用户管理', meta:{title: '用户管理'}, component: () => import('@/views/system/user/index')},
+            {
+                path: 'home',
+                name: 'home',
+                meta: {title: '首页'},
+                component: () => import('@/layout/admin/modules/sys-home-layout'),
+                children: [
+                    {path: 'dashboard', name: 'dashboard', meta:{title: '仪表盘'}, component: () => import('@/views/system/home/index')},
+                ]
+            },
+            {
+                path: 'sys-manager',
+                name: 'sys-manager',
+                meta:{title: '系统管理'},
+                redirect: { name: 'user' },
+                component: () => import('@/layout/admin/modules/sys-manager-layout'),
+                children: [
+                    {path: 'menu', name: 'menu', meta:{title: '菜单管理'}, component: () => import('@/views/system/menu/index')},
+                    {path: 'permission', name: 'permission', meta:{title: '权限管理'}, component: () => import('@/views/system/menu/permission-index')},
+                    {path: 'role', name: 'role', meta:{title: '角色管理'}, component: () => import('@/views/system/role/index')},
+                    {path: 'user', name: 'user', meta:{title: '用户管理'}, component: () => import('@/views/system/user/index')},
+                ]
+            },
+            {
+                path: 'sys-setting',
+                name: 'sys-setting',
+                meta:{title: '系统设置'},
+                component: () => import('@/layout/admin/modules/sys-setting-layout')
+            },
         ]
     }
 ]
@@ -47,7 +71,7 @@ router.beforeEach((to, from, next) => {
     let adminFlag = /\/admin\/*/.test(to.path);
     // 如果认证了直接跳转admin首页
     if (!adminFlag && isAuthenticated || to.path === '/admin') {
-        next({path: '/admin/home'});
+        next({path: '/admin'});
     }
     // 如果未认证且不是跳转登录页就重定向到登录页
     if (to.path !== '/login' && !isAuthenticated) {

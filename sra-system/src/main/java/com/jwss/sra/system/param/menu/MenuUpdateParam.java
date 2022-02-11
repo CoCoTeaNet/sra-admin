@@ -71,8 +71,7 @@ public class MenuUpdateParam implements Serializable {
 	/**
 	 * 组件路径
 	 */
-	@NotBlank(message = "组件路径为空")
-	@ApiModelProperty(value = "组件路径", required = true)
+	@ApiModelProperty(value = "组件路径")
 	private String componentPath;
 	
 	/**
