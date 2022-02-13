@@ -25,7 +25,7 @@
             <v-list-item class="pa-0 ma-2" style="position: absolute;bottom: 0;">
               <v-menu v-model="menu" :close-on-content-click="false" offset-x>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-icon size="32" v-on="on" v-bind="attrs">mdi-power</v-icon>
+                  <v-icon color="primary" size="32" v-on="on" v-bind="attrs">mdi-power</v-icon>
                 </template>
                 <v-list>
                   <v-list-item>
