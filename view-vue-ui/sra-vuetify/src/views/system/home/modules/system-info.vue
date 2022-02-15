@@ -3,13 +3,10 @@
     <v-list dense>
       <v-subheader>系统信息</v-subheader>
       <v-list-item-group color="primary">
-        <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
+        <div class="text-center">
+          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+        </div>
+        <v-list-item v-for="(item, i) in items" :key="i">
           <v-list-item-content>
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item-content>
@@ -25,12 +22,12 @@
  */
 export default {
   name: 'SystemInfo',
-  data: () => ({
-    items: [
-      {text: 'Real-Time', icon: 'mdi-clock'},
-      {text: 'Audience', icon: 'mdi-account'},
-      {text: 'Conversions', icon: 'mdi-flag'},
-    ],
-  }),
+  props: {
+    items: {type: Array, required: true, default: []},
+    loading: {type: Boolean, required: true, default: true}
+  },
+  mounted() {
+    this.$emit('onFinish');
+  }
 }
 </script>

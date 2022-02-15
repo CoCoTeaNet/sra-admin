@@ -57,7 +57,7 @@ export default {
      * 获取所有权限树结构
      */
     getAllPermission() {
-      listByTree().then(res => {
+      listByTree(2).then(res => {
         if (res.code === 200) {
           this.items = res.data;
           listByRoleId(this.item.id).then(res => {

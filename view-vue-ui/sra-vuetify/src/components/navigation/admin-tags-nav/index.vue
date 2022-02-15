@@ -26,7 +26,7 @@ export default {
       let list = this.$route.matched;
       let items = []
       list.forEach((item, index) => {
-        items.push({text: item.name, disabled: index === list.length - 1, href: item.path});
+        items.push({text: item.meta.title, disabled: index === list.length - 1, href: item.path});
       });
       this.items = items;
     }

@@ -29,9 +29,10 @@ public interface IMenuService {
 
     /**
      * 分页查询菜单
+     * @param isMenu 是否菜单 0是 1否 2所有
      * @return 分页结果集
      */
-    List<MenuVO> listByTree();
+    List<MenuVO> listByTree(Integer isMenu);
 
     /**
      * 更新菜单

@@ -48,9 +48,9 @@ public class MenuController {
     }
 
     @ApiOperation("获取菜单树")
-    @GetMapping("listByTree")
-    public ApiResult<List<MenuVO>> listByTree() {
-        List<MenuVO> menus = menuService.listByTree();
+    @GetMapping("listByTree/{isMenu}")
+    public ApiResult<List<MenuVO>> listByTree(@PathVariable Integer isMenu) {
+        List<MenuVO> menus = menuService.listByTree(isMenu);
         return ApiResult.ok(menus);
     }
 

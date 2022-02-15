@@ -1,5 +1,5 @@
 <template>
-  <v-treeview dense activatable :items="items">
+  <v-treeview dense rounded hoverable activatable open-all :items="items" >
     <template v-slot:prepend="{ item }">
       <v-icon small>{{item.iconPath ? item.iconPath : 'mdi-key-chain-variant'}}</v-icon>
     </template>
@@ -12,6 +12,11 @@
         <v-col>
           <v-btn text small color="primary" @click="editItem(item, 0)">
             <v-icon small>mdi-eye</v-icon>查看
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn text small color="primary" @click="editItem(item, 4)">
+            <v-icon small>mdi-drag-variant</v-icon>移动
           </v-btn>
         </v-col>
         <v-col>
