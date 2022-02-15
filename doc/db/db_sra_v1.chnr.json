@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-1-15 00:44:44",
+  "updatedTime": "2022-1-20 16:09:49",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -1600,6 +1600,22 @@
       ],
       "fields": [
         {
+          "defKey": "ID",
+          "defName": "",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "2CC946D2-9C4A-4B83-8DB8-619B16FE37B1"
+        },
+        {
           "defKey": "USER_ID",
           "defName": "用户主键ID",
           "comment": "",
@@ -1751,6 +1767,22 @@
           "refDict": "",
           "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
           "id": "CCCB86E0-F3AB-42C8-BEE5-E5B1E76F3CC3"
+        },
+        {
+          "defKey": "ID",
+          "defName": "",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "9DB35C84-86CA-4DB4-9F3C-8E372C2DBCFB"
         }
       ],
       "correlations": [],

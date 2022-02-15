@@ -12,6 +12,7 @@
         :rules="usernameRules"
         label="账号名称"
         required
+        @keyup.enter="validate"
       ></v-text-field>
 
       <v-text-field
@@ -20,10 +21,12 @@
         :rules="passwordRules"
         label="账号密码"
         required
+        type="password"
+        @keyup.enter="validate"
       ></v-text-field>
 
       <div style="display: flex;align-items: center">
-        <v-text-field v-model="verifyCode" :counter="4" :rules="verifyCodeRules" label="验证码" required>
+        <v-text-field @keyup.enter="validate" v-model="verifyCode" :counter="4" :rules="verifyCodeRules" label="验证码" required>
         </v-text-field>
         <img style="width: 100px;height: 50px" :src="`data:image/jpeg;base64,${codeImageBase64}`" alt="codeImage">
       </div>
@@ -47,6 +50,7 @@
 <script>
 import { verificationCode } from "@/api/system/file-api";
 import { login } from "@/api/system/user-api";
+import { passwordRule } from "@/utils/rules-util";
 
 export default {
   // 登录页面
@@ -63,7 +67,7 @@ export default {
     password: "",
     passwordRules: [
       (v) => !!v || "密码为空",
-      (v) => /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/.test(v) || "密码中必须包含字母、数字，至少6个字符，最多30个字符",
+      (v) => passwordRule().rule.test(v) || passwordRule().message,
     ],
     // 验证码
     verifyCode: "",
@@ -116,6 +120,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

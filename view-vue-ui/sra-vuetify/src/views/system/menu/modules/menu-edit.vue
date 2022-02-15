@@ -3,12 +3,14 @@
     <v-dialog v-model="showDialog" max-width="500px" persistent>
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{ editedItem.editType === 1 ? '编辑菜单' : '新增菜单' }}</span>
+          <span class="text-h5" v-if="editedItem.editType !== 0">
+            {{ editedItem.editType === 1 ? '编辑' : '新增' }}
+          </span>
         </v-card-title>
 
         <v-card-text>
           <!-- 表单 -->
-          <v-form ref="form" v-model="valid">
+          <v-form ref="form" v-model="valid" :disabled="editedItem.editType === 0">
             <v-text-field
                 v-model="editedItem.menuName"
                 label="菜单名称"
@@ -66,8 +68,7 @@
                 placeholder="组件路径"
                 :counter="64"
                 :rules="[
-                  (v) => !!v || '组件路径为空',
-                  (v) => (v && v.length <= 64) || '组件路径长度不能超过64个字符'
+                (v) => (v.length <= 64) || '组件路径长度不能超过64个字符'
               ]"
             ></v-text-field>
 
@@ -82,7 +83,7 @@
                 placeholder="图标名称"
                 :counter="255"
                 :rules="[
-                  (v) => (v && v.length <= 255) || '图标名称长度不能超过255个字符'
+                (v) => (v.length <= 255) || '图标名称长度不能超过255个字符'
               ]"
             ></v-text-field>
           </v-form>
@@ -91,7 +92,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="close">取消</v-btn>
-          <v-btn color="blue darken-1" text @click="save">保存</v-btn>
+          <v-btn color="blue darken-1" text @click="save" v-if="editedItem.editType !== 0">保存</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -103,6 +104,8 @@
 import {add, update} from "@/api/system/menu-api";
 import CommonTip from "@/components/common/tip";
 
+const defaultMenu = {menuType: "1", isMenu: "0", sort: 1, componentPath: '', isExternalLink: "1", iconPath: ''};
+
 export default {
   name: "MenuEdit",
   components: {CommonTip},
@@ -113,14 +116,19 @@ export default {
   data: () => ({
     valid: true,
     saveParam: {},
-    editedItem: {}
+    editedItem: defaultMenu,
   }),
   watch: {
     // 监听窗口，用于给表单赋值
     showDialog: {
       immediate: true,
       handler(val) {
-        this.editedItem = JSON.parse(JSON.stringify(this.item));
+        if (this.item.id && this.item.id !== '0') {
+          this.editedItem = JSON.parse(JSON.stringify(this.item));
+        } else {
+          this.editedItem.editType = this.item.editType;
+          this.editedItem = defaultMenu;
+        }
       }
     }
   },
@@ -135,25 +143,29 @@ export default {
      * 新增&更新
      * @returns {Promise<void>}
      */
-    async save() {
+    save() {
       if (!this.$refs.form.validate()) {
         return;
       }
-      let res;
       const param = this.editedItem;
       // 判断操作类型
       if (this.editedItem.editType === 1) {
-        res = await update(param);
-      } else if (this.editedItem.editType === 2){
-        param.parentId = this.editedItem.id;
-        res = await add(param);
+        update(param).then(res => {
+          this.success(res);
+        });
+      } else if (this.editedItem.editType === 2) {
+        param.parentId = this.editedItem.id ? this.editedItem.id : '0';
+        add(param).then(res => {
+          this.success(res);
+        });
       }
-      console.log(res)
+    },
+    success(res) {
       if (res.code === 200) {
         this.$refs.commonTip.success('更新成功');
         this.close();
       } else {
-        this.$refs.commonTip.error(res.data);
+        this.$refs.commonTip.error(res.message);
       }
     }
   }

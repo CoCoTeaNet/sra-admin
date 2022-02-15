@@ -36,7 +36,9 @@ sra:
       # 登录
       - /user/login
       - /file/verificationCode
-      - /menu/**
+  package-scan:
+    # 多个包用冒号隔开
+    swagger-packages: com.jwss.sra.system.controller
 spring:
   mvc:
     pathmatch:
@@ -65,7 +67,7 @@ spring:
         min-idle: 0
   # sqltoy框架相关配置
   sqltoy:
-    unify-fields-handler: com.jwss.config.sqltoy.SqlToyUnifyFieldsHandler
+    unify-fields-handler: com.jwss.sra.config.sqltoy.SqlToyUnifyFieldsHandler
   # 环境配置激活
   profiles:
     active: dev

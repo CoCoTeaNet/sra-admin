@@ -1,3 +1,5 @@
+import {online} from "@/api/system/user-api";
+
 // initial state
 const state = () => ({
     userInfo: {
@@ -5,7 +7,8 @@ const state = () => ({
         permissions: [],
         userDetail: {},
         token: 'sa-token',
-    }
+    },
+    onlineTimer: null
 })
 
 // getters
@@ -24,7 +27,15 @@ const mutations = {
     setUserInfo(state, userInfo) {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         state.userInfo = userInfo;
-    },
+        if (userInfo) {
+            state.onlineTimer = setInterval(() => {
+                online().then(r => console.log(r.code));
+            }, 29000);
+        } else {
+            clearInterval(state.onlineTimer);
+            state.onlineTimer = null;
+        }
+    }
 }
 
 export default {

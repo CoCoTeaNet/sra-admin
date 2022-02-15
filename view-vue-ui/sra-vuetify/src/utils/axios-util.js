@@ -38,7 +38,7 @@ export async function request(url, data, method) {
             data: method === 'GET' ? null : data,
             // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
             // 如果请求花费了超过 `timeout` 的时间，请求将被中断
-            timeout: 5000,
+            timeout: 15000,
             // `withCredentials` 表示跨域请求时是否需要使用凭证
             withCredentials: false, // 默认的
             // `responseType` 表示服务器响应的数据类型，可以是 "arraybuffer", "blob", "document", "json", "text", "stream"
@@ -53,5 +53,11 @@ export async function request(url, data, method) {
             }
         }
     );
+    // 判断请求状态
+    if (res.data.code === 4001) {
+        // 未登录
+        window.location.href = '/login';
+        localStorage.setItem("userInfo", null);
+    }
     return res.data;
 }

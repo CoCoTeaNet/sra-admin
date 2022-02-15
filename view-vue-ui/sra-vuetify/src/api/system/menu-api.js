@@ -36,5 +36,12 @@ export function listByPage(data) {
  * 菜单树
  */
 export function listByTree(data) {
-    return request('menu/listByTree', data, 'GET');
+    return request(`menu/listByTree/${data}`, {}, 'GET');
+}
+
+/**
+ * 通过角色获取菜单
+ */
+export function listByRoleId(data) {
+    return request(`menu/listByRoleId/${data}`, {}, 'GET');
 }
