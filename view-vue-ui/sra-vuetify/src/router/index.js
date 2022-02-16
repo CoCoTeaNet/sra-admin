@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/admin',
         name: 'admin',
-        meta:{title: '首页'},
+        meta:{title: 'Admin'},
         redirect: { name: 'dashboard' },
         component: () => import('@/layout/admin'),
         children: [

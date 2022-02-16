@@ -9,22 +9,14 @@
     <!-- 图表 -->
     <v-row>
       <v-col>
-        <disk-chart :loading="loading" :data="diskData"/>
-      </v-col>
-      <v-col>
-        <memory-chart :m-data="memoryData" :loading="loading"/>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col>
         <system-info :loading="loading" :items="systemInfoList"/>
       </v-col>
       <v-col>
-        <weather-info/>
+        <memory-chart :loading="loading" :data="diskData" chart-name="diskChart" title="磁盘"/>
+        <v-divider class="pa-3"></v-divider>
+        <memory-chart :loading="loading" :data="memoryData" chart-name="memoryChart" title="内存"/>
       </v-col>
     </v-row>
-
     <v-row>
       <v-col>
         <version-timeline/>
@@ -37,15 +29,13 @@
 <script>
 import SystemInfo from "@/views/system/home/modules/system-info";
 import SystemCount from "@/views/system/home/modules/system-count";
-import WeatherInfo from "@/views/system/home/modules/weather-info";
-import DiskChart from "@/views/system/home/modules/disk-chart";
-import MemoryChart from "@/views/system/home/modules/memory-chart";
 import VersionTimeline from "@/views/system/home/modules/version-timeline";
 import {getSystemInfo} from "@/api/system/dashboard-api";
+import MemoryChart from "@/views/system/home/modules/memory-chart";
 
 export default {
   name: "Home",
-  components: {VersionTimeline, MemoryChart, DiskChart, WeatherInfo, SystemCount, SystemInfo},
+  components: {MemoryChart, VersionTimeline, SystemCount, SystemInfo},
   data: () => ({
     loading: true,
     // 系统信息
@@ -82,12 +72,20 @@ export default {
           // 内存数据
           this.memoryData = {
             memoryTotalSize: parseInt(res.data.memoryTotalSize / 1024 / 1024),
-            memoryAvailableSize: parseInt(res.data.memoryAvailableSize / 1024 / 1024)
+            size: [
+              {name: '可用大小', value: (res.data.memoryAvailableSize / 1024 / 1024 / 1024).toFixed(2)},
+              {
+                name: '剩余大小',
+                value: ((res.data.memoryTotalSize - res.data.memoryAvailableSize) / 1024 / 1024 / 1024).toFixed(2)
+              }
+            ],
+            totalValue: (res.data.memoryTotalSize / 1024 / 1024 / 1024).toFixed(2),
           }
+
           // 磁盘数据
           this.diskData = {
             size: [
-              {name: '可用大小', value: ((res.data.diskTotalSize - res.data.diskFreeSize) / 1024 / 1024 / 1024).toFixed(2)},
+              {name: '已用大小', value: ((res.data.diskTotalSize - res.data.diskFreeSize) / 1024 / 1024 / 1024).toFixed(2)},
               {name: '剩余大小', value: (res.data.diskFreeSize / 1024 / 1024 / 1024).toFixed(2)}
             ],
             totalValue: (res.data.diskTotalSize / 1024 / 1024 / 1024).toFixed(2),

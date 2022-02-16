@@ -18,8 +18,8 @@
     </v-main>
 
     <!-- 底部信息 -->
-    <v-footer app color="transparent" height="72" inset light>
-      Apache License 2.0 | Copyright 2022-sra-sss-admin
+    <v-footer class="elevation-1" color="white" app height="52" inset light>
+      MIT License | copyright sss-rbac-admin 2022
     </v-footer>
   </v-app>
 </template>

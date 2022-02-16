@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="(item,index) in items" :key="index">
-      <v-card>
+      <v-card :color="item.color">
         <v-card-title class="justify-center">{{ item.title }}</v-card-title>
         <v-card-text class="text-center font-weight-medium" style="font-size: 1.5em">{{ item.count }}</v-card-text>
       </v-card>
@@ -32,8 +32,8 @@ export default {
   },
   watch: {
     $route: {
-      handler(v, v1){
-        console.log(v,v1)
+      handler(v, v1) {
+        console.log(v, v1)
       },
       deep: true
     }
@@ -42,7 +42,19 @@ export default {
     getCount() {
       getCount().then(res => {
         if (res.code === 200) {
-          this.items = res.data;
+          let items = res.data;
+          items.forEach((i, index) => {
+            if (index === 0) {
+              i.color = 'blue lighten-4';
+            } else if (index === 1) {
+              i.color = 'red lighten-4';
+            } else if (index === 2) {
+              i.color = 'grey lighten-4';
+            } else if (index === 3) {
+              i.color = 'indigo lighten-4';
+            }
+          });
+          this.items = items;
         }
       });
     },
