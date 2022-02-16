@@ -1,22 +1,34 @@
 <template>
   <v-app id="home" class="pa-2">
     <v-row>
-      <v-col><system-count/></v-col>
+      <v-col>
+        <system-count/>
+      </v-col>
     </v-row>
 
     <!-- 图表 -->
     <v-row>
-      <v-col><disk-chart :loading="loading" :data="diskData"/></v-col>
-      <v-col><timeline-chart/></v-col>
+      <v-col>
+        <disk-chart :loading="loading" :data="diskData"/>
+      </v-col>
+      <v-col>
+        <memory-chart :m-data="memoryData" :loading="loading"/>
+      </v-col>
     </v-row>
 
     <v-row>
-      <v-col><system-info :loading="loading" :items="systemInfoList"/></v-col>
-      <v-col><weather-info/></v-col>
+      <v-col>
+        <system-info :loading="loading" :items="systemInfoList"/>
+      </v-col>
+      <v-col>
+        <weather-info/>
+      </v-col>
     </v-row>
 
     <v-row>
-      <v-col><version-timeline/></v-col>
+      <v-col>
+        <version-timeline/>
+      </v-col>
       <v-col></v-col>
     </v-row>
   </v-app>
@@ -27,19 +39,21 @@ import SystemInfo from "@/views/system/home/modules/system-info";
 import SystemCount from "@/views/system/home/modules/system-count";
 import WeatherInfo from "@/views/system/home/modules/weather-info";
 import DiskChart from "@/views/system/home/modules/disk-chart";
-import TimelineChart from "@/views/system/home/modules/timeline-chart";
+import MemoryChart from "@/views/system/home/modules/memory-chart";
 import VersionTimeline from "@/views/system/home/modules/version-timeline";
 import {getSystemInfo} from "@/api/system/dashboard-api";
 
 export default {
   name: "Home",
-  components: {VersionTimeline, TimelineChart, DiskChart, WeatherInfo, SystemCount, SystemInfo},
+  components: {VersionTimeline, MemoryChart, DiskChart, WeatherInfo, SystemCount, SystemInfo},
   data: () => ({
     loading: true,
     // 系统信息
     systemInfoList: [],
     // 磁盘信息
-    diskData: {}
+    diskData: {},
+    // 内存信息
+    memoryData: {}
   }),
   created() {
     this.getSystemInfo();
@@ -64,20 +78,22 @@ export default {
           this.systemInfoList.push({text: `CPU用户使用率: ${res.data.cpuUserUsed}`});
           this.systemInfoList.push({text: `CPU空闲率: ${res.data.cpuFree}`});
           this.systemInfoList.push({text: `CPU核心数: ${res.data.cpuCount} 个`});
-          this.systemInfoList.push({text: `内存总大小: ${(res.data.memoryTotalSize / 1024 / 1024 / 1024).toFixed(2)}G`});
-          this.systemInfoList.push({text: `已用内存: ${(res.data.memoryUsedSize / 1024 / 1024 / 1024).toFixed(2)}G`});
 
+          // 内存数据
+          this.memoryData = {
+            memoryTotalSize: parseInt(res.data.memoryTotalSize / 1024 / 1024),
+            memoryAvailableSize: parseInt(res.data.memoryAvailableSize / 1024 / 1024)
+          }
+          // 磁盘数据
           this.diskData = {
             size: [
-              {name: '可用大小', value: ((res.data.diskTotalSize-res.data.diskFreeSize) / 1024 / 1024 / 1024).toFixed(2)},
+              {name: '可用大小', value: ((res.data.diskTotalSize - res.data.diskFreeSize) / 1024 / 1024 / 1024).toFixed(2)},
               {name: '剩余大小', value: (res.data.diskFreeSize / 1024 / 1024 / 1024).toFixed(2)}
             ],
             totalValue: (res.data.diskTotalSize / 1024 / 1024 / 1024).toFixed(2),
             diskPath: res.data.diskPath,
             diskSeparator: res.data.diskSeparator
           };
-          // this.systemInfoList.push({text: `磁盘路径: ${res.data.diskPath}`});
-          // this.systemInfoList.push({text: `磁盘分隔符: ${res.data.diskSeparator}`});
           this.loading = false;
         }
       });

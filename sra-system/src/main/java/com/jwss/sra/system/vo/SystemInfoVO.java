@@ -55,8 +55,8 @@ public class SystemInfoVO implements Serializable {
     @ApiModelProperty("内存总大小")
     private Long memoryTotalSize;
 
-    @ApiModelProperty("已用大小")
-    private Long memoryUsedSize;
+    @ApiModelProperty("可用大小")
+    private Long memoryAvailableSize;
 
     @ApiModelProperty("磁盘总大小（单位字节）")
     private Long diskTotalSize;
@@ -206,20 +206,20 @@ public class SystemInfoVO implements Serializable {
         this.memoryTotalSize = memoryTotalSize;
     }
 
-    public Long getMemoryUsedSize() {
-        return memoryUsedSize;
-    }
-
-    public void setMemoryUsedSize(Long memoryUsedSize) {
-        this.memoryUsedSize = memoryUsedSize;
-    }
-
     public Long getDiskTotalSize() {
         return diskTotalSize;
     }
 
     public void setDiskTotalSize(Long diskTotalSize) {
         this.diskTotalSize = diskTotalSize;
+    }
+
+    public Long getMemoryAvailableSize() {
+        return memoryAvailableSize;
+    }
+
+    public void setMemoryAvailableSize(Long memoryAvailableSize) {
+        this.memoryAvailableSize = memoryAvailableSize;
     }
 
     @Override
@@ -239,7 +239,7 @@ public class SystemInfoVO implements Serializable {
                 ", cpuFree=" + cpuFree +
                 ", cpuCount=" + cpuCount +
                 ", memoryTotalSize=" + memoryTotalSize +
-                ", memoryUsedSize=" + memoryUsedSize +
+                ", memoryAvailableSize=" + memoryAvailableSize +
                 ", diskTotalSize=" + diskTotalSize +
                 ", diskFreeSize=" + diskFreeSize +
                 ", diskPath='" + diskPath + '\'' +

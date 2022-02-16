@@ -87,8 +87,8 @@ public class DashboardServiceImpl implements IDashboardService {
         systemInfoVO.setCpuFree(OshiUtil.getCpuInfo().getFree());
         systemInfoVO.setCpuCount(OshiUtil.getCpuInfo().getCpuNum());
         // 内存信息
-        systemInfoVO.setMemoryTotalSize(SystemUtil.getRuntimeInfo().getUsableMemory() + SystemUtil.getFreeMemory());
-        systemInfoVO.setMemoryUsedSize(SystemUtil.getRuntimeInfo().getUsableMemory());
+        systemInfoVO.setMemoryTotalSize(OshiUtil.getMemory().getTotal());
+        systemInfoVO.setMemoryAvailableSize(OshiUtil.getMemory().getAvailable());
         // 磁盘信息
         File file = new File(SystemUtil.get(SystemUtil.FILE_SEPARATOR));
         systemInfoVO.setDiskTotalSize(file.getTotalSpace());
