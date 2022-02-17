@@ -1,7 +1,9 @@
 <template>
   <v-treeview dense rounded hoverable activatable open-all :items="items" >
     <template v-slot:prepend="{ item }">
-      <v-icon small>{{item.iconPath ? item.iconPath : 'mdi-key-chain-variant'}}</v-icon>
+      <v-icon small>
+        {{(item.isMenu === '1' && item.menuType !== '0') ? 'mdi-key' : item.iconPath}}
+      </v-icon>
     </template>
     <template v-slot:label="{ item }">
       <span>{{item.menuName}}</span>

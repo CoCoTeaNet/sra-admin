@@ -5,7 +5,7 @@
       <v-row align="baseline">
         <!-- 新增菜单 -->
         <v-col cols="9">
-          <v-btn rounded color="primary" @click="editItem({}, 2)">
+          <v-btn color="primary" @click="editItem({}, 2)">
             {{isMenu===0 ? '新增菜单' : '新增权限'}}
           </v-btn>
         </v-col>

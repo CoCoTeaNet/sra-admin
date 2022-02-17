@@ -6,7 +6,7 @@
           <v-row>
             <!-- 新增用户栏 -->
             <v-col cols="9">
-              <v-btn color="primary" rounded dark class="mb-2" @click="editItem({}, 1)">
+              <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
                 添加用户
               </v-btn>
             </v-col>

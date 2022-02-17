@@ -4,7 +4,7 @@
       <v-toolbar flat>
         <v-row>
           <v-col cols="9">
-            <v-btn color="primary" dark rounded class="mb-2" @click="editItem({}, 1)">
+            <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
               新建角色
             </v-btn>
           </v-col>

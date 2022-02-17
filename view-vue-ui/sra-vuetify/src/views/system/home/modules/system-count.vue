@@ -45,13 +45,13 @@ export default {
           let items = res.data;
           items.forEach((i, index) => {
             if (index === 0) {
-              i.color = 'blue lighten-4';
+              i.color = 'grey lighten-4';
             } else if (index === 1) {
-              i.color = 'red lighten-4';
+              i.color = 'grey lighten-4';
             } else if (index === 2) {
               i.color = 'grey lighten-4';
             } else if (index === 3) {
-              i.color = 'indigo lighten-4';
+              i.color = 'grey lighten-4';
             }
           });
           this.items = items;
