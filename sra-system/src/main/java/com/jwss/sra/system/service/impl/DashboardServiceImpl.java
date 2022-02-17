@@ -1,7 +1,10 @@
 package com.jwss.sra.system.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.system.HostInfo;
+import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
+import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import com.jwss.sra.common.util.StringUtils;
 import com.jwss.sra.framework.constant.GlobalValue;
@@ -11,6 +14,7 @@ import com.jwss.sra.system.service.IDashboardService;
 import com.jwss.sra.system.vo.SystemInfoVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.springframework.stereotype.Service;
+import oshi.hardware.GlobalMemory;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -66,10 +70,12 @@ public class DashboardServiceImpl implements IDashboardService {
     public SystemInfoVO getSystemInfo() throws UnknownHostException {
         SystemInfoVO systemInfoVO = new SystemInfoVO();
         // 服务器信息
-        systemInfoVO.setOs(SystemUtil.getOsInfo().getName());
-        systemInfoVO.setServerName(SystemUtil.getHostInfo().getName());
-        systemInfoVO.setServerIp(SystemUtil.getHostInfo().getAddress());
-        systemInfoVO.setServerArchitecture(SystemUtil.getOsInfo().getArch());
+        OsInfo osInfo = SystemUtil.getOsInfo();
+        HostInfo hostInfo = SystemUtil.getHostInfo();
+        systemInfoVO.setOs(osInfo.getName());
+        systemInfoVO.setServerName(hostInfo.getName());
+        systemInfoVO.setServerIp(hostInfo.getAddress());
+        systemInfoVO.setServerArchitecture(osInfo.getArch());
         // java信息
         systemInfoVO.setJavaName(SystemUtil.getJvmInfo().getName());
         systemInfoVO.setJavaVersion(SystemUtil.getJavaInfo().getVersion());
@@ -82,13 +88,15 @@ public class DashboardServiceImpl implements IDashboardService {
         );
         systemInfoVO.setRunningTime(between.getSeconds());
         // CPU信息
-        systemInfoVO.setCpuSystemUsed(OshiUtil.getCpuInfo().getSys());
-        systemInfoVO.setCpuUserUsed(OshiUtil.getCpuInfo().getUsed());
-        systemInfoVO.setCpuFree(OshiUtil.getCpuInfo().getFree());
-        systemInfoVO.setCpuCount(OshiUtil.getCpuInfo().getCpuNum());
+        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+        systemInfoVO.setCpuSystemUsed(cpuInfo.getSys());
+        systemInfoVO.setCpuUserUsed(cpuInfo.getUsed());
+        systemInfoVO.setCpuCount(cpuInfo.getCpuNum());
+        systemInfoVO.setCpuFree(cpuInfo.getFree());
         // 内存信息
-        systemInfoVO.setMemoryTotalSize(OshiUtil.getMemory().getTotal());
-        systemInfoVO.setMemoryAvailableSize(OshiUtil.getMemory().getAvailable());
+        GlobalMemory memory = OshiUtil.getMemory();
+        systemInfoVO.setMemoryAvailableSize(memory.getAvailable());
+        systemInfoVO.setMemoryTotalSize(memory.getTotal());
         // 磁盘信息
         File file = new File(SystemUtil.get(SystemUtil.FILE_SEPARATOR));
         systemInfoVO.setDiskTotalSize(file.getTotalSpace());
