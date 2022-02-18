@@ -7,6 +7,11 @@
 * 前后端分离，后端采用流行的MVC三层架构
 
 #### 启动说明
+1. 运行数据库脚本
+2. 启动本地Redis并运行后端服务
+3. 安装前端依赖并运行前端项目
+##### 数据库脚本
+* /doc/db/db_sra_v1-DDL.sql
 ##### 后端
 * Main入口主类：sra-bootstrap/src/main/java/com/jwss/bootstrap/SraApplicationBoot.java
 ##### 前端
