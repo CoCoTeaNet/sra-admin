@@ -6,13 +6,8 @@
         <!-- 新增菜单 -->
         <v-col cols="9">
           <v-btn color="primary" @click="editItem({}, 2)">
-            {{isMenu===0 ? '新增菜单' : '新增权限'}}
+            {{isMenu===0 ? '添加菜单' : '添加权限'}}
           </v-btn>
-        </v-col>
-        <!-- 搜索栏 -->
-        <v-col cols="3">
-          <v-text-field append-icon="mdi-magnify" label="Search" single-line hide-details>
-          </v-text-field>
         </v-col>
       </v-row>
       <!-- 表体 -->

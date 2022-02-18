@@ -2,17 +2,17 @@
   <v-app id="loginLayout">
     <div class="login-layout-outbox">
       <!-- 登录页-组件 -->
-        <login-view />
+      <login-view/>
     </div>
   </v-app>
 </template>
 
 <script>
 import LoginView from "@/views/system/login/index";
-import { index } from "@/api/system/test-api";
+import {index} from "@/api/system/test-api";
 
 export default {
-  components: { LoginView },
+  components: {LoginView},
   mounted() {
     setTimeout(async () => {
       let res = await index();
@@ -29,8 +29,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  background-image: url(https://cdn.vuetifyjs.com/images/parallax/material.jpg);
-  padding: 0 4% 0 0;
+  justify-content: center;
+  background: linear-gradient(30deg, pink, #8080ff);
 }
 </style>

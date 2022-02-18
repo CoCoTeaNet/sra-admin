@@ -6,13 +6,14 @@
           <v-row>
             <!-- 新增用户栏 -->
             <v-col cols="9">
-              <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
-                添加用户
-              </v-btn>
+              <v-btn class="mr-2 white" @click="initialize"><v-icon>mdi-refresh</v-icon>刷新</v-btn>
+              <v-btn color="primary" @click="editItem({}, 1)">添加用户</v-btn>
             </v-col>
             <!-- 搜索栏 -->
             <v-col cols="3">
-              <v-text-field append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+              <v-text-field v-model="pageParam.userVO.nickname" @keypress.enter="initialize"
+                            append-icon="mdi-magnify" label="查询用户昵称" single-line hide-details>
+              </v-text-field>
             </v-col>
           </v-row>
           <!-- 编辑对话框 -->

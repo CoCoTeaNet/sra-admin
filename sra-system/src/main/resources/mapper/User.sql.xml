@@ -12,6 +12,7 @@
                 left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
                 where
                 #[and su.USERNAME = :username]
+			    #[and su.NICKNAME = :nickname]
 			    #[and su.PASSWORD = :password]
                 and su.DELETE_STATUS=1
 			]]>

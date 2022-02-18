@@ -4,12 +4,13 @@
       <v-toolbar flat>
         <v-row>
           <v-col cols="9">
-            <v-btn color="primary" dark class="mb-2" @click="editItem({}, 1)">
-              新建角色
-            </v-btn>
+            <v-btn class="mr-2 white" @click="initialize"><v-icon>mdi-refresh</v-icon>刷新</v-btn>
+            <v-btn color="primary" @click="editItem({}, 1)">添加角色</v-btn>
           </v-col>
           <v-col cols="3">
-            <v-text-field append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+            <v-text-field v-model="pageParam.roleVO.roleName" @keypress.enter="initialize"
+                          append-icon="mdi-magnify" label="查询角色名称" single-line hide-details>
+            </v-text-field>
           </v-col>
         </v-row>
         <!-- 编辑对话框 -->
