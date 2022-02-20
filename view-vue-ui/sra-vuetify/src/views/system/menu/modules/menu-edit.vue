@@ -50,11 +50,6 @@
               <v-radio label="按钮" value="2"></v-radio>
             </v-radio-group>
 
-            <v-radio-group row v-model="editedItem.isMenu" mandatory>
-              <v-radio label="导航菜单" value="0"></v-radio>
-              <v-radio label="接口权限" value="1"></v-radio>
-            </v-radio-group>
-
             <v-text-field
                 v-model="editedItem.sort"
                 type="number"
@@ -111,7 +106,8 @@ export default {
   components: {CommonTip},
   props: {
     item: {type: Object, required: true, default: null},
-    showDialog: {type: Boolean, required: false, default: false}
+    showDialog: {type: Boolean, required: false, default: false},
+    isMenu: {type: Number, required: true, default: 0}
   },
   data: () => ({
     valid: true,
@@ -148,6 +144,7 @@ export default {
         return;
       }
       const param = this.editedItem;
+      param.isMenu = this.isMenu;
       // 判断操作类型
       if (this.editedItem.editType === 1) {
         update(param).then(res => {

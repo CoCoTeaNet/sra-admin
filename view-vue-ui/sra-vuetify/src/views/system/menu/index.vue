@@ -30,7 +30,7 @@
       </v-dialog>
     </v-card>
     <!-- 编辑菜单对话框 -->
-    <menu-edit :item="editedItem" :show-dialog="dialogEdit" @close="closeEdit"/>
+    <menu-edit :item="editedItem" :isMenu="isMenu" :show-dialog="dialogEdit" @close="closeEdit"/>
     <!-- 菜单移动位置 -->
     <menu-move :item="editedItem" :show="dialogMove" @close="closeEdit"/>
   </v-app>
@@ -80,7 +80,7 @@ export default {
         this.dialogDelete = true;
       } else if (editType === 2) {
         this.editedItem = item;
-        this.editedItem.editType = 2;
+        this.editedItem.editType = editType;
         this.dialogEdit = true;
       } else if (editType === 0 || editType === 1) {
         this.editedItem = item;
