@@ -6,7 +6,7 @@ package com.jwss.sra.framework.constant;
  */
 public class RedisKey {
     /**
-     * 验证码键：第一个参数为验证码类型（必填），第二个参数为
+     * 验证码键：第一个参数为验证码类型（必填），第二个选填
      */
     public final static String VERIFY_CODE = "%s_CODE__%s";
 

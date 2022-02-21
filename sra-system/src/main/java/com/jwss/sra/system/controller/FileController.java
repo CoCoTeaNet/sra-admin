@@ -5,6 +5,7 @@ import cn.hutool.captcha.CircleCaptcha;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
+import com.jwss.sra.framework.util.IpUtils;
 import com.jwss.sra.system.param.file.VerificationCodeParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -24,17 +26,15 @@ import javax.validation.Valid;
 @RequestMapping("/file")
 public class FileController {
     @Resource
-    private IRedisService IRedisService;
+    private IRedisService redisService;
 
     @ApiOperation(value = "验证码生成")
     @PostMapping("/verificationCode")
-    public ApiResult<String> verificationCode(@Valid @RequestBody VerificationCodeParam param){
+    public ApiResult<String> verificationCode(@Valid @RequestBody VerificationCodeParam param, HttpServletRequest request){
         // 生成圆圈干扰的验证码
-        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(
-                200, 100, 4, 20
-        );
-        IRedisService.save(
-                String.format(RedisKey.VERIFY_CODE, param.getCodeType(), param.getOtherParam()),
+        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 20);
+        redisService.save(
+                String.format(RedisKey.VERIFY_CODE, param.getCodeType(), IpUtils.getIp(request)),
                 captcha.getCode(),
                 300L
         );

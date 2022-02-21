@@ -95,7 +95,7 @@ export default {
         let self = this;
         self.loginResult.loading = true;
         setTimeout(async ()=>{
-          let res = await login({ username: this.username, password: this.password });
+          let res = await login({ username: this.username, password: this.password, verifyCode: this.verifyCode });
           if (res.code === 200) {
             self.$store.commit('user/setUserInfo', res.data);
             self.loginResult = { flag: 1, message: '登录成功！', loading: false, tipShow: true };
@@ -111,7 +111,7 @@ export default {
      * 获取登录验证码
      */
     async verificationCode() {
-      let param = { codeType: "LOGIN", otherParam: "1111111" };
+      let param = { codeType: "LOGIN"};
       let res = await verificationCode(param);
       if (res.code === 200) {
         this.codeImageBase64 = res.data;

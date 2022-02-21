@@ -15,11 +15,10 @@ public class VerificationCodeParam implements Serializable {
     private static final long serialVersionUID = 8511400433671973527L;
 
     @NotBlank(message = "验证码类型为空")
-    @ApiModelProperty(value = "验证码类型", required = true)
+    @ApiModelProperty(value = "验证码类型：例如登录操作为LOGIN", required = true)
     private String codeType;
 
-    @NotBlank(message = "验证码其它参数：例userId")
-    @ApiModelProperty(value = "其它参数", required = true)
+    @ApiModelProperty(value = "其它参数：例userId")
     private String otherParam;
 
     public String getCodeType() {

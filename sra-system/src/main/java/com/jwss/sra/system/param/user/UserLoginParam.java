@@ -29,7 +29,19 @@ public class UserLoginParam implements Serializable {
 	@NotBlank(message = "密码不能为空")
 	@ApiModelProperty(name = "用户密码", required = true)
 	private String password;
-	
+
+	@NotBlank(message = "验证码不能为空")
+	@ApiModelProperty(name = "验证码", required = true)
+	private String verifyCode;
+
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
+	}
+
 	/**
 	 *@param username the username to set
 	 */

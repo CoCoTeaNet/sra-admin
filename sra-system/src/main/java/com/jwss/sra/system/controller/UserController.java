@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -70,8 +71,8 @@ public class UserController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public ApiResult<LoginUserVO> login(@Valid @RequestBody UserLoginParam param) throws BusinessException {
-        LoginUserVO s = userService.login(param);
+    public ApiResult<LoginUserVO> login(@Valid @RequestBody UserLoginParam param, HttpServletRequest request) throws BusinessException {
+        LoginUserVO s = userService.login(param, request);
         return ApiResult.ok(s);
     }
 

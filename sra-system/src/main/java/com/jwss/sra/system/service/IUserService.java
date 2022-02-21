@@ -9,13 +9,16 @@ import com.jwss.sra.system.vo.LoginUserVO;
 import com.jwss.sra.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * @date 2022-1-12 15:32:55
  * @author jwss
+ * @date 2022-1-12 15:32:55
  */
 public interface IUserService {
     /**
      * 新增用户
+     *
      * @param param 用户表单
      * @return 成功返回TRUE
      */
@@ -23,6 +26,7 @@ public interface IUserService {
 
     /**
      * 更新用户
+     *
      * @param param 更新用户参数
      * @return 成功返回true
      */
@@ -30,6 +34,7 @@ public interface IUserService {
 
     /**
      * 删除用户
+     *
      * @param id 主键id
      * @return 成功返回true
      */
@@ -37,6 +42,7 @@ public interface IUserService {
 
     /**
      * 用户分页参数
+     *
      * @param param 分页参数
      * @return 用户分页集合
      */
@@ -44,9 +50,11 @@ public interface IUserService {
 
     /**
      * 用户登录
+     *
+     * @param request request
      * @param param 登录参数
      * @return token
      * @throws BusinessException 业务异常
      */
-    LoginUserVO login(UserLoginParam param) throws BusinessException;
+    LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException;
 }

@@ -7,6 +7,9 @@ import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.common.enums.SexEnum;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.framework.constant.RedisKey;
+import com.jwss.sra.framework.service.IRedisService;
+import com.jwss.sra.framework.util.IpUtils;
 import com.jwss.sra.system.param.role.RoleUpdateParam;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
@@ -26,10 +29,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * @date 2022-1-12 15:35:00
  * @author jwss
+ * @date 2022-1-12 15:35:00
  */
 @Service
 public class UserServiceImpl implements IUserService {
@@ -39,6 +43,8 @@ public class UserServiceImpl implements IUserService {
     private IMenuService menuService;
     @Resource
     private IRoleService roleService;
+    @Resource
+    private IRedisService redisService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -65,8 +71,8 @@ public class UserServiceImpl implements IUserService {
         User user = sqlToyLazyDao.convertType(param, User.class);
         Long aLong = sqlToyLazyDao.update(user);
         // 更新用户角色
-        if(!StringUtils.isEmpty(param.getRoleId())){
-            sqlToyLazyDao.deleteByQuery(UserRole.class,EntityQuery.create().where("USER_ID=:userId").names("userId").values(param.getId()));
+        if (!StringUtils.isEmpty(param.getRoleId())) {
+            sqlToyLazyDao.deleteByQuery(UserRole.class, EntityQuery.create().where("USER_ID=:userId").names("userId").values(param.getId()));
             UserRole userRole = new UserRole().setUserId(param.getId()).setRoleId(param.getRoleId());
             sqlToyLazyDao.save(userRole);
         }
@@ -91,14 +97,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public LoginUserVO login(UserLoginParam param) throws BusinessException {
+    public LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException {
+        // 校验验证码
+        String code = redisService.get(String.format(RedisKey.VERIFY_CODE, "LOGIN", IpUtils.getIp(request)));
+        if (!param.getVerifyCode().equals(code)) {
+            throw new BusinessException("验证码错误");
+        }
+        // 校验密码
         User user = sqlToyLazyDao.convertType(param, User.class);
         user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", user);
         if (user == null) {
             throw new BusinessException("登录失败，用户名或密码错误");
         }
         // 默认记住我模式
-        StpUtil.login(user.getId(), true);
+        StpUtil.login(user.getId(), false);
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setLoginStatus(true);
@@ -106,6 +118,7 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setUserDetail(sqlToyLazyDao.convertType(user, UserVO.class));
         loginUserVO.setPermissions(menuService.listByUserId(IsSomethingEnum.YSE.getCode()));
         // TODO 缓存权限
+
         return loginUserVO;
     }
 }
