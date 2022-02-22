@@ -43,139 +43,141 @@
         <commons-pool2.version>2.11.1</commons-pool2.version>
     </properties>
 
-    <dependencies>
-        <!-- 内部模块 -->
-        <!-- 引入系统模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-system</artifactId>
-            <version>${sra-system.version}</version>
-        </dependency>
-        <!-- 引入框架模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-framework</artifactId>
-            <version>${sra-framework.version}</version>
-        </dependency>
-        <!-- 常用工具模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-common</artifactId>
-            <version>${sra-common.version}</version>
-        </dependency>
-        <!-- 配置模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-config</artifactId>
-            <version>${sra-config.version}</version>
-        </dependency>
-        <!-- 项目启动模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-bootstrap</artifactId>
-            <version>${sra-bootstrap.version}</version>
-        </dependency>
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 内部模块 -->
+            <!-- 系统模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-system</artifactId>
+                <version>${sra-system.version}</version>
+            </dependency>
+            <!-- 引入框架模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-framework</artifactId>
+                <version>${sra-framework.version}</version>
+            </dependency>
+            <!-- 常用工具模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-common</artifactId>
+                <version>${sra-common.version}</version>
+            </dependency>
+            <!-- 配置模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-config</artifactId>
+                <version>${sra-config.version}</version>
+            </dependency>
+            <!-- 项目启动模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-bootstrap</artifactId>
+                <version>${sra-bootstrap.version}</version>
+            </dependency>
 
-        <!-- 外部框架 -->
-        <!-- springboot -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
-        </dependency>
-        <!-- sqltoy spring boot starter -->
-        <dependency>
-            <groupId>com.sagframe</groupId>
-            <artifactId>sagacity-sqltoy-starter</artifactId>
-            <version>${sqltoy.version}</version>
-        </dependency>
-        <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>${satoken.version}</version>
-        </dependency>
-        <!-- mysql连接器 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- alibaba连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${alibaba-druid.version}</version>
-        </dependency>
-        <!-- knife4j -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-ui</artifactId>
-            <version>${knife4j.version}</version>
-        </dependency>
-        <!-- swagger2 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <!-- jackson -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>${validation-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-valid.version}</version>
-        </dependency>
-        <!-- hutool工具 -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
-            <version>${hutool-oshi.version}</version>
-        </dependency>
-        <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-dao-redis-jackson</artifactId>
-            <version>${sa-token-redis.version}</version>
-        </dependency>
-        <!-- 提供Redis连接池 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <version>${commons-pool2.version}</version>
-        </dependency>
-        <!-- redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
-        </dependency>
-
-    </dependencies>
+            <!-- 外部框架 -->
+            <!-- springboot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-starter-web.version}</version>
+            </dependency>
+            <!-- sqltoy spring boot starter -->
+            <dependency>
+                <groupId>com.sagframe</groupId>
+                <artifactId>sagacity-sqltoy-starter</artifactId>
+                <version>${sqltoy.version}</version>
+            </dependency>
+            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- mysql连接器 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- alibaba连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${alibaba-druid.version}</version>
+            </dependency>
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <!-- swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-valid.version}</version>
+            </dependency>
+            <!-- hutool工具 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${hutool-oshi.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis-jackson</artifactId>
+                <version>${sa-token-redis.version}</version>
+            </dependency>
+            <!-- 提供Redis连接池 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot-starter-web.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

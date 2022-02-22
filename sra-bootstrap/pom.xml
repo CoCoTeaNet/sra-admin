@@ -17,4 +17,12 @@
         <utf-8>UTF-8</utf-8>
     </properties>
 
+    <dependencies>
+        <!-- 引入一个模块，如果引入的模块里面已经依赖了这里的其中一个模块必须删除它 -->
+        <!-- 引入系统模块 -->
+        <dependency>
+            <groupId>com.jwss</groupId>
+            <artifactId>sra-system</artifactId>
+        </dependency>
+    </dependencies>
 </project>
