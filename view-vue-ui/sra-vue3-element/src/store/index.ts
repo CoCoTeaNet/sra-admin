@@ -17,3 +17,7 @@ export const store = createStore<State>({
 export function useStore () {
     return baseUseStore(key)
 }
+
+export function setStore() {
+    store.state.count++;
+}

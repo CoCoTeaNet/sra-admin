@@ -1,4 +1,4 @@
-import {axios} from "axios";
+import axios from "axios";
 
 // import store from '@/store';
 
@@ -12,8 +12,8 @@ export async function request(url: string, data: any, method: string): Promise<a
     let res: any = await axios.request({
             // `url` 是用于请求的服务器 URL
             url: `/api/${url}`,
-            // `method` 是创建请求时使用的方法
-            method: method, // 默认是 get
+            // `method` 是创建请求时使用的方法 (默认是 get)
+            method: method,
             // `transformRequest` 允许在向服务器发送前，修改请求数据
             transformRequest: [function (data: any) {
                 // 对 data 进行任意转换处理
