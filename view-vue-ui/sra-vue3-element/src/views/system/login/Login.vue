@@ -33,9 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue';
+import {ref, reactive} from "vue";
 import type {ElForm} from 'element-plus';
 import {UserFilled, Lock} from "@element-plus/icons-vue";
+import {submitForm} from "./ts/Login";
 
 type FormInstance = InstanceType<typeof ElForm>
 const loginFormRef = ref<FormInstance>();
@@ -57,33 +58,6 @@ const rules = reactive({
   password: [{required: true, min: 6, max: 30, message: '长度限制6~30', trigger: 'blur'}],
   verifyCode: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 });
-
-/**
- * 登录信息提交
- *
- * @param formEl
- */
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate((valid) => {
-    if (valid) {
-      loading.value = true;
-      console.log('submit!');
-    } else {
-      console.log('error submit!');
-      return false;
-    }
-  });
-}
 </script>
 
-<style scoped>
-.login {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style scoped src="./css/Login.css"></style>

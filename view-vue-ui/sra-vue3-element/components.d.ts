@@ -24,6 +24,11 @@ declare module 'vue' {
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    SimpleTable: typeof import('./src/components/table/simple-table/SimpleTable.vue')['default']
+    SraPieChart: typeof import('./src/components/chart/pie-chart/SraPieChart.vue')['default']
+    SraSimpleTable: typeof import('./src/components/table/simple-table/SraSimpleTable.vue')['default']
+    SraTreeTable: typeof import('./src/components/table/tree-table/SraTreeTable.vue')['default']
+    TreeTable: typeof import('./src/components/table/tree-table/TreeTable.vue')['default']
   }
 }
 
