@@ -5,7 +5,7 @@
     <el-header>
       <admin-header/>
     </el-header>
-    <el-container>
+    <el-container style="background: #F2F6FC">
       <!-- 导航 -->
       <el-aside width="200px">
         <NavMenu/>
@@ -13,7 +13,9 @@
       <!-- 主体 -->
       <el-main>
         <admin-breadcrumb style="margin-bottom: 1em"/>
-        <router-view></router-view>
+        <div style="background: white;padding: 1em;border-radius: 3px;">
+          <router-view></router-view>
+        </div>
       </el-main>
     </el-container>
   </el-container>

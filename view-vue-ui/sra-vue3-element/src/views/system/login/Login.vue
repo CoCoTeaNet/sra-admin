@@ -4,18 +4,23 @@
       <h2 style="text-align: center">登录后台管理系统</h2>
       <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="rules">
         <el-form-item prop="username">
-          <el-input placeholder="账号" :prefix-icon="UserFilled" v-model="loginForm.username" autocomplete="off">
+          <el-input placeholder="账号" :prefix-icon="UserFilled" v-model="loginForm.username"
+                    autocomplete="off">
           </el-input>
         </el-form-item>
 
         <el-form-item prop="password">
-          <el-input placeholder="密码" :prefix-icon="Lock" v-model="loginForm.password" type="password"
+          <el-input placeholder="密码" :prefix-icon="Lock" v-model="loginForm.password"
+                    type="password"
                     autocomplete="off">
           </el-input>
         </el-form-item>
 
         <el-form-item prop="verifyCode">
-          <el-input placeholder="验证码" v-model.number="loginForm.verifyCode"></el-input>
+          <el-input style="width: 75%;" placeholder="验证码" :prefix-icon="Connection"
+                    v-model.number="loginForm.verifyCode">
+          </el-input>
+          <el-image style="width: 25%;" :src="verifyCode"/>
         </el-form-item>
 
         <el-form-item>
@@ -33,16 +38,19 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from "vue";
+import {ref, reactive, onMounted} from "vue";
 import type {ElForm} from 'element-plus';
-import {UserFilled, Lock} from "@element-plus/icons-vue";
-import {submitForm} from "./ts/Login";
+import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
+import {verificationCode} from "@/api/system/file-api";
 
 type FormInstance = InstanceType<typeof ElForm>
 const loginFormRef = ref<FormInstance>();
 
 // 登录加载中
 const loading = ref(false);
+
+// 验证码
+const verifyCode = ref('');
 
 // 表单对象
 const loginForm = reactive({
@@ -58,6 +66,38 @@ const rules = reactive({
   password: [{required: true, min: 6, max: 30, message: '长度限制6~30', trigger: 'blur'}],
   verifyCode: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 });
+
+onMounted(() => {
+  getVerifyCodeImage();
+});
+
+/**
+ * 获取验证码
+ */
+const getVerifyCodeImage = () => {
+  verificationCode({codeType: "LOGIN"}).then((res: any) => {
+    if (res.code === 200) {
+      verifyCode.value = `data:image/jpeg;base64,${res.data}`;
+    }
+  });
+}
+
+/**
+ * 提交登录信息
+ * @param formEl FormInstance
+ */
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate((valid: any) => {
+    if (valid) {
+      loading.value = true;
+      console.log('submit!');
+    } else {
+      console.log('error submit!');
+      return false;
+    }
+  });
+}
 </script>
 
 <style scoped src="./css/Login.css"></style>
