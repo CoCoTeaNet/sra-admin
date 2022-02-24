@@ -1,4 +1,5 @@
 interface UserParam {
     username: string,
-    password: string
+    password: string,
+    token: string
 }
