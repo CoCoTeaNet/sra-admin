@@ -24,9 +24,9 @@
     </el-table>
     <!-- 分页 -->
     <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   :total="pageVo.total"
-                   :page-size="pageParam.pageSize" :current-page="pageParam.pageNum"
-                   :page-sizes="pageSizes" @current-change="currentChange">
+                   popper-class="asdas页"
+                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
+                   :page-sizes="pageSizes">
     </el-pagination>
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
@@ -75,7 +75,6 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   (e: 'edit', id: string): void
   (e: 'remove', id: string): void
-  (e: 'current-change', pageIndex: number): void
   (e: 'remove-batch', selectionIds: string[]): void
   (e: 'enter-search', searchKey: string): void
   (e: 'dialog-confirm'): void
@@ -148,14 +147,6 @@ const removeBatch = () => {
   ).then(() => {
     emit('remove-batch', selectionIds.value);
   });
-}
-
-/**
- * 当前页改变时触发
- * @param pageIndex 新当前页
- */
-const currentChange = (pageIndex) => {
-  emit('current-change', pageIndex);
 }
 
 /**
