@@ -10,23 +10,16 @@
         <el-input placeholder="回车搜索" :prefix-icon="Search" v-model="pageParam.searchKey" @keypress.enter="enterSearch"/>
       </el-col>
     </el-row>
+
     <!-- 表格视图 -->
-    <el-table :data="pageVo.records" stripe style="width: 100%" @select="selectChange" @select-all="selectChange">
-      <!-- 动态字段 -->
-      <slot name="column"></slot>
-      <!-- 单行操作 -->
-      <el-table-column fixed="right" label="操作" width="120">
-        <template #default>
-          <el-button type="text" size="small" @click="edit('id::')">编辑</el-button>
-          <el-button type="text" size="small" @click="remove('id::')">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <slot name="default"></slot>
+
     <!-- 分页 -->
     <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
                    v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
                    :page-sizes="pageSizes">
     </el-pagination>
+
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
       <el-form :model="editForm">
@@ -42,10 +35,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import {ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
-import {onMounted, ref, toRefs} from "vue";
-import {ElMessageBox, ElMessage} from "element-plus";
+import {ref} from "vue";
 
 // 编辑对话框显示&隐藏
 const dialogFormVisible = ref<boolean>(false);
@@ -72,19 +65,14 @@ const props = withDefaults(defineProps<{
 
 // 定义组件方法
 const emit = defineEmits<{
-  (e: 'edit', id: string): void
-  (e: 'remove', id: string): void
   (e: 'remove-batch', selectionIds: string[]): void
   (e: 'enter-search', searchKey: string): void
   (e: 'dialog-confirm'): void
 }>();
 
-onMounted(() => {
-  let {pageParam, pageVo, pageSizes} = toRefs(props);
-  console.log(pageParam.value)
-  console.log(pageVo.value)
-  console.log(pageSizes.value)
-})
+defineExpose({
+  dialogFormVisible
+});
 
 /**
  * 新增
@@ -96,12 +84,10 @@ const add = () => {
 
 /**
  * 编辑单行
- * @param id
  */
-const edit = (id: string) => {
+const edit = () => {
   dialogFormVisible.value = true;
   dialogTitle.value = '编辑';
-  emit('edit', id);
 }
 
 /**
@@ -119,7 +105,7 @@ const remove = (id: string) => {
         center: true,
       }
   ).then(() => {
-    emit('remove', id);
+
   });
 }
 
@@ -149,15 +135,6 @@ const removeBatch = () => {
 }
 
 /**
- * 选项发生改变
- * @param val 已选行
- */
-const selectChange = (val: any[]) => {
-  selectionIds.value = val;
-  console.log(val)
-}
-
-/**
  * 回车搜索
  */
 const enterSearch = () => {
@@ -171,5 +148,3 @@ const dialogConfirm = () => {
   emit('dialog-confirm');
 }
 </script>
-
-<style scoped src="./css/SraSimpleTable.css"></style>

@@ -2,21 +2,25 @@ import {createRouter, createWebHistory} from "vue-router";
 import Login from '@/views/system/login/Login.vue';
 import Home from '@/views/system/dashboard/home/Home.vue';
 import AdminLayout from '@/layout/AdminLayout.vue';
+import MenuView from "@/views/system/manager/menu/MenuView.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
 
 const routes = [
     {
         path: "/login",
         name: "Login",
+        meta: {title: '系统登录'},
         component: Login
     },
     {
         path: '/admin',
         name: 'Admin',
+        meta: {title: '后台管理'},
         component: AdminLayout,
         children: [
-            {path: 'home', name: 'Home', component: Home},
-            {path: 'manager-user', name: 'UserView', component: UserView}
+            {path: 'home', meta: {title: '首页'}, name: 'Home', component: Home},
+            {path: 'user-manager', meta: {title: '用户管理'}, name: 'UserView', component: UserView},
+            {path: 'menu-manager', meta: {title: '菜单管理'}, name: 'MenuView', component: MenuView},
         ]
     }
 ]
@@ -51,7 +55,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach(function (to, from) {
     let title = '';
     to.matched.forEach((item, index) => {
-        title += item.meta.title + (index === to.matched.length - 1 ? '' : ' - ');
+        let field = (index === to.matched.length - 1 ? '' : ' - ');
+        title += item.meta.title + field;
     });
     // 动态刷新title
     if (title) {
