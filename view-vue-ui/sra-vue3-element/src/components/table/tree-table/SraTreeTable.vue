@@ -1,9 +1,11 @@
 <template>
   <base-control-pane ref='baseControlPaneRef' :page-param="pageParam" :page-vo="pageVo" :edit-form="editForm"
-                     :page-sizes="pageSizes" @remove-batch="removeBatch" @enter-search="enterSearch"
+                     :selection-ids="selectionIds" :page-sizes="pageSizes"
+                     @remove-batch="removeBatch" @enter-search="enterSearch"
                      @dialog-confirm="dialogConfirm">
     <template v-slot:default>
-      <el-table :data="pageVo.records" row-key="id" border default-expand-all>
+      <el-table :data="pageVo.records" row-key="id" stripe default-expand-all
+                @select="selectChange" @select-all="selectChange">
         <!-- 表格插槽 -->
         <slot name="default"></slot>
         <!-- 单行操作 -->
@@ -20,8 +22,10 @@
 
 <script lang="ts" setup>
 import BaseControlPane from "../base/BaseControlPane.vue";
-import {ComponentPublicInstance, onMounted, ref} from "vue";
-import {ElForm} from "element-plus";
+import {onMounted, ref} from "vue";
+
+// 已选id集合
+const selectionIds = ref([]);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
@@ -48,18 +52,30 @@ const emit = defineEmits<{
 
 type BaseControlPaneInstance = InstanceType<typeof BaseControlPane>
 const baseControlPaneRef = ref<BaseControlPaneInstance>();
-onMounted(()=>{
-  console.log(baseControlPaneRef.value.dialogFormVisible)
+onMounted(() => {
 })
 
 const edit = (v: string) => {
-  // baseControlPaneRef.value.edit();
+  baseControlPaneRef.value.edit();
   emit('edit', v);
 };
-const remove = (v: string) => emit('remove', v);
+const remove = (v: string) => {
+  baseControlPaneRef.value.remove().then(() => {
+    emit('remove', v);
+  });
+};
 const removeBatch = (v: string[]) => emit('remove-batch', v);
 const enterSearch = (v: string) => emit('enter-search', v);
 const dialogConfirm = () => emit('dialog-confirm');
+
+/**
+ * 选项发生改变
+ * @param val 已选行
+ */
+const selectChange = (val: any[]) => {
+  selectionIds.value = val;
+  console.log(val)
+}
 </script>
 
 <style scoped src="./css/SraTreeTable.css"></style>

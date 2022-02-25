@@ -1,58 +1,29 @@
 <template>
-  <div>
-    <!-- 表格操作 -->
-    <el-row>
-      <el-col :span="20">
-        <el-button type="primary" @click="add">添加</el-button>
-        <el-button type="danger" @click="removeBatch">删除</el-button>
-      </el-col>
-      <el-col :span="4" style="text-align: right">
-        <el-input placeholder="回车搜索" :prefix-icon="Search" v-model="pageParam.searchKey" @keypress.enter="enterSearch"/>
-      </el-col>
-    </el-row>
-    <!-- 表格视图 -->
-    <el-table :data="pageVo.records" stripe style="width: 100%" @select="selectChange" @select-all="selectChange">
-      <!-- 动态字段 -->
-      <slot name="column"></slot>
-      <!-- 单行操作 -->
-      <el-table-column fixed="right" label="操作" width="120">
-        <template #default>
-          <el-button type="text" size="small" @click="edit('id::')">编辑</el-button>
-          <el-button type="text" size="small" @click="remove('id::')">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页 -->
-    <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
-                   :page-sizes="pageSizes">
-    </el-pagination>
-    <!-- 编辑对话框 -->
-    <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form :model="editForm">
-        <slot name="edit"></slot>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogConfirm">确认</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+  <base-control-pane ref='baseControlPaneRef' :edit-form="editForm" :page-vo="pageVo" :page-param="pageParam"
+                     :selection-ids="selectionIds" :page-sizes="pageSizes"
+                     @remove-batch="removeBatch" @enter-search="enterSearch"
+                     @dialog-confirm="dialogConfirm">
+    <template v-slot:default>
+      <!-- 表格视图 -->
+      <el-table :data="pageVo.records" stripe style="width: 100%" @select="selectChange" @select-all="selectChange">
+        <!-- 动态字段 -->
+        <slot name="column"></slot>
+        <!-- 单行操作 -->
+        <el-table-column fixed="right" label="操作" width="120">
+          <template #default>
+            <el-button type="text" size="small" @click="edit('id::')">编辑</el-button>
+            <el-button type="text" size="small" @click="remove('id::')">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+  </base-control-pane>
 </template>
 
 <script lang="ts" setup>
-import {Search} from "@element-plus/icons-vue";
-import {onMounted, ref, toRefs} from "vue";
-import {ElMessageBox, ElMessage} from "element-plus";
+import BaseControlPane from "../base/BaseControlPane.vue";
+import {onMounted, ref} from "vue";
 
-// 编辑对话框显示&隐藏
-const dialogFormVisible = ref<boolean>(false);
-// 对话框标题
-const dialogTitle = ref<string>('');
-// 搜索值
-const searchKey = ref<string>('');
 // 已选id集合
 const selectionIds = ref([]);
 
@@ -79,74 +50,23 @@ const emit = defineEmits<{
   (e: 'dialog-confirm'): void
 }>();
 
+type BaseControlPaneInstance = InstanceType<typeof BaseControlPane>
+const baseControlPaneRef = ref<BaseControlPaneInstance>();
 onMounted(() => {
-  let {pageParam, pageVo, pageSizes} = toRefs(props);
-  console.log(pageParam.value)
-  console.log(pageVo.value)
-  console.log(pageSizes.value)
 })
 
-/**
- * 新增
- */
-const add = () => {
-  dialogFormVisible.value = true;
-  dialogTitle.value = '新增';
-}
-
-/**
- * 编辑单行
- * @param id
- */
-const edit = (id: string) => {
-  dialogFormVisible.value = true;
-  dialogTitle.value = '编辑';
-  emit('edit', id);
-}
-
-/**
- * 移除单行
- * @param id
- */
-const remove = (id: string) => {
-  ElMessageBox.confirm(
-      '确定删除此行?',
-      'Warning',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
-      }
-  ).then(() => {
-    emit('remove', id);
+const edit = (v: string) => {
+  baseControlPaneRef.value.edit();
+  emit('edit', v);
+};
+const remove = (v: string) => {
+  baseControlPaneRef.value.remove().then(() => {
+    emit('remove', v);
   });
-}
-
-/**
- * 批量移除
- */
-const removeBatch = () => {
-  if (!(selectionIds.value.length > 0)) {
-    ElMessage({
-      message: '请选择删除项！',
-      type: 'warning',
-    })
-    return;
-  }
-  ElMessageBox.confirm(
-      '确定删除已选择行?',
-      'Warning',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
-      }
-  ).then(() => {
-    emit('remove-batch', selectionIds.value);
-  });
-}
+};
+const removeBatch = (v: string[]) => emit('remove-batch', v);
+const enterSearch = (v: string) => emit('enter-search', v);
+const dialogConfirm = () => emit('dialog-confirm');
 
 /**
  * 选项发生改变
@@ -155,20 +75,6 @@ const removeBatch = () => {
 const selectChange = (val: any[]) => {
   selectionIds.value = val;
   console.log(val)
-}
-
-/**
- * 回车搜索
- */
-const enterSearch = () => {
-  emit('enter-search', searchKey.value);
-}
-
-/**
- * 对话框确认操作
- */
-const dialogConfirm = () => {
-  emit('dialog-confirm');
 }
 </script>
 

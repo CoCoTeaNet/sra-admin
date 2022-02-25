@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 表格操作 -->
-    <el-row>
+    <el-row style="margin-bottom: 1em">
       <el-col :span="20">
         <el-button type="primary" @click="add">添加</el-button>
         <el-button type="danger" @click="removeBatch">删除</el-button>
@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import {ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
-import {ref} from "vue";
+import {ref, toRefs} from "vue";
 
 // 编辑对话框显示&隐藏
 const dialogFormVisible = ref<boolean>(false);
@@ -46,8 +46,6 @@ const dialogFormVisible = ref<boolean>(false);
 const dialogTitle = ref<string>('');
 // 搜索值
 const searchKey = ref<string>('');
-// 已选id集合
-const selectionIds = ref([]);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
@@ -58,7 +56,9 @@ const props = withDefaults(defineProps<{
   // 分页参数
   pageParam: PageParam,
   // 每页条数
-  pageSizes?: number[]
+  pageSizes?: number[],
+  // 已选id集合
+  selectionIds: []
 }>(), {
   pageSizes: () => [15, 25, 35, 45, 55],
 });
@@ -69,10 +69,6 @@ const emit = defineEmits<{
   (e: 'enter-search', searchKey: string): void
   (e: 'dialog-confirm'): void
 }>();
-
-defineExpose({
-  dialogFormVisible
-});
 
 /**
  * 新增
@@ -92,10 +88,9 @@ const edit = () => {
 
 /**
  * 移除单行
- * @param id
  */
-const remove = (id: string) => {
-  ElMessageBox.confirm(
+const remove = async () => {
+  return await ElMessageBox.confirm(
       '确定删除此行?',
       'Warning',
       {
@@ -104,15 +99,14 @@ const remove = (id: string) => {
         type: 'warning',
         center: true,
       }
-  ).then(() => {
-
-  });
+  );
 }
 
 /**
  * 批量移除
  */
 const removeBatch = () => {
+  let {selectionIds} = toRefs(props);
   if (!(selectionIds.value.length > 0)) {
     ElMessage({
       message: '请选择删除项！',
@@ -147,4 +141,9 @@ const enterSearch = () => {
 const dialogConfirm = () => {
   emit('dialog-confirm');
 }
+
+// 暴露组件属性及方法
+defineExpose({
+  edit, remove
+});
 </script>

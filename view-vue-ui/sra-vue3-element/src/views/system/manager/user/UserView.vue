@@ -18,6 +18,29 @@
 import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
 import {onMounted, reactive, ref, watch} from "vue";
 
+const td = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+];
+
 // 表格数据
 const tableData = ref([]);
 // 表单参数
@@ -29,7 +52,7 @@ const pageVo = ref<PageVO>({pageNum: 0, pageSize: 0, total: 0, records: []});
 
 // 初始化数据
 onMounted(() => {
-  pageVo.value.records = tableData;
+  pageVo.value.records = td;
 })
 
 // 监听当前页的变化

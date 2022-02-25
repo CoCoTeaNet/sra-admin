@@ -3,6 +3,7 @@
                   @edit="edit" @remove="remove" @enter-search="initTable"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch">
     <template v-slot:default>
+      <el-table-column type="selection" width="55"/>
       <el-table-column prop="date" label="date" sortable width="180" />
       <el-table-column prop="name" label="Name" sortable width="180" />
     </template>
@@ -97,12 +98,14 @@ const initTable = () => {
 
 const doUpdate = () => {
   // todo 更新操作
+  console.log('doUpdate')
 }
 
 const removeBatch = (ids: string[]) => {
   // todo 批量删除
   console.log(ids);
 }
+
 </script>
 
 <style scoped></style>
