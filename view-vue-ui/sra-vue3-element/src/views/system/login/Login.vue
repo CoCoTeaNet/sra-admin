@@ -42,6 +42,7 @@ import {ref, reactive, onMounted} from "vue";
 import type {ElForm} from 'element-plus';
 import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
 import {verificationCode} from "@/api/system/file-api";
+import {login} from "@/api/system/user-api";
 
 type FormInstance = InstanceType<typeof ElForm>
 const loginFormRef = ref<FormInstance>();
@@ -91,7 +92,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid: any) => {
     if (valid) {
       loading.value = true;
-      console.log('submit!');
+      login(loginForm).then((res: any) => {
+        if (res.code === 200) {
+          console.log(res.data)
+        }
+      });
     } else {
       console.log('error submit!');
       return false;

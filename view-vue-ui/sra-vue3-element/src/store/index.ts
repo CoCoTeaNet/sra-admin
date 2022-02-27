@@ -2,14 +2,19 @@ import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 
 export interface State {
-    count: number
+    userInfo: UserModel
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
 
 export const store = createStore<State>({
     state: {
-        count: 9980
+        userInfo: {
+            username: '',
+            nickname: '',
+            token: '',
+            isLogin: false
+        }
     }
 })
 
@@ -18,6 +23,6 @@ export function useStore () {
     return baseUseStore(key)
 }
 
-export function setStore() {
-    store.state.count++;
+export function setStore(v: UserModel) {
+    store.state.userInfo = v;
 }
