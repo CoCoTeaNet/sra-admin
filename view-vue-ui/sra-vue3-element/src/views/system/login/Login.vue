@@ -11,6 +11,7 @@
 
         <el-form-item prop="password">
           <el-input placeholder="密码" :prefix-icon="Lock" v-model="loginForm.password"
+                    @keypress.enter="submitForm(loginFormRef)"
                     type="password"
                     autocomplete="off">
           </el-input>
@@ -18,9 +19,10 @@
 
         <el-form-item prop="verifyCode">
           <el-input style="width: 75%;" placeholder="验证码" :prefix-icon="Connection"
-                    v-model.number="loginForm.verifyCode">
+                    @keypress.enter="submitForm(loginFormRef)"
+                    v-model="loginForm.verifyCode">
           </el-input>
-          <el-image style="width: 25%;" :src="verifyCode"/>
+          <el-image @click="getVerifyCodeImage" style="width: 25%;cursor: pointer" :src="verifyCode"/>
         </el-form-item>
 
         <el-form-item>
@@ -43,6 +45,12 @@ import type {ElForm} from 'element-plus';
 import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
 import {verificationCode} from "@/api/system/file-api";
 import {login} from "@/api/system/user-api";
+import {ElMessage} from "element-plus";
+import {setStore} from "@/store";
+import {useRouter, useRoute} from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
 
 type FormInstance = InstanceType<typeof ElForm>
 const loginFormRef = ref<FormInstance>();
@@ -94,8 +102,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
       loading.value = true;
       login(loginForm).then((res: any) => {
         if (res.code === 200) {
-          console.log(res.data)
+          setStore(res.data);
+          let toPath: string = `${route.query.redirect}`;
+          router.push({
+            path: toPath ? toPath : '/',
+          });
+        } else {
+          ElMessage.error(res.data);
         }
+        loading.value = false;
       });
     } else {
       console.log('error submit!');

@@ -16,16 +16,11 @@ import java.io.Serializable;
 public class UserLoginParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
-	/**
-	 * 用户账号
-	 */
+
 	@NotBlank(message = "账号名不能为空")
 	@ApiModelProperty(name = "用户账号", required = true)
 	private String username;
 	
-	/**
-	 * 密码
-	 */
 	@NotBlank(message = "密码不能为空")
 	@ApiModelProperty(name = "用户密码", required = true)
 	private String password;
@@ -33,6 +28,9 @@ public class UserLoginParam implements Serializable {
 	@NotBlank(message = "验证码不能为空")
 	@ApiModelProperty(name = "验证码", required = true)
 	private String verifyCode;
+
+	@ApiModelProperty(name = "记住我")
+	private Boolean rememberMe;
 
 	public String getVerifyCode() {
 		return verifyCode;
@@ -70,4 +68,11 @@ public class UserLoginParam implements Serializable {
 	    return this.password;
 	}
 
+	public Boolean getRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(Boolean rememberMe) {
+		this.rememberMe = rememberMe;
+	}
 }

@@ -7,65 +7,101 @@ import java.util.List;
 
 /**
  * @author jwss
- * @project sss-rbac-admin
  * @version 1.0.0
- * @description sys_user,系统用户表  
+ * @project sss-rbac-admin
+ * @description sys_user, 系统用户表
  */
 public class LoginUserVO implements Serializable {
 
-	private static final long serialVersionUID = 1641777558644610990L;
+    private static final long serialVersionUID = 1641777558644610990L;
 
-	@ApiModelProperty("是否登录")
-	private Boolean loginStatus;
+    @ApiModelProperty("登录状态")
+    private Boolean loginStatus;
 
-	@ApiModelProperty("用户详细信息")
-	private UserVO userDetail;
+    @ApiModelProperty("主键id")
+    private String id;
 
-	@ApiModelProperty("权限集合")
-	private List<MenuVO> permissions;
+    @ApiModelProperty("用户账号")
+    private String username;
 
-	@ApiModelProperty("token")
-	private String token;
+    @ApiModelProperty("用户昵称")
+    private String nickname;
 
-	public Boolean getLoginStatus() {
-		return loginStatus;
-	}
+    @ApiModelProperty("头像地址")
+    private String avatar;
 
-	public void setLoginStatus(Boolean loginStatus) {
-		this.loginStatus = loginStatus;
-	}
+    @ApiModelProperty("权限集合")
+    private List<MenuVO> permissions;
 
-	public UserVO getUserDetail() {
-		return userDetail;
-	}
+    @ApiModelProperty("token")
+    private String token;
 
-	public void setUserDetail(UserVO userDetail) {
-		this.userDetail = userDetail;
-	}
+    public Boolean getLoginStatus() {
+        return loginStatus;
+    }
 
-	public List<MenuVO> getPermissions() {
-		return permissions;
-	}
+    public void setLoginStatus(Boolean loginStatus) {
+        this.loginStatus = loginStatus;
+    }
 
-	public void setPermissions(List<MenuVO> permissions) {
-		this.permissions = permissions;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getToken() {
-		return token;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	@Override
-	public String toString() {
-		return "LoginUserVO{" +
-				"isLogin=" + loginStatus +
-				", userDetail=" + userDetail +
-				", permissions=" + permissions +
-				", token='" + token + '\'' +
-				'}';
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public List<MenuVO> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<MenuVO> permissions) {
+        this.permissions = permissions;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginUserVO{" +
+                "loginStatus=" + loginStatus +
+                ", id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", permissions=" + permissions +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

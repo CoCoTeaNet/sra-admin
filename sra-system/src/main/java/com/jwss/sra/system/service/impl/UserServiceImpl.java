@@ -110,15 +110,16 @@ public class UserServiceImpl implements IUserService {
             throw new BusinessException("登录失败，用户名或密码错误");
         }
         // 默认记住我模式
-        StpUtil.login(user.getId(), false);
+        StpUtil.login(user.getId(), param.getRememberMe());
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setUsername(user.getUsername());
+        loginUserVO.setAvatar(user.getAvatar());
+        loginUserVO.setId(user.getId());
+        loginUserVO.setPermissions(menuService.listByUserId(IsSomethingEnum.YSE.getCode()));
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
-        loginUserVO.setUserDetail(sqlToyLazyDao.convertType(user, UserVO.class));
-        loginUserVO.setPermissions(menuService.listByUserId(IsSomethingEnum.YSE.getCode()));
         // TODO 缓存权限
-
         return loginUserVO;
     }
 }

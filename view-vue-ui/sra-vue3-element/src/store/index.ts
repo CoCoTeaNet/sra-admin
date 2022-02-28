@@ -10,10 +10,12 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore<State>({
     state: {
         userInfo: {
+            id: '',
             username: '',
             nickname: '',
             token: '',
-            isLogin: false
+            loginStatus: false,
+            persimmon: []
         }
     }
 })
@@ -25,4 +27,5 @@ export function useStore () {
 
 export function setStore(v: UserModel) {
     store.state.userInfo = v;
+    localStorage.setItem("userInfo", JSON.stringify(v));
 }

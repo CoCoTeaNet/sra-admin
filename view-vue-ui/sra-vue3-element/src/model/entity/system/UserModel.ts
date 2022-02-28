@@ -1,6 +1,8 @@
 interface UserModel {
+    id: string,
     username: string,
     nickname: string,
     token: string,
-    isLogin: boolean
+    loginStatus: boolean,
+    persimmon: string[]
 }
