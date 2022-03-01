@@ -1,57 +1,53 @@
 <template>
-  <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
-      style="height: 100%"
-  >
-    <el-sub-menu index="1">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span>Navigator One</span>
-      </template>
-      <el-menu-item-group>
-        <template #title><span>Group One</span></template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="1-4">
-        <template #title><span>item four</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
+  <el-menu default-active="1" style="height: 100%">
+    <!-- 顶级菜单 -->
+    <div v-for="(item, index) in store.state.userInfo.menuList" :key="index">
+      <el-menu-item v-if="!hasChildren(item)" :index="index">
+        <el-icon><component :is="item.iconPath"></component></el-icon>
+        <template #title>{{ item.menuName }}</template>
+      </el-menu-item>
+      <!-- 有子菜单 -->
+      <el-sub-menu v-if="hasChildren(item)" :index="index">
+        <template #title>
+          <el-icon><component :is="item.iconPath"></component></el-icon>
+          <span>{{ item.menuName }}</span>
+        </template>
+        <!-- 二级菜单 -->
+        <div v-for="(secItem, secIndex) in item.children" :key="`${index}-${secIndex}`">
+          <el-menu-item v-if="!hasChildren(secItem)" :index="`${index}-${secIndex}`">
+            <el-icon><component :is="secItem.iconPath"></component></el-icon>
+            <template #title>{{ secItem.menuName}}</template>
+          </el-menu-item>
+
+          <el-sub-menu v-if="hasChildren(secItem)" :index="`${index}-${secIndex}`">
+            <template #title>
+              <el-icon><component :is="secItem.iconPath"></component></el-icon>
+              <span>{{ secItem.menuName }}</span>
+            </template>
+            <!-- 三级菜单 -->
+            <el-menu-item v-for="(thiItem, thiIndex) in secItem.children" :key="`${index}-${secIndex}-${thiIndex}`"
+                          :index="`${index}-${secIndex}-${thiIndex}`">
+              <el-icon><component :is="thiItem.iconPath"></component></el-icon>
+              <template #title>{{ thiItem.menuName }}</template>
+            </el-menu-item>
+          </el-sub-menu>
+        </div>
       </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
-      <template #title>Navigator Two</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <el-icon><document /></el-icon>
-      <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon><setting /></el-icon>
-      <template #title>Navigator Four</template>
-    </el-menu-item>
+    </div>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  Location,
-  Document,
-  Setting,
-  Menu as IconMenu,
-} from '@element-plus/icons-vue';
+import {ref} from 'vue';
+import {useStore} from "@/store";
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+const store = ref<any>(useStore());
+
+/**
+ * 判断是否有子菜单
+ */
+const hasChildren = (m: MenuModel) => {
+  return m.children && m.children.length > 0;
 }
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+
 </script>

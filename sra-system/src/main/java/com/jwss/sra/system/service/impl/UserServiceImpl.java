@@ -116,7 +116,7 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());
         loginUserVO.setId(user.getId());
-        loginUserVO.setPermissions(menuService.listByUserId(IsSomethingEnum.YSE.getCode()));
+        loginUserVO.setMenuList(menuService.listByTree(IsSomethingEnum.YSE.getCodeInt()));
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
         // TODO 缓存权限

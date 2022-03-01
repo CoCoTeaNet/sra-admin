@@ -1,7 +1,13 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import BaseLayout from "@/layout/BaseLayout.vue";
+import {setUserInfo} from "./store";
+
+// 读取缓存，以免用户F5刷新登录失效
+let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
+if (userInfo) {
+  setUserInfo(userInfo);
+}
+
 </script>
 
 <template>

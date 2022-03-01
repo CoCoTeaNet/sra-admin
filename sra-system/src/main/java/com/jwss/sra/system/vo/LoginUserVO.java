@@ -31,7 +31,7 @@ public class LoginUserVO implements Serializable {
     private String avatar;
 
     @ApiModelProperty("权限集合")
-    private List<MenuVO> permissions;
+    private List<MenuVO> menuList;
 
     @ApiModelProperty("token")
     private String token;
@@ -76,20 +76,20 @@ public class LoginUserVO implements Serializable {
         this.avatar = avatar;
     }
 
-    public List<MenuVO> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<MenuVO> permissions) {
-        this.permissions = permissions;
-    }
-
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<MenuVO> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<MenuVO> menuList) {
+        this.menuList = menuList;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class LoginUserVO implements Serializable {
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", permissions=" + permissions +
+                ", menuList=" + menuList +
                 ", token='" + token + '\'' +
                 '}';
     }

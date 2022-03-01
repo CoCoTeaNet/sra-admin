@@ -46,7 +46,7 @@ import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
 import {verificationCode} from "@/api/system/file-api";
 import {login} from "@/api/system/user-api";
 import {ElMessage} from "element-plus";
-import {setStore} from "@/store";
+import {setUserInfo} from "@/store";
 import {useRouter, useRoute} from "vue-router";
 
 const router = useRouter();
@@ -56,10 +56,10 @@ type FormInstance = InstanceType<typeof ElForm>
 const loginFormRef = ref<FormInstance>();
 
 // 登录加载中
-const loading = ref(false);
+const loading = ref<boolean>(false);
 
 // 验证码
-const verifyCode = ref('');
+const verifyCode = ref<string>('');
 
 // 表单对象
 const loginForm = reactive({
@@ -102,7 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       loading.value = true;
       login(loginForm).then((res: any) => {
         if (res.code === 200) {
-          setStore(res.data);
+          setUserInfo(res.data);
           let toPath: string = `${route.query.redirect}`;
           router.push({
             path: toPath ? toPath : '/',

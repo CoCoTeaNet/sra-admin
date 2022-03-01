@@ -4,7 +4,6 @@ import Home from '@/views/system/dashboard/home/Home.vue';
 import AdminLayout from '@/layout/AdminLayout.vue';
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
-import {store} from "@/store";
 
 const routes = [
     {
@@ -38,7 +37,8 @@ export const router = createRouter({
  * next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数
  */
 router.beforeEach((to, from, next) => {
-    let isAuthenticated: boolean = store.state.userInfo ? store.state.userInfo.loginStatus : false;
+    let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
+    let isAuthenticated: boolean = userInfo ? userInfo.loginStatus : false;
     // 如果认证了直接跳转admin首页
     let index: string = "/admin/home";
     if (index != to.path && isAuthenticated) {

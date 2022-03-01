@@ -1,14 +1,12 @@
 <template>
   <div class="bg">
-    <p>count: {{ store.state.count }}</p>
-    <el-button @click="sum">加一</el-button>
     <sra-pie-chart :height="300" name="PeiName" :data="da" left="left" orient="vertical" :title="title"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import SraPieChart from "@/components/chart/pie-chart/SraPieChart.vue";
-import {useStore, setStore} from "@/store";
+import {useStore} from "@/store";
 import {ref} from "vue";
 
 const title = {
@@ -27,9 +25,6 @@ const da = [
 
 const store = ref(useStore());
 
-const sum = () => {
-  setStore();
-}
 </script>
 
 <style scoped src="./css/Home.css"></style>

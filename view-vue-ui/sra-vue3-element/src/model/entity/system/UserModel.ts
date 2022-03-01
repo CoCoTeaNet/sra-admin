@@ -4,5 +4,5 @@ interface UserModel {
     nickname: string,
     token: string,
     loginStatus: boolean,
-    persimmon: string[]
+    menuList: MenuModel[]
 }
