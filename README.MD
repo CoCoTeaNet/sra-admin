@@ -16,10 +16,10 @@
 * Main入口主类：sra-bootstrap/src/main/java/com/jwss/bootstrap/SraApplicationBoot.java
 ##### 前端
 ```bash
-$ cd view-vue-ui/sra-vuetify  #切换到前端目录
-$ npm install                 #安装依赖  
-$ npm run serve               #开发环境  
-$ npm run build               #生产环境
+$ cd view-vue-ui/sra-vuetify        #切换到前端目录
+$ npm install   || yarn             #安装依赖  
+$ npm run serve || yarn run serve   #开发环境  
+$ npm run build || yarn run build   #生产环境
 ```
 ##### 访问地址
 - 后端接口文档：http://localhost:7777/sra-api/doc.html  
@@ -55,6 +55,7 @@ $ npm run build               #生产环境
 - vue.js：[前往Vue官网](https://cn.vuejs.org/index.html)  
 - vuetify-ui：[前往vuetify官网](https://vuetifyjs.com/zh-Hans/)  
 - echarts：[Apache ECharts在线文档](https://echarts.apache.org/handbook/zh/get-started/)
+- element-plus：[前往ElementPlus文档](https://element-plus.gitee.io/zh-CN/component/button.html)
 
 #### 软件版本要求
 - mysql：8.0及以上  
