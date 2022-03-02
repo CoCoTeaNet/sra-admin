@@ -1,80 +1,90 @@
 <template>
-  <sra-tree-table :editForm="editFrom" :pageVo="pageVo" :pageParam="pageParam"
-                  @edit="edit" @remove="remove" @enter-search="initTable"
-                  @dialog-confirm="doUpdate" @remove-batch="removeBatch">
+  <sra-tree-table :editForm="editFrom" :pageVo="pageVo" @edit="edit" @remove="remove" @enter-search="initTable"
+                  @dialog-confirm="doUpdate" @remove-batch="removeBatch" :rules="rules"
+                  v-loading="loading">
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
-      <el-table-column prop="date" label="date" sortable width="180" />
-      <el-table-column prop="name" label="Name" sortable width="180" />
+      <el-table-column prop="menuName" label="名称" sortable/>
+      <el-table-column prop="iconPath" label="图标" sortable>
+        <template #default="scope">
+          <el-icon>
+            <component :is="scope.row.iconPath"></component>
+          </el-icon>
+        </template>
+      </el-table-column>
+      <el-table-column prop="menuType" label="类型" sortable>
+        <template #default="scope">
+          <span>{{ getMenuTypeText(scope.row.menuType) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="routerPath" label="路由地址"/>
+      <el-table-column prop="isExternalLink" label="是否外链">
+        <template #default="scope">
+          <span>{{ getIsSomethingText(scope.row.isExternalLink) }}</span>
+        </template>
+      </el-table-column>
+    </template>
+    <!-- 新增&编辑表单 -->
+    <template v-slot:edit>
+      <el-form-item prop="menuName" label="菜单名称">
+        <el-input v-model="editFrom.menuName"></el-input>
+      </el-form-item>
+      <el-form-item label="菜单类型">
+        <el-radio-group v-model="editFrom.menuType">
+          <el-radio model-value="0" label="目录"></el-radio>
+          <el-radio model-value="1" label="菜单"></el-radio>
+          <el-radio model-value="2" label="按钮"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="菜单图标">
+        <icon-selection v-model="editFrom.iconPath"/>
+      </el-form-item>
+      <el-form-item label="路由地址">
+        <el-input v-model="editFrom.routerPath"></el-input>
+      </el-form-item>
+      <el-form-item label="是否外链">
+        <el-radio-group v-model="editFrom.isExternalLink">
+          <el-radio model-value="0" label="是"></el-radio>
+          <el-radio model-value="1" label="否"></el-radio>
+        </el-radio-group>
+      </el-form-item>
     </template>
   </sra-tree-table>
 </template>
 
 <script setup lang="ts">
 import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
-import {onMounted, reactive, ref, watch} from "vue";
-
-interface User {
-  id: number
-  date: string
-  name: string
-  children?: User[]
-}
-
-const tableData: User[] = [
-  {
-    id: 1,
-    date: '2016-05-02',
-    name: 'wangxiaohu',
-  },
-  {
-    id: 2,
-    date: '2016-05-04',
-    name: 'wangxiaohu',
-  },
-  {
-    id: 3,
-    date: '2016-05-01',
-    name: 'wangxiaohu',
-    children: [
-      {
-        id: 31,
-        date: '2016-05-01',
-        name: 'wangxiaohu',
-      },
-      {
-        id: 32,
-        date: '2016-05-01',
-        name: 'wangxiaohu',
-      },
-    ],
-  },
-  {
-    id: 4,
-    date: '2016-05-03',
-    name: 'wangxiaohu',
-  },
-]
+import {onMounted, reactive, ref} from "vue";
+import {listByTree} from "@/api/system/menu-api";
+import {ElMessage} from "element-plus";
+import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
+import IconSelection from "@/components/selection/IconSelection.vue";
 
 // 表单参数
-const editFrom = reactive({});
-// 分页参数
-const pageParam = ref<PageParam>({pageNum: 1, pageSize: 10, searchKey: ''});
+const editFrom: MenuModel = reactive({
+  id: '',
+  menuName: '',
+  menuType: '',
+  iconPath: '',
+  routerPath: '',
+  isExternalLink: ''
+});
+
+// 加载进度
+const loading = ref<boolean>(true);
+
+// 表单校验规则
+const rules = reactive({
+  menuName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
+});
+
 // api返回的分页数据
-const pageVo = ref<PageVO>({pageNum: 1, pageSize: 4, total: 14, records: []});
+const pageVo = ref<PageVO>({pageNum: 1, pageSize: 10, total: 0, records: []});
 
 // 初始化数据
 onMounted(() => {
-  pageVo.value.records = tableData;
-})
-
-// 监听当前页的变化
-watch(
-    () => pageParam.value.pageNum,
-    (current, preview) => {
-      console.log(current)
-    }
-)
+  initTable();
+});
 
 const edit = (id: string) => {
   // todo 获取行详细
@@ -86,22 +96,27 @@ const remove = (id: string) => {
   console.log(id)
 }
 
-const currentChange = (pageIndex: number) => {
-  // todo 换一页
-  console.log(pageIndex)
-}
-
-const initTable = () => {
+const initTable = (): void => {
   // todo 渲染数据
-  console.log(pageParam.value)
+  listByTree(0).then((res: any) => {
+    if (res.code === 200) {
+      pageVo.value.records = res.data;
+    } else {
+      ElMessage.error(res.data);
+    }
+    loading.value = false;
+  });
 }
 
-const doUpdate = () => {
+const doUpdate = (formEl: FormInstance | undefined): void => {
   // todo 更新操作
-  console.log('doUpdate')
+  formEl.validate((valid: any) => {
+    console.log('valid::', valid)
+    console.log('doUpdate::', editFrom)
+  });
 }
 
-const removeBatch = (ids: string[]) => {
+const removeBatch = (ids: string[]): void => {
   // todo 批量删除
   console.log(ids);
 }

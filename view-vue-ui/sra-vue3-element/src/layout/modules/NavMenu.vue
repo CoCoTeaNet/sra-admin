@@ -2,12 +2,12 @@
   <el-menu default-active="1" style="height: 100%">
     <!-- 顶级菜单 -->
     <div v-for="(item, index) in store.state.userInfo.menuList" :key="index">
-      <el-menu-item v-if="!hasChildren(item)" :index="index">
+      <el-menu-item v-if="!hasChildren(item)" :index="`${index}`">
         <el-icon><component :is="item.iconPath"></component></el-icon>
         <template #title>{{ item.menuName }}</template>
       </el-menu-item>
       <!-- 有子菜单 -->
-      <el-sub-menu v-if="hasChildren(item)" :index="index">
+      <el-sub-menu v-if="hasChildren(item)" :index="`${index}`">
         <template #title>
           <el-icon><component :is="item.iconPath"></component></el-icon>
           <span>{{ item.menuName }}</span>

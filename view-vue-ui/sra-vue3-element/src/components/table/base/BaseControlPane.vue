@@ -22,13 +22,13 @@
 
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form :model="editForm">
+      <el-form ref="formRef" :model="editForm" :rules="rules">
         <slot name="edit"></slot>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogConfirm">确认</el-button>
+          <el-button type="primary" @click="dialogConfirm(formRef)">确认</el-button>
         </span>
       </template>
     </el-dialog>
@@ -36,9 +36,12 @@
 </template>
 
 <script setup lang="ts">
-import {ElMessage, ElMessageBox} from "element-plus";
+import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
-import {ref, toRefs} from "vue";
+import {onMounted, ref, toRefs} from "vue";
+
+type FormInstance = InstanceType<typeof ElForm>
+const formRef = ref<FormInstance>();
 
 // 编辑对话框显示&隐藏
 const dialogFormVisible = ref<boolean>(false);
@@ -51,6 +54,8 @@ const searchKey = ref<string>('');
 const props = withDefaults(defineProps<{
   // 表单数据
   editForm: object,
+  // 表单规则
+  rules?: object,
   // 总条数
   pageVo: PageVO,
   // 分页参数
@@ -60,6 +65,7 @@ const props = withDefaults(defineProps<{
   // 已选id集合
   selectionIds: []
 }>(), {
+  rules: {},
   pageSizes: () => [15, 25, 35, 45, 55],
 });
 
@@ -138,8 +144,8 @@ const enterSearch = () => {
 /**
  * 对话框确认操作
  */
-const dialogConfirm = () => {
-  emit('dialog-confirm');
+const dialogConfirm = (formEl: FormInstance | undefined) => {
+  emit('dialog-confirm', formEl);
 }
 
 // 暴露组件属性及方法

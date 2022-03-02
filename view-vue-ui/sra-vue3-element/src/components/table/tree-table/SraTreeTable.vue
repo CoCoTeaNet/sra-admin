@@ -1,8 +1,7 @@
 <template>
   <base-control-pane ref='baseControlPaneRef' :page-param="pageParam" :page-vo="pageVo" :edit-form="editForm"
-                     :selection-ids="selectionIds" :page-sizes="pageSizes"
-                     @remove-batch="removeBatch" @enter-search="enterSearch"
-                     @dialog-confirm="dialogConfirm">
+                     :selection-ids="selectionIds" :page-sizes="pageSizes" :rules="rules"
+                     @remove-batch="removeBatch" @enter-search="enterSearch" @dialog-confirm="dialogConfirm">
     <template v-slot:default>
       <el-table :data="pageVo.records" row-key="id" stripe default-expand-all
                 @select="selectChange" @select-all="selectChange">
@@ -17,12 +16,16 @@
         </el-table-column>
       </el-table>
     </template>
+
+    <template v-slot:edit>
+      <slot name="edit"></slot>
+    </template>
   </base-control-pane>
 </template>
 
 <script lang="ts" setup>
 import BaseControlPane from "../base/BaseControlPane.vue";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 
 // 已选id集合
 const selectionIds = ref([]);
@@ -31,13 +34,17 @@ const selectionIds = ref([]);
 const props = withDefaults(defineProps<{
   // 表单数据
   editForm: object,
+  //表单规则
+  rules?: object,
   // 总条数
   pageVo: PageVO,
   // 分页参数
-  pageParam: PageParam,
+  pageParam?: PageParam,
   // 每页条数
   pageSizes?: number[]
 }>(), {
+  rules: {},
+  pageParam: {pageNum: 1, pageSize: 10, searchKey: ''},
   pageSizes: () => [15, 25, 35, 45, 55],
 });
 
@@ -52,8 +59,6 @@ const emit = defineEmits<{
 
 type BaseControlPaneInstance = InstanceType<typeof BaseControlPane>
 const baseControlPaneRef = ref<BaseControlPaneInstance>();
-onMounted(() => {
-})
 
 const edit = (v: string) => {
   baseControlPaneRef.value.edit();
@@ -66,7 +71,7 @@ const remove = (v: string) => {
 };
 const removeBatch = (v: string[]) => emit('remove-batch', v);
 const enterSearch = (v: string) => emit('enter-search', v);
-const dialogConfirm = () => emit('dialog-confirm');
+const dialogConfirm = (formEl: FormInstance | undefined) => emit('dialog-confirm', formEl);
 
 /**
  * 选项发生改变

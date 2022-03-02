@@ -1,6 +1,6 @@
 <template>
   <base-control-pane ref='baseControlPaneRef' :edit-form="editForm" :page-vo="pageVo" :page-param="pageParam"
-                     :selection-ids="selectionIds" :page-sizes="pageSizes"
+                     :selection-ids="selectionIds" :page-sizes="pageSizes" :rules="rules"
                      @remove-batch="removeBatch" @enter-search="enterSearch"
                      @dialog-confirm="dialogConfirm">
     <template v-slot:default>
@@ -17,6 +17,10 @@
         </el-table-column>
       </el-table>
     </template>
+
+    <template v-slot:edit>
+      <slot name="edit"></slot>
+    </template>
   </base-control-pane>
 </template>
 
@@ -31,6 +35,8 @@ const selectionIds = ref([]);
 const props = withDefaults(defineProps<{
   // 表单数据
   editForm: object,
+  // 表单规则
+  rules?: object,
   // 总条数
   pageVo: PageVO,
   // 分页参数
@@ -38,6 +44,7 @@ const props = withDefaults(defineProps<{
   // 每页条数
   pageSizes?: number[]
 }>(), {
+  rules: {},
   pageSizes: () => [15, 25, 35, 45, 55],
 });
 
@@ -66,7 +73,7 @@ const remove = (v: string) => {
 };
 const removeBatch = (v: string[]) => emit('remove-batch', v);
 const enterSearch = (v: string) => emit('enter-search', v);
-const dialogConfirm = () => emit('dialog-confirm');
+const dialogConfirm = (formEl: FormInstance | undefined) => emit('dialog-confirm', formEl);
 
 /**
  * 选项发生改变

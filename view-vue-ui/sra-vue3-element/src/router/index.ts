@@ -4,6 +4,7 @@ import Home from '@/views/system/dashboard/home/Home.vue';
 import AdminLayout from '@/layout/AdminLayout.vue';
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
+import NotFound from "@/views/error/NotFound.vue";
 
 const routes = [
     {
@@ -17,11 +18,18 @@ const routes = [
         name: 'Admin',
         meta: {title: '后台管理'},
         component: AdminLayout,
+        redirect: { name: 'Home' },
         children: [
             {path: 'home', meta: {title: '首页'}, name: 'Home', component: Home},
             {path: 'user-manager', meta: {title: '用户管理'}, name: 'UserView', component: UserView},
             {path: 'menu-manager', meta: {title: '菜单管理'}, name: 'MenuView', component: MenuView},
         ]
+    },
+    {
+        path: '/:pathMatch(.*)',
+        name: 'error',
+        component: NotFound,
+        meta: { title: '404' },
     }
 ]
 
@@ -40,16 +48,14 @@ router.beforeEach((to, from, next) => {
     let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
     let isAuthenticated: boolean = userInfo ? userInfo.loginStatus : false;
     // 如果认证了直接跳转admin首页
-    let index: string = "/admin/home";
-    if (index != to.path && isAuthenticated) {
-        next({path: index});
+    if ('/' == to.path && isAuthenticated) {
+        next({path: "/admin/home"});
     }
     // 如果未认证且不是跳转登录页就重定向到登录页
     if (to.path !== '/login' && !isAuthenticated) {
         next({path: `/login?redirect=${encodeURI(to.path)}`});
-    } else {
-        next();
     }
+    next();
 })
 
 router.afterEach(function (to, from) {
@@ -63,4 +69,3 @@ router.afterEach(function (to, from) {
         document.title = title;
     }
 })
-

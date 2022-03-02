@@ -7,5 +7,7 @@ interface MenuModel {
     menuName: string,
     menuType: string,
     iconPath: string,
+    routerPath: string,
+    isExternalLink: string,
     children: MenuModel[]
 }
