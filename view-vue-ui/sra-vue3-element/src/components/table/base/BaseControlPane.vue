@@ -22,7 +22,7 @@
 
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="formRef" :model="editForm" :rules="rules">
+      <el-form ref="formRef" v-model="editForm" :rules="rules">
         <slot name="edit"></slot>
       </el-form>
       <template #footer>
@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
-import {onMounted, ref, toRefs} from "vue";
+import {ref, toRefs} from "vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const formRef = ref<FormInstance>();
@@ -79,7 +79,7 @@ const emit = defineEmits<{
 /**
  * 新增
  */
-const add = () => {
+const add = (): void => {
   dialogFormVisible.value = true;
   dialogTitle.value = '新增';
 }

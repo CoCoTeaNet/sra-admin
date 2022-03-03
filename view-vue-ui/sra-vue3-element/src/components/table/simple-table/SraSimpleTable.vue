@@ -10,9 +10,9 @@
         <slot name="column"></slot>
         <!-- 单行操作 -->
         <el-table-column fixed="right" label="操作" width="120">
-          <template #default>
-            <el-button type="text" size="small" @click="edit('id::')">编辑</el-button>
-            <el-button type="text" size="small" @click="remove('id::')">删除</el-button>
+          <template #default="scope">
+            <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
+            <el-button type="text" size="small" @click="remove(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,7 +81,6 @@ const dialogConfirm = (formEl: FormInstance | undefined) => emit('dialog-confirm
  */
 const selectChange = (val: any[]) => {
   selectionIds.value = val;
-  console.log(val)
 }
 </script>
 

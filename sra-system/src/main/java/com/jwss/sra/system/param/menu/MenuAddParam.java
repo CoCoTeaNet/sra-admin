@@ -27,15 +27,13 @@ public class MenuAddParam implements Serializable {
 	/**
 	 * 权限编号
 	 */
-	@NotBlank(message = "权限编号为空")
-	@ApiModelProperty(value = "权限编号", required = true)
+	@ApiModelProperty(value = "权限编号")
 	private String permissionCode;
 	
 	/**
 	 * 路由地址
 	 */
-	@NotBlank(message = "路由地址为空")
-	@ApiModelProperty(value = "路由地址", required = true)
+	@ApiModelProperty(value = "路由地址")
 	private String routerPath;
 	
 	/**
@@ -47,8 +45,7 @@ public class MenuAddParam implements Serializable {
 	/**
 	 * 按钮类型;0目录 1菜单 2按钮
 	 */
-	@NotBlank(message = "按钮类型为空")
-	@ApiModelProperty(value = "按钮类型;0目录 1菜单 2按钮", required = true)
+	@ApiModelProperty(value = "按钮类型;0目录 1菜单 2按钮")
 	private String menuType;
 	
 	/**
@@ -73,8 +70,7 @@ public class MenuAddParam implements Serializable {
 	/**
 	 * 是否外链;0是 1否
 	 */
-	@NotBlank(message = "是否外链为空")
-	@ApiModelProperty(value = "是否外链;0是 1否", required = true)
+	@ApiModelProperty(value = "是否外链;0是 1否")
 	private String isExternalLink;
 	
 	/**

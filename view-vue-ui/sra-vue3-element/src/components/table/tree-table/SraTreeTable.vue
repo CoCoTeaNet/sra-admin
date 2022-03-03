@@ -1,6 +1,7 @@
 <template>
-  <base-control-pane ref='baseControlPaneRef' :page-param="pageParam" :page-vo="pageVo" :edit-form="editForm"
-                     :selection-ids="selectionIds" :page-sizes="pageSizes" :rules="rules"
+  <base-control-pane ref='baseControlPaneRef'
+                     :page-param="pageParam" :page-vo="pageVo" :editForm="editForm" :selection-ids="selectionIds"
+                     :page-sizes="pageSizes" :rules="rules"
                      @remove-batch="removeBatch" @enter-search="enterSearch" @dialog-confirm="dialogConfirm">
     <template v-slot:default>
       <el-table :data="pageVo.records" row-key="id" stripe default-expand-all
@@ -9,9 +10,9 @@
         <slot name="default"></slot>
         <!-- 单行操作 -->
         <el-table-column fixed="right" label="操作" width="120">
-          <template #default>
-            <el-button type="text" size="small" @click="edit('id::')">编辑</el-button>
-            <el-button type="text" size="small" @click="remove('id::')">删除</el-button>
+          <template #default="scope">
+            <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -54,17 +55,18 @@ const emit = defineEmits<{
   (e: 'remove', id: string): void
   (e: 'remove-batch', selectionIds: string[]): void
   (e: 'enter-search', searchKey: string): void
-  (e: 'dialog-confirm'): void
+  (e: 'dialog-confirm'): void,
+  (e: 'update:editForm', v: any): void
 }>();
 
 type BaseControlPaneInstance = InstanceType<typeof BaseControlPane>
 const baseControlPaneRef = ref<BaseControlPaneInstance>();
 
-const edit = (v: string) => {
+const edit = (v: any) => {
   baseControlPaneRef.value.edit();
   emit('edit', v);
 };
-const remove = (v: string) => {
+const remove = (v: any) => {
   baseControlPaneRef.value.remove().then(() => {
     emit('remove', v);
   });

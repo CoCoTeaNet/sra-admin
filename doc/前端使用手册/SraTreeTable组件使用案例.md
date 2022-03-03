@@ -1,8 +1,9 @@
+#### 例子
+```vue
 <template>
-  <sra-tree-table v-model:editForm="editFrom" :pageVo="pageVo" :rules="rules" v-loading="loading"
-                  @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove"
-                  @enter-search="initTable">
-    <!-- 表格列配置 -->
+  <sra-tree-table :editForm="editFrom" :pageVo="pageVo" @edit="edit" @remove="remove" @enter-search="initTable"
+                  @dialog-confirm="doUpdate" @remove-batch="removeBatch" :rules="rules"
+                  v-loading="loading">
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="menuName" label="名称" sortable/>
@@ -30,24 +31,24 @@
       <el-form-item prop="menuName" label="菜单名称">
         <el-input v-model="editFrom.menuName"></el-input>
       </el-form-item>
-      <el-form-item prop="menuType" label="菜单类型">
+      <el-form-item label="菜单类型">
         <el-radio-group v-model="editFrom.menuType">
-          <el-radio label="0">目录</el-radio>
-          <el-radio label="1">菜单</el-radio>
-          <el-radio label="2">按钮</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="routerPath" label="路由地址">
-        <el-input v-model="editFrom.routerPath"></el-input>
-      </el-form-item>
-      <el-form-item prop="isExternalLink" label="是否外链">
-        <el-radio-group v-model="editFrom.isExternalLink">
-          <el-radio label="0">是</el-radio>
-          <el-radio label="1">否</el-radio>
+          <el-radio model-value="0" label="目录"></el-radio>
+          <el-radio model-value="1" label="菜单"></el-radio>
+          <el-radio model-value="2" label="按钮"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="菜单图标">
         <icon-selection v-model="editFrom.iconPath"/>
+      </el-form-item>
+      <el-form-item label="路由地址">
+        <el-input v-model="editFrom.routerPath"></el-input>
+      </el-form-item>
+      <el-form-item label="是否外链">
+        <el-radio-group v-model="editFrom.isExternalLink">
+          <el-radio model-value="0" label="是"></el-radio>
+          <el-radio model-value="1" label="否"></el-radio>
+        </el-radio-group>
       </el-form-item>
     </template>
   </sra-tree-table>
@@ -57,18 +58,18 @@
 import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import {onMounted, reactive, ref} from "vue";
 import {listByTree} from "@/api/system/menu-api";
+import {ElMessage} from "element-plus";
 import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
 import IconSelection from "@/components/selection/IconSelection.vue";
-import {reqCommonFeedback} from "@/api/ApiFeedback";
 
 // 表单参数
 const editFrom: MenuModel = reactive({
   id: '',
-  menuName: ' ',
-  menuType: '0',
+  menuName: '',
+  menuType: '',
   iconPath: '',
   routerPath: '',
-  isExternalLink: '0',
+  isExternalLink: '',
   parentId: ''
 });
 
@@ -91,27 +92,24 @@ onMounted(() => {
   initTable();
 });
 
-const edit = (row: any): void => {
-  // 编辑: 获取行详细
-  if (row) {
-    editFrom.id = row.id;
-    editFrom.iconPath = row.iconPath;
-    editFrom.menuName = row.menuName;
-    editFrom.routerPath = row.routerPath;
-    editFrom.menuType = row.menuType;
-    editFrom.parentId = row.parentId;
-  }
+const edit = (id: string) => {
+  // todo 获取行详细
+  console.log(id)
 }
 
-const remove = (row: any): void => {
+const remove = (id: string) => {
   // todo 调用删除行接口
-  console.log(row)
+  console.log(id)
 }
 
 const initTable = (): void => {
-  // 渲染表格数据
-  reqCommonFeedback(listByTree(0), (data: any) => {
-    pageVo.value.records = data;
+  // todo 渲染数据
+  listByTree(0).then((res: any) => {
+    if (res.code === 200) {
+      pageVo.value.records = res.data;
+    } else {
+      ElMessage.error(res.data);
+    }
     loading.value = false;
   });
 }
@@ -128,8 +126,6 @@ const removeBatch = (ids: string[]): void => {
   // todo 批量删除
   console.log(ids);
 }
-
-
 </script>
 
-<style scoped></style>
+```
