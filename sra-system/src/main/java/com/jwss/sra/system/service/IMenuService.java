@@ -21,6 +21,13 @@ public interface IMenuService {
     boolean add(MenuAddParam param);
 
     /**
+     * 批量移除
+     * @param idList id集合
+     * @return 成功返回true
+     */
+    boolean deleteBatch(List<String> idList);
+
+    /**
      * 分页查询菜单
      * @param pageParam 分页参数
      * @return 分页结果集

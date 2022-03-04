@@ -3,6 +3,7 @@ package com.jwss.sra.system.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.enums.IsSomethingEnum;
+import com.jwss.sra.common.util.StringUtils;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.entity.Menu;
 import com.jwss.sra.system.param.menu.MenuAddParam;
@@ -29,11 +30,20 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public boolean add(MenuAddParam param) {
         Menu menu = sqlToyLazyDao.convertType(param, Menu.class);
-        if (menu.getParentId() == null) {
+        if (StringUtil.isBlank(menu.getParentId())) {
             menu.setParentId(String.valueOf(0));
+        }
+        if (StringUtil.isBlank(menu.getPermissionCode())) {
+            menu.setPermissionCode(menu.getRouterPath().replace(StringUtils.LEFT_LINE, StringUtils.COLON));
         }
         Object menuId = sqlToyLazyDao.save(menu);
         return menuId != null;
+    }
+
+    @Override
+    public boolean deleteBatch(List<String> idList) {
+        idList.forEach(this::delete);
+        return idList.size() > 0;
     }
 
     @Override

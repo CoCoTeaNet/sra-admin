@@ -6,14 +6,14 @@
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="menuName" label="名称" sortable/>
-      <el-table-column prop="iconPath" label="图标" sortable>
+      <el-table-column prop="iconPath" label="图标">
         <template #default="scope">
           <el-icon>
             <component :is="scope.row.iconPath"></component>
           </el-icon>
         </template>
       </el-table-column>
-      <el-table-column prop="menuType" label="类型" sortable>
+      <el-table-column prop="menuType" label="类型">
         <template #default="scope">
           <span>{{ getMenuTypeText(scope.row.menuType) }}</span>
         </template>
@@ -49,17 +49,31 @@
       <el-form-item label="菜单图标">
         <icon-selection v-model="editForm.iconPath"/>
       </el-form-item>
+      <el-form-item label="上级菜单">
+        <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+                     :props="defaultProps" :options="pageVo.records" :show-all-levels="false"
+                     @change="handleChange">
+        </el-cascader>
+      </el-form-item>
     </template>
   </sra-tree-table>
 </template>
 
 <script setup lang="ts">
-import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import {onMounted, reactive, ref} from "vue";
-import {listByTree, add, update} from "@/api/system/menu-api";
-import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
+import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import IconSelection from "@/components/selection/IconSelection.vue";
-import {reqCommonFeedback} from "@/api/ApiFeedback";
+import {listByTree, add, deleteBatch, update} from "@/api/system/menu-api";
+import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
+import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
+
+// 级联选择框配置
+const defaultProps = {
+  value: 'id',
+  label: 'menuName',
+  children: 'children',
+  checkStrictly: true
+}
 
 // 表单参数
 const editForm = reactive<MenuModel>({
@@ -68,8 +82,9 @@ const editForm = reactive<MenuModel>({
   menuType: '0',
   iconPath: '',
   routerPath: '',
-  isExternalLink: '0',
+  isExternalLink: '1',
   parentId: '',
+  isMenu: '0',
   children: []
 });
 
@@ -116,9 +131,9 @@ const initAdd = (): void => {
   editForm.iconPath = '';
   editForm.menuName = '';
   editForm.routerPath = '';
-  editForm.menuType = '0';
+  editForm.menuType = '1';
   editForm.parentId = '';
-  editForm.isExternalLink = '0';
+  editForm.isExternalLink = '1';
 }
 
 /**
@@ -126,13 +141,16 @@ const initAdd = (): void => {
  * @param row
  */
 const remove = (row: any): void => {
-  console.log(row)
+  removeBatch([row.id]);
 }
 
 /**
  * 渲染表格数据
  */
 const initTable = (): void => {
+  if (!loading.value) {
+    loading.value = true;
+  }
   reqCommonFeedback(listByTree(0), (data: any) => {
     pageVo.value.records = data;
     loading.value = false;
@@ -141,29 +159,45 @@ const initTable = (): void => {
 
 /**
  * 更新操作
- * @param formEl
+ * @param formEl 表单组件对象
+ * @param callback 回调函数，调用就会关闭对话框
  */
-const doUpdate = (formEl: any): void => {
+const doUpdate = (formEl: any, callback: Function): void => {
   formEl.validate((valid: any) => {
     if (valid) {
       if (!editForm.id) {
         // 新增
-        reqCommonFeedback(add(editForm), () => {
+        reqSuccessFeedback(add(editForm), '新增成功', () => {
           initTable();
+          callback();
         });
       } else {
         // 修改
-        reqCommonFeedback(update(editForm), () => {
+        reqSuccessFeedback(update(editForm), '修改成功', () => {
           initTable();
+          callback();
         });
       }
     }
   });
 }
 
+/**
+ * 批量删除
+ * @param ids
+ */
 const removeBatch = (ids: string[]): void => {
-  // todo 批量删除
-  console.log(ids);
+  reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
+    initTable();
+  });
+}
+
+/**
+ * 下拉框级联选项发生改变
+ * @param data
+ */
+const handleChange = (data: any) => {
+  editForm.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
 }
 </script>
 

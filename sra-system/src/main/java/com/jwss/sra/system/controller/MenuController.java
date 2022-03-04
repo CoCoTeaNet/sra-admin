@@ -33,10 +33,10 @@ public class MenuController {
         return ApiResult.flag(b);
     }
 
-    @ApiOperation("删除菜单")
-    @PostMapping("delete/{id}")
-    public ApiResult<String> delete(@PathVariable String id) {
-        boolean b = menuService.delete(id);
+    @ApiOperation("批量删除菜单")
+    @PostMapping("deleteBatch")
+    public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> idList) {
+        boolean b = menuService.deleteBatch(idList);
         return ApiResult.flag(b);
     }
 

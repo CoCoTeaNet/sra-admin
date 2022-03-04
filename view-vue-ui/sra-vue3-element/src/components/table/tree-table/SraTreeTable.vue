@@ -12,7 +12,7 @@
     </el-row>
 
     <!-- 表格视图 -->
-    <el-table :data="pageVo.records" row-key="id" stripe default-expand-all
+    <el-table :data="pageVo.records" row-key="id" stripe
               @select="selectChange" @select-all="selectChange">
       <!-- 表格插槽 -->
       <slot name="default"></slot>
@@ -28,18 +28,18 @@
     <!-- 分页 -->
     <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
                    v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
-                   :page-sizes="pageSizes">
+                   :page-sizes="pageSizes" :hide-on-single-page="true">
     </el-pagination>
 
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="formRef" v-model="editForm" :rules="rules">
+      <el-form ref="sttFormRef" :model="editForm" :rules="rules">
         <slot name="edit"></slot>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogConfirm(formRef)">确认</el-button>
+          <el-button type="primary" @click="dialogConfirm(sttFormRef)">确认</el-button>
         </span>
       </template>
     </el-dialog>
@@ -47,12 +47,12 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, toRefs} from "vue";
+import {ref} from "vue";
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
 
 type FormInstance = InstanceType<typeof ElForm>
-const formRef = ref<FormInstance>();
+const sttFormRef = ref<FormInstance>();
 
 // 已选id集合
 const selectionIds = ref([]);
@@ -87,7 +87,7 @@ const emit = defineEmits<{
   (e: 'remove', id: string): void
   (e: 'remove-batch', selectionIds: string[]): void
   (e: 'enter-search', searchKey: string): void
-  (e: 'dialog-confirm', v: FormInstance): void
+  (e: 'dialog-confirm', v: FormInstance, f: Function): void
   (e: 'add'): void
 }>();
 
@@ -113,7 +113,7 @@ const edit = (v: any) => {
  * 移除单行
  */
 const remove = (v: any) => {
-  ElMessageBox.confirm('确定删除此行?', 'Warning', {
+  ElMessageBox.confirm('确定删除此行？如有子节点将一并删除！', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -135,14 +135,16 @@ const removeBatch = () => {
     })
     return;
   }
-  ElMessageBox.confirm('确定删除已选择行?', 'Warning', {
+  ElMessageBox.confirm('确定删除已选择行？如有子节点将一并删除！', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         center: true,
       }
   ).then(() => {
-    emit('remove-batch', selectionIds.value);
+    let idList = [];
+    selectionIds.value.forEach(item => idList.push(item.id));
+    emit('remove-batch', idList);
   });
 }
 
@@ -157,7 +159,7 @@ const enterSearch = () => {
  * 对话框确认操作
  */
 const dialogConfirm = (formEl: FormInstance) => {
-  emit('dialog-confirm', formEl);
+  emit('dialog-confirm', formEl, () => dialogFormVisible.value = false);
 }
 
 /**
@@ -166,7 +168,6 @@ const dialogConfirm = (formEl: FormInstance) => {
  */
 const selectChange = (val: any[]) => {
   selectionIds.value = val;
-  console.log(val)
 }
 </script>
 

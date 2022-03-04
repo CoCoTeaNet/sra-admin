@@ -14,4 +14,14 @@ public class StringUtils {
      * 星号通配符 *
      */
     public final static String ASTERISK = "*";
+
+    /**
+     * 左斜杠
+     */
+    public final static String LEFT_LINE = "/";
+
+    /**
+     * 冒号
+     */
+    public final static String COLON = ":";
 }

@@ -30,6 +30,10 @@ export function reqFeedback(apiFn: any, successMsg: string, errorMsg: string, su
     });
 }
 
+export function reqSuccessFeedback(apiFn: any, msg: string, successCallback: Function) {
+    reqFeedback(apiFn, msg, '', successCallback);
+}
+
 /**
  * 常用api请求反馈模板
  */

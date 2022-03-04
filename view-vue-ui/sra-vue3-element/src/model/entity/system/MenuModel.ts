@@ -9,5 +9,6 @@ interface MenuModel {
     iconPath: string,
     routerPath: string,
     isExternalLink: string,
+    isMenu: string,
     children: MenuModel[]
 }

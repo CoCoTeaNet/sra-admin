@@ -14,8 +14,9 @@
   </el-select>
 </template>
 
+<!-- todo bug: warn:Missing required prop: "value"  -->
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
+import {ref} from 'vue'
 import * as ElIcons from '@element-plus/icons-vue'
 
 interface ListItem {
@@ -31,14 +32,17 @@ defineProps<{
   value: string
 }>();
 
-onMounted(() => {
-  let l: ListItem[] = [];
-  for (const name in ElIcons) {
-    l.push({value: name, label: name});
-  }
-  list.value = l;
-})
+// 加载element图标
+let l: ListItem[] = [];
+for (const name in ElIcons) {
+  l.push({value: name, label: name});
+}
+list.value = l;
 
+/**
+ * 查询列表图标
+ * @param query
+ */
 const remoteMethod = (query: string) => {
   if (query) {
     loading.value = true

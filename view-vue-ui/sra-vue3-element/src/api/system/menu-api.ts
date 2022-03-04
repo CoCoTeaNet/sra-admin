@@ -17,12 +17,12 @@ export function update(data: any) {
 }
 
 /**
- * 删除菜单
+ * 批量删除菜单
  * @param data
  * @returns {Promise<*>}
  */
-export function del(data: any) {
-    return request(`menu/delete/${data}`, null, 'POST');
+export function deleteBatch(data: any) {
+    return request('menu/deleteBatch', data, 'POST');
 }
 
 /**
