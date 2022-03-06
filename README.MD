@@ -67,6 +67,8 @@ $ npm run build || yarn run build   #生产环境
 2. 除去主键约束，因为改方法已过时pk_constraint="PRIMARY"
 3. vo增加toString
 
+#### 关于vite改回webpack说明
+
 #### 参与贡献
 👉[贡献指南](https://gitee.com/gitee-community/opensource-guide/blob/master/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97.md)
 1.  Fork 本仓库
