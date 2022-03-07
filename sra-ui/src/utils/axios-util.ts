@@ -8,7 +8,7 @@ import axios from "axios";
  * @param data 参数
  * @param method 请求方法
  */
-export async function request(url: string, data: any, method: string): Promise<any> {
+export async function request(url: string, data: any, method: any): Promise<any> {
     let res: any = await axios.request({
             // `url` 是用于请求的服务器 URL
             url: `/api/${url}`,
@@ -43,7 +43,7 @@ export async function request(url: string, data: any, method: string): Promise<a
             // 如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve;
             // 否则，promise 将被 reject
             validateStatus: function (status: number) {
-                return status === 200 ? status : 500;
+                return status === 200;
             }
         }
     );

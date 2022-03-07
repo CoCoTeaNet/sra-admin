@@ -18,7 +18,7 @@ const routes = [
         name: 'Admin',
         meta: {title: '后台管理'},
         component: AdminLayout,
-        redirect: { name: 'Home' },
+        redirect: {name: 'Home'},
         children: [
             {path: 'home', meta: {title: '首页'}, name: 'Home', component: Home},
             {path: 'user-manager', meta: {title: '用户管理'}, name: 'UserView', component: UserView},
@@ -29,7 +29,7 @@ const routes = [
         path: '/:pathMatch(.*)',
         name: 'error',
         component: NotFound,
-        meta: { title: '404' },
+        meta: {title: '404'},
     }
 ]
 
@@ -44,7 +44,7 @@ export const router = createRouter({
  * from: Route: 当前导航正要离开的路由
  * next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数
  */
-router.beforeEach((to, from, next) => {
+router.beforeEach((to: any, from: any, next: any) => {
     let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
     let isAuthenticated: boolean = userInfo ? userInfo.loginStatus : false;
     // 如果认证了直接跳转admin首页
@@ -58,9 +58,9 @@ router.beforeEach((to, from, next) => {
     next();
 })
 
-router.afterEach(function (to, from) {
+router.afterEach(function (to: any, from: any) {
     let title = '';
-    to.matched.forEach((item, index) => {
+    to.matched.forEach((item: any, index: any) => {
         let field = (index === to.matched.length - 1 ? '' : ' - ');
         title += item.meta.title + field;
     });
