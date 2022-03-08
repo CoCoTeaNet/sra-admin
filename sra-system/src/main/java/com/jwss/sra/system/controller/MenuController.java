@@ -1,12 +1,14 @@
 package com.jwss.sra.system.controller;
 
 import com.jwss.sra.common.model.ApiResult;
+import com.jwss.sra.system.param.menu.MenuPageParam;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.param.menu.MenuAddParam;
 import com.jwss.sra.system.service.IMenuService;
 import com.jwss.sra.system.vo.MenuVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,9 +50,9 @@ public class MenuController {
     }
 
     @ApiOperation("获取菜单树")
-    @GetMapping("listByTree/{isMenu}")
-    public ApiResult<List<MenuVO>> listByTree(@PathVariable Integer isMenu) {
-        List<MenuVO> menus = menuService.listByTree(isMenu);
+    @PostMapping("listByTree")
+    public ApiResult<Page<MenuVO>> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
+        Page<MenuVO> menus = menuService.listByTree(pageParam);
         return ApiResult.ok(menus);
     }
 

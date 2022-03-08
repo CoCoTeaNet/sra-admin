@@ -36,10 +36,10 @@ public interface IMenuService {
 
     /**
      * 分页查询菜单
-     * @param isMenu 是否菜单 0是 1否 2所有
+     * @param pageParam 分页参数
      * @return 分页结果集
      */
-    List<MenuVO> listByTree(Integer isMenu);
+    Page<MenuVO> listByTree(MenuPageParam pageParam);
 
     /**
      * 更新菜单

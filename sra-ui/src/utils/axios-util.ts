@@ -2,6 +2,10 @@ import axios from "axios";
 
 // import store from '@/store';
 
+export const post = 'POST';
+
+export const get = 'GET';
+
 /**
  * 封装axios
  * @param url 请求地址

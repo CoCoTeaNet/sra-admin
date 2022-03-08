@@ -1,7 +1,8 @@
 <template>
-  <sra-tree-table :editForm="editForm" :pageVo="pageVo" :rules="rules" v-loading="loading"
+  <sra-tree-table v-loading="loading"
+                  :editForm="editForm" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove" @add="initAdd"
-                  @enter-search="initTable">
+                  @enter-search="initTable" @refresh="refresh">
     <!-- 表格列配置 -->
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
@@ -99,8 +100,11 @@ const rules = reactive({
   isExternalLink: [{required: true, message: '请选择链接类型', trigger: 'blur'}],
 });
 
+// api分页请求参数
+const pageParam = ref<PageParam>({pageNum: 1, pageSize: 1000, searchKey: ''});
+
 // api返回的分页数据
-const pageVo = ref<PageVO>({pageNum: 1, pageSize: 10, total: 0, records: []});
+const pageVo = ref<PageVO>({pageNum: 1, pageSize: 15, total: 0, records: []});
 
 // 初始化数据
 onMounted(() => {
@@ -145,14 +149,30 @@ const remove = (row: any): void => {
 }
 
 /**
+ * 刷新
+ */
+const refresh = (): void => {
+  pageParam.value.pageNum = 1;
+  pageParam.value.pageSize = 15;
+  pageParam.value.searchKey = '';
+  setTimeout(initTable, 200);
+}
+
+/**
  * 渲染表格数据
  */
 const initTable = (): void => {
   if (!loading.value) {
     loading.value = true;
   }
-  reqCommonFeedback(listByTree(0), (data: any) => {
-    pageVo.value.records = data;
+  let param = {
+    pageNum: pageParam.value.pageNum,
+    pageSize: pageParam.value.pageSize,
+    menuVO: {isMenu: 0, menuName: pageParam.value.searchKey}
+  };
+  reqCommonFeedback(listByTree(param), (data: any) => {
+    pageVo.value.records = data.rows;
+    pageVo.value.total = data.recordCount;
     loading.value = false;
   });
 }

@@ -53,13 +53,9 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<MenuVO> listByTree(Integer isMenu) {
-        MenuVO vo = new MenuVO();
-        // 如果是0或者1就根据类型获取，否则无视此条件
-        if (isMenu.equals(IsSomethingEnum.YSE.getCodeInt()) || isMenu.equals(IsSomethingEnum.NO.getCodeInt())) {
-            vo.setIsMenu(String.valueOf(isMenu));
-        }
-        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByEntityParam", vo);
+    public Page<MenuVO> listByTree(MenuPageParam pageParam) {
+        Page<MenuVO> menuVoPage = sqlToyLazyDao.findPageBySql(pageParam, "system_menu_findByPageParam", pageParam.getMenuVO());
+        List<MenuVO> menuVOList = menuVoPage.getRows();
         Map<String, MenuVO> menuRootMap = new HashMap<>(menuVOList.size() + 1);
         Map<String, MenuVO> menuChildMap = new HashMap<>(menuVOList.size() + 1);
         String root = String.valueOf(0);
@@ -94,7 +90,8 @@ public class MenuServiceImpl implements IMenuService {
                 }
             }
         }
-        return new ArrayList<>(menuRootMap.values());
+        menuVoPage.setRows(new ArrayList<>(menuRootMap.values()));
+        return menuVoPage;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.framework.util.IpUtils;
+import com.jwss.sra.system.param.menu.MenuPageParam;
 import com.jwss.sra.system.param.role.RoleUpdateParam;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
@@ -113,10 +114,13 @@ public class UserServiceImpl implements IUserService {
         StpUtil.login(user.getId(), param.getRememberMe());
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
+        MenuPageParam pageParam = new MenuPageParam();
+        pageParam.setPageSize(1000);
+        pageParam.getMenuVO().setIsMenu(IsSomethingEnum.YSE.getCode());
+        loginUserVO.setMenuList(menuService.listByTree(pageParam).getRows());
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());
         loginUserVO.setId(user.getId());
-        loginUserVO.setMenuList(menuService.listByTree(IsSomethingEnum.YSE.getCodeInt()));
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
         // TODO 缓存权限

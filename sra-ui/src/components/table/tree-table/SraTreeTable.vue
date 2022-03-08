@@ -3,11 +3,31 @@
     <!-- 表格操作 -->
     <el-row style="margin-bottom: 1em">
       <el-col :span="20">
-        <el-button type="primary" @click="add">添加</el-button>
-        <el-button type="danger" @click="removeBatch">删除</el-button>
+        <el-button type="primary" @click="add">
+          <el-space>
+            <el-icon>
+              <plus/>
+            </el-icon>
+            添加
+          </el-space>
+        </el-button>
+        <el-button type="danger" @click="removeBatch">
+          <el-space>
+            <el-icon>
+              <delete/>
+            </el-icon>
+            删除
+          </el-space>
+        </el-button>
+        <el-button @click="$emit('refresh')">
+          <el-space>
+            <el-icon><refresh /></el-icon>
+            刷新
+          </el-space>
+        </el-button>
       </el-col>
       <el-col :span="4" style="text-align: right">
-        <el-input placeholder="回车搜索" :prefix-icon="Search" v-model="pageParam.searchKey" @keypress.enter="enterSearch"/>
+        <el-input placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey" @keypress.enter="enterSearch"/>
       </el-col>
     </el-row>
 
@@ -55,7 +75,7 @@ type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
 
 // 已选id集合
-const selectionIds = ref([]);
+const selectionIds = ref<any[]>([]);
 // 编辑对话框显示&隐藏
 const dialogFormVisible = ref<boolean>(false);
 // 对话框标题
@@ -72,12 +92,11 @@ const props = withDefaults(defineProps<{
   // 总条数
   pageVo: PageVO,
   // 分页参数
-  pageParam?: PageParam,
+  pageParam: PageParam,
   // 每页条数
   pageSizes?: number[]
 }>(), {
   rules: {},
-  pageParam: {pageNum: 1, pageSize: 10, searchKey: ''},
   pageSizes: () => [15, 25, 35, 45, 55],
 });
 
@@ -142,8 +161,8 @@ const removeBatch = () => {
         center: true,
       }
   ).then(() => {
-    let idList = [];
-    selectionIds.value.forEach(item => idList.push(item.id));
+    let idList: string[] = [];
+    selectionIds.value.forEach((item: any) => idList.push(item.id));
     emit('remove-batch', idList);
   });
 }
