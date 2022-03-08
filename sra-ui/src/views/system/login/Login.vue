@@ -105,7 +105,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           setUserInfo(res.data);
           let toPath: string = `${route.query.redirect}`;
           router.push({
-            path: toPath ? toPath : '/',
+            path: toPath ? toPath : '/admin/home',
           });
         } else {
           ElMessage.error(res.data);
