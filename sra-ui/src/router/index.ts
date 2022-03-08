@@ -3,6 +3,7 @@ import Login from '@/views/system/login/Login.vue';
 import Home from '@/views/system/dashboard/home/Home.vue';
 import AdminLayout from '@/layout/AdminLayout.vue';
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
+import PermissionView from "@/views/system/manager/menu/Permission.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
 import NotFound from "@/views/error/NotFound.vue";
 
@@ -23,6 +24,7 @@ const routes = [
             {path: 'home', meta: {title: '首页'}, name: 'Home', component: Home},
             {path: 'user-manager', meta: {title: '用户管理'}, name: 'UserView', component: UserView},
             {path: 'menu-manager', meta: {title: '菜单管理'}, name: 'MenuView', component: MenuView},
+            {path: 'permission-manager', meta: {title: '菜单管理'}, name: 'PermissionView', component: PermissionView},
         ]
     },
     {
