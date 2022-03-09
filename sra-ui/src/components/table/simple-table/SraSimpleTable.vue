@@ -30,7 +30,7 @@
       </el-col>
       <el-col :span="4" style="text-align: right">
         <el-input placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey"
-                  @keypress.enter="enterSearch"/>
+                  @keypress.enter="$emit('enter-search')"/>
       </el-col>
     </el-row>
 
@@ -41,21 +41,21 @@
       <!-- 单行操作 -->
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
-          <el-button type="text" size="small" @click="edit(scope.row.id)">编辑</el-button>
-          <el-button type="text" size="small" @click="remove(scope.row.id)">删除</el-button>
+          <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
     <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
+                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo" :total="pageVo.total"
                    :page-sizes="pageSizes">
     </el-pagination>
 
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="formRef" v-model="editForm" :rules="rules">
+      <el-form ref="sstFormRef" :model="editForm" label-width="120px" :rules="rules">
         <slot name="edit"></slot>
       </el-form>
       <template #footer>
@@ -71,9 +71,12 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
+import {Search} from "@element-plus/icons-vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sstFormRef = ref<FormInstance>();
+const dialogTitle = ref<string>('');
+const dialogFormVisible = ref<boolean>(false);
 
 // 已选id集合
 const selectionIds = ref<any[]>([]);
@@ -83,7 +86,7 @@ const props = withDefaults(defineProps<{
   // 表单数据
   editForm: object,
   // 表单规则
-  rules?: object,
+  rules?: any,
   // 总条数
   pageVo: PageVO,
   // 分页参数
@@ -97,10 +100,10 @@ const props = withDefaults(defineProps<{
 
 // 定义组件方法
 const emit = defineEmits<{
-  (e: 'edit', id: string): void
-  (e: 'remove', id: string): void
-  (e: 'remove-batch', selectionIds: string[]): void
-  (e: 'enter-search', searchKey: string): void
+  (e: 'edit', v: string): void
+  (e: 'remove', v: string): void
+  (e: 'remove-batch', v: string[]): void
+  (e: 'enter-search', v: string): void
   (e: 'dialog-confirm', v: FormInstance, f: Function): void
   (e: 'add'): void
 }>();
@@ -130,8 +133,7 @@ const remove = (v: any) => {
   ElMessageBox.confirm('确定删除此行？', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
+        type: 'warning'
       }
   ).then(() => {
     emit('remove', v);
@@ -152,21 +154,13 @@ const removeBatch = () => {
   ElMessageBox.confirm('确定删除已选择行？', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
+        type: 'warning'
       }
   ).then(() => {
     let idList: string[] = [];
     selectionIds.value.forEach((item: any) => idList.push(item.id));
     emit('remove-batch', idList);
   });
-}
-
-/**
- * 回车搜索
- */
-const enterSearch = () => {
-  emit('enter-search', searchKey.value);
 }
 
 /**

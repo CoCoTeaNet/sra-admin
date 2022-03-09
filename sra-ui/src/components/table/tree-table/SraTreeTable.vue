@@ -47,13 +47,13 @@
 
     <!-- 分页 -->
     <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNum" :total="pageVo.total"
+                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo" :total="pageVo.total"
                    :page-sizes="pageSizes" :hide-on-single-page="true">
     </el-pagination>
 
     <!-- 编辑对话框 -->
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="sttFormRef" :model="editForm" :rules="rules">
+      <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
         <slot name="edit"></slot>
       </el-form>
       <template #footer>
@@ -135,8 +135,7 @@ const remove = (v: any) => {
   ElMessageBox.confirm('确定删除此行？如有子节点将一并删除！', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
+        type: 'warning'
       }
   ).then(() => {
     emit('remove', v);
@@ -157,8 +156,7 @@ const removeBatch = () => {
   ElMessageBox.confirm('确定删除已选择行？如有子节点将一并删除！', 'Warning', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
+        type: 'warning'
       }
   ).then(() => {
     let idList: string[] = [];

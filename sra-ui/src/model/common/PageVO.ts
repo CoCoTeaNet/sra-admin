@@ -1,6 +1,6 @@
 interface PageVO {
     records: any[],
     total: number,
-    pageNum: number,
+    pageNo: number,
     pageSize: number
 }

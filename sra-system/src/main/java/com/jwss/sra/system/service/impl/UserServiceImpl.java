@@ -22,6 +22,7 @@ import com.jwss.sra.system.service.IMenuService;
 import com.jwss.sra.system.service.IRoleService;
 import com.jwss.sra.system.service.IUserService;
 import com.jwss.sra.system.vo.LoginUserVO;
+import com.jwss.sra.system.vo.MenuVO;
 import com.jwss.sra.system.vo.UserVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.EntityQuery;
@@ -116,7 +117,9 @@ public class UserServiceImpl implements IUserService {
         LoginUserVO loginUserVO = new LoginUserVO();
         MenuPageParam pageParam = new MenuPageParam();
         pageParam.setPageSize(1000);
-        pageParam.getMenuVO().setIsMenu(IsSomethingEnum.YSE.getCode());
+        MenuVO menuVO = new MenuVO();
+        menuVO.setIsMenu(IsSomethingEnum.YSE.getCode());
+        pageParam.setMenuVO(menuVO);
         loginUserVO.setMenuList(menuService.listByTree(pageParam).getRows());
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());

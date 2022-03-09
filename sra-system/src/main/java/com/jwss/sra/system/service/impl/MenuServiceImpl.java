@@ -48,7 +48,7 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Page<MenuVO> listByPage(MenuPageParam pageParam) {
-        Page<MenuVO> page = sqlToyLazyDao.findPageBySql(pageParam, "system_menu_findByEntityParam", pageParam.getMenuVO());
+        Page<MenuVO> page = sqlToyLazyDao.findPageBySql(pageParam, "system_menu_findByPageParam", pageParam.getMenuVO());
         return page;
     }
 

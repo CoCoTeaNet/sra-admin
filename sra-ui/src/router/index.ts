@@ -3,7 +3,7 @@ import Login from '@/views/system/login/Login.vue';
 import Home from '@/views/system/dashboard/home/Home.vue';
 import AdminLayout from '@/layout/AdminLayout.vue';
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
-import PermissionView from "@/views/system/manager/menu/Permission.vue";
+import PermissionView from "@/views/system/manager/menu/PermissionView.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
 import NotFound from "@/views/error/NotFound.vue";
 

@@ -105,10 +105,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
           setUserInfo(res.data);
           let toPath: string = `${route.query.redirect}`;
           router.push({
-            path: toPath ? toPath : '/admin/home',
+            path: !toPath ? toPath : '/admin/home',
           });
         } else {
-          ElMessage.error(res.data);
+          ElMessage.error(!res.data ? res.message : res.data);
         }
         loading.value = false;
       });

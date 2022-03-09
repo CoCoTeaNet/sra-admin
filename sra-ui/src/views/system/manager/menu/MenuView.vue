@@ -85,8 +85,7 @@ const editForm = reactive<MenuModel>({
   routerPath: '',
   isExternalLink: '1',
   parentId: '',
-  isMenu: '0',
-  children: []
+  isMenu: '0'
 });
 
 // 加载进度
@@ -101,10 +100,10 @@ const rules = reactive({
 });
 
 // api分页请求参数
-const pageParam = ref<PageParam>({pageNum: 1, pageSize: 1000, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: ''});
 
 // api返回的分页数据
-const pageVo = ref<PageVO>({pageNum: 1, pageSize: 15, total: 0, records: []});
+const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 
 // 初始化数据
 onMounted(() => {
@@ -152,7 +151,7 @@ const remove = (row: any): void => {
  * 刷新
  */
 const refresh = (): void => {
-  pageParam.value.pageNum = 1;
+  pageParam.value.pageNo = 1;
   pageParam.value.pageSize = 15;
   pageParam.value.searchKey = '';
   setTimeout(initTable, 200);
@@ -166,7 +165,7 @@ const initTable = (): void => {
     loading.value = true;
   }
   let param = {
-    pageNum: pageParam.value.pageNum,
+    pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
     menuVO: {isMenu: 0, menuName: pageParam.value.searchKey}
   };

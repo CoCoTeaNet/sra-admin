@@ -3,7 +3,7 @@
  */
 interface PageParam {
     // 页码
-    pageNum: number,
+    pageNo: number,
     // 页大小
     pageSize: number,
     // 搜索字符串

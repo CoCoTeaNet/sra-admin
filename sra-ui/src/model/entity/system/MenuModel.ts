@@ -3,12 +3,14 @@
  */
 interface MenuModel {
     id: string,
-    parentId: string,
+    parentId?: string,
     menuName: string,
-    menuType: string,
-    iconPath: string,
-    routerPath: string,
-    isExternalLink: string,
+    menuType?: string,
+    iconPath?: string,
+    routerPath?: string,
+    isExternalLink?: string,
     isMenu: string,
-    children: MenuModel[]
+    sort?: number,
+    permissionCode?: string,
+    children?: MenuModel[]
 }

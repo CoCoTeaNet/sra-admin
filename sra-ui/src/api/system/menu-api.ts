@@ -22,7 +22,7 @@ export function update(data: any) {
  * @returns {Promise<*>}
  */
 export function deleteBatch(data: any) {
-    return request('menu/deleteBatch', data, get);
+    return request('menu/deleteBatch', data, post);
 }
 
 /**

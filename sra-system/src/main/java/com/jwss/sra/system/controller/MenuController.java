@@ -49,6 +49,13 @@ public class MenuController {
         return ApiResult.flag(b);
     }
 
+    @ApiOperation("分页获取菜单")
+    @PostMapping("listByPage")
+    public ApiResult<Page<MenuVO>> listByPage(@Valid @RequestBody MenuPageParam pageParam) {
+        Page<MenuVO> menus = menuService.listByPage(pageParam);
+        return ApiResult.ok(menus);
+    }
+
     @ApiOperation("获取菜单树")
     @PostMapping("listByTree")
     public ApiResult<Page<MenuVO>> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
@@ -56,7 +63,7 @@ public class MenuController {
         return ApiResult.ok(menus);
     }
 
-    @ApiOperation("获取菜单树")
+    @ApiOperation("通过角色获取菜单树")
     @GetMapping("listByRoleId/{roleId}")
     public ApiResult<List<MenuVO>> listByRoleId(@PathVariable String roleId) {
         List<MenuVO> menus = menuService.listByRoleId(roleId);
