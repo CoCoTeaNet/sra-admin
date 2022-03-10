@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import com.jwss.sra.common.enums.ApiResultEnum;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.common.model.BusinessException;
+import org.sagacity.sqltoy.exception.DataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常
- * @date 2022-2-7 02:52:00
+ *
  * @author jwss
+ * @date 2022-2-7 02:52:00
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,7 +30,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ApiResult<String> handlerException(Exception e) {
         logger.error("GlobalExceptionHandler error :" + e.getMessage());
-        if (e instanceof NotLoginException) {
+        logger.error(e.getClass().getName());
+        if (e instanceof DataAccessException) {
+            return ApiResult.error(ApiResultEnum.TOKEN_INVALID.getDesc(), ApiResultEnum.TOKEN_INVALID.getCode());
+        } else if (e instanceof NotLoginException) {
             return ApiResult.error(ApiResultEnum.NOT_LOGIN.getDesc(), ApiResultEnum.NOT_LOGIN.getCode());
         } else if (e instanceof NotPermissionException) {
             return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getDesc(), ApiResultEnum.NOT_PERMISSION.getCode());

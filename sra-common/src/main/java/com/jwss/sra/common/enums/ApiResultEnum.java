@@ -29,6 +29,10 @@ public enum ApiResultEnum {
      * 无权限访问
      */
     NOT_PERMISSION(4002, "无权限访问"),
+    /**
+     * token失效
+     */
+    TOKEN_INVALID(4003, "TOKEN失效")
     ;
     Integer code;
     String desc;

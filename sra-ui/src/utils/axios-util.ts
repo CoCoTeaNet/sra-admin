@@ -1,10 +1,46 @@
 import axios from "axios";
-
-// import store from '@/store';
+import {router} from "@/router";
+import {useStore} from '@/store';
 
 export const post = 'POST';
 
 export const get = 'GET';
+
+const store: any = useStore();
+
+/**
+ * api状态返回值
+ */
+enum ApiResultEnum {
+    /**
+     * 成功
+     */
+    SUCCESS = 200,
+    /**
+     * 内部错误
+     */
+    ERROR = 500,
+    /**
+     * 未找到资源
+     */
+    NOT_FOUNT = 404,
+    /**
+     * 拒绝请求
+     */
+    REFUSE = 401,
+    /**
+     * 未登录
+     */
+    NOT_LOGIN = 4001,
+    /**
+     * 无权限访问
+     */
+    NOT_PERMISSION = 4002,
+    /**
+     * token失效
+     */
+    TOKEN_INVALID = 4003
+}
 
 /**
  * 封装axios
@@ -52,13 +88,10 @@ export async function request(url: string, data: any, method: any): Promise<any>
         }
     );
 
-    // 请求状态
-    switch (res.data.code) {
-        case 4001:
-            // 未登录
-            break;
-        default:
-            break;
+    if (res.data.code === ApiResultEnum.NOT_LOGIN || res.data.code === ApiResultEnum.TOKEN_INVALID) {
+        // 未登录
+        await router.push({path: '/login'});
+        return ;
     }
 
     return res.data;
