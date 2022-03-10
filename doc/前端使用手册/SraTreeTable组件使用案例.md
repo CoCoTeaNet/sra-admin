@@ -1,20 +1,22 @@
 #### 例子
 ```vue
 <template>
-  <sra-tree-table :editForm="editFrom" :pageVo="pageVo" @edit="edit" @remove="remove" @enter-search="initTable"
-                  @dialog-confirm="doUpdate" @remove-batch="removeBatch" :rules="rules"
-                  v-loading="loading">
+  <sra-tree-table v-loading="loading"
+                  :editForm="editForm" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
+                  @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove" @add="initAdd"
+                  @enter-search="initTable" @refresh="refresh">
+    <!-- 表格列配置 -->
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="menuName" label="名称" sortable/>
-      <el-table-column prop="iconPath" label="图标" sortable>
+      <el-table-column prop="iconPath" label="图标">
         <template #default="scope">
           <el-icon>
             <component :is="scope.row.iconPath"></component>
           </el-icon>
         </template>
       </el-table-column>
-      <el-table-column prop="menuType" label="类型" sortable>
+      <el-table-column prop="menuType" label="类型">
         <template #default="scope">
           <span>{{ getMenuTypeText(scope.row.menuType) }}</span>
         </template>
@@ -29,48 +31,63 @@
     <!-- 新增&编辑表单 -->
     <template v-slot:edit>
       <el-form-item prop="menuName" label="菜单名称">
-        <el-input v-model="editFrom.menuName"></el-input>
+        <el-input v-model="editForm.menuName"></el-input>
       </el-form-item>
-      <el-form-item label="菜单类型">
-        <el-radio-group v-model="editFrom.menuType">
-          <el-radio model-value="0" label="目录"></el-radio>
-          <el-radio model-value="1" label="菜单"></el-radio>
-          <el-radio model-value="2" label="按钮"></el-radio>
+      <el-form-item prop="menuType" label="菜单类型">
+        <el-radio-group v-model="editForm.menuType">
+          <el-radio label="0">目录</el-radio>
+          <el-radio label="1">菜单</el-radio>
+          <el-radio label="2">按钮</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="routerPath" label="路由地址">
+        <el-input v-model="editForm.routerPath"></el-input>
+      </el-form-item>
+      <el-form-item prop="isExternalLink" label="是否外链">
+        <el-radio-group v-model="editForm.isExternalLink">
+          <el-radio label="0">是</el-radio>
+          <el-radio label="1">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="菜单图标">
-        <icon-selection v-model="editFrom.iconPath"/>
+        <icon-selection v-model="editForm.iconPath"/>
       </el-form-item>
-      <el-form-item label="路由地址">
-        <el-input v-model="editFrom.routerPath"></el-input>
-      </el-form-item>
-      <el-form-item label="是否外链">
-        <el-radio-group v-model="editFrom.isExternalLink">
-          <el-radio model-value="0" label="是"></el-radio>
-          <el-radio model-value="1" label="否"></el-radio>
-        </el-radio-group>
+      <el-form-item label="上级菜单">
+        <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+                     :props="defaultProps" :options="pageVo.records" :show-all-levels="false"
+                     @change="handleChange">
+        </el-cascader>
       </el-form-item>
     </template>
   </sra-tree-table>
 </template>
 
 <script setup lang="ts">
-import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import {onMounted, reactive, ref} from "vue";
-import {listByTree} from "@/api/system/menu-api";
-import {ElMessage} from "element-plus";
-import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
+import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import IconSelection from "@/components/selection/IconSelection.vue";
+import {listByTree, add, deleteBatch, update} from "@/api/system/menu-api";
+import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
+import {getMenuTypeText, getIsSomethingText} from "@/utils/format-util";
+
+// 级联选择框配置
+const defaultProps = {
+  value: 'id',
+  label: 'menuName',
+  children: 'children',
+  checkStrictly: true
+}
 
 // 表单参数
-const editFrom: MenuModel = reactive({
+const editForm = reactive<MenuModel>({
   id: '',
   menuName: '',
-  menuType: '',
+  menuType: '0',
   iconPath: '',
   routerPath: '',
-  isExternalLink: '',
-  parentId: ''
+  isExternalLink: '1',
+  parentId: '',
+  isMenu: '0'
 });
 
 // 加载进度
@@ -84,48 +101,124 @@ const rules = reactive({
   isExternalLink: [{required: true, message: '请选择链接类型', trigger: 'blur'}],
 });
 
+// api分页请求参数
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: ''});
+
 // api返回的分页数据
-const pageVo = ref<PageVO>({pageNum: 1, pageSize: 10, total: 0, records: []});
+const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 
 // 初始化数据
 onMounted(() => {
   initTable();
 });
 
-const edit = (id: string) => {
-  // todo 获取行详细
-  console.log(id)
+/**
+ * 初始化编辑数据
+ * @param row
+ */
+const edit = (row: any): void => {
+  if (row) {
+    editForm.id = row.id;
+    editForm.iconPath = row.iconPath;
+    editForm.menuName = row.menuName;
+    editForm.routerPath = row.routerPath;
+    editForm.menuType = row.menuType;
+    editForm.parentId = row.parentId;
+    editForm.isExternalLink = row.isExternalLink;
+  }
 }
 
-const remove = (id: string) => {
-  // todo 调用删除行接口
-  console.log(id)
+/**
+ * 初始化新增数据
+ */
+const initAdd = (): void => {
+  editForm.id = '';
+  editForm.iconPath = '';
+  editForm.menuName = '';
+  editForm.routerPath = '';
+  editForm.menuType = '1';
+  editForm.parentId = '';
+  editForm.isExternalLink = '1';
 }
 
+/**
+ * 删除行
+ * @param row
+ */
+const remove = (row: any): void => {
+  removeBatch([row.id]);
+}
+
+/**
+ * 刷新
+ */
+const refresh = (): void => {
+  pageParam.value.pageNo = 1;
+  pageParam.value.pageSize = 15;
+  pageParam.value.searchKey = '';
+  setTimeout(initTable, 200);
+}
+
+/**
+ * 渲染表格数据
+ */
 const initTable = (): void => {
-  // todo 渲染数据
-  listByTree(0).then((res: any) => {
-    if (res.code === 200) {
-      pageVo.value.records = res.data;
-    } else {
-      ElMessage.error(res.data);
-    }
+  if (!loading.value) {
+    loading.value = true;
+  }
+  let param = {
+    pageNo: pageParam.value.pageNo,
+    pageSize: pageParam.value.pageSize,
+    menuVO: {isMenu: 0, menuName: pageParam.value.searchKey}
+  };
+  reqCommonFeedback(listByTree(param), (data: any) => {
+    pageVo.value.records = data.rows;
+    pageVo.value.total = data.recordCount;
     loading.value = false;
   });
 }
 
-const doUpdate = (formEl: FormInstance | undefined): void => {
-  // todo 更新操作
+/**
+ * 更新操作
+ * @param formEl 表单组件对象
+ * @param callback 回调函数，调用就会关闭对话框
+ */
+const doUpdate = (formEl: any, callback: Function): void => {
   formEl.validate((valid: any) => {
-    console.log('valid::', valid)
-    console.log('doUpdate::', editFrom)
+    if (valid) {
+      if (!editForm.id) {
+        // 新增
+        reqSuccessFeedback(add(editForm), '新增成功', () => {
+          initTable();
+          callback();
+        });
+      } else {
+        // 修改
+        reqSuccessFeedback(update(editForm), '修改成功', () => {
+          initTable();
+          callback();
+        });
+      }
+    }
   });
 }
 
+/**
+ * 批量删除
+ * @param ids
+ */
 const removeBatch = (ids: string[]): void => {
-  // todo 批量删除
-  console.log(ids);
+  reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
+    initTable();
+  });
+}
+
+/**
+ * 下拉框级联选项发生改变
+ * @param data
+ */
+const handleChange = (data: any) => {
+  editForm.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
 }
 </script>
-
 ```
