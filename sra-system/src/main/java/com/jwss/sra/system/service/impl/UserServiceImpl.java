@@ -27,6 +27,7 @@ import com.jwss.sra.system.vo.UserVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.EntityQuery;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.utils.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,14 +53,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean add(UserAddParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
-        // 判断是否有密码，如果没填密码就使用默认密码
-        if (StringUtils.isEmpty(user.getPassword())) {
-            String defaultPassword = "sra123456";
-            user.setPassword(defaultPassword);
-        }
-        user.setNickname(String.format("SRA-%s", System.currentTimeMillis()))
-                .setSex(SexEnum.UNKNOWN.getCode())
-                .setAccountStatus(AccountStatusEnum.NORMAL.getCode());
         Object userId = sqlToyLazyDao.save(user);
         // 授予用户角色
         UserRole userRole = new UserRole().setUserId((String) userId).setRoleId(param.getRoleId());

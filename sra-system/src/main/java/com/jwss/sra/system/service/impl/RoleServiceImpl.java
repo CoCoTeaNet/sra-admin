@@ -47,14 +47,6 @@ public class RoleServiceImpl implements IRoleService {
         return update > 0;
     }
 
-    @Override
-    public List<RoleVO> findAll() {
-        return sqlToyLazyDao.findBySql(
-                "select ID,ROLE_NAME,ROLE_KEY where DELETE_STATUS=1",
-                null
-        );
-    }
-
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException {

@@ -8,14 +8,13 @@ export function add(data: any) {
     return request('user/add', data, 'POST');
 }
 
-
 /**
  * 删除一名用户
  * @param data
  * @returns {Promise<any>}
  */
-export function del(data: any) {
-    return request(`user/delete/${data}`, {}, 'POST');
+export function deleteBatch(data: any) {
+    return request('user/deleteBatch', data, 'POST');
 }
 
 /**

@@ -7,7 +7,7 @@
     <sql id="system_user_findByEntityParam">
         <value>
             <![CDATA[
-                select su.*, sr.ROLE_NAME
+                select su.*, sr.ROLE_NAME, sr.ID as roleId
                 from sys_user su
                 left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
                 where

@@ -63,6 +63,11 @@ public class UserVO implements Serializable {
 	 * 角色名称
 	 */
 	private String roleName;
+
+	/**
+	 * 角色id
+	 */
+	private String roleId;
 	
 	/**
 	 * 用户性别;0未知 1男 2女
@@ -368,31 +373,36 @@ public class UserVO implements Serializable {
 	    return this.lastLoginTime;
 	}
 
-	/**
-	* @todo vo columns to String
-	*/
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder columnsBuffer=new StringBuilder();
-			columnsBuffer.append("id=").append(getId()).append("\n");
-			columnsBuffer.append("revision=").append(getRevision()).append("\n");
-			columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-			columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-			columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-			columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-			columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
-			columnsBuffer.append("username=").append(getUsername()).append("\n");
-			columnsBuffer.append("nickname=").append(getNickname()).append("\n");
-			columnsBuffer.append("roleName=").append(getRoleName()).append("\n");
-			columnsBuffer.append("sex=").append(getSex()).append("\n");
-			columnsBuffer.append("email=").append(getEmail()).append("\n");
-			columnsBuffer.append("mobilePhone=").append(getMobilePhone()).append("\n");
-			columnsBuffer.append("departmentId=").append(getDepartmentId()).append("\n");
-			columnsBuffer.append("accountStatus=").append(getAccountStatus()).append("\n");
-			columnsBuffer.append("avatar=").append(getAvatar()).append("\n");
-			columnsBuffer.append("lastLoginIp=").append(getLastLoginIp()).append("\n");
-			columnsBuffer.append("lastLoginTime=").append(getLastLoginTime()).append("\n");
-		return columnsBuffer.toString();
+		return "UserVO{" +
+				"id='" + id + '\'' +
+				", revision=" + revision +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				", deleteStatus='" + deleteStatus + '\'' +
+				", username='" + username + '\'' +
+				", nickname='" + nickname + '\'' +
+				", roleName='" + roleName + '\'' +
+				", roleId='" + roleId + '\'' +
+				", sex='" + sex + '\'' +
+				", email='" + email + '\'' +
+				", mobilePhone='" + mobilePhone + '\'' +
+				", departmentId='" + departmentId + '\'' +
+				", accountStatus='" + accountStatus + '\'' +
+				", avatar='" + avatar + '\'' +
+				", lastLoginIp='" + lastLoginIp + '\'' +
+				", lastLoginTime=" + lastLoginTime +
+				'}';
 	}
-/*---end-auto-generate-don't-update-this-area--*/	
 }

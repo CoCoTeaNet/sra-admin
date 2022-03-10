@@ -1,5 +1,9 @@
 import {request} from '@/utils/axios-util';
 
+const roleApi = {
+    listByPage: listByPage
+}
+
 /**
  * 新增角色
  */
@@ -34,3 +38,5 @@ export function listByPage(data: any) {
 export function grantPermissionsByRoleId(data: any) {
     return request('role/grantPermissionsByRoleId', data, 'POST');
 }
+
+export default roleApi;

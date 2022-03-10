@@ -33,12 +33,6 @@ public interface IRoleService {
     boolean update(RoleUpdateParam param);
 
     /**
-     * 查找所有角色
-     * @return 角色集合
-     */
-    List<RoleVO> findAll();
-
-    /**
      * 给角色赋予权限
      * @param roleMenuVOList 角色菜单列表
      * @return 成功返回true

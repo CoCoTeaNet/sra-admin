@@ -1,97 +1,216 @@
 <template>
-  <sra-simple-table :editForm="editFrom" :pageVo="pageVo" :pageParam="pageParam"
-                    @edit="edit" @remove="remove" @enter-search="initTable"
+  <sra-simple-table v-loading="loading"
+                    :editForm="editForm.data" :pageVo="pageVo" :pageParam="pageParam" :rules="rules"
+                    @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
                     @dialog-confirm="doUpdate" @remove-batch="removeBatch">
     <template v-slot:column>
       <el-table-column type="selection" width="55"/>
-      <el-table-column prop="date" label="Date" width="180"/>
-      <el-table-column prop="name" label="Name" width="180"/>
-      <el-table-column prop="address" label="Address"/>
+      <el-table-column prop="username" label="账号"/>
+      <el-table-column prop="nickname" label="昵称"/>
+      <el-table-column prop="email" label="邮箱"/>
+      <el-table-column prop="roleName" label="角色"/>
+      <el-table-column prop="sex" label="性别">
+        <template #default="scope">
+          {{ getSexText(scope.row.sex) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="accountStatus" label="状态">
+        <template #default="scope">
+          {{ getAccountStatusText(scope.row.accountStatus) }}
+        </template>
+      </el-table-column>
     </template>
+    <!-- 表单 -->
     <template v-slot:edit>
-      表单
+      <el-form-item prop="username" label="账号名">
+        <el-input v-model="editForm.data.username"></el-input>
+      </el-form-item>
+      <el-form-item prop="nickname" label="用户昵称">
+        <el-input v-model="editForm.data.nickname"></el-input>
+      </el-form-item>
+      <el-form-item prop="password" label="用户密码">
+        <el-input :prefix-icon="Lock" v-model="editForm.data.password" type="password" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item prop="email" label="邮箱">
+        <el-input v-model="editForm.data.email"></el-input>
+      </el-form-item>
+      <el-form-item prop="roleName" label="角色">
+        <el-select v-model="editForm.data.roleId" placeholder="选择角色">
+          <el-option v-for="item in roleOptions" :key="item.id" :label="item.roleName" :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="sort" label="性别">
+        <el-radio-group v-model="editForm.data.sex">
+          <el-radio label="0">不公开</el-radio>
+          <el-radio label="1">男</el-radio>
+          <el-radio label="2">女</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="sort" label="状态">
+        <el-radio-group v-model="editForm.data.accountStatus">
+          <el-radio label="0">停用</el-radio>
+          <el-radio label="1">正常</el-radio>
+          <el-radio label="2">冻结</el-radio>
+          <el-radio label="3">封禁</el-radio>
+        </el-radio-group>
+      </el-form-item>
     </template>
   </sra-simple-table>
 </template>
 
 <script setup lang="ts">
-import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
+import {Lock} from "@element-plus/icons-vue";
 import {onMounted, reactive, ref, watch} from "vue";
+import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
+import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
+import {listByPage, deleteBatch, add, update} from "@/api/system/user-api";
+import roleApi from "@/api/system/role-api";
+import {getSexText, getAccountStatusText} from "@/utils/format-util";
 
-const td = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-];
+const initData: UserModel = {
+  id: '',
+  username: '',
+  nickname: '',
+  email: '',
+  sex: '0',
+  accountStatus: '1',
+  roleId: '',
+  roleName: '',
+  password: ''
+};
 
-// 表格数据
-const tableData = ref([]);
+const roleOptions = ref<RoleModel[]>([]);
 // 表单参数
-const editFrom = reactive({});
+const editForm = reactive<any>({data: initData});
 // 分页参数
-const pageParam = ref<PageParam>({pageNum: 1, pageSize: 15, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
 // api返回的分页数据
-const pageVo = ref<PageVO>({pageNum: 0, pageSize: 0, total: 0, records: []});
+const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
+// 加载进度
+const loading = ref<boolean>(true);
+// 表单校验规则
+const rules = reactive({
+  username: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
+  nickname: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
+  password: [{required: true, min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
+  roleId: [{required: true, message: '请选择角色', trigger: 'blur'}]
+});
 
 // 初始化数据
 onMounted(() => {
-  pageVo.value.records = td;
-})
+  initTable();
+  getRoles();
+});
 
 // 监听当前页的变化
 watch(
-    () => pageParam.value.pageNum,
-    (current, preview) => {
-      console.log(current)
+    () => pageParam.value.pageNo, () => {
+      initTable();
     }
 )
 
-const edit = (id: string) => {
-  // todo 获取行详细
-  console.log(id)
+/**
+ * 初始化编辑数据
+ * @param row
+ */
+const edit = (row: any): void => {
+  if (row) {
+    editForm.data = row;
+  }
 }
 
-const remove = (id: string) => {
-  // todo 调用删除行接口
-  console.log(id)
+/**
+ * 初始化新增数据
+ */
+const initAdd = (): void => {
+  editForm.data = initData;
 }
 
-const currentChange = (pageIndex: number) => {
-  // todo 换一页
-  console.log(pageIndex)
+/**
+ * 获取角色列表
+ */
+const getRoles = () => {
+  let param: PageParam = {
+    pageNo: 1,
+    pageSize: 1000,
+    roleVO: {roleName: ''}
+  }
+  reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
+    roleOptions.value = data.rows;
+  });
 }
 
+/**
+ * 刷新
+ */
+const refresh = (): void => {
+  pageParam.value.pageNo = 1;
+  pageParam.value.pageSize = 15;
+  pageParam.value.searchKey = '';
+  setTimeout(initTable, 200);
+}
+
+/**
+ * 单个移除
+ * @param row
+ */
+const remove = (row: any) => removeBatch([row.id]);
+
+/**
+ * 初始化数据
+ */
 const initTable = () => {
-  // todo 渲染数据
-  console.log(pageParam.value)
+  // 渲染数据
+  if (!loading.value) {
+    loading.value = true;
+  }
+  let param = {
+    pageNo: pageParam.value.pageNo,
+    pageSize: pageParam.value.pageSize,
+    userVO: {nickname: pageParam.value.searchKey}
+  };
+  reqCommonFeedback(listByPage(param), (data: any) => {
+    pageVo.value.records = data.rows;
+    pageVo.value.total = data.recordCount;
+    loading.value = false;
+  });
 }
 
-const doUpdate = () => {
-  // todo 更新操作
+/**
+ * 更新操作
+ * @param formEl 表单组件对象
+ * @param callback 回调函数，调用就会关闭对话框
+ */
+const doUpdate = (formEl: any, callback: Function): void => {
+  formEl.validate((valid: any) => {
+    if (valid) {
+      if (!editForm.data.id) {
+        // 新增
+        reqSuccessFeedback(add(editForm.data), '新增成功', () => {
+          initTable();
+          callback();
+        });
+      } else {
+        // 修改
+        reqSuccessFeedback(update(editForm.data), '修改成功', () => {
+          initTable();
+          callback();
+        });
+      }
+    }
+  });
 }
 
+/**
+ * 批量删除
+ * @param ids
+ */
 const removeBatch = (ids: string[]) => {
-  // todo 批量删除
-  console.log(ids);
+  reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
+    initTable();
+  });
 }
-
 </script>
 
 <style scoped></style>
