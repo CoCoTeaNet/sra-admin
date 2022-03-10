@@ -7,12 +7,12 @@
     </el-header>
     <el-container style="background: #F2F6FC">
       <!-- 导航 -->
-      <el-aside width="200px">
+      <el-aside class="el-aside" :width="store.state.isCollapseMenu ? '64px' : '220px'">
         <NavMenu/>
       </el-aside>
       <!-- 主体 -->
       <el-main>
-        <admin-breadcrumb style="margin-bottom: 1em"/>
+        <admin-breadcrumb/>
         <div style="background: white;padding: 1em;border-radius: 3px;">
           <router-view></router-view>
         </div>
@@ -25,11 +25,18 @@
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
 import AdminBreadcrumb from "./modules/AdminBreadcrumb.vue";
+import {useStore} from "@/store";
+import {ref} from "vue";
 
+const store = ref<any>(useStore());
 </script>
 
 <style scoped>
-.el-header{
+.el-header {
   border-bottom: 1px solid #DCDFE6;
+}
+
+.el-aside {
+  transition: width 200ms;
 }
 </style>

@@ -2,7 +2,10 @@ import {InjectionKey} from 'vue'
 import {createStore, Store, useStore as baseUseStore} from 'vuex'
 
 export interface State {
-    userInfo: UserModel
+    // 用户信息
+    userInfo: UserModel,
+    // 是否折叠菜单
+    isCollapseMenu: boolean
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -16,7 +19,8 @@ export const store = createStore<State>({
             token: '',
             loginStatus: false,
             menuList: []
-        }
+        },
+        isCollapseMenu: false
     }
 })
 
@@ -32,4 +36,11 @@ export function useStore() {
 export function setUserInfo(v: UserModel) {
     store.state.userInfo = v;
     localStorage.setItem("userInfo", JSON.stringify(v));
+}
+
+/**
+ * 设置是否折叠菜单
+ */
+export function setCollapseMenu() {
+    store.state.isCollapseMenu = !store.state.isCollapseMenu;
 }

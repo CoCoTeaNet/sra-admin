@@ -1,19 +1,17 @@
 <template>
-  <el-menu default-active="1" style="height: 100%">
+  <el-menu default-active="1" style="height: 100%" :collapse="store.state.isCollapseMenu">
     <!-- 顶级菜单 -->
-    <div v-for="(item, index) in store.state.userInfo.menuList" :key="index">
+    <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
       <el-menu-item v-if="!hasChildren(item)" @click="$router.push({path: item.routerPath})" :index="`${index}`">
-        <el-icon>
-          <component :is="item.iconPath"></component>
-        </el-icon>
-        <template #title>{{ item.menuName }}</template>
+        <el-icon><component :is="item.iconPath"></component></el-icon>
+        <template #title>
+          <span>{{ item.menuName }}</span>
+        </template>
       </el-menu-item>
       <!-- 有子菜单 -->
       <el-sub-menu v-if="hasChildren(item)" :index="`${index}`">
         <template #title>
-          <el-icon>
-            <component :is="item.iconPath"></component>
-          </el-icon>
+          <el-icon><component :is="item.iconPath"></component></el-icon>
           <span>{{ item.menuName }}</span>
         </template>
         <!-- 二级菜单 -->
@@ -46,7 +44,7 @@
           </el-sub-menu>
         </div>
       </el-sub-menu>
-    </div>
+    </template>
   </el-menu>
 </template>
 
@@ -62,5 +60,4 @@ const store = ref<any>(useStore());
 const hasChildren = (m: MenuModel) => {
   return m.children && m.children.length > 0;
 }
-
 </script>
