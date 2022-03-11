@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author jwss
@@ -86,8 +87,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public boolean deleteBatch(List<String> idList) {
+        if (idList != null) {
+            idList.forEach(this::delete);
+        }
+        return idList != null && idList.size() > 0;
+    }
+
+    @Override
     public Page<UserVO> listByPage(UserPageParam param) {
-        Page<UserVO> page = sqlToyLazyDao.findPageBySql(param, "system_user_findByEntityParam", param.getUserVO());
+        Page<UserVO> page = sqlToyLazyDao.findPageBySql(param, "system_user_findByPageParam", param.getUserVO());
         return page;
     }
 

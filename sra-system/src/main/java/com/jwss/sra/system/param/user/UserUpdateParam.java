@@ -27,12 +27,21 @@ public class UserUpdateParam implements Serializable {
 	@NotBlank(message = "账号名为空")
 	@ApiModelProperty(name = "用户账号", required = true)
 	private String username;
-	
-	/**
-	 * 密码
-	 */
+
+	@ApiModelProperty(name = "用户昵称")
+	private String nickname;
+
+	@ApiModelProperty(name = "性别")
+	private String sex;
+
+	@ApiModelProperty(name = "邮箱")
+	private String email;
+
 	@ApiModelProperty(name = "用户密码")
 	private String password;
+
+	@ApiModelProperty(name = "账号状态")
+	private String accountStatus;
 
 	@ApiModelProperty(name = "角色ID")
 	private String roleId;
@@ -81,4 +90,35 @@ public class UserUpdateParam implements Serializable {
 	    return this.password;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
+	}
 }

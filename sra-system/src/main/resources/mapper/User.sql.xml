@@ -18,4 +18,18 @@
 			]]>
         </value>
     </sql>
+
+    <!-- 根据实体参数分页查询用户 -->
+    <sql id="system_user_findByPageParam">
+        <value>
+            <![CDATA[
+                select su.*, sr.ROLE_NAME, sr.ID as roleId
+                from sys_user su
+                left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
+                where
+			    #[and (su.NICKNAME like :nickname or su.USERNAME like :username)]
+                and su.DELETE_STATUS=1
+			]]>
+        </value>
+    </sql>
 </sqltoy>

@@ -10,6 +10,7 @@ import com.jwss.sra.system.vo.UserVO;
 import org.sagacity.sqltoy.model.Page;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author jwss
@@ -39,6 +40,13 @@ public interface IUserService {
      * @return 成功返回true
      */
     boolean delete(String id);
+
+    /**
+     * 批量删除用户
+     * @param idList id列表
+     * @return 成功返回true
+     */
+    boolean deleteBatch(List<String> idList);
 
     /**
      * 用户分页参数

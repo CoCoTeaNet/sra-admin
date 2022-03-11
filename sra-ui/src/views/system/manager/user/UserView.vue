@@ -131,7 +131,7 @@ const initAdd = (): void => {
  * 获取角色列表
  */
 const getRoles = () => {
-  let param: PageParam = {
+  let param: any = {
     pageNo: 1,
     pageSize: 1000,
     roleVO: {roleName: ''}
@@ -168,7 +168,7 @@ const initTable = () => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    userVO: {nickname: pageParam.value.searchKey}
+    userVO: {nickname: pageParam.value.searchKey, username: pageParam.value.searchKey}
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;
