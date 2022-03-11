@@ -16,4 +16,17 @@
 			]]>
         </value>
     </sql>
+
+    <!-- 根据实体参数分页查询用户 -->
+    <sql id="system_role_findByPageParam">
+        <value>
+            <![CDATA[
+			    select * from sys_role
+			    where
+			    #[and (ROLE_NAME like :roleName or ROLE_KEY like :roleKey)]
+			    #[and DELETE_STATUS = 1]
+			    order by SORT, CREATE_TIME desc
+			]]>
+        </value>
+    </sql>
 </sqltoy>

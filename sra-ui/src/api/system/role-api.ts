@@ -1,7 +1,11 @@
 import {request} from '@/utils/axios-util';
 
 const roleApi = {
-    listByPage: listByPage
+    listByPage: listByPage,
+    add: add,
+    deleteBatch: deleteBatch,
+    update: update,
+    grantPermissionsByRoleId: grantPermissionsByRoleId
 }
 
 /**
@@ -12,10 +16,10 @@ export function add(data: any) {
 }
 
 /**
- * 删除角色
+ * 批量删除角色
  */
-export function del(data: any) {
-    return request(`role/delete/${data}`, {}, 'POST');
+export function deleteBatch(data: any) {
+    return request('role/deleteBatch', data, 'POST');
 }
 
 /**

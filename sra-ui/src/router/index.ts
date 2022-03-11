@@ -5,6 +5,7 @@ import AdminLayout from '@/layout/AdminLayout.vue';
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
 import PermissionView from "@/views/system/manager/menu/PermissionView.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
+import RoleView from "@/views/system/manager/role/RoleView.vue";
 import NotFound from "@/views/error/NotFound.vue";
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
             {path: 'user-manager', meta: {title: '用户管理'}, name: 'UserView', component: UserView},
             {path: 'menu-manager', meta: {title: '菜单管理'}, name: 'MenuView', component: MenuView},
             {path: 'permission-manager', meta: {title: '菜单管理'}, name: 'PermissionView', component: PermissionView},
+            {path: 'role-manager', meta: {title: '角色管理'}, name: 'RoleView', component: RoleView}
         ]
     },
     {

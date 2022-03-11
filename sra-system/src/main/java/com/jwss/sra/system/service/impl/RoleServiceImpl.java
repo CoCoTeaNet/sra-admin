@@ -78,7 +78,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Page<RoleVO> listByPage(RolePageParam param) {
-        Page<RoleVO> page = sqlToyLazyDao.findPageBySql(param, "system_role_findByEntityParam", param.getRoleVO());
+        Page<RoleVO> page = sqlToyLazyDao.findPageBySql(param, "system_role_findByPageParam", param.getRoleVO());
         return page;
     }
 }
