@@ -1,5 +1,5 @@
 <template>
-  <div id="sraPieChart" :style="`height: ${300}px`"></div>
+  <div :id="spcId" :style="`height: ${300}px`"></div>
 </template>
 
 <script setup lang="ts">
@@ -25,7 +25,8 @@ const props = withDefaults(
       data: [],
       left?: string,
       orient?: string,
-      title?: Title
+      title?: Title,
+      spcId: string
     }>(), {
       height: 300,
       left: 'left',
@@ -39,8 +40,8 @@ const props = withDefaults(
 );
 
 const init = () => {
-  let {name, data, left, orient, title} = toRefs(props);
-  let chartDom = document.getElementById('sraPieChart');
+  let {name, data, left, orient, title, spcId} = toRefs(props);
+  let chartDom = document.getElementById(spcId.value);
   let myChart = echarts.init(chartDom);
   let option = {
     title: title.value,
