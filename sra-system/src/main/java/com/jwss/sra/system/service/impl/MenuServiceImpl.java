@@ -33,7 +33,7 @@ public class MenuServiceImpl implements IMenuService {
         if (StringUtil.isBlank(menu.getParentId())) {
             menu.setParentId(String.valueOf(0));
         }
-        if (StringUtil.isBlank(menu.getPermissionCode())) {
+        if (StringUtil.isBlank(menu.getPermissionCode()) && StringUtil.isNotBlank(menu.getRouterPath())) {
             menu.setPermissionCode(menu.getRouterPath().replace(StringUtils.LEFT_LINE, StringUtils.COLON));
         }
         Object menuId = sqlToyLazyDao.save(menu);

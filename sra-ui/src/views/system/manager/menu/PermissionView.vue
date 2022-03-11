@@ -1,8 +1,8 @@
 <template>
   <sra-tree-table v-loading="loading"
-                    :editForm="editForm" :pageVo="pageVo" :page-param="pageParam" :rules="rules"
-                    @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
-                    @dialog-confirm="doUpdate" @remove-batch="removeBatch">
+                  :editForm="editForm.data" :pageVo="pageVo" :page-param="pageParam" :rules="rules"
+                  @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
+                  @dialog-confirm="doUpdate" @remove-batch="removeBatch">
     <template v-slot:default>
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="menuName" label="权限名称" sortable/>
@@ -12,22 +12,22 @@
     <!-- 表单 -->
     <template v-slot:edit>
       <el-form-item prop="menuName" label="菜单名称">
-        <el-input v-model="editForm.menuName"></el-input>
+        <el-input v-model="editForm.data.menuName"></el-input>
       </el-form-item>
       <el-form-item prop="permissionCode" label="权限编号">
-        <el-input v-model="editForm.permissionCode"></el-input>
+        <el-input v-model="editForm.data.permissionCode"></el-input>
       </el-form-item>
       <el-form-item prop="menuType" label="菜单类型">
-        <el-radio-group v-model="editForm.menuType">
+        <el-radio-group v-model="editForm.data.menuType">
           <el-radio label="0">目录</el-radio>
           <el-radio label="1">权限</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item prop="sort" label="显示顺序">
-        <el-input v-model="editForm.sort" type="number"></el-input>
+        <el-input v-model="editForm.data.sort" type="number"></el-input>
       </el-form-item>
       <el-form-item label="上级菜单">
-        <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+        <el-cascader v-model="editForm.data.parentId" placeholder="选择节点"
                      :props="defaultProps" :options="pageVo.records" :show-all-levels="false"
                      @change="handleChange">
         </el-cascader>
@@ -61,7 +61,7 @@ const initData = {
 };
 
 // 表单参数
-const editForm = ref<MenuModel>(initData);
+const editForm = reactive<any>({data: initData});
 // 分页参数
 const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
 // api返回的分页数据
@@ -71,7 +71,7 @@ const loading = ref<boolean>(true);
 // 表单校验规则
 const rules = reactive({
   menuName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  permissionCode: [{required: true, min: 2, max: 60, message: '长度限制2~60', trigger: 'blur'}]
+  permissionCode: [{min: 0, max: 60, message: '长度限制0~60', trigger: 'blur'}]
 });
 
 // 初始化数据
@@ -92,10 +92,7 @@ watch(
  */
 const edit = (row: any): void => {
   if (row) {
-    editForm.value.id = row.id;
-    editForm.value.permissionCode = row.permissionCode;
-    editForm.value.menuName = row.menuName;
-    editForm.value.sort = row.sort;
+    editForm.data = row;
   }
 }
 
@@ -103,7 +100,7 @@ const edit = (row: any): void => {
  * 初始化新增数据
  */
 const initAdd = (): void => {
-  editForm.value = initData;
+  editForm.data = initData;
 }
 
 /**
@@ -150,15 +147,15 @@ const initTable = () => {
 const doUpdate = (formEl: any, callback: Function): void => {
   formEl.validate((valid: any) => {
     if (valid) {
-      if (!editForm.value.id) {
+      if (!editForm.data.id) {
         // 新增
-        reqSuccessFeedback(add(editForm.value), '新增成功', () => {
+        reqSuccessFeedback(add(editForm.data), '新增成功', () => {
           initTable();
           callback();
         });
       } else {
         // 修改
-        reqSuccessFeedback(update(editForm.value), '修改成功', () => {
+        reqSuccessFeedback(update(editForm.data), '修改成功', () => {
           initTable();
           callback();
         });
@@ -182,7 +179,7 @@ const removeBatch = (ids: string[]) => {
  * @param data
  */
 const handleChange = (data: any) => {
-  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
+  editForm.data.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
 }
 </script>
 
