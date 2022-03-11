@@ -1,9 +1,9 @@
 <template>
-  <sra-simple-table v-loading="loading"
+  <sra-tree-table v-loading="loading"
                     :editForm="editForm" :pageVo="pageVo" :pageParam="pageParam" :rules="rules"
                     @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
                     @dialog-confirm="doUpdate" @remove-batch="removeBatch">
-    <template v-slot:column>
+    <template v-slot:default>
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="menuName" label="权限名称" sortable/>
       <el-table-column prop="permissionCode" label="权限编号"/>
@@ -17,25 +17,47 @@
       <el-form-item prop="permissionCode" label="权限编号">
         <el-input v-model="editForm.permissionCode"></el-input>
       </el-form-item>
+      <el-form-item prop="menuType" label="菜单类型">
+        <el-radio-group v-model="editForm.menuType">
+          <el-radio label="0">目录</el-radio>
+          <el-radio label="1">权限</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item prop="sort" label="显示顺序">
         <el-input v-model="editForm.sort" type="number"></el-input>
       </el-form-item>
+      <el-form-item label="上级菜单">
+        <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+                     :props="defaultProps" :options="pageVo.records" :show-all-levels="false"
+                     @change="handleChange">
+        </el-cascader>
+      </el-form-item>
     </template>
-  </sra-simple-table>
+  </sra-tree-table>
 </template>
 
 <script setup lang="ts">
-import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
+import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import {onMounted, reactive, ref, watch} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {listByPage, deleteBatch, add, update} from "@/api/system/menu-api";
+import {listByTree, deleteBatch, add, update} from "@/api/system/menu-api";
+
+// 级联选择框配置
+const defaultProps = {
+  value: 'id',
+  label: 'menuName',
+  children: 'children',
+  checkStrictly: true
+}
 
 const initData = {
   id: '',
   menuName: '',
   sort: 1,
   permissionCode: '',
-  isMenu: '1'
+  isMenu: '1',
+  menuType: '1',
+  parentId: ''
 };
 
 // 表单参数
@@ -113,7 +135,7 @@ const initTable = () => {
     pageSize: pageParam.value.pageSize,
     menuVO: {isMenu: 1, menuName: pageParam.value.searchKey}
   };
-  reqCommonFeedback(listByPage(param), (data: any) => {
+  reqCommonFeedback(listByTree(param), (data: any) => {
     pageVo.value.records = data.rows;
     pageVo.value.total = data.recordCount;
     loading.value = false;
@@ -153,6 +175,14 @@ const removeBatch = (ids: string[]) => {
   reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
     initTable();
   });
+}
+
+/**
+ * 下拉框级联选项发生改变
+ * @param data
+ */
+const handleChange = (data: any) => {
+  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
 }
 </script>
 
