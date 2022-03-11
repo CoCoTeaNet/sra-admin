@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <el-card shadow="always" style="width: 306px">
+    <el-card shadow="always" style="width: 366px">
       <h2 style="text-align: center">登录后台管理系统</h2>
-      <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="rules">
+      <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="rules" size="large">
         <el-form-item prop="username">
           <el-input placeholder="账号" :prefix-icon="UserFilled" v-model="loginForm.username"
                     autocomplete="off">
