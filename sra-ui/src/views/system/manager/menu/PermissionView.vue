@@ -1,6 +1,6 @@
 <template>
   <sra-tree-table v-loading="loading"
-                    :editForm="editForm" :pageVo="pageVo" :pageParam="pageParam" :rules="rules"
+                    :editForm="editForm" :pageVo="pageVo" :page-param="pageParam" :rules="rules"
                     @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
                     @dialog-confirm="doUpdate" @remove-batch="removeBatch">
     <template v-slot:default>
