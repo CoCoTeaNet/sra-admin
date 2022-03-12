@@ -1,6 +1,8 @@
 <template>
   <el-row align="middle" style="height: 100%;">
-    <el-col :span="4">LOGO</el-col>
+    <el-col :span="4">
+      <admin-breadcrumb/>
+    </el-col>
     <!-- 用户信息 -->
     <el-col :span="20" style="text-align: right">
       <el-dropdown>
@@ -22,6 +24,7 @@ import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {logout} from "@/api/system/user-api";
 import {setUserInfo} from "@/store";
 import {router} from "@/router";
+import AdminBreadcrumb from "@/layout/modules/AdminBreadcrumb.vue";
 
 const url = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
 

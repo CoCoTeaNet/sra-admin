@@ -2,35 +2,11 @@
   <div class="bg">
     <!-- 综合统计 -->
     <el-row :gutter="12">
-      <el-col :span="6">
-        <el-card shadow="hover">
+      <el-col :span="6" v-for="item in countList" :key="item.title">
+        <el-card shadow="always" body-style>
           <div style="display: flex;flex-direction: column;align-items: center">
-            <span>用户数量</span>
-            <span>12313</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card shadow="hover">
-          <div style="display: flex;flex-direction: column;align-items: center">
-            <span>菜单数量</span>
-            <span>12313</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card shadow="hover">
-          <div style="display: flex;flex-direction: column;align-items: center">
-            <span>角色数量</span>
-            <span>12313</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card shadow="hover">
-          <div style="display: flex;flex-direction: column;align-items: center">
-            <span>在线用户</span>
-            <span>12313</span>
+            <h3>{{ item.title }}</h3>
+            <span>{{ item.count }}</span>
           </div>
         </el-card>
       </el-col>
@@ -39,60 +15,130 @@
     <!-- cpu使用情况 -->
     <el-row style="margin-top: 1em">
       <el-col>
-        <sra-pie-chart spc-id="spc3" :height="300" name="PeiName" :data="da" left="left" orient="vertical"
-                       :title="title"/>
+        <el-card shadow="always">
+          <div id="dashboardPieId" style="height: 300px"></div>
+        </el-card>
       </el-col>
     </el-row>
 
     <!-- 系统信息 -->
-    <el-row>
+    <el-row style="margin-top: 1em">
       <el-col>
-        <el-descriptions title="系统信息" direction="vertical" :column="4" border>
-          <el-descriptions-item label="操作系统">kooriookami</el-descriptions-item>
-          <el-descriptions-item label="服务器名">18100000000</el-descriptions-item>
-          <el-descriptions-item label="服务器IP">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="系统架构">Suzhou</el-descriptions-item>
+        <el-card shadow="always">
+          <el-descriptions title="系统信息" direction="vertical" :column="4" border>
+            <el-descriptions-item label="操作系统">{{ systemInfo.data.os }}</el-descriptions-item>
+            <el-descriptions-item label="服务器名">{{ systemInfo.data.serverName }}</el-descriptions-item>
+            <el-descriptions-item label="服务器IP">{{ systemInfo.data.serverIp }}</el-descriptions-item>
+            <el-descriptions-item label="系统架构">{{ systemInfo.data.serverArchitecture }}</el-descriptions-item>
 
-          <el-descriptions-item label="Java名称">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="Java版本">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="安装路径">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="项目路径">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="服务器运行时长">Suzhou</el-descriptions-item>
+            <el-descriptions-item label="Java名称">{{ systemInfo.data.javaName }}</el-descriptions-item>
+            <el-descriptions-item label="Java版本">{{ systemInfo.data.javaVersion }}</el-descriptions-item>
+            <el-descriptions-item label="安装路径">{{ systemInfo.data.javaPath }}</el-descriptions-item>
+            <el-descriptions-item label="项目路径">{{ systemInfo.data.projectPath }}</el-descriptions-item>
+            <el-descriptions-item label="服务器运行时长">
+              {{ unitUtil.timeCalculate(systemInfo.data.runningTime) }}
+            </el-descriptions-item>
 
-          <el-descriptions-item label="总内存">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="可用内存">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="已用内存">Suzhou</el-descriptions-item>
+            <el-descriptions-item label="总内存">
+              {{ unitUtil.memoryCalculate(systemInfo.data.memoryTotalSize) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="可用内存">
+              {{ unitUtil.memoryCalculate(systemInfo.data.memoryAvailableSize) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="已用内存">
+              {{ unitUtil.memoryCalculate(systemInfo.data.memoryTotalSize - systemInfo.data.memoryAvailableSize) }}
+            </el-descriptions-item>
 
-          <el-descriptions-item label="磁盘总大小">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="可用空间">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="已用空间">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="盘符路径">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="磁盘分隔符">Suzhou</el-descriptions-item>
-        </el-descriptions>
+            <el-descriptions-item label="磁盘总大小">
+              {{ unitUtil.memoryCalculate(systemInfo.data.diskTotalSize) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="可用空间">
+              {{ unitUtil.memoryCalculate(systemInfo.data.diskFreeSize) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="已用空间">
+              {{ unitUtil.memoryCalculate(systemInfo.data.diskTotalSize - systemInfo.data.diskFreeSize) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="盘符路径">{{ systemInfo.data.diskPath }}</el-descriptions-item>
+            <el-descriptions-item label="磁盘分隔符">{{ systemInfo.data.diskSeparator }}</el-descriptions-item>
+          </el-descriptions>
+        </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import SraPieChart from "@/components/chart/pie-chart/SraPieChart.vue";
-import {useStore} from "@/store";
-import {ref} from "vue";
+import * as echarts from "echarts";
+import {onMounted, reactive, ref} from "vue";
+import {getSystemInfo, getCount} from "@/api/system/dashboard-api";
+import {reqCommonFeedback} from "@/api/ApiFeedback";
+import unitUtil from "@/utils/unit-util";
 
-const title = {
-  text: 'TitleText',
-  subtext: 'title subtext',
-  left: 'center'
+// 系统信息
+const systemInfo = reactive<any>({data: {}});
+
+// 表单统计
+const countList = ref<any[]>([]);
+
+onMounted(() => {
+  initCount();
+  initSystemInfo();
+})
+
+/**
+ * 初始化系统信息
+ */
+const initSystemInfo = () => {
+  reqCommonFeedback(getSystemInfo(), (systemModel: SystemModel) => {
+    systemInfo.data = systemModel;
+    initPie(systemModel);
+  });
 }
 
-const da = [
-  {value: 1048, name: 'Search Engine'},
-  {value: 735, name: 'Direct'},
-  {value: 580, name: 'Email'},
-  {value: 484, name: 'Union Ads'},
-  {value: 300, name: 'Video Ads'}
-]
+/**
+ * 数据统计
+ */
+const initCount = () => {
+  reqCommonFeedback(getCount(), (data: any) => {
+    countList.value = data;
+  });
+}
 
-const store = ref(useStore());
-
+/**
+ * 初始化饼状图
+ * @param systemModel
+ */
+const initPie = (systemModel: SystemModel): void => {
+  let myChart = echarts.init(document.getElementById("dashboardPieId"));
+  let option = {
+    title: {text: 'CPU使用情况', subtext: `CPU核心数: ${systemModel.cpuCount}`, left: 'center'},
+    tooltip: {trigger: 'item', formatter: '{b} : {c} %'},
+    legend: {orient: 'vertical', left: 'left'},
+    series: [
+      {
+        type: 'pie',
+        radius: '50%',
+        data: [
+          {value: systemModel.cpuSystemUsed, name: 'CPU系统使用率'},
+          {value: systemModel.cpuUserUsed, name: 'CPU用户使用率'},
+          {value: systemModel.cpuFree, name: 'CPU空闲率'}
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  };
+  option && myChart.setOption(option);
+}
 </script>
+
+<style scoped>
+.el-card {
+  border: none;
+}
+</style>

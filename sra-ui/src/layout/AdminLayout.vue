@@ -12,7 +12,6 @@
       </el-header>
       <!-- 主体 -->
       <el-main>
-        <admin-breadcrumb/>
         <div style="background: white;padding: 1em;border-radius: 3px;">
           <router-view></router-view>
         </div>
@@ -34,5 +33,6 @@ const store = ref<any>(useStore());
 <style scoped>
 .el-aside {
   transition: width 200ms;
+  background-color: white;
 }
 </style>
