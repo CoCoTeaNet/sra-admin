@@ -18,6 +18,7 @@ export const store = createStore<State>({
             nickname: '',
             token: '',
             loginStatus: false,
+            avatar: '',
             menuList: []
         },
         isCollapseMenu: false

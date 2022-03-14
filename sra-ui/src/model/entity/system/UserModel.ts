@@ -8,6 +8,7 @@ interface UserModel {
     email?: string,
     sex?: string,
     accountStatus?: string,
+    avatar?: string,
     roleId?: string,
     roleName?: string,
     password?: string,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 style="text-align: center">SRA后台管理系统</h3>
-    <el-menu default-active="1" style="height: 100%;" :collapse="store.state.isCollapseMenu">
+    <el-menu :default-openeds="['0']" default-active="1" style="height: 100%;" :collapse="store.state.isCollapseMenu">
       <!-- 顶级菜单 -->
       <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
         <el-menu-item v-if="!hasChildren(item)" @click="$router.push({path: item.routerPath})" :index="`${index}`">

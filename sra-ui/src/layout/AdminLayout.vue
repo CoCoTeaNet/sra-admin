@@ -23,7 +23,6 @@
 <script setup lang="ts">
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
-import AdminBreadcrumb from "./modules/AdminBreadcrumb.vue";
 import {useStore} from "@/store";
 import {ref} from "vue";
 
