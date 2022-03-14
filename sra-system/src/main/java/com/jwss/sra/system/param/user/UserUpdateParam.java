@@ -31,6 +31,9 @@ public class UserUpdateParam implements Serializable {
 	@ApiModelProperty(name = "用户昵称")
 	private String nickname;
 
+	@ApiModelProperty(name = "手机号码")
+	private String mobilePhone;
+
 	@ApiModelProperty(name = "性别")
 	private String sex;
 
@@ -60,6 +63,14 @@ public class UserUpdateParam implements Serializable {
 
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 
 	/**

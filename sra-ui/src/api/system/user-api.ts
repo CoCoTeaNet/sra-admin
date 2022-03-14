@@ -49,3 +49,10 @@ export function login(data: any) {
 export function logout() {
     return request('user/logout', {}, 'POST');
 }
+
+/**
+ * 用户获取个人详细信息
+ */
+export function getDetail() {
+    return request('user/getDetail', {}, 'GET');
+}

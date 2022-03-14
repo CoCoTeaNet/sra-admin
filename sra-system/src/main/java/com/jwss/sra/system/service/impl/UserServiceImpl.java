@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -113,8 +114,14 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new BusinessException("登录失败，用户名或密码错误");
         }
-        // 默认记住我模式
+        // 记住我模式
         StpUtil.login(user.getId(), param.getRememberMe());
+        // 更新用户登录时间和ip
+        User loginUser = new User();
+        loginUser.setId(user.getId());
+        loginUser.setLastLoginIp(IpUtils.getIp(request));
+        loginUser.setLastLoginTime(LocalDateTime.now());
+        sqlToyLazyDao.update(loginUser);
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
         MenuPageParam pageParam = new MenuPageParam();
@@ -130,5 +137,12 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setToken(StpUtil.getTokenValue());
         // TODO 缓存权限
         return loginUserVO;
+    }
+
+    @Override
+    public UserVO getDetail() {
+        UserVO userVO = new UserVO();
+        userVO.setId(String.valueOf(StpUtil.getLoginId()));
+        return sqlToyLazyDao.loadBySql("system_user_findByEntityParam", userVO);
     }
 }

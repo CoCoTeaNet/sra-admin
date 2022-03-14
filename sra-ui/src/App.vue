@@ -7,11 +7,12 @@ let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
 if (userInfo) {
   setUserInfo(userInfo);
 }
-
 </script>
 
 <template>
-  <base-layout/>
+  <el-scrollbar :noresize="true">
+    <base-layout style="height: 100vh"/>
+  </el-scrollbar>
 </template>
 
 <style>

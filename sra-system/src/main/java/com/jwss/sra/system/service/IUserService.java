@@ -65,4 +65,10 @@ public interface IUserService {
      * @throws BusinessException 业务异常
      */
     LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException;
+
+    /**
+     * 用户获取个人详细信息
+     * @return 个人详细信息
+     */
+    UserVO getDetail();
 }
