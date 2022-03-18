@@ -53,8 +53,8 @@ const clickToGo = (url: string) => {
  */
 const doLogout = () => {
   reqCommonFeedback(logout(), () => {
-    setUserInfo(null);
-    router.push({path: '/login', query: {redirect: encodeURI(window.location.pathname)}});
+    setUserInfo({id: '', username: '', nickname: ''});
+    router.push({path: '/login', query: {redirect: encodeURIComponent(window.location.pathname)}});
   });
 }
 </script>

@@ -21,7 +21,7 @@ router.beforeEach((to: any, from: any, next: any) => {
     }
     // 如果未认证且不是跳转登录页就重定向到登录页
     if (to.path !== '/login' && !isAuthenticated) {
-        next({path: `/login?redirect=${encodeURI(from.path)}`});
+        next({path: `/login?redirect=${encodeURIComponent(from.path)}`});
     }
     next();
 })

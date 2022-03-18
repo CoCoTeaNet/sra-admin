@@ -47,6 +47,9 @@
           <el-radio label="1">否</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item prop="sort" label="显示顺序">
+        <el-input v-model="editForm.sort" type="number"></el-input>
+      </el-form-item>
       <el-form-item label="菜单图标">
         <icon-selection v-model="editForm.iconPath"/>
       </el-form-item>
@@ -85,6 +88,7 @@ const editForm = reactive<MenuModel>({
   routerPath: '',
   isExternalLink: '1',
   parentId: '',
+  sort: 0,
   isMenu: '0'
 });
 
@@ -122,6 +126,7 @@ const edit = (row: any): void => {
     editForm.routerPath = row.routerPath;
     editForm.menuType = row.menuType;
     editForm.parentId = row.parentId;
+    editForm.sort = row.sort;
     editForm.isExternalLink = row.isExternalLink;
   }
 }
@@ -136,6 +141,7 @@ const initAdd = (): void => {
   editForm.routerPath = '';
   editForm.menuType = '1';
   editForm.parentId = '';
+  editForm.sort = 0;
   editForm.isExternalLink = '1';
 }
 

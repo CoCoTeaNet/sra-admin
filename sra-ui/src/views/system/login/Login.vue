@@ -103,8 +103,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       login(loginForm).then((res: any) => {
         if (res.code === 200) {
           setUserInfo(res.data);
-          let toPath: string = `${route.query.redirect}`;
-          router.push({path: toPath ? toPath : '/admin/home'});
+          router.push({path: route.query.redirect ? `${route.query.redirect}` : '/admin/home'});
         } else {
           ElMessage.error(!res.data ? res.message : res.data);
         }

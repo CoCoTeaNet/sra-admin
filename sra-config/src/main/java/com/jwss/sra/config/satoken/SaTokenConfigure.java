@@ -6,6 +6,9 @@ import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.config.properties.SatokenProperties;
+import com.jwss.sra.framework.constant.RedisKey;
+import com.jwss.sra.framework.service.IRedisService;
+import org.sagacity.sqltoy.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +29,8 @@ public class SaTokenConfigure implements WebMvcConfigurer{
 
     @Resource
     private SatokenProperties satokenProperties;
+    @Resource
+    private IRedisService redisService;
 
     /**
      * 注册 [Sa-Token全局过滤器]
@@ -37,6 +42,13 @@ public class SaTokenConfigure implements WebMvcConfigurer{
             .addInclude("/**")
             // 前置函数：在每次认证函数之前执行
             .setBeforeAuth(r -> {
+                // 在线用户续期
+                if (StpUtil.isLogin()) {
+                    if (StringUtil.isBlank(redisService.get(RedisKey.ONLINE_USER))){
+                        String loginId = String.valueOf(StpUtil.getLoginId());
+                        redisService.save(String.format(RedisKey.ONLINE_USER, loginId), loginId, 30L);
+                    }
+                }
                 // ---------- 设置一些安全响应头 ----------
                 SaHolder.getResponse()
                         // 服务器名称
