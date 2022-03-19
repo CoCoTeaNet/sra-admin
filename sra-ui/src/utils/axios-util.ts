@@ -1,12 +1,10 @@
 import axios from "axios";
 import {router} from "@/router";
-import {useStore} from '@/store';
+import {store} from "@/store";
 
 export const post = 'POST';
 
 export const get = 'GET';
-
-const store: any = useStore();
 
 /**
  * api状态返回值
@@ -67,7 +65,8 @@ export async function request(url: string, data: any, method: any): Promise<any>
             // `headers` 是即将被发送的自定义请求头
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                'Content-Type': 'application/json;charset=utf-8'
+                "Content-Type": 'application/json;charset=utf-8',
+                "sa-token": store.state.userInfo.token ? store.state.userInfo.token : 'sa-sa-token'
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',
@@ -91,7 +90,7 @@ export async function request(url: string, data: any, method: any): Promise<any>
     if (res.data.code === ApiResultEnum.NOT_LOGIN || res.data.code === ApiResultEnum.TOKEN_INVALID) {
         // 未登录
         await router.push({path: '/login'});
-        return ;
+        return;
     }
 
     return res.data;

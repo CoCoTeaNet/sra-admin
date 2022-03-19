@@ -2,7 +2,7 @@
   <!-- 采用element-ui常用布局：https://element-plus.gitee.io/zh-CN/component/container.html -->
   <el-container style="height: 100%">
     <!-- 导航 -->
-    <el-aside class="el-aside" :width="store.state.isCollapseMenu ? '64px' : '220px'">
+    <el-aside class="el-aside nav-bg" :width="store.state.isCollapseMenu ? '64px' : '220px'">
       <NavMenu/>
     </el-aside>
     <el-container style="background: #F2F6FC">
@@ -30,15 +30,14 @@
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
 import {useStore} from "@/store";
-import {ref} from "vue";
 
-const store = ref<any>(useStore());
+const store = useStore();
 </script>
 
-<style>
+<!--私有样式-->
+<style scoped>
 .el-aside {
   transition: width 200ms;
-  background-color: white;
 }
 
 /* 可以设置不同的进入和离开动画 */
@@ -54,5 +53,16 @@ const store = ref<any>(useStore());
 .slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
+}
+</style>
+
+<!--公有样式-->
+<style>
+.nav-bg {
+  background-color: #445368;
+}
+
+.nav-bg h3 {
+  color: white;
 }
 </style>

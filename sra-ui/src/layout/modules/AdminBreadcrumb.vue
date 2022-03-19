@@ -1,7 +1,7 @@
 <template>
-  <el-row align="middle" gutter="12">
+  <el-row align="middle">
     <!-- 折叠菜单按钮 -->
-    <el-col span="12">
+    <el-col :span="2">
       <el-button type="text" @click="setCollapseMenu">
         <template #icon>
           <el-icon class="mouse-over" :size="24">
@@ -12,7 +12,7 @@
       </el-button>
     </el-col>
     <!-- 面包屑 -->
-    <el-col span="12">
+    <el-col :span="22">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="item in itemList" :to="{ path: item.href }">
           {{ item.text }}
@@ -29,8 +29,7 @@ import {Expand, Fold} from '@element-plus/icons-vue';
 import {useStore, setCollapseMenu} from "@/store";
 
 const route = useRoute();
-
-const store = ref<any>(useStore());
+const store = useStore();
 
 const itemList = ref<RouteLocationMatched[]>([]);
 

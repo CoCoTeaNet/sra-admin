@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author jwss
@@ -79,7 +80,7 @@ public class MenuServiceImpl implements IMenuService {
                     list.add(value);
                     menuRootMap.get(value.getParentId()).setChildren(list);
                 }
-            } else if(menuChildMap.get(value.getParentId()) != null) {
+            } else if (menuChildMap.get(value.getParentId()) != null) {
                 List<MenuVO> children = menuChildMap.get(value.getParentId()).getChildren();
                 if (children != null) {
                     children.add(value);
@@ -90,7 +91,7 @@ public class MenuServiceImpl implements IMenuService {
                 }
             }
         }
-        menuVoPage.setRows(new ArrayList<>(menuRootMap.values()));
+        menuVoPage.setRows(new ArrayList<>(menuRootMap.values().stream().sorted(Comparator.comparing(MenuVO::getSort)).collect(Collectors.toList())));
         return menuVoPage;
     }
 

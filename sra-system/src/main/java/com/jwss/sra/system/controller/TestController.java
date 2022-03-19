@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @date 2022-1-12 14:25:41
  * @author jwss
@@ -21,10 +26,5 @@ public class TestController {
     @GetMapping("index")
     public ApiResult<String> index() {
         return ApiResult.ok("Hello sss-rbac-admin.");
-    }
-
-    @GetMapping("result")
-    public ApiResult<SystemInfoVO> getResult() {
-        return ApiResult.ok(new SystemInfoVO());
     }
 }

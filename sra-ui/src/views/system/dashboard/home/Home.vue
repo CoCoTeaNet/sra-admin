@@ -6,7 +6,7 @@
       <p>当前版本：V1.0.0</p>
     </el-card>
 
-    <el-row gutter="10" style="margin-top: 1em">
+    <el-row :gutter="10" style="margin-top: 1em">
       <el-col :span="12">
         <el-card title="联系信息">
           <template #header>
