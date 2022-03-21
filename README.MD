@@ -2,7 +2,7 @@
 
 #### 🍬 介绍
 
-* 基于springboot，整合satoken、sqltoy的权限管理系统，由此命名为：sss-rbac-admin
+* 基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
 
 #### 🏞️ 图片演示
 
@@ -19,7 +19,7 @@
 
 #### 🧬 软件架构
 
-* 前后端分离，后端采用流行的MVC三层架构
+* 前后端分离，后端采用流行的MVC三层架构，缓存Redis，数据库MySQL
 
 #### ☘️ 启动说明
 
@@ -62,9 +62,7 @@ $ npm run build || yarn run build   #生产环境
 
 #### 🍁 开发规范
 
--
-
-建议使用[《阿里巴巴Java开发手册》](https://files.cnblogs.com/files/han-1034683568/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E7%BB%88%E6%9E%81%E7%89%88v1.3.0.pdf)
+- 建议使用[《阿里巴巴Java开发手册》](https://files.cnblogs.com/files/han-1034683568/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E7%BB%88%E6%9E%81%E7%89%88v1.3.0.pdf)
 
 #### 🪐 项目结构
 
@@ -81,27 +79,26 @@ $ npm run build || yarn run build   #生产环境
 └─sra-ui  ----------------------前端项目  
 ```
 
-#### 📡 技术栈文档导航
+#### 📡 核心技术栈文档导航
 
 ##### 后端
 
-- springboot：[前往spring官网](https://spring.io/projects/spring-boot)
-- sqltoy：[前往Gitee项目地址](https://gitee.com/sagacity/sagacity-sqltoy)
-  ，[sqltoy开发文档](https://www.kancloud.cn/hugoxue/sql_toy/2390853)
-- satoken：[前往satoken官网](https://sa-token.dev33.cn/doc/index.html#/)
-- hutool：[前往hutool官网](https://www.hutool.cn/)
+- [SpringBoot](https://spring.io/projects/spring-boot) ：Spring Boot 可以轻松创建可以“直接运行”的独立的、生产级的基于 Spring 的应用程序。
+- [Sqltoy](https://gitee.com/sagacity/sagacity-sqltoy) ：java真正最强大的ORM框架，支持mysql、oracle、postgresql、sqlserver、db2、dm、mongodb、elasticsearch、tidb、kingbase、oceanbase、guassdb、greenplum、StarRocks、impala(kudu)、clickhouse。
+- [Satoken](https://sa-token.dev33.cn/doc/index.html#/) ：一个轻量级 Java 权限认证框架，让鉴权变得简单、优雅！目前已集成——登录认证、权限认证、分布式Session会话、微服务网关鉴权、单点登录、OAuth2.0、踢人下线、Redis集成、前后台分离、记住我模式、模拟他人账号、临时身份切换、账号封禁、多账号认证体系、注解式鉴权、路由拦截式鉴权、花式token生成、自动续签、同端互斥登录、会话治理、jwt集成、Spring集成、WebFlux集成……
+- [Hutool](https://www.hutool.cn/) ：小而全的Java工具类库，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。
 
 ##### 前端
 
-- vue.js：[Vue3开发文档](https://v3.cn.vuejs.org/)
-- element-plus：[element-vue3参考文档](https://element-plus.gitee.io/zh-CN/)
-- echarts：[Apache ECharts在线文档](https://echarts.apache.org/handbook/zh/get-started/)
+- [Vue3开发文档](https://v3.cn.vuejs.org/) ：Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
+- [Element Plus](https://element-plus.gitee.io/zh-CN/) ：基于 Vue 3，面向设计师和开发者的组件库，简洁、美观、稳定、易用。
+- [Apache ECharts](https://echarts.apache.org/handbook/zh/get-started/) ：一个基于 JavaScript 的开源可视化图表库，功能非常强大。
 
 #### 🖥️ 软件版本要求
 
-- mysql：8.0及以上
-- jdk：jdk8及以上
-- node：14.0及以上
+- MySQL：8.0及以上
+- JDK：jdk8及以上
+- Nodejs：14.0及以上
 
 #### 👻 quickvo工具修改说明
 
