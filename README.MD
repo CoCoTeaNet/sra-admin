@@ -32,7 +32,7 @@
 * 数据库脚本
 
 ```text
-/doc/db/db_sra_v1-DDL.sql
+/doc/db/DB_SRA_V1.sql
 ```
 
 * 后端
