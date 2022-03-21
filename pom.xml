@@ -7,7 +7,7 @@
     <groupId>com.jwss</groupId>
     <artifactId>sss-rbac-admin</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0.2</version>
 
     <modules>
         <module>sra-bootstrap</module>
@@ -21,11 +21,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 内部模块版本 -->
-        <sra-system.version>1.0</sra-system.version>
-        <sra-framework.version>1.0</sra-framework.version>
-        <sra-common.version>1.0</sra-common.version>
-        <sra-config.version>1.0</sra-config.version>
-        <sra-bootstrap.version>1.0</sra-bootstrap.version>
+        <sra-system.version>1.0.2</sra-system.version>
+        <sra-framework.version>1.0.2</sra-framework.version>
+        <sra-common.version>1.0.2</sra-common.version>
+        <sra-config.version>1.0.2</sra-config.version>
+        <sra-bootstrap.version>1.0.2</sra-bootstrap.version>
         <!-- 外部框架版本 -->
         <spring-boot-starter-web.version>2.6.2</spring-boot-starter-web.version>
         <sqltoy.version>5.1.23</sqltoy.version>
@@ -51,31 +51,31 @@
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-system</artifactId>
-                <version>${sra-system.version}</version>
+                <version>1.0.2</version>
             </dependency>
             <!-- 引入框架模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-framework</artifactId>
-                <version>${sra-framework.version}</version>
+                <version>1.0.2</version>
             </dependency>
             <!-- 常用工具模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-common</artifactId>
-                <version>${sra-common.version}</version>
+                <version>1.0.2</version>
             </dependency>
             <!-- 配置模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-config</artifactId>
-                <version>${sra-config.version}</version>
+                <version>1.0.2</version>
             </dependency>
             <!-- 项目启动模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-bootstrap</artifactId>
-                <version>${sra-bootstrap.version}</version>
+                <version>1.0.2</version>
             </dependency>
 
             <!-- 外部框架 -->
