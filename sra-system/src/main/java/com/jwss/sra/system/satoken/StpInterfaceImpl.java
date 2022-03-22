@@ -2,6 +2,7 @@ package com.jwss.sra.system.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.jwss.sra.common.enums.IsSomethingEnum;
+import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.system.service.IMenuService;
 import com.jwss.sra.system.vo.MenuVO;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,8 @@ import java.util.List;
 public class StpInterfaceImpl implements StpInterface {
     @Resource
     private IMenuService menuService;
+    @Resource
+    private IRedisService redisService;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {

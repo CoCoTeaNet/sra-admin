@@ -35,7 +35,8 @@
          assign 为手工赋值
          generator为指定具体产生策略,目前分:default:22位长度的主键\nanotime:26位纳秒形式\snowflake雪花算法\uuid\redis -->
     <primary-key>
-        <table name="SAG_\w+|SYS_\w+" strategy="generator" generator="uuid"/>
+        <!--<table name="SAG_\w+|SYS_\w+" strategy="generator" generator="uuid"/>-->
+        <table name="sys_dictionary" strategy="generator" generator="uuid"/>
         <!--<table name="xxxTABLE" strategy="sequence" sequence="SEQ_XXXX"/> -->
         <!--<table name="sys_staff_info" strategy="generator" generator="snowflake"/> -->
     </primary-key>

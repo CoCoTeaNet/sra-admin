@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-3-21 10:05:22",
+  "updatedTime": "2022-3-22 09:30:11",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -1783,6 +1783,292 @@
           "refDict": "",
           "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
           "id": "9DB35C84-86CA-4DB4-9F3C-8E372C2DBCFB"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "9B89525F-C36C-440C-A7DA-889C61C3493B",
+      "defKey": "sys_dictionary",
+      "defName": "系统字典表",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "freeze": false,
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "freeze": true,
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": true,
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "ID",
+          "defName": "主键id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "4E190635-5C45-4D30-A5DD-6B1C8A5DC0CE"
+        },
+        {
+          "defKey": "PARENT_ID",
+          "defName": "父级ID",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "EFD57714-1448-442B-B8DA-FE2F3FA1ACB3"
+        },
+        {
+          "defKey": "DICTIONARY_NAME",
+          "defName": "字典名称",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "4885ECB2-61BA-46D9-8060-5FBD2FA812A0",
+          "id": "1E30C8D9-7E61-4EEA-B0F5-5254217A51AA"
+        },
+        {
+          "defKey": "REMARK",
+          "defName": "备注",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "3E039540-71F4-4D8F-9B77-BA7BC7857A14",
+          "id": "0457434E-CF4B-46E3-AE4C-1CF0A3BF5D02"
+        },
+        {
+          "defKey": "SORT",
+          "defName": "排序号",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "E1F7D9EA-D955-49F1-8B42-FF4363A9ADA8",
+          "id": "68BB9D53-A91F-48BE-97B5-F0EE25A85968"
+        },
+        {
+          "defKey": "ENABLE_STATUS",
+          "defName": "启用状态",
+          "comment": "0关闭 1启用",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "B67A6A60-FD59-42B4-99DA-71617833C827"
+        },
+        {
+          "defKey": "REVISION",
+          "defName": "乐观锁",
+          "comment": "",
+          "domain": "E1F7D9EA-D955-49F1-8B42-FF4363A9ADA8",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "uiHint": "",
+          "id": "67F1C124-DD44-43E4-B70B-460C1DB87128"
+        },
+        {
+          "defKey": "CREATE_BY",
+          "defName": "创建人",
+          "comment": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "type": "",
+          "len": 32,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "uiHint": "",
+          "id": "5522B933-12BB-4413-A5DA-70A519E7B45D"
+        },
+        {
+          "defKey": "CREATE_TIME",
+          "defName": "创建时间",
+          "comment": "",
+          "domain": "AD71B399-0A90-4F1B-AC14-6B55DD1EB0CE",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "uiHint": "",
+          "id": "236D96BD-12C5-45C4-8D34-44CFBE9F6EDB"
+        },
+        {
+          "defKey": "UPDATE_BY",
+          "defName": "更新人",
+          "comment": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "type": "",
+          "len": 32,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "uiHint": "",
+          "id": "BBD57492-3904-4AB1-8028-12F209D9D3FF"
+        },
+        {
+          "defKey": "UPDATE_TIME",
+          "defName": "更新时间",
+          "comment": "",
+          "domain": "AD71B399-0A90-4F1B-AC14-6B55DD1EB0CE",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "uiHint": "",
+          "id": "2EA40108-B90B-4BA6-A73C-09CA8349C174"
+        },
+        {
+          "defKey": "DELETE_STATUS",
+          "defName": "删除状态",
+          "comment": "0删除 1未删除",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": true,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "57B2613C-8E13-4BE1-8EE6-1D9B670560DC"
         }
       ],
       "correlations": [],
