@@ -1,6 +1,7 @@
 package com.jwss.sra.system.controller;
 
 import com.jwss.sra.common.model.ApiResult;
+import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.system.param.menu.MenuPageParam;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.param.menu.MenuAddParam;
@@ -30,28 +31,28 @@ public class MenuController {
 
     @ApiOperation("新增菜单")
     @PostMapping("add")
-    public ApiResult<String> add(@Valid @RequestBody MenuAddParam param) {
+    public ApiResult<String> add(@Valid @RequestBody MenuAddParam param) throws BusinessException {
         boolean b = menuService.add(param);
         return ApiResult.flag(b);
     }
 
     @ApiOperation("批量删除菜单")
     @PostMapping("deleteBatch")
-    public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> idList) {
+    public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> idList) throws BusinessException {
         boolean b = menuService.deleteBatch(idList);
         return ApiResult.flag(b);
     }
 
     @ApiOperation("更新菜单")
     @PostMapping("update")
-    public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) {
+    public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) throws BusinessException {
         boolean b = menuService.update(param);
         return ApiResult.flag(b);
     }
 
     @ApiOperation("分页获取菜单")
     @PostMapping("listByPage")
-    public ApiResult<Page<MenuVO>> listByPage(@Valid @RequestBody MenuPageParam pageParam) {
+    public ApiResult<Page<MenuVO>> listByPage(@Valid @RequestBody MenuPageParam pageParam) throws BusinessException {
         Page<MenuVO> menus = menuService.listByPage(pageParam);
         return ApiResult.ok(menus);
     }

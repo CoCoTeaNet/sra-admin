@@ -59,7 +59,7 @@ public class RoleController {
 
     @ApiOperation(value = "分页获取角色")
     @PostMapping("/listByPage")
-    public ApiResult<Page<RoleVO>> listByPage(@Valid @RequestBody RolePageParam param) {
+    public ApiResult<Page<RoleVO>> listByPage(@Valid @RequestBody RolePageParam param) throws BusinessException {
         Page<RoleVO> p = roleService.listByPage(param);
         return ApiResult.ok(p);
     }

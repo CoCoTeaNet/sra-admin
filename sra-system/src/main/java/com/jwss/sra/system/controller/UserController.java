@@ -37,7 +37,7 @@ public class UserController {
     @ApiOperation(value = "新增用户")
     @SaCheckPermission("system:user:add")
     @PostMapping("/add")
-    public ApiResult<String> add(@Valid @RequestBody UserAddParam param) {
+    public ApiResult<String> add(@Valid @RequestBody UserAddParam param) throws BusinessException {
         boolean b = userService.add(param);
         return ApiResult.flag(b);
     }
@@ -45,7 +45,7 @@ public class UserController {
     @ApiOperation(value = "更新用户信息")
     @SaCheckPermission("system:user:update")
     @PostMapping("/update")
-    public ApiResult<String> update(@Valid @RequestBody UserUpdateParam param) {
+    public ApiResult<String> update(@Valid @RequestBody UserUpdateParam param) throws BusinessException {
         boolean b = userService.update(param);
         return ApiResult.flag(b);
     }
@@ -53,7 +53,7 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @SaCheckPermission("system:user:delete")
     @PostMapping("/delete/{id}")
-    public ApiResult<String> delete(@PathVariable String id) {
+    public ApiResult<String> delete(@PathVariable String id) throws BusinessException {
         boolean b = userService.delete(id);
         return ApiResult.flag(b);
     }
@@ -61,7 +61,7 @@ public class UserController {
     @ApiOperation(value = "批量删除用户")
     @SaCheckPermission("system:user:delete")
     @PostMapping("/deleteBatch")
-    public ApiResult<String> deleteBatch(@RequestBody List<String> idList) {
+    public ApiResult<String> deleteBatch(@RequestBody List<String> idList) throws BusinessException {
         boolean b = userService.deleteBatch(idList);
         return ApiResult.flag(b);
     }
@@ -69,7 +69,7 @@ public class UserController {
     @ApiOperation(value = "分页获取用户")
     @SaCheckPermission("system:user:listByPage")
     @PostMapping("/listByPage")
-    public ApiResult<Page<UserVO>> listByPage(@Valid @RequestBody UserPageParam param) {
+    public ApiResult<Page<UserVO>> listByPage(@Valid @RequestBody UserPageParam param) throws BusinessException {
         Page<UserVO> list = userService.listByPage(param);
         return ApiResult.ok(list);
     }

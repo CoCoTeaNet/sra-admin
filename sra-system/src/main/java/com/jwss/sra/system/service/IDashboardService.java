@@ -21,6 +21,7 @@ public interface IDashboardService {
     /**
      * 获取系统信息
      * @return 系统信息
+     * @throws  UnknownHostException 未知host异常
      */
     SystemInfoVO getSystemInfo() throws UnknownHostException;
 }

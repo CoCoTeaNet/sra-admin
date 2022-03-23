@@ -1,6 +1,7 @@
 package com.jwss.sra.system.service;
 
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.common.service.IBaseService;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
 import com.jwss.sra.system.param.user.UserPageParam;
@@ -16,46 +17,7 @@ import java.util.List;
  * @author jwss
  * @date 2022-1-12 15:32:55
  */
-public interface IUserService {
-    /**
-     * 新增用户
-     *
-     * @param param 用户表单
-     * @return 成功返回TRUE
-     */
-    boolean add(UserAddParam param);
-
-    /**
-     * 更新用户
-     *
-     * @param param 更新用户参数
-     * @return 成功返回true
-     */
-    boolean update(UserUpdateParam param);
-
-    /**
-     * 删除用户
-     *
-     * @param id 主键id
-     * @return 成功返回true
-     */
-    boolean delete(String id);
-
-    /**
-     * 批量删除用户
-     * @param idList id列表
-     * @return 成功返回true
-     */
-    boolean deleteBatch(List<String> idList);
-
-    /**
-     * 用户分页参数
-     *
-     * @param param 分页参数
-     * @return 用户分页集合
-     */
-    Page<UserVO> listByPage(UserPageParam param);
-
+public interface IUserService extends IBaseService<Page<UserVO>, UserPageParam, UserAddParam, UserUpdateParam> {
     /**
      * 用户登录
      *

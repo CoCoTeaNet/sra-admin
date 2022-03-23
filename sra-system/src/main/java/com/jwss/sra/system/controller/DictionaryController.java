@@ -2,6 +2,7 @@ package com.jwss.sra.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.jwss.sra.common.model.ApiResult;
+import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.system.param.dictionary.DictionaryAddParam;
 import com.jwss.sra.system.param.dictionary.DictionaryPageParam;
 import com.jwss.sra.system.param.dictionary.DictionaryUpdateParam;
@@ -30,21 +31,21 @@ public class DictionaryController {
 
     @PostMapping("/add")
     @SaCheckPermission("system:dictionary:add")
-    public ApiResult<String> add(@Valid @RequestBody DictionaryAddParam param) {
+    public ApiResult<String> add(@Valid @RequestBody DictionaryAddParam param) throws BusinessException {
         boolean b = dictionaryService.add(param);
         return ApiResult.flag(b);
     }
 
     @PostMapping("/deleteBatch")
     @SaCheckPermission("system:dictionary:deleteBatch")
-    public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> list) {
+    public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> list) throws BusinessException {
         boolean b = dictionaryService.deleteBatch(list);
         return ApiResult.flag(b);
     }
 
     @PostMapping("/update")
     @SaCheckPermission("system:dictionary:update")
-    public ApiResult<String> update(@Valid @RequestBody DictionaryUpdateParam param) {
+    public ApiResult<String> update(@Valid @RequestBody DictionaryUpdateParam param) throws BusinessException {
         boolean b = dictionaryService.update(param);
         return ApiResult.flag(b);
     }

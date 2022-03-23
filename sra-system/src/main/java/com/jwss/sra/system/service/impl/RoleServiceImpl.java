@@ -41,6 +41,11 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
+    public boolean deleteBatch(List<String> idList) {
+        return false;
+    }
+
+    @Override
     public boolean update(RoleUpdateParam param) {
         Role role = sqlToyLazyDao.convertType(param, Role.class);
         Long update = sqlToyLazyDao.update(role);
