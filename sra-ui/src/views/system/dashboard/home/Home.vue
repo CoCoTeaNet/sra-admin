@@ -3,7 +3,7 @@
     <el-card>
       <h3>SRA后台管理系统</h3>
       <p>基于springboot，整合satoken、sqltoy的权限管理系统，由此命名为：sss-rbac-admin</p>
-      <p>当前版本：V1.0.0</p>
+      <p>当前版本：V1.0.2</p>
     </el-card>
 
     <el-row :gutter="10" style="margin-top: 1em">
@@ -21,24 +21,18 @@
       <el-col :span="12">
         <el-card>
           <el-collapse accordion>
-            <el-collapse-item title="Consistency" name="1">
+            <el-collapse-item title="v1.0.1" name="1">
               <div>
-                Consistent with real life: in line with the process and logic of real
-                life, and comply with languages and habits that the users are used to;
-              </div>
-              <div>
-                Consistent within interface: all elements should be consistent, such
-                as: design style, icons and texts, position of elements, etc.
+                <p>版本v1.0.1正式完成</p>
+                <p>
+                  🍬基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。
+                  是一款前后端分离、开箱即用的后台权限管理系统。
+                </p>
               </div>
             </el-collapse-item>
-            <el-collapse-item title="Feedback" name="2">
+            <el-collapse-item title="v1.0.2" name="2">
               <div>
-                Operation feedback: enable the users to clearly perceive their
-                operations by style updates and interactive effects;
-              </div>
-              <div>
-                Visual feedback: reflect current state by updating or rearranging
-                elements of the page.
+                开发中...
               </div>
             </el-collapse-item>
           </el-collapse>

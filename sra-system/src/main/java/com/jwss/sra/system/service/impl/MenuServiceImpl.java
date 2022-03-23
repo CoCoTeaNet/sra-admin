@@ -2,7 +2,7 @@ package com.jwss.sra.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
-import com.jwss.sra.common.enums.IsSomethingEnum;
+import com.jwss.sra.common.util.GenerateDsUtils;
 import com.jwss.sra.common.util.StringUtils;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.entity.Menu;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author jwss
@@ -57,41 +56,9 @@ public class MenuServiceImpl implements IMenuService {
     public Page<MenuVO> listByTree(MenuPageParam pageParam) {
         Page<MenuVO> menuVoPage = sqlToyLazyDao.findPageBySql(pageParam, "system_menu_findByPageParam", pageParam.getMenuVO());
         List<MenuVO> menuVOList = menuVoPage.getRows();
-        Map<String, MenuVO> menuRootMap = new HashMap<>(menuVOList.size() + 1);
-        Map<String, MenuVO> menuChildMap = new HashMap<>(menuVOList.size() + 1);
-        String root = String.valueOf(0);
-        // 1.将根节点元素和子节点元素通过id映射分离
-        menuVOList.forEach(item -> {
-            if (root.equals(item.getParentId())) {
-                menuRootMap.put(item.getId(), item);
-            } else {
-                menuChildMap.put(item.getId(), item);
-            }
-        });
-        // 遍历子节点，通过映射id去给子节点分配父元素
-        for (Map.Entry<String, MenuVO> item : menuChildMap.entrySet()) {
-            MenuVO value = item.getValue();
-            if (menuRootMap.get(value.getParentId()) != null) {
-                List<MenuVO> children = menuRootMap.get(item.getValue().getParentId()).getChildren();
-                if (children != null) {
-                    children.add(value);
-                } else {
-                    ArrayList<MenuVO> list = new ArrayList<>();
-                    list.add(value);
-                    menuRootMap.get(value.getParentId()).setChildren(list);
-                }
-            } else if (menuChildMap.get(value.getParentId()) != null) {
-                List<MenuVO> children = menuChildMap.get(value.getParentId()).getChildren();
-                if (children != null) {
-                    children.add(value);
-                } else {
-                    ArrayList<MenuVO> list = new ArrayList<>();
-                    list.add(value);
-                    menuChildMap.get(value.getParentId()).setChildren(list);
-                }
-            }
-        }
-        menuVoPage.setRows(new ArrayList<>(menuRootMap.values().stream().sorted(Comparator.comparing(MenuVO::getSort)).collect(Collectors.toList())));
+        GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
+        Map<String, MenuVO> voMap = dsUtils.buildTreeDefault(menuVOList);
+        menuVoPage.setRows(new ArrayList<>(voMap.values()));
         return menuVoPage;
     }
 
