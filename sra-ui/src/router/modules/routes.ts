@@ -3,6 +3,7 @@ import AdminLayout from "@/layout/AdminLayout.vue";
 import Home from "@/views/system/dashboard/home/Home.vue";
 import UserView from "@/views/system/manager/user/UserView.vue";
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
+import DictionaryView from "@/views/system/manager/dictionary/DictionaryView.vue";
 import PermissionView from "@/views/system/manager/menu/PermissionView.vue";
 import RoleView from "@/views/system/manager/role/RoleView.vue";
 import Dashboard from "@/views/system/dashboard/Dashboard.vue";
@@ -29,6 +30,7 @@ export const routes =[
             {path: 'menu-manager', meta: {title: '菜单管理'}, name: 'MenuView', component: MenuView},
             {path: 'permission-manager', meta: {title: '菜单管理'}, name: 'PermissionView', component: PermissionView},
             {path: 'role-manager', meta: {title: '角色管理'}, name: 'RoleView', component: RoleView},
+            {path: 'dictionary-manager', meta: {title: '字典管理'}, name: 'DictionaryView', component: DictionaryView},
             {path: 'user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView}
         ]
     },

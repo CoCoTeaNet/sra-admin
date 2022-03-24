@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @date 2022-3-22
  * @author jwss
+ * @date 2022-3-22
  */
 @Api(tags = "系统字典接口")
 @Validated
