@@ -85,6 +85,11 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot-starter-web.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-starter-web.version}</version>
+            </dependency>
             <!-- sqltoy spring boot starter -->
             <dependency>
                 <groupId>com.sagframe</groupId>
@@ -180,4 +185,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>
