@@ -106,6 +106,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           router.push({path: route.query.redirect ? decodeURIComponent(`${route.query.redirect}`) : '/admin/home'});
         } else {
           ElMessage.error(!res.data ? res.message : res.data);
+          getVerifyCodeImage();
         }
         loading.value = false;
       });

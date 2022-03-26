@@ -24,4 +24,9 @@ public class StringUtils {
      * 冒号
      */
     public final static String COLON = ":";
+
+    /**
+     * 零，通常用于root层
+     */
+    public final static String ZERO = "0";
 }

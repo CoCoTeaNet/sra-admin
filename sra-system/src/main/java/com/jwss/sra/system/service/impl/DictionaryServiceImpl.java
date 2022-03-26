@@ -3,6 +3,7 @@ package com.jwss.sra.system.service.impl;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.common.util.GenerateDsUtils;
+import com.jwss.sra.common.util.StringUtils;
 import com.jwss.sra.system.entity.Dictionary;
 import com.jwss.sra.system.entity.Menu;
 import com.jwss.sra.system.param.dictionary.DictionaryAddParam;
@@ -12,6 +13,7 @@ import com.jwss.sra.system.service.IDictionaryService;
 import com.jwss.sra.system.vo.DictionaryVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.utils.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,9 @@ public class DictionaryServiceImpl implements IDictionaryService {
     @Override
     public boolean add(DictionaryAddParam param) {
         Dictionary dictionary = sqlToyLazyDao.convertType(param, Dictionary.class);
+        if (StringUtil.isBlank(dictionary.getParentId())) {
+            dictionary.setParentId(StringUtils.ZERO);
+        }
         Object o = sqlToyLazyDao.save(dictionary);
         return o != null;
     }

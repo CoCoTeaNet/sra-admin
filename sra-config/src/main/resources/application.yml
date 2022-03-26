@@ -3,6 +3,7 @@ server:
     # 上下文路径：比如 localhost:7777/sra-api/**
     context-path: /sra-api
 
+
 # Sa-Token 配置
 sa-token:
   # token名称 (同时也是cookie名称)
@@ -71,3 +72,5 @@ spring:
   # 环境配置激活
   profiles:
     active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss

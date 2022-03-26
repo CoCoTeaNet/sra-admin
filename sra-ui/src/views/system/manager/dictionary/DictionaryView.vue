@@ -1,6 +1,6 @@
 <template>
   <sra-tree-table v-loading="loading"
-                  :editForm="editForm" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
+                  :editForm="editForm.data" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove" @add="initAdd"
                   @enter-search="initTable" @refresh="refresh">
     <!-- 表格列配置 -->
@@ -18,13 +18,13 @@
 
     <!-- 新增&编辑表单 -->
     <template v-slot:edit>
-      <el-form-item prop="menuName" label="菜单名称">
+      <el-form-item prop="dictionaryName" label="菜单名称">
         <el-input v-model="editForm.data.dictionaryName"></el-input>
       </el-form-item>
-      <el-form-item prop="menuName" label="备注">
+      <el-form-item prop="remark" label="备注">
         <el-input v-model="editForm.data.remark"></el-input>
       </el-form-item>
-      <el-form-item prop="menuType" label="是否启用">
+      <el-form-item prop="enableStatus" label="是否启用">
         <el-radio-group v-model="editForm.data.enableStatus">
           <el-radio label="0">是</el-radio>
           <el-radio label="1">否</el-radio>
@@ -68,7 +68,7 @@ const defaultProps = {
 }
 
 // 表单参数
-const editForm = ref<any>({
+const editForm = reactive<any>({
   data: initForm
 });
 
@@ -78,8 +78,8 @@ const loading = ref<boolean>(true);
 // 表单校验规则
 const rules = reactive({
   dictionaryName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  enableStatus: [{required: true, message: '请选择菜单编号', trigger: 'blur'}],
-  remark: [{required: true, min: 2, max: 255, message: '长度限制2~255', trigger: 'blur'}]
+  enableStatus: [{message: '请选择菜单编号', trigger: 'blur'}],
+  remark: [{min: 2, max: 255, message: '长度限制2~255', trigger: 'blur'}]
 });
 
 // api分页请求参数
@@ -99,7 +99,7 @@ onMounted(() => {
  */
 const edit = (row: any): void => {
   if (row) {
-    editForm.value.data = row;
+    editForm.data = row;
   }
 }
 
@@ -107,7 +107,7 @@ const edit = (row: any): void => {
  * 初始化新增数据
  */
 const initAdd = (): void => {
-  editForm.value.data = initForm;
+  editForm.data = initForm;
 }
 
 /**
@@ -138,7 +138,7 @@ const initTable = (): void => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    menuVO: {isMenu: 0, menuName: pageParam.value.searchKey}
+    dictionaryVO: {dictionaryName: pageParam.value.searchKey}
   };
   reqCommonFeedback(listByTree(param), (data: any) => {
     pageVo.value.records = data.rows;
@@ -155,15 +155,15 @@ const initTable = (): void => {
 const doUpdate = (formEl: any, callback: Function): void => {
   formEl.validate((valid: any) => {
     if (valid) {
-      if (!editForm.id) {
+      if (!editForm.data.id) {
         // 新增
-        reqSuccessFeedback(add(editForm), '新增成功', () => {
+        reqSuccessFeedback(add(editForm.data), '新增成功', () => {
           initTable();
           callback();
         });
       } else {
         // 修改
-        reqSuccessFeedback(update(editForm), '修改成功', () => {
+        reqSuccessFeedback(update(editForm.data), '修改成功', () => {
           initTable();
           callback();
         });
@@ -187,7 +187,7 @@ const removeBatch = (ids: string[]): void => {
  * @param data
  */
 const handleChange = (data: any) => {
-  editForm.value.data.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
+  editForm.data.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
 }
 </script>
 
