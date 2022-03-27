@@ -19,7 +19,7 @@
             删除
           </el-space>
         </el-button>
-        <el-button @click="$emit('refresh')">
+        <el-button type="text" @click="$emit('refresh')">
           <el-space>
             <el-icon>
               <refresh/>
@@ -106,6 +106,7 @@ const emit = defineEmits<{
   (e: 'enter-search', v: string): void
   (e: 'dialog-confirm', v: FormInstance, f: Function): void
   (e: 'add'): void
+  (e: 'refresh'): void
 }>();
 
 /**

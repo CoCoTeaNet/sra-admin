@@ -19,12 +19,24 @@
             删除
           </el-space>
         </el-button>
-        <el-button @click="$emit('refresh')">
+        <el-button type="text" @click="$emit('refresh')">
           <el-space>
             <el-icon><refresh /></el-icon>
             刷新
           </el-space>
         </el-button>
+
+<!--        暂时关闭改功能，因为element-plus暂时无法控制属性default-expand-all -->
+<!--        <el-button type="text" @click="isExpandAll = !isExpandAll">-->
+<!--          <el-space>-->
+<!--            <el-icon>-->
+<!--              <arrow-up-bold v-if="isExpandAll" />-->
+<!--              <arrow-down-bold v-else/>-->
+<!--            </el-icon>-->
+<!--            {{ isExpandAll ? '收起' : '展开' }}-->
+<!--          </el-space>-->
+<!--        </el-button>-->
+
       </el-col>
       <el-col :span="4" style="text-align: right">
         <el-input placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey" @keypress.enter="enterSearch"/>
@@ -32,7 +44,8 @@
     </el-row>
 
     <!-- 表格视图 -->
-    <el-table :data="pageVo.records" row-key="id" stripe
+    <el-table stripe row-key="id"
+              :data="pageVo.records" :default-expand-all="isExpandAll"
               @select="selectChange" @select-all="selectChange">
       <!-- 表格插槽 -->
       <slot name="default"></slot>
@@ -82,6 +95,8 @@ const dialogFormVisible = ref<boolean>(false);
 const dialogTitle = ref<string>('');
 // 搜索值
 const searchKey = ref<string>('');
+// 是否展开所有
+const isExpandAll = ref<boolean>(false);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
@@ -108,6 +123,7 @@ const emit = defineEmits<{
   (e: 'enter-search', searchKey: string): void
   (e: 'dialog-confirm', v: FormInstance, f: Function): void
   (e: 'add'): void
+  (e: 'refresh'): void
 }>();
 
 /**

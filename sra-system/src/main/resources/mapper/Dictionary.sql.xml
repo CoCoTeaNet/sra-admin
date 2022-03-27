@@ -13,7 +13,7 @@
                 #[and PARENT_ID = :parentId]
                 #[and DICTIONARY_NAME = :dictionaryName]
                 #[and ENABLE_STATUS = :enableStatus]
-                #[and DELETE_STATUS = 1]
+                and DELETE_STATUS = 1
 			]]>
         </value>
     </sql>
@@ -26,9 +26,10 @@
                 from sys_dictionary sd
                 left join sys_user su on su.ID = sd.CREATE_BY
                 where
-                #[and ENABLE_STATUS = :enableStatus]
-                #[and DICTIONARY_NAME like :dictionaryName]
-                #[and DELETE_STATUS = 1]
+                #[and sd.ENABLE_STATUS = :enableStatus]
+                #[and sd.DICTIONARY_NAME like :dictionaryName]
+                and sd.DELETE_STATUS = 1
+                order by sd.SORT
 			]]>
         </value>
     </sql>

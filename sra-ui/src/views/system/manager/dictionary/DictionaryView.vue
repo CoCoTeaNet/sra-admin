@@ -31,10 +31,10 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item prop="sort" label="显示顺序">
-        <el-input v-model="editForm.sort" type="number"></el-input>
+        <el-input v-model="editForm.data.sort" type="number"></el-input>
       </el-form-item>
       <el-form-item label="上级">
-        <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+        <el-cascader v-model="editForm.data.parentId" placeholder="选择节点"
                      :props="defaultProps" :options="pageVo.records" :show-all-levels="false"
                      @change="handleChange">
         </el-cascader>
@@ -55,7 +55,7 @@ const initForm = {
   dictionaryName: '',
   remark: '',
   parentId: '',
-  sort: 0,
+  sort: 1,
   enableStatus: '0'
 }
 
