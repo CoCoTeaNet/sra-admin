@@ -25,17 +25,15 @@
             刷新
           </el-space>
         </el-button>
-
-<!--        暂时关闭改功能，因为element-plus暂时无法控制属性default-expand-all -->
-<!--        <el-button type="text" @click="isExpandAll = !isExpandAll">-->
-<!--          <el-space>-->
-<!--            <el-icon>-->
-<!--              <arrow-up-bold v-if="isExpandAll" />-->
-<!--              <arrow-down-bold v-else/>-->
-<!--            </el-icon>-->
-<!--            {{ isExpandAll ? '收起' : '展开' }}-->
-<!--          </el-space>-->
-<!--        </el-button>-->
+        <el-button type="text" @click="doExpandAll">
+          <el-space>
+            <el-icon>
+              <arrow-right-bold v-if="!isExpandAll" />
+              <arrow-down-bold v-else/>
+            </el-icon>
+            {{ isExpandAll ? '收起' : '展开' }}
+          </el-space>
+        </el-button>
 
       </el-col>
       <el-col :span="4" style="text-align: right">
@@ -44,7 +42,7 @@
     </el-row>
 
     <!-- 表格视图 -->
-    <el-table stripe row-key="id"
+    <el-table v-if="isShowTable" stripe row-key="id"
               :data="pageVo.records" :default-expand-all="isExpandAll"
               @select="selectChange" @select-all="selectChange">
       <!-- 表格插槽 -->
@@ -80,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
+import {nextTick, ref} from "vue";
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
 
@@ -97,6 +95,8 @@ const dialogTitle = ref<string>('');
 const searchKey = ref<string>('');
 // 是否展开所有
 const isExpandAll = ref<boolean>(false);
+// 是否展示表格
+const isShowTable = ref<boolean>(true);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
@@ -201,6 +201,17 @@ const dialogConfirm = (formEl: FormInstance) => {
  */
 const selectChange = (val: any[]) => {
   selectionIds.value = val;
+}
+
+/**
+ * 展开或折叠所有
+ */
+const doExpandAll = () => {
+  isShowTable.value = false;
+  isExpandAll.value = !isExpandAll.value;
+  nextTick(()=>{
+    isShowTable.value = true;
+  });
 }
 </script>
 
