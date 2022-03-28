@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h3 style="text-align: center">SRA后台管理系统</h3>
+    <h3 style="text-align: center">
+      {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
+    </h3>
     <el-menu background-color="#445368" text-color="white" :default-openeds="['0']" default-active="1" style="height: 100%;" :collapse="store.state.isCollapseMenu">
       <!-- 顶级菜单 -->
       <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
