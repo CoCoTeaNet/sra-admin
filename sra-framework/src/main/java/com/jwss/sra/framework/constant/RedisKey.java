@@ -14,4 +14,9 @@ public class RedisKey {
      * 在线用户，参数为用户id
      */
     public final static String ONLINE_USER = "ONLINE_USER_%s";
+
+    /**
+     * 用户缓存权限
+     */
+    public final static String USER_PERMISSION = "USER_PERMISSION_%s";
 }

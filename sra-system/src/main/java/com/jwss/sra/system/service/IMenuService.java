@@ -34,4 +34,18 @@ public interface IMenuService extends IBaseService<Page<MenuVO>, MenuPageParam, 
      * @return 菜单列表
      */
     List<MenuVO> listByRoleId(String roleId);
+
+    /**
+     * 缓存用户权限
+     * @param userId 用户主键id
+     * @return 用户权限
+     */
+    List<MenuVO> cachePermission(String userId);
+
+    /**
+     * 获取用户缓存权限
+     * @param userId 用户主键id
+     * @return 用户权限
+     */
+    List<MenuVO> getCachePermission(String userId);
 }

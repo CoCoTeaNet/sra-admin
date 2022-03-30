@@ -1,9 +1,13 @@
 package com.jwss.sra.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONUtil;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
+import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.common.util.GenerateDsUtils;
 import com.jwss.sra.common.util.StringUtils;
+import com.jwss.sra.framework.constant.RedisKey;
+import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.system.param.menu.MenuUpdateParam;
 import com.jwss.sra.system.entity.Menu;
 import com.jwss.sra.system.param.menu.MenuAddParam;
@@ -13,6 +17,8 @@ import com.jwss.sra.system.vo.MenuVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.utils.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +30,11 @@ import java.util.*;
  */
 @Service
 public class MenuServiceImpl implements IMenuService {
+    private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
+    @Resource
+    private IRedisService redisService;
 
     @Override
     public boolean add(MenuAddParam param) {
@@ -105,6 +114,21 @@ public class MenuServiceImpl implements IMenuService {
         hashMap.put("roleId", roleId);
         List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByCommonParam", hashMap, MenuVO.class);
         return menuVOList;
+    }
+
+    @Override
+    public List<MenuVO> cachePermission(String userId) {
+        // 缓存权限
+        List<MenuVO> permissions = listByUserId(IsSomethingEnum.NO.getCode());
+        redisService.save(String.format(RedisKey.USER_PERMISSION, userId), JSONUtil.toJsonStr(permissions), 3600 * 24L);
+        return permissions;
+    }
+
+    @Override
+    public List<MenuVO> getCachePermission(String userId) {
+        String s = redisService.get(String.format(RedisKey.USER_PERMISSION, userId));
+        logger.info("[{}]-permissions={}", userId, s);
+        return JSONUtil.toList(s, MenuVO.class);
     }
 
 }
