@@ -2,6 +2,7 @@ package com.jwss.sra.framework.exceptions;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import com.jwss.sra.common.enums.ApiResultEnum;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.common.model.BusinessException;
@@ -40,6 +41,8 @@ public class GlobalExceptionHandler {
         } else if (e instanceof BusinessException) {
             BusinessException businessException = (BusinessException) e;
             return ApiResult.error(businessException.getErrorMsg(), businessException.getErrorCode());
+        } else if (e instanceof NotRoleException) {
+            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getDesc(), ApiResultEnum.NOT_PERMISSION.getCode());
         }
         return ApiResult.error();
     }

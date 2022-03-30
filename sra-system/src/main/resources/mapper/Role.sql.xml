@@ -29,4 +29,14 @@
 			]]>
         </value>
     </sql>
+
+    <!-- 根据用户ID查询角色 -->
+    <sql id="system_role_loadByUserId">
+        <value>
+            <![CDATA[
+               select * from sys_role
+               where ID in (select ROLE_ID from sys_user_role where USER_ID=:userId)
+            ]]>
+        </value>
+    </sql>
 </sqltoy>

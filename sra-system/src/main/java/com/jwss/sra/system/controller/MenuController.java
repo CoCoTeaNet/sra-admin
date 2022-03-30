@@ -1,5 +1,7 @@
 package com.jwss.sra.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.system.param.menu.MenuPageParam;
@@ -30,6 +32,7 @@ public class MenuController {
     private IMenuService menuService;
 
     @ApiOperation("新增菜单")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("add")
     public ApiResult<String> add(@Valid @RequestBody MenuAddParam param) throws BusinessException {
         boolean b = menuService.add(param);
@@ -37,6 +40,7 @@ public class MenuController {
     }
 
     @ApiOperation("批量删除菜单")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("deleteBatch")
     public ApiResult<String> deleteBatch(@Valid @RequestBody List<String> idList) throws BusinessException {
         boolean b = menuService.deleteBatch(idList);
@@ -44,6 +48,7 @@ public class MenuController {
     }
 
     @ApiOperation("更新菜单")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("update")
     public ApiResult<String> update(@Valid @RequestBody MenuUpdateParam param) throws BusinessException {
         boolean b = menuService.update(param);
@@ -51,6 +56,7 @@ public class MenuController {
     }
 
     @ApiOperation("分页获取菜单")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByPage")
     public ApiResult<Page<MenuVO>> listByPage(@Valid @RequestBody MenuPageParam pageParam) throws BusinessException {
         Page<MenuVO> menus = menuService.listByPage(pageParam);
@@ -58,6 +64,7 @@ public class MenuController {
     }
 
     @ApiOperation("获取菜单树")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTree")
     public ApiResult<Page<MenuVO>> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
         Page<MenuVO> menus = menuService.listByTree(pageParam);
@@ -65,6 +72,7 @@ public class MenuController {
     }
 
     @ApiOperation("通过角色获取菜单树")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @GetMapping("listByRoleId/{roleId}")
     public ApiResult<List<MenuVO>> listByRoleId(@PathVariable String roleId) {
         List<MenuVO> menus = menuService.listByRoleId(roleId);

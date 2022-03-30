@@ -24,4 +24,11 @@ public interface IRoleService extends IBaseService<Page<RoleVO>, RolePageParam, 
      * @throws BusinessException 业务异常
      */
     boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException;
+
+    /**
+     * 通过用户ID获取角色
+     * @param userId 用户id
+     * @return 角色
+     */
+    RoleVO loadByUserId(String userId);
 }

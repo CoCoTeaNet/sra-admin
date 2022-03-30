@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jwss
@@ -67,6 +69,13 @@ public class RoleServiceImpl implements IRoleService {
         // 重新添加权限
         Long aLong = sqlToyLazyDao.saveOrUpdateAll(roleMenuList);
         return aLong > 0;
+    }
+
+    @Override
+    public RoleVO loadByUserId(String userId) {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("userId", userId);
+        return sqlToyLazyDao.loadBySql("system_role_loadByUserId", map, RoleVO.class);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -3,8 +3,11 @@ package com.jwss.sra.system.satoken;
 import cn.dev33.satoken.stp.StpInterface;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.config.properties.DevEnableProperties;
+import com.jwss.sra.system.param.role.RolePageParam;
 import com.jwss.sra.system.service.IMenuService;
+import com.jwss.sra.system.service.IRoleService;
 import com.jwss.sra.system.vo.MenuVO;
+import com.jwss.sra.system.vo.RoleVO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,6 +24,8 @@ import java.util.List;
 public class StpInterfaceImpl implements StpInterface {
     @Resource
     private IMenuService menuService;
+    @Resource
+    private IRoleService roleService;
     @Resource
     private DevEnableProperties devEnableProperties;
 
@@ -46,6 +51,9 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        return null;
+        RoleVO roleVO = roleService.loadByUserId((String) loginId);
+        List<String> list = new ArrayList<>(1);
+        list.add(roleVO.getRoleKey());
+        return list;
     }
 }
