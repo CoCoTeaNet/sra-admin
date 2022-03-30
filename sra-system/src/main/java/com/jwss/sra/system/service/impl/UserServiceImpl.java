@@ -8,6 +8,8 @@ import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.common.enums.SexEnum;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.common.util.SecurityUtils;
+import com.jwss.sra.config.properties.DefaultProperties;
 import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
@@ -47,6 +49,8 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private DevEnableProperties devEnableProperties;
     @Resource
+    private DefaultProperties defaultProperties;
+    @Resource
     private SqlToyLazyDao sqlToyLazyDao;
     @Resource
     private IMenuService menuService;
@@ -57,6 +61,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean add(UserAddParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
+        if (StringUtil.isNotBlank(param.getPassword())) {
+            user.setPassword(SecurityUtils.buildMd5Pwd(param.getPassword(), defaultProperties.getSalt()));
+        } else {
+            user.setPassword(defaultProperties.getPassword());
+        }
         Object userId = sqlToyLazyDao.save(user);
         // 授予用户角色
         UserRole userRole = new UserRole().setUserId((String) userId).setRoleId(param.getRoleId());
@@ -115,6 +124,7 @@ public class UserServiceImpl implements IUserService {
             }
             // 校验密码
             user = sqlToyLazyDao.convertType(param, User.class);
+            user.setPassword(SecurityUtils.buildMd5Pwd(param.getPassword(), defaultProperties.getSalt()));
             user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", user);
             if (user == null) {
                 throw new BusinessException("登录失败，用户名或密码错误");
