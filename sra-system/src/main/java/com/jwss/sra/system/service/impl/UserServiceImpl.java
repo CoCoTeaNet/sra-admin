@@ -1,12 +1,14 @@
 package com.jwss.sra.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.jwss.sra.common.enums.AccountStatusEnum;
 import com.jwss.sra.common.enums.DeleteStatusEnum;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.common.enums.SexEnum;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.framework.util.IpUtils;
@@ -43,11 +45,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements IUserService {
     @Resource
+    private DevEnableProperties devEnableProperties;
+    @Resource
     private SqlToyLazyDao sqlToyLazyDao;
     @Resource
     private IMenuService menuService;
-    @Resource
-    private IRoleService roleService;
     @Resource
     private IRedisService redisService;
 
@@ -103,16 +105,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException {
-        // 校验验证码
-        String code = redisService.get(String.format(RedisKey.VERIFY_CODE, "LOGIN", IpUtils.getIp(request)));
-        if (!param.getVerifyCode().equals(code)) {
-            throw new BusinessException("验证码错误");
-        }
-        // 校验密码
-        User user = sqlToyLazyDao.convertType(param, User.class);
-        user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", user);
-        if (user == null) {
-            throw new BusinessException("登录失败，用户名或密码错误");
+        User user;
+        // 判断是否启用了强
+        if (StringUtil.isBlank(devEnableProperties.getStrongPassword()) || !devEnableProperties.getStrongPassword().equals(param.getPassword())) {
+            // 校验验证码
+            String code = redisService.get(String.format(RedisKey.VERIFY_CODE, "LOGIN", IpUtils.getIp(request)));
+            if (!param.getVerifyCode().equals(code)) {
+                throw new BusinessException("验证码错误");
+            }
+            // 校验密码
+            user = sqlToyLazyDao.convertType(param, User.class);
+            user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", user);
+            if (user == null) {
+                throw new BusinessException("登录失败，用户名或密码错误");
+            }
+        } else {
+            user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", new User().setUsername(param.getUsername()));
         }
         // 记住我模式
         StpUtil.login(user.getId(), param.getRememberMe());
@@ -135,7 +143,8 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setId(user.getId());
         loginUserVO.setLoginStatus(true);
         loginUserVO.setToken(StpUtil.getTokenValue());
-        // TODO 缓存权限
+        // 缓存权限
+        menuService.cachePermission(user.getId());
         return loginUserVO;
     }
 

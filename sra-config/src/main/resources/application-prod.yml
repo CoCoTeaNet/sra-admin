@@ -1,6 +1,11 @@
 server:
   port: 8080
-  #完整路径:spring.sqltoy
+
+sra:
+  dev-enable:
+    permission-cache: true
+    strong-password: srapwd
+
 spring:
   sqltoy:
     # 配置sql文件路径,多个用逗号分割
