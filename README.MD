@@ -3,6 +3,7 @@
 #### 🍬 介绍
 
 * 基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
+* 致力于打造一款不用生成冗赘代码的后台管理系统
 
 #### 🏞️ 图片演示
 
@@ -20,6 +21,63 @@
 #### 🧬 软件架构
 
 * 前后端分离，后端采用流行的MVC三层架构，缓存Redis，数据库MySQL
+
+#### 🍋与其它优秀Admin的不同之处
+1. 很多优秀的Admin系统都是具备代码生成功能，一套代码生成下来的确能省很多事，但是重复性的代码有很多，所以在本项目将其抽象出一层BaseServices；
+
+v1.0.1
+```java
+public interface IUserService {
+    // 注释已省略......
+    boolean add(UserAddParam param) throws BusinessException;
+
+    boolean deleteBatch(List<String> idList) throws BusinessException;
+
+    boolean update(UserUpdateParam param) throws BusinessException;
+
+    Page<UserVO> listByPage(Page<UserVO> param) throws BusinessException;
+
+    boolean delete(String id) throws BusinessException;
+}
+```
+v1.0.2
+```java
+public interface IUserService extends IBaseService<Page<UserVO>, UserPageParam, UserAddParam, UserUpdateParam> {
+}
+```
+
+2. 使用sqltoy框架的原因主要是不用写mybatits的mapper.java文件，因为mapper也是重复度很高，当然sqltoy还有很多优点本项目尚未用到，有待挖掘；
+
+mybatits
+```java
+public class UserServiceImpl{
+    @Autowired
+    private UserMapper userMapper;
+    
+    public List<User> getAll() {
+        return userMapper.getAll();
+    }
+}
+// 这里还得加一个mapper
+public class UserMapper{
+    public List<User> getAll();
+}
+// 最后就是mapper的xml文件......
+```
+sqltoy
+```java
+public class UserServiceImpl{
+    @Autowired
+    private SqlToyLazyDao sqlToyLazyDao;
+    
+    public List<User> getAll() {
+        return sqlToyLazyDao.findBySql("getAll");
+    }
+}
+// 这里不用再写一个mapper.java文件
+
+// 最后就是mapper的xml文件......
+```
 
 #### ☘️ 启动说明
 
