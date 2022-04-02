@@ -105,7 +105,7 @@ onMounted(() => {
 
 // 监听当前页的变化
 watch(
-    () => pageParam.value.pageNo, () => {
+    () => [pageParam.value.pageNo, pageParam.value.pageSize], () => {
       initTable();
     }
 )
