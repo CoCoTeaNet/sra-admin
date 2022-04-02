@@ -109,6 +109,13 @@ public class Menu implements Serializable {
 	 */
 	@Column(name="IS_MENU",length=1L,type=java.sql.Types.CHAR,nullable=false)
 	private String isMenu;
+
+	/**
+	 * jdbcType:CHAR
+	 * 0显示&启用 1隐藏&关闭 2显示&关闭 3隐藏&启用
+	 */
+	@Column(name="MENU_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
+	private String menuStatus;
 	
 	/**
 	 * jdbcType:INT
@@ -403,31 +410,35 @@ public class Menu implements Serializable {
 	    return this.iconPath;
 	}
 
-
-	/**
-     * @todo vo columns to String
-     */
-    @Override
-	public String toString() {
-		StringBuilder columnsBuffer=new StringBuilder();
-		columnsBuffer.append("id=").append(getId()).append("\n");
-		columnsBuffer.append("revision=").append(getRevision()).append("\n");
-		columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-		columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-		columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-		columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-		columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
-		columnsBuffer.append("menuName=").append(getMenuName()).append("\n");
-		columnsBuffer.append("permissionCode=").append(getPermissionCode()).append("\n");
-		columnsBuffer.append("routerPath=").append(getRouterPath()).append("\n");
-		columnsBuffer.append("parentId=").append(getParentId()).append("\n");
-		columnsBuffer.append("menuType=").append(getMenuType()).append("\n");
-		columnsBuffer.append("isMenu=").append(getIsMenu()).append("\n");
-		columnsBuffer.append("sort=").append(getSort()).append("\n");
-		columnsBuffer.append("componentPath=").append(getComponentPath()).append("\n");
-		columnsBuffer.append("isExternalLink=").append(getIsExternalLink()).append("\n");
-		columnsBuffer.append("iconPath=").append(getIconPath()).append("\n");
-		return columnsBuffer.toString();
+	public String getMenuStatus() {
+		return menuStatus;
 	}
-	
+
+	public void setMenuStatus(String menuStatus) {
+		this.menuStatus = menuStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "Menu{" +
+				"id='" + id + '\'' +
+				", revision=" + revision +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				", deleteStatus='" + deleteStatus + '\'' +
+				", menuName='" + menuName + '\'' +
+				", permissionCode='" + permissionCode + '\'' +
+				", routerPath='" + routerPath + '\'' +
+				", parentId='" + parentId + '\'' +
+				", menuType='" + menuType + '\'' +
+				", isMenu='" + isMenu + '\'' +
+				", menuStatus='" + menuStatus + '\'' +
+				", sort=" + sort +
+				", componentPath='" + componentPath + '\'' +
+				", isExternalLink='" + isExternalLink + '\'' +
+				", iconPath='" + iconPath + '\'' +
+				'}';
+	}
 }

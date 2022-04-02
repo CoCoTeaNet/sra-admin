@@ -8,6 +8,7 @@ interface MenuModel {
     menuType?: string,
     iconPath?: string,
     routerPath?: string,
+    menuStatus?: string,
     isExternalLink?: string,
     isMenu: string,
     sort?: number,

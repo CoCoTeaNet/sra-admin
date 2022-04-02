@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-3-22 09:30:11",
+  "updatedTime": "2022-4-2 09:26:56",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -1445,6 +1445,22 @@
           "refDict": "",
           "domain": "96247443-9349-4A36-A179-00C909151FE8",
           "id": "328877CA-12E6-4CC2-86A5-87CAD5A99037"
+        },
+        {
+          "defKey": "MENU_STATUS",
+          "defName": "菜单状态",
+          "comment": "0显示&启用 1隐藏&关闭 2显示&关闭 3隐藏&启用",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "F95D58B7-06B5-4AB0-860E-C34BB6D1CB75"
         },
         {
           "defKey": "SORT",

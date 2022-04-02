@@ -27,4 +27,22 @@ html, body, #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.status-tag-red, .status-tag-green {
+  color: white;
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  font-size: 12px;
+}
+
+.status-tag-red {
+  background: #f56c6c;
+  border: 1px solid #f56c6c;
+}
+
+.status-tag-green {
+  background: #67c23a;
+  border: 1px solid #67c23a;
+}
+
 </style>

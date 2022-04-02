@@ -16,6 +16,7 @@
                 	sys_menu.MENU_TYPE,
                 	sys_menu.IS_MENU,
                 	sys_menu.SORT,
+                	sys_menu.MENU_STATUS,
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
                 	sys_menu.ICON_PATH
@@ -42,6 +43,7 @@
                 	sys_menu.MENU_TYPE,
                 	sys_menu.IS_MENU,
                 	sys_menu.SORT,
+                	sys_menu.MENU_STATUS,
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
                 	sys_menu.ICON_PATH
@@ -68,6 +70,7 @@
                 	sys_menu.MENU_TYPE,
                 	sys_menu.IS_MENU,
                 	sys_menu.SORT,
+                	sys_menu.MENU_STATUS,
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
                 	sys_menu.ICON_PATH
@@ -93,6 +96,7 @@
                 	sys_menu.PARENT_ID,
                 	sys_menu.MENU_TYPE,
                 	sys_menu.IS_MENU,
+                	sys_menu.MENU_STATUS,
                 	sys_menu.SORT,
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
@@ -104,6 +108,7 @@
                 	#[and PERMISSION_CODE = :permissionCode]
                 	#[and ROUTER_PATH = :routerPath]
                 	#[and MENU_NAME like :menuName]
+                	#[and MENU_STATUS = :menuStatus]
                 	and DELETE_STATUS = 1
                 ORDER BY SORT
 			]]>

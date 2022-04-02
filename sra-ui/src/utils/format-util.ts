@@ -58,10 +58,27 @@ export function getMenuTypeText(v: string): string {
 export function getIsSomethingText(v: string) {
     switch (parseInt(v)) {
         case 0:
-            return '是';
+            return '<span class="status-tag-green">是</span>';
         case 1:
-            return '否';
+            return '<span class="status-tag-red">否</span>';
         default:
             return '未知';
+    }
+}
+
+/**
+ * 获取 菜单状态 文本
+ * @param v
+ */
+export function getMenuStatusText(v: string) {
+    switch (parseInt(v)) {
+        case 0:
+            return '显示&启用';
+        case 1:
+            return '隐藏&启用';
+        case 2:
+            return '显示&关闭';
+        default:
+            return '隐藏&关闭';
     }
 }

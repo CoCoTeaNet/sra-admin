@@ -10,7 +10,7 @@
       <el-table-column prop="remark" label="备注"/>
       <el-table-column prop="enableStatus" label="是否启用">
         <template #default="scope">
-          <span>{{ getIsSomethingText(scope.row.enableStatus) }}</span>
+          <div v-html="getIsSomethingText(scope.row.enableStatus)"></div>
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序号" sortable/>

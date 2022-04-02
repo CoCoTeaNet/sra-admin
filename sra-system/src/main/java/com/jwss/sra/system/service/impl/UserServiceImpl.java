@@ -3,10 +3,7 @@ package com.jwss.sra.system.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
-import com.jwss.sra.common.enums.AccountStatusEnum;
-import com.jwss.sra.common.enums.DeleteStatusEnum;
-import com.jwss.sra.common.enums.IsSomethingEnum;
-import com.jwss.sra.common.enums.SexEnum;
+import com.jwss.sra.common.enums.*;
 import com.jwss.sra.common.model.BusinessException;
 import com.jwss.sra.common.util.SecurityUtils;
 import com.jwss.sra.config.properties.DefaultProperties;
@@ -140,13 +137,15 @@ public class UserServiceImpl implements IUserService {
         loginUser.setLastLoginIp(IpUtils.getIp(request));
         loginUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginUser);
-        // 返回用户登录信息
-        LoginUserVO loginUserVO = new LoginUserVO();
+        // 获取菜单
         MenuPageParam pageParam = new MenuPageParam();
         pageParam.setPageSize(1000);
         MenuVO menuVO = new MenuVO();
         menuVO.setIsMenu(IsSomethingEnum.YSE.getCode());
+        menuVO.setMenuStatus(MenuStatusEnum.SHOW_ENABLE.getCode());
         pageParam.setMenuVO(menuVO);
+        // 返回用户登录信息
+        LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setMenuList(menuService.listByTree(pageParam).getRows());
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());

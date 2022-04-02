@@ -58,7 +58,10 @@ public class MenuUpdateParam implements Serializable {
 	@NotBlank(message = "是否菜单为空")
 	@ApiModelProperty(value = "是否菜单", required = true)
 	private String isMenu;
-	
+
+	@ApiModelProperty(value = "0显示&启用 1隐藏&关闭 2显示&关闭 3隐藏&启用")
+	private String menuStatus;
+
 	/**
 	 * 显示顺序
 	 */
@@ -165,6 +168,14 @@ public class MenuUpdateParam implements Serializable {
 
 	public String getId() {
 		return id;
+	}
+
+	public String getMenuStatus() {
+		return menuStatus;
+	}
+
+	public void setMenuStatus(String menuStatus) {
+		this.menuStatus = menuStatus;
 	}
 
 	public void setId(String id) {

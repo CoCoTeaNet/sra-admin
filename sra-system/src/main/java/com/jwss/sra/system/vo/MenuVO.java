@@ -37,6 +37,9 @@ public class MenuVO implements Serializable {
 	
 	@ApiModelProperty("是否菜单")
 	private String isMenu;
+
+	@ApiModelProperty("菜单状态")
+	private String menuStatus;
 	
 	@ApiModelProperty("显示顺序")
 	private Integer sort;
@@ -63,12 +66,21 @@ public class MenuVO implements Serializable {
 				", parentId='" + parentId + '\'' +
 				", menuType='" + menuType + '\'' +
 				", isMenu='" + isMenu + '\'' +
+				", menuStatus='" + menuStatus + '\'' +
 				", sort=" + sort +
 				", componentPath='" + componentPath + '\'' +
 				", isExternalLink='" + isExternalLink + '\'' +
 				", iconPath='" + iconPath + '\'' +
 				", children=" + children +
 				'}';
+	}
+
+	public String getMenuStatus() {
+		return menuStatus;
+	}
+
+	public void setMenuStatus(String menuStatus) {
+		this.menuStatus = menuStatus;
 	}
 
 	public List<MenuVO> getChildren() {
