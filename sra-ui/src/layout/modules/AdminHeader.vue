@@ -6,12 +6,12 @@
     <!-- 用户信息 -->
     <el-col :span="16">
       <el-row :gutter="10" justify="end" align="bottom">
-        <div class="mouse-over">
-          <el-icon class="mouse-over" :size="24">
+        <div class="mouse-over right-item">
+          <el-icon :size="24">
             <question-filled/>
           </el-icon>
         </div>
-        <div class="mouse-over">
+        <div class="mouse-over right-item" @click="doFullScreen">
           <el-icon :size="24">
             <full-screen/>
           </el-icon>
@@ -57,12 +57,32 @@ const doLogout = () => {
     router.push({path: '/login', query: {redirect: encodeURIComponent(window.location.pathname)}});
   });
 }
+
+/**
+ * 浏览器全屏
+ */
+const doFullScreen = (event: { exitFullscreen: () => void; }) => {
+  // 点击切换全屏模式
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    document.documentElement.requestFullscreen()
+  }
+}
 </script>
 
-<style scoped>
+<style>
 .mouse-over {
-  height: 100%;
   cursor: pointer;
   padding: 0 3px;
+}
+
+.right-item {
+  padding: 6px;
+}
+
+.right-item:hover {
+  background-color: rgba(51, 51, 51, 0.1);
+  border-radius: 3px;
 }
 </style>
