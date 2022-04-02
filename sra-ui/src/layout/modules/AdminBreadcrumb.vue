@@ -4,7 +4,7 @@
     <el-col :span="2">
       <el-button type="text" @click="setCollapseMenu" style="color: #303133">
         <template #icon>
-          <el-icon class="mouse-over" :size="20">
+          <el-icon class="mouse-over right-item" :size="20">
             <expand v-if="store.state.isCollapseMenu"/>
             <fold v-else/>
           </el-icon>
