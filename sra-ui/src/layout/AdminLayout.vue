@@ -5,7 +5,7 @@
     <el-aside class="el-aside nav-bg" :width="store.state.isCollapseMenu ? '64px' : '220px'">
       <NavMenu/>
     </el-aside>
-    <el-container style="background: #F2F6FC">
+    <el-container class="container-bg">
       <!-- 头部 -->
       <el-header>
         <admin-header/>
@@ -59,10 +59,14 @@ const store = useStore();
 <!--公有样式-->
 <style>
 .nav-bg {
-  background-color: #445368;
+  background: white;
+}
+
+.container-bg {
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 .nav-bg h3 {
-  color: white;
+  color: #333333;
 }
 </style>

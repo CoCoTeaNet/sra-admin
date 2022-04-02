@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <h3 style="text-align: center">
-      {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
-    </h3>
-    <el-menu background-color="#445368" text-color="white" :default-openeds="['0']" default-active="1" style="height: 100%;" :collapse="store.state.isCollapseMenu">
+  <div style="height: 100%;display: flex;flex-direction: column">
+    <el-menu background-color="#00000000" text-color="#333333" default-active="1" style="height: 100%;padding: 0 10px;"
+             :default-openeds="['0']" :collapse="store.state.isCollapseMenu">
+      <h3 style="text-align: center;">
+        {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
+      </h3>
       <!-- 顶级菜单 -->
       <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
         <el-menu-item v-if="!hasChildren(item)" @click="$router.push({path: item.routerPath})" :index="`${index}`">
