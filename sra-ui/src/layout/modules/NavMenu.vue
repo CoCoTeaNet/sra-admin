@@ -1,7 +1,9 @@
 <template>
   <div style="height: 100%;display: flex;flex-direction: column">
-    <el-menu background-color="#00000000" text-color="#333333" default-active="1" style="height: 100%;padding: 0 10px;"
+    <el-menu background-color="#00000000" text-color="#333333" default-active="1"
+             :style="`height: 100%;padding: 0 ${!store.state.isCollapseMenu ? '10px' : '0'};`"
              :default-openeds="['0']" :collapse="store.state.isCollapseMenu">
+      <!-- LOGO -->
       <h3 style="text-align: center;">
         {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
       </h3>

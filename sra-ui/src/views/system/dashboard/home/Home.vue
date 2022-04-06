@@ -25,17 +25,19 @@
       <el-col :span="12">
         <el-card>
           <el-collapse accordion>
+            <!-- v1.0.2 -->
             <el-collapse-item title="v1.0.2" name="2">
-              <p>版本v1.0.1正式完成</p>
+              <p>版本v1.0.2</p>
               <div>
                 <ul>
-                  <li>1. 修复已知BUG.</li>
+                  <li>1. 修复已知BUG & 优化UI.</li>
                   <li>2. 新增字典表维护.</li>
                   <li>3. 补充权限缓存以及角色鉴权.</li>
                   <li>快马加鞭建设中...</li>
                 </ul>
               </div>
             </el-collapse-item>
+            <!-- v1.0.1 -->
             <el-collapse-item title="v1.0.1" name="1">
               <div>
                 <p>版本v1.0.1正式完成</p>
