@@ -90,6 +90,12 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-starter-web.version}</version>
             </dependency>
+            <!--引用AOP-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot-starter-web.version}</version>
+            </dependency>
             <!-- sqltoy spring boot starter -->
             <dependency>
                 <groupId>com.sagframe</groupId>
