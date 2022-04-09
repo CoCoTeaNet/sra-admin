@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.jwss.sra.common.enums.*;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.common.util.GenerateDsUtils;
 import com.jwss.sra.common.util.SecurityUtils;
 import com.jwss.sra.config.properties.DefaultProperties;
 import com.jwss.sra.config.properties.DevEnableProperties;
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +45,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements IUserService {
+    private final GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
+
     @Resource
     private DevEnableProperties devEnableProperties;
     @Resource
@@ -137,16 +141,9 @@ public class UserServiceImpl implements IUserService {
         loginUser.setLastLoginIp(IpUtils.getIp(request));
         loginUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginUser);
-        // 获取菜单
-        MenuPageParam pageParam = new MenuPageParam();
-        pageParam.setPageSize(1000);
-        MenuVO menuVO = new MenuVO();
-        menuVO.setIsMenu(IsSomethingEnum.YSE.getCode());
-        menuVO.setMenuStatus(MenuStatusEnum.SHOW_ENABLE.getCode());
-        pageParam.setMenuVO(menuVO);
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
-        loginUserVO.setMenuList(menuService.listByTree(pageParam).getRows());
+        loginUserVO.setMenuList(new ArrayList<>(dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.YSE.getCode())).values()));
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());
         loginUserVO.setId(user.getId());
