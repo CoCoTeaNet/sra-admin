@@ -78,14 +78,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean update(UserUpdateParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
-        Long aLong = sqlToyLazyDao.update(user);
         // 更新用户角色
         if (!StringUtils.isEmpty(param.getRoleId())) {
             sqlToyLazyDao.deleteByQuery(UserRole.class, EntityQuery.create().where("USER_ID=:userId").names("userId").values(param.getId()));
             UserRole userRole = new UserRole().setUserId(param.getId()).setRoleId(param.getRoleId());
             sqlToyLazyDao.save(userRole);
         }
-        return aLong > 0;
+        // 更新密码
+        if (StringUtil.isNotBlank(param.getPassword())) {
+            user.setPassword(SecurityUtils.buildMd5Pwd(param.getPassword(), defaultProperties.getSalt()));
+        }
+        Long flag = sqlToyLazyDao.update(user);
+        return flag > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
