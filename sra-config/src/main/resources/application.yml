@@ -5,9 +5,6 @@ sra:
   default:
     password: sra123456
     salt: sra-salt
-  file-upload:
-    local-url: F:/server/file/
-    browser-url: /upload/
   sa-token:
     # 路由放行
     excludes:

@@ -5,6 +5,10 @@
 * 基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
 * 致力于打造一款不用生成冗赘代码的后台管理系统
 
+#### 🖥️ 在线演示
+- 演示地址：http://106.52.139.93  
+- 账号&密码：admin/srapwd
+
 #### 🏞️ 图片演示
 
 <table>
@@ -110,7 +114,7 @@ $ npm run build || yarn run build   #生产环境
 
 * 访问地址
 
-1. 后端接口文档：http://localhost:7777/sra-api/doc.html
+1. 后端接口文档：http://localhost:7777/doc.html
 2. 前端登录地址：http://localhost:8080/login
 
 * 备注
@@ -137,7 +141,7 @@ $ npm run build || yarn run build   #生产环境
 └─sra-ui  ----------------------前端项目  
 ```
 
-#### 📡 核心技术栈文档导航
+#### 📡 核心技术栈
 
 ##### 后端
 

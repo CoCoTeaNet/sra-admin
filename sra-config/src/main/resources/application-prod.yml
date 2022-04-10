@@ -5,6 +5,10 @@ sra:
   dev-enable:
     permission-cache: true
     strong-password: srapwd
+    # 文件上传地址
+  file-upload:
+    local-url: F:/server/file/
+    browser-url: /upload/
 
 spring:
   sqltoy:

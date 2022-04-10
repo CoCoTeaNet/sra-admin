@@ -24,7 +24,7 @@
       </el-col>
       <el-col :span="12">
         <el-card>
-          <el-collapse accordion>
+          <el-collapse accordion :model-value="'2'">
             <!-- v1.0.2 -->
             <el-collapse-item title="v1.0.2" name="2">
               <p>版本v1.0.2</p>
