@@ -1,12 +1,13 @@
 server:
   servlet:
-    # 上下文路径：比如 localhost:7777/sra-api/**
-    context-path: /sra-api
-
+    context-path: /
 sra:
   default:
     password: sra123456
     salt: sra-salt
+  file-upload:
+    local-url: F:/server/file/
+    browser-url: /upload/
   sa-token:
     # 路由放行
     excludes:
@@ -22,6 +23,8 @@ sra:
       # 登录
       - /user/login
       - /file/verificationCode
+      # 文件访问路径
+      - /upload/**
   package-scan:
     # 多个包用冒号隔开
     swagger-packages: com.jwss.sra.system.controller
@@ -77,3 +80,6 @@ spring:
     active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 10MB

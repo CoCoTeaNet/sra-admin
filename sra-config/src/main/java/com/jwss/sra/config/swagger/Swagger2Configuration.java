@@ -1,7 +1,7 @@
 package com.jwss.sra.config.swagger;
 
 import com.jwss.sra.config.properties.PackageScanProperties;
-import com.jwss.sra.config.satoken.SaTokenConfigure;
+import com.jwss.sra.config.web.WebMvcConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import java.util.List;
 @EnableSwagger2
 public class Swagger2Configuration {
     private static final String VERSION = "1.0.0";
-    private final Logger logger = LoggerFactory.getLogger(SaTokenConfigure.class);
+    private final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     @Resource
     private PackageScanProperties packageScanProperties;

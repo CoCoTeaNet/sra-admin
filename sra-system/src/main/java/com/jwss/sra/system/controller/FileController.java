@@ -3,14 +3,18 @@ package com.jwss.sra.system.controller;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.jwss.sra.common.model.ApiResult;
+import com.jwss.sra.config.properties.FileUploadProperties;
+import com.jwss.sra.framework.constant.GlobalValue;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.framework.util.IpUtils;
 import com.jwss.sra.system.param.file.VerificationCodeParam;
+import com.jwss.sra.system.util.FileUploadUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +30,8 @@ import javax.validation.Valid;
 @RequestMapping("/file")
 public class FileController {
     @Resource
+    private FileUploadProperties fileUploadProperties;
+    @Resource
     private IRedisService redisService;
 
     @ApiOperation(value = "验证码生成")
@@ -39,6 +45,13 @@ public class FileController {
                 300L
         );
         return ApiResult.ok(captcha.getImageBase64());
+    }
+
+    @ApiOperation(value = "文件上传")
+    @PostMapping("/upload")
+    public ApiResult<String> upload(@RequestParam("file") MultipartFile multipartFile) {
+        String fileName = FileUploadUtils.saveMultipartFile(multipartFile, fileUploadProperties.getLocalUrl());
+        return ApiResult.ok(GlobalValue.getServerUrl() + fileUploadProperties.getBrowserUrl() + fileName);
     }
 
 }

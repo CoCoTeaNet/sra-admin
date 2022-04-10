@@ -40,6 +40,18 @@ export function setUserInfo(v: UserModel) {
 }
 
 /**
+ * 更新用户信息
+ * 不包括菜单
+ * @param v 用户模型
+ */
+export function updateUserInfo(v: UserModel) {
+    v.menuList = store.state.userInfo.menuList;
+    v.loginStatus = store.state.userInfo.loginStatus;
+    v.token = store.state.userInfo.token;
+    setUserInfo(v);
+}
+
+/**
  * 设置是否折叠菜单
  */
 export function setCollapseMenu() {

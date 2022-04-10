@@ -40,6 +40,9 @@ public class UserUpdateParam implements Serializable {
 	@ApiModelProperty(name = "邮箱")
 	private String email;
 
+	@ApiModelProperty(name = "用户头像")
+	private String avatar;
+
 	@ApiModelProperty(name = "用户密码")
 	private String password;
 
@@ -131,5 +134,13 @@ public class UserUpdateParam implements Serializable {
 
 	public void setAccountStatus(String accountStatus) {
 		this.accountStatus = accountStatus;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }

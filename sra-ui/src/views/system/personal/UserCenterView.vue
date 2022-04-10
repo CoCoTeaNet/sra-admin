@@ -93,13 +93,29 @@
       </el-descriptions>
     </el-card>
 
+    <!-- 用户表单 -->
     <el-card>
       <template #header>
         <div class="card-header">
           <span>更新资料</span>
         </div>
       </template>
+
       <el-form ref="ucvFormRef" label-width="120px" label-position="right" :rules="rules" :model="editForm">
+
+        <el-form-item prop="avatar" label="用户头像" :auto-upload="false" list-type="picture-card">
+          <el-upload action="/api/file/upload" list-type="picture-card" :limit="1" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+            <el-icon> <Plus/> </el-icon>
+
+            <template #file="{ file }">
+              <div>
+                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="url"/>
+                <span class="el-upload-list__item-actions"></span>
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+
         <el-form-item prop="nickname" label="用户昵称">
           <el-input v-model="editForm.nickname"></el-input>
         </el-form-item>
@@ -136,6 +152,7 @@ import {getDetail, update} from "@/api/system/user-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {getSexText} from "@/utils/format-util";
 import {RULE_MOBILE, RULE_EMAIL} from "@/utils/rules-util";
+import {updateUserInfo} from "@/store";
 
 const validatePhone = (rule: any, value: any, callback: any) => {
   if (!RULE_MOBILE.test(value)) {
@@ -175,7 +192,8 @@ onMounted(() => {
 const initUserDetail = () => {
   reqCommonFeedback(getDetail(), (data: any) => {
     editForm.value = data;
-    detailUser.value = Object.assign(detailUser.value ,data);
+    detailUser.value = Object.assign(detailUser.value, data);
+    updateUserInfo(detailUser.value);
   });
 }
 
@@ -192,8 +210,47 @@ const submitForm = (ucvFormRef: any) => {
     }
   });
 }
+
+/**
+ * 头像上传成功
+ */
+const handleAvatarSuccess = (resp: any) => {
+  editForm.value.avatar = resp.data;
+}
+
+/**
+ * todo 头像上传前校验
+ */
+const beforeAvatarUpload = () => {}
 </script>
 
 <style scoped>
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
 
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
 </style>
