@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-4-2 09:26:56",
+  "updatedTime": "2022-4-6 16:15:22",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -2085,6 +2085,303 @@
           "refDict": "",
           "domain": "96247443-9349-4A36-A179-00C909151FE8",
           "id": "57B2613C-8E13-4BE1-8EE6-1D9B670560DC"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "00B17DD2-B63A-4FCD-A108-BBFE1E967350",
+      "defKey": "sys_operation_log",
+      "defName": "系统操作日志表",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "freeze": false,
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "freeze": true,
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": true,
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "ID",
+          "defName": "主键id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "92F0AE7C-B284-46E1-B4D0-ED62E75E9B48"
+        },
+        {
+          "defKey": "LOG_NUMBER",
+          "defName": "日志编号",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "E1F7D9EA-D955-49F1-8B42-FF4363A9ADA8",
+          "id": "C1EBCAB8-DD18-40D1-A9B9-B0CCCF90B774"
+        },
+        {
+          "defKey": "IP_ADDRESS",
+          "defName": "请求IP地址",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 128,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "E780A721-245A-4A71-856C-CFFE32AA48BC"
+        },
+        {
+          "defKey": "OPERATOR",
+          "defName": "操作人员",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "82264184-B860-4503-A95E-70A7C18F3D3A"
+        },
+        {
+          "defKey": "REQUEST_WAY",
+          "defName": "请求方式",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "7E044BB8-C8D4-4FC1-B973-5BAF3EFFFC9D"
+        },
+        {
+          "defKey": "OPERATION_STATUS",
+          "defName": "操作状态",
+          "comment": "0异常 1成功",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "967EA675-BEE4-4698-B67C-2E31CCF4D53E"
+        },
+        {
+          "defKey": "SYSTEM_MODULE",
+          "defName": "系统模块",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "98E7C2C5-BA42-41E3-BEA6-ABE80A8682CE"
+        },
+        {
+          "defKey": "OPERATION_TYPE",
+          "defName": "操作类型",
+          "comment": "0登录日志 1操作日志",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "C832662F-E1E8-4CF8-9FA8-F1802B743D1D"
+        },
+        {
+          "defKey": "OPERATION_ADDRESS",
+          "defName": "操作地点",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 512,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "AB08B267-5651-4335-97F6-F7FA7BA89E00"
+        },
+        {
+          "defKey": "LOG_TYPE",
+          "defName": "日志类型",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "E95CB652-D1FD-45CC-9544-CE653C5B5F4A"
+        },
+        {
+          "defKey": "REQUEST_PARAM",
+          "defName": "请求参数",
+          "comment": "",
+          "type": "TEXT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "40619B7E-C6F5-4B9D-92F2-D8099487CD8D"
+        },
+        {
+          "defKey": "RETURN_PARAM",
+          "defName": "返回参数",
+          "comment": "",
+          "type": "TEXT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "0ED7CEB3-7445-40F8-954A-D08556B3499D"
+        },
+        {
+          "defKey": "OPERATION_TIME",
+          "defName": "操作时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "AD71B399-0A90-4F1B-AC14-6B55DD1EB0CE",
+          "id": "8F572BFB-B75B-4323-9E8A-BFE2DCC6BCA1"
         }
       ],
       "correlations": [],
