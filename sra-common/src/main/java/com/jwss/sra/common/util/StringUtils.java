@@ -29,4 +29,9 @@ public class StringUtils {
      * 零，通常用于root层
      */
     public final static String ZERO = "0";
+
+    /**
+     * 下划线
+     */
+    public final static String UNDERLINE = "_";
 }

@@ -75,30 +75,32 @@ public class GenerateDsUtils<T> {
             try {
                 String parentId = String.valueOf(valueClass.getMethod(parentIdName).invoke(value));
                 if (menuRootMap.get(parentId) != null) {
-                    T t = menuRootMap.get(parentId);
-                    List<T> children = (List<T>) t.getClass().getMethod("get" + childrenName).invoke(t);
-                    if (children != null) {
-                        children.add(value);
-                    } else {
-                        ArrayList<T> list = new ArrayList<>();
-                        list.add(value);
-                        t.getClass().getMethod("set" + childrenName, List.class).invoke(t, list);
-                    }
+                    addToSet(childrenName, value, menuRootMap.get(parentId));
                 } else if (menuChildMap.get(parentId) != null) {
-                    T t = menuChildMap.get(parentId);
-                    List<T> children = (List<T>) t.getClass().getMethod("get" + childrenName).invoke(t);
-                    if (children != null) {
-                        children.add(value);
-                    } else {
-                        ArrayList<T> list = new ArrayList<>();
-                        list.add(value);
-                        t.getClass().getMethod("set" + childrenName, List.class).invoke(t, list);
-                    }
+                    addToSet(childrenName, value, menuChildMap.get(parentId));
                 }
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         return menuRootMap;
+    }
+
+    /**
+     * 将子元素添加到集合
+     * @param childrenName 子节点属性名称
+     * @param v1 子节点
+     * @param v2 父节点
+     * @throws NoSuchMethodException 抛出异常
+     */
+    private void addToSet(String childrenName, T v1, T v2) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        List<T> children = (List<T>) v2.getClass().getMethod("get" + childrenName).invoke(v2);
+        if (children != null) {
+            children.add(v1);
+        } else {
+            ArrayList<T> list = new ArrayList<>();
+            list.add(v1);
+            v2.getClass().getMethod("set" + childrenName, List.class).invoke(v2, list);
+        }
     }
 }

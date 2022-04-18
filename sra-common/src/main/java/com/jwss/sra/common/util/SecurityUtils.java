@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 安全工具类
+ *
  * @author jwss
  * @date 2022-3-30 16:21:21
  */
@@ -13,7 +14,8 @@ public class SecurityUtils {
 
     /**
      * 构建md5密码字符串
-     * @param pwd 密码
+     *
+     * @param pwd  密码
      * @param salt 盐
      * @return 密码字符串
      */
