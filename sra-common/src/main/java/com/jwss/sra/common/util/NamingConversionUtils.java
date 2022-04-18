@@ -23,7 +23,11 @@ public class NamingConversionUtils {
         if (s == null || StringUtils.EMPTY_STRING.equals(s)) {
             return null;
         }
+        s = s.toLowerCase(Locale.ROOT);
         String[] strings = s.split(StringUtils.UNDERLINE);
+        if (strings.length <= 1) {
+            return s.toLowerCase(Locale.ROOT);
+        }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < strings.length; i++) {
             String s1 = strings[i];

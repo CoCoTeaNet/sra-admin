@@ -425,10 +425,6 @@ public class User implements Serializable {
 	    return this.lastLoginTime;
 	}
 
-
-	/**
-     * @todo vo columns to String
-     */
     @Override
 	public String toString() {
 		StringBuilder columnsBuffer=new StringBuilder();

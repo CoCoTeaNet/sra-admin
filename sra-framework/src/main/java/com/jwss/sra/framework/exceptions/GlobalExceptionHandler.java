@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
         logger.error("GlobalExceptionHandler error :" + e.getMessage());
         logger.error(e.getClass().getName());
         if (e instanceof DataAccessException) {
-            return ApiResult.error(ApiResultEnum.TOKEN_INVALID.getDesc(), ApiResultEnum.TOKEN_INVALID.getCode());
+            return ApiResult.error(ApiResultEnum.ERROR.getDesc(), ApiResultEnum.ERROR.getCode());
         } else if (e instanceof NotLoginException) {
             return ApiResult.error(ApiResultEnum.NOT_LOGIN.getDesc(), ApiResultEnum.NOT_LOGIN.getCode());
         } else if (e instanceof NotPermissionException) {

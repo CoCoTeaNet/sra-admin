@@ -22,6 +22,7 @@ sra:
       - /file/verificationCode
       # 文件访问路径
       - /upload/**
+      - /codeGenerator/**
   package-scan:
     # 多个包用冒号隔开
     swagger-packages: com.jwss.sra.system.controller
@@ -80,3 +81,5 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+  freemarker:
+    suffix: .ftl
