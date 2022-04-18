@@ -22,6 +22,32 @@ public class DevEnableProperties {
      */
     private String strongPassword;
 
+    /**
+     * 作者
+     */
+    private String author;
+
+    /**
+     * 模块包名
+     */
+    private String modulePackage;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getModulePackage() {
+        return modulePackage;
+    }
+
+    public void setModulePackage(String modulePackage) {
+        this.modulePackage = modulePackage;
+    }
+
     public Boolean getPermissionCache() {
         return permissionCache;
     }
