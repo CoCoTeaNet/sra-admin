@@ -38,6 +38,34 @@ public class TableCol implements Serializable {
     private String javaColName;
     private String javaDataType;
     private String javaColNameBigHump;
+    private String javaClassName;
+
+    private String author;
+    private String modulePackage;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getModulePackage() {
+        return modulePackage;
+    }
+
+    public void setModulePackage(String modulePackage) {
+        this.modulePackage = modulePackage;
+    }
+
+    public String getJavaClassName() {
+        return javaClassName;
+    }
+
+    public void setJavaClassName(String javaClassName) {
+        this.javaClassName = javaClassName;
+    }
 
     public String getJavaColName() {
         return javaColName;

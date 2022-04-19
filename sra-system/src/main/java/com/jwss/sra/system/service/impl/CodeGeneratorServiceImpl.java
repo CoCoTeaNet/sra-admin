@@ -1,14 +1,13 @@
 package com.jwss.sra.system.service.impl;
 
 import com.jwss.sra.common.util.NamingConversionUtils;
+import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.system.entity.TableCol;
 import com.jwss.sra.system.service.ICodeGeneratorService;
-import com.jwss.sra.system.vo.TableColVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,6 +17,8 @@ import java.util.List;
 public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
+    @Resource
+    private DevEnableProperties devEnableProperties;
 
     @Override
     public List<TableCol> getEntityCode() {
@@ -27,6 +28,9 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
             item.setJavaColName(NamingConversionUtils.underlineToHump(item.getColumnName(), 0));
             item.setJavaColNameBigHump(NamingConversionUtils.underlineToHump(item.getColumnName(), 1));
             item.setJavaDataType(NamingConversionUtils.dbDataTypeToJava(item.getDataType()));
+            item.setJavaClassName(NamingConversionUtils.underlineToHump(item.getTableName(), 1));
+            item.setAuthor(devEnableProperties.getAuthor());
+            item.setModulePackage(devEnableProperties.getModulePackage());
         });
         return colList;
     }
