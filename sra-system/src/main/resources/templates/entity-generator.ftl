@@ -1,8 +1,6 @@
 <pre style="background-color: aliceblue;padding: 1em">
 
-<#list entityCode as item>
-	<#if item_index == 0>
-	package ${item.modulePackage}.entity;
+	package ${objectMap.modulePackage}.entity;
 
 	import java.io.Serializable;
 	import org.sagacity.sqltoy.config.annotation.Entity;
@@ -10,26 +8,26 @@
 	import org.sagacity.sqltoy.config.annotation.Column;
 
 	/**
-	* @author ${item.author}
-	* Table: ${item.tableName},Remark:用户角色关联表
+	* @author ${objectMap.author}
+	* Table: ${objectMap.table.tableName},Remark:${objectMap.table.tableComment}
 	*/
-	@Entity(tableName="${item.tableName}")
-	public class ${item.javaClassName} implements Serializable {
-	</#if>
-</#list>
+	@Entity(tableName="${objectMap.table.tableName}")
+	public class ${objectMap.table.javaClassName} implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = -1L;
-
-	<#list entityCode as item>
+	<#list objectMap.colList as item>
+	/**
+	* ${item.columnComment}
+	*/
 		<#if item_index == 0>
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
 		</#if>
-	@Column(name="${item.columnName}",length=32L,type=java.sql.Types.${item.dataType},nullable=false)
+	@Column(name="${item.columnName}",length=32L,type=java.sql.Types.${item.dataType},nullable=<#if item.isNullable == 'NO'>false<#else>true</#if>)
 	private ${item.javaDataType} ${item.javaColName};
 
     </#list>
 
-	<#list entityCode as item>
+	<#list objectMap.colList as item>
 	public ${item.javaDataType} get${item.javaColNameBigHump}() {
 		return this.${item.javaColName};
 	}
@@ -44,7 +42,7 @@
 	@Override
 	public String toString() {
 		StringBuilder columnsBuffer = new StringBuilder();
-	<#list entityCode as item>
+	<#list objectMap.colList as item>
 		columnsBuffer.append("${item.javaColName}=").append(get${item.javaColNameBigHump}()).append("\n");
 	</#list>
 		return columnsBuffer.toString();

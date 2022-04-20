@@ -9,8 +9,9 @@ import RoleView from "@/views/system/manager/role/RoleView.vue";
 import Dashboard from "@/views/system/dashboard/Dashboard.vue";
 import NotFound from "@/views/error/NotFound.vue";
 import UserCenterView from "@/views/system/personal/UserCenterView.vue";
+import CodeGenerator from "@/views/system/sys-util/CodeGenerator.vue";
 
-export const routes =[
+export const routes = [
     {
         path: "/login",
         name: "Login",
@@ -31,7 +32,8 @@ export const routes =[
             {path: 'permission-manager', meta: {title: '菜单管理'}, name: 'PermissionView', component: PermissionView},
             {path: 'role-manager', meta: {title: '角色管理'}, name: 'RoleView', component: RoleView},
             {path: 'dictionary-manager', meta: {title: '字典管理'}, name: 'DictionaryView', component: DictionaryView},
-            {path: 'user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView}
+            {path: 'user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView},
+            {path: 'code-generator', meta: {title: '代码生成'}, name: 'CodeGenerator', component: CodeGenerator}
         ]
     },
     {

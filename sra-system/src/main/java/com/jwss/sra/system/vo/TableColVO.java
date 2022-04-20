@@ -1,12 +1,16 @@
 package com.jwss.sra.system.vo;
 
+import java.io.Serializable;
+
 /**
  * 表字段查询对象
  *
  * @author jwss
  * @date 2022-4-14 23:28:00
  */
-public class TableColVO {
+public class TableColVO implements Serializable {
+    private static final long serialVersionUID = -1049668026301057886L;
+
     private String tableCatalog;
     private String tableSchema;
     private String tableName;
@@ -27,6 +31,53 @@ public class TableColVO {
     private String extra;
     private String privileges;
     private String columnComment;
+
+    private String javaColName;
+    private String javaDataType;
+    private String javaColNameBigHump;
+
+    private String author;
+    private String modulePackage;
+
+    public String getJavaColName() {
+        return javaColName;
+    }
+
+    public void setJavaColName(String javaColName) {
+        this.javaColName = javaColName;
+    }
+
+    public String getJavaDataType() {
+        return javaDataType;
+    }
+
+    public void setJavaDataType(String javaDataType) {
+        this.javaDataType = javaDataType;
+    }
+
+    public String getJavaColNameBigHump() {
+        return javaColNameBigHump;
+    }
+
+    public void setJavaColNameBigHump(String javaColNameBigHump) {
+        this.javaColNameBigHump = javaColNameBigHump;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getModulePackage() {
+        return modulePackage;
+    }
+
+    public void setModulePackage(String modulePackage) {
+        this.modulePackage = modulePackage;
+    }
 
     public String getTableCatalog() {
         return tableCatalog;

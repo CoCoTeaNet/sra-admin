@@ -1,8 +1,7 @@
 package com.jwss.sra.system.service;
 
-import com.jwss.sra.system.entity.TableCol;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成器服务
@@ -10,5 +9,5 @@ import java.util.List;
  * @date 2022-4-14 22:53:07
  */
 public interface ICodeGeneratorService {
-    List<TableCol> getEntityCode();
+    Map<String, Object> getEntityCode();
 }

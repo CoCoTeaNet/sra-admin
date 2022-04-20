@@ -1,6 +1,5 @@
 package com.jwss.sra.system.controller;
 
-import com.jwss.sra.system.entity.TableCol;
 import com.jwss.sra.system.service.ICodeGeneratorService;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成器 控制器
@@ -27,8 +26,8 @@ public class CodeGeneratorController {
 
     @GetMapping("/getByTableName")
     public String getByTableName(ModelMap model) {
-        List<TableCol> entityCode = codeGeneratorService.getEntityCode();
-        model.put("entityCode", entityCode);
+        Map<String, Object> objectMap = codeGeneratorService.getEntityCode();
+        model.put("objectMap", objectMap);
         return "entity-generator";
     }
 }
