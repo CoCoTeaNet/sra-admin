@@ -1,5 +1,3 @@
-<pre style="background-color: aliceblue;padding: 1em">
-
 	package ${objectMap.modulePackage}.entity;
 
 	import java.io.Serializable;
@@ -47,8 +45,4 @@
 	</#list>
 		return columnsBuffer.toString();
 	}
-
 }
-
-
-</pre>
