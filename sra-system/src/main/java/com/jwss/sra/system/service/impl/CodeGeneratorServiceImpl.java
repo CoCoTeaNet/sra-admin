@@ -28,7 +28,7 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
     @Override
     public Map<String, Object> getEntityCode(String tableName) {
         // 获取表信息
-        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s'", tableName);
+        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s' and TABLE_SCHEMA='DB_SRA_V1'", tableName);
         TableVO tableVO = sqlToyLazyDao.loadBySql(sql, new TableVO());
         tableVO.setJavaClassName(NamingConversionUtils.underlineToHump(tableVO.getTableName(), 1));
         Map<String, Object> objectMap = new HashMap<>(10);

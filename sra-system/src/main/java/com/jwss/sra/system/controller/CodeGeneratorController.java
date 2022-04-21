@@ -2,6 +2,7 @@ package com.jwss.sra.system.controller;
 
 import com.jwss.sra.system.service.ICodeGeneratorService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +26,7 @@ public class CodeGeneratorController {
     @Resource
     private ICodeGeneratorService codeGeneratorService;
 
+    @ApiOperation("根据表名称生成实体类属性集合")
     @GetMapping("/getByTableName/{tableName}")
     public String getByTableName(ModelMap model, @PathVariable String tableName) {
         Map<String, Object> objectMap = codeGeneratorService.getEntityCode(tableName);
