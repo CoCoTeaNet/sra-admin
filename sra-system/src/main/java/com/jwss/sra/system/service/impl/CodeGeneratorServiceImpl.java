@@ -1,6 +1,8 @@
 package com.jwss.sra.system.service.impl;
 
 import com.jwss.sra.common.util.NamingConversionUtils;
+import com.jwss.sra.common.util.StringUtils;
+import com.jwss.sra.config.properties.DefaultProperties;
 import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.system.param.generator.TablePageParam;
 import com.jwss.sra.system.service.ICodeGeneratorService;
@@ -24,11 +26,13 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
     private SqlToyLazyDao sqlToyLazyDao;
     @Resource
     private DevEnableProperties devEnableProperties;
+    @Resource
+    private DefaultProperties defaultProperties;
 
     @Override
     public Map<String, Object> getEntityCode(String tableName) {
         // 获取表信息
-        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s' and TABLE_SCHEMA='DB_SRA_V1'", tableName);
+        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s' and TABLE_SCHEMA='%s'", tableName, defaultProperties.getDbName());
         TableVO tableVO = sqlToyLazyDao.loadBySql(sql, new TableVO());
         tableVO.setJavaClassName(NamingConversionUtils.underlineToHump(tableVO.getTableName(), 1));
         Map<String, Object> objectMap = new HashMap<>(10);
@@ -49,6 +53,7 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
 
     @Override
     public Page<TableVO> findTablesByPage(TablePageParam param) {
-        return null;
+        String sql = String.format("select * from information_schema.TABLES where TABLE_SCHEMA = '%s' #[and TABLE_NAME like :tableName]", defaultProperties.getDbName());
+        return sqlToyLazyDao.findPageBySql(param, sql, param.getTableVO());
     }
 }

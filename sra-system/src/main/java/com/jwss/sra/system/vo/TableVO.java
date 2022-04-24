@@ -11,8 +11,17 @@ import java.io.Serializable;
 public class TableVO implements Serializable {
     private static final long serialVersionUID = 21132277961275875L;
 
+    /**
+     * 表描述
+     */
     private String tableComment;
+    /**
+     * 表名称
+     */
     private String tableName;
+    /**
+     * 字符编码
+     */
     private String tableCollation;
 
     private String javaClassName;
@@ -47,5 +56,15 @@ public class TableVO implements Serializable {
 
     public void setTableCollation(String tableCollation) {
         this.tableCollation = tableCollation;
+    }
+
+    @Override
+    public String toString() {
+        return "TableVO{" +
+                "tableComment='" + tableComment + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", tableCollation='" + tableCollation + '\'' +
+                ", javaClassName='" + javaClassName + '\'' +
+                '}';
     }
 }

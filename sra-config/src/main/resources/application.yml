@@ -5,6 +5,7 @@ sra:
   default:
     password: sra123456
     salt: sra-salt
+    db-name: DB_SRA_V1
   sa-token:
     # 路由放行
     excludes:

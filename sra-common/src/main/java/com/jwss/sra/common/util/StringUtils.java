@@ -34,4 +34,9 @@ public class StringUtils {
      * 下划线
      */
     public final static String UNDERLINE = "_";
+
+    /**
+     * 百分号
+     */
+    public final static String PERCENT = "%";
 }

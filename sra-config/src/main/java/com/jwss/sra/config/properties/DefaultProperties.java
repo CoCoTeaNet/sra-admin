@@ -22,6 +22,19 @@ public class DefaultProperties {
      */
     private String salt;
 
+    /**
+     * 数据库名称
+     */
+    private String dbName;
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
     public String getPassword() {
         return password;
     }
