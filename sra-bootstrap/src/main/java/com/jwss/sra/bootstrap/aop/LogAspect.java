@@ -1,6 +1,11 @@
 package com.jwss.sra.bootstrap.aop;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
+import com.jwss.sra.common.enums.LogTypeEnum;
+import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.system.param.log.OperationLogAddParam;
+import com.jwss.sra.system.service.IOperationLogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 /**
  * 日志切面
@@ -24,12 +31,15 @@ import javax.servlet.http.HttpServletRequest;
 public class LogAspect {
     private final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
+    @Resource
+    private IOperationLogService operationLogService;
+
     @Pointcut("execution(public * com.jwss.sra.*.controller.*.*(..))")
     public void requestAspect() {
     }
 
     @Before(value = "requestAspect()")
-    public void methodBefore(JoinPoint joinPoint) {
+    public void methodBefore(JoinPoint joinPoint) throws BusinessException {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
             HttpServletRequest request = requestAttributes.getRequest();
@@ -41,7 +51,18 @@ public class LogAspect {
             logger.info("请求方法：" + joinPoint.getSignature());
             logger.info("请求参数：" + JSONUtil.toJsonStr(joinPoint.getArgs()));
             logger.info("=============== 请求内容-END ===============");
-            // TODO 保存登录日志与操作日志
+            // 保存登录日志与操作日志,如果没有登录不去保存
+            if (StpUtil.isLogin()) {
+                OperationLogAddParam param = new OperationLogAddParam();
+                param.setIpAddress(request.getRemoteAddr());
+                param.setOperationType(LogTypeEnum.OPERATION.getCode());
+                param.setRequestWay(request.getMethod());
+                param.setLogNumber((int) System.currentTimeMillis() / 1000);
+                param.setOperator(String.valueOf(StpUtil.getLoginId()));
+                param.setOperationStatus(String.valueOf(1));
+                param.setOperationTime(LocalDateTime.now());
+                operationLogService.add(param);
+            }
         }
     }
 }
