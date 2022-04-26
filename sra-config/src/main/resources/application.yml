@@ -84,3 +84,5 @@ spring:
       max-file-size: 10MB
   freemarker:
     suffix: .ftl
+    settings:
+      classic_compatible: true

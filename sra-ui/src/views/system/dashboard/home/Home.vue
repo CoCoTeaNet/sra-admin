@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div>
     <el-card>
       <h3>SRA后台管理系统</h3>
       <p>基于springboot，整合satoken、sqltoy的权限管理系统，由此命名为：sss-rbac-admin</p>

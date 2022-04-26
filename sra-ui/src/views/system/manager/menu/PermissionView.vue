@@ -1,5 +1,5 @@
 <template>
-  <sra-tree-table v-loading="loading"
+  <sra-tree-table class="main-bg" v-loading="loading"
                   :editForm="editForm.data" :pageVo="pageVo" :page-param="pageParam" :rules="rules"
                   @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch">
