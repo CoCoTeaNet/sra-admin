@@ -7,6 +7,7 @@
 
 package ${objectMap.modulePackage}.entity;
 
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
@@ -27,7 +28,7 @@ public class ${objectMap.table.javaClassName} implements Serializable {
 		<#if item_index == 0>
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
 		</#if>
-	@Column(name="${item.columnName}",length=32L,type=java.sql.Types.${item.dataType},nullable=<#if item.isNullable == 'NO'>false<#else>true</#if>)
+	@Column(name="${item.columnName}"<#if (item.characterMaximumLength)??>,length=${item.characterMaximumLength}L</#if>,type=java.sql.Types.${item.dataType}<#if item.isNullable == 'NO'>,nullable=false</#if>)
 	private ${item.javaDataType} ${item.javaColName};
 
 	</#list>
@@ -37,7 +38,7 @@ public class ${objectMap.table.javaClassName} implements Serializable {
 		return this.${item.javaColName};
 	}
 
-	public User set${item.javaColNameBigHump}(${item.javaDataType} ${item.javaColName}) {
+	public ${objectMap.table.javaClassName} set${item.javaColNameBigHump}(${item.javaDataType} ${item.javaColName}) {
 		this.${item.javaColName}=${item.javaColName};
 		return this;
 	}

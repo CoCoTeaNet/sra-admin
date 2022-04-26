@@ -12,6 +12,10 @@ import java.util.Locale;
  * @author jwss
  */
 public class NamingConversionUtils {
+    public static void main(String[] args) {
+        System.out.println(underlineToHump("id", 1));
+    }
+
     /**
      * 下划线命名转驼峰命名
      *
@@ -26,6 +30,9 @@ public class NamingConversionUtils {
         s = s.toLowerCase(Locale.ROOT);
         String[] strings = s.split(StringUtils.UNDERLINE);
         if (strings.length <= 1) {
+            if (type == 1) {
+                return String.valueOf(s.charAt(0)).toUpperCase(Locale.ROOT) + s.substring(1);
+            }
             return s.toLowerCase(Locale.ROOT);
         }
         StringBuilder builder = new StringBuilder();
@@ -66,6 +73,17 @@ public class NamingConversionUtils {
                 return JavaTypeConstant.LOCAL_DATETIME;
             default:
                 return null;
+        }
+    }
+
+    public static String dbDataTypeToSqlJavaTypes(String type) {
+        switch (type){
+            case "int":
+                return "INTEGER";
+            case "datetime":
+                return "DATE";
+            default:
+                return type.toUpperCase(Locale.ROOT);
         }
     }
 }

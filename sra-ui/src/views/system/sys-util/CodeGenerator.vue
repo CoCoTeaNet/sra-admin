@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-bg">
     <!-- 查询条件 -->
     <el-input v-model="pageParam.searchKey" placeholder="请输入表名" @keydown.enter="initTableList">
       <template #append>
