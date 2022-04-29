@@ -43,7 +43,8 @@ public class OperationLogServiceImpl implements IOperationLogService {
 
     @Override
     public Page<OperationLogVO> listByPage(OperationLogPageParam param) throws BusinessException {
-        return null;
+        Page<OperationLogVO> vo = sqlToyLazyDao.findPageBySql(param, "system_operationLog_findByPageParam", param.getOperationLogVO());
+        return vo;
     }
 
     @Override
