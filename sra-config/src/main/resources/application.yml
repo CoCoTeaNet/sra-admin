@@ -1,6 +1,7 @@
 server:
   servlet:
     context-path: /
+
 sra:
   default:
     password: sra123456
@@ -74,11 +75,9 @@ spring:
   # sqltoy框架相关配置
   sqltoy:
     unify-fields-handler: com.jwss.sra.config.sqltoy.SqlToyUnifyFieldsHandler
-  # 环境配置激活
-  profiles:
-    active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   servlet:
     multipart:
       max-file-size: 10MB
@@ -86,3 +85,6 @@ spring:
     suffix: .ftl
     settings:
       classic_compatible: true
+  # 环境配置激活
+  profiles:
+    active: dev

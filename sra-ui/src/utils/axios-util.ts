@@ -31,7 +31,7 @@ export async function request(url: string, data: any, method: any): Promise<any>
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": 'application/json;charset=utf-8',
-                "sa-token": store.state.userInfo.token ? store.state.userInfo.token : 'sa-sa-token'
+                "sa-token": store.state.userInfo.token ? store.state.userInfo.token : 'sa-token'
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',

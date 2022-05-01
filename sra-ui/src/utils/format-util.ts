@@ -82,3 +82,33 @@ export function getMenuStatusText(v: string) {
             return '隐藏&关闭';
     }
 }
+
+/**
+ * 获取日志操作类型 文本
+ * @param v
+ */
+export function getLogTypeText(v: string) {
+    switch (parseInt(v)) {
+        case 0:
+            return '登录日志';
+        case 1:
+            return '操作日志';
+        default:
+            return '';
+    }
+}
+
+/**
+ * 获取日志操作状态 文本
+ * @param v
+ */
+export function getOperationStatusText(v: string) {
+    switch (parseInt(v)) {
+        case 0:
+            return '<span class="status-tag-red">异常</span>';
+        case 1:
+            return '<span class="status-tag-green">成功</span>';
+        default:
+            return '';
+    }
+}

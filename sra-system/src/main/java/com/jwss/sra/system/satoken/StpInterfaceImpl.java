@@ -1,6 +1,7 @@
 package com.jwss.sra.system.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
+import cn.dev33.satoken.stp.StpUtil;
 import com.jwss.sra.common.enums.IsSomethingEnum;
 import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.system.param.role.RolePageParam;
@@ -31,6 +32,7 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
+        StpUtil.checkLogin();
         List<MenuVO> cachePermissionList = menuService.getCachePermission((String) loginId);
         List<String> list;
         // 1关闭了缓存 2缓存失效了 3有缓存
@@ -51,6 +53,7 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
+        StpUtil.checkLogin();
         RoleVO roleVO = roleService.loadByUserId((String) loginId);
         List<String> list = new ArrayList<>(1);
         list.add(roleVO.getRoleKey());

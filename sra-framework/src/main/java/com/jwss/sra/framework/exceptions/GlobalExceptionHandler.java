@@ -6,7 +6,6 @@ import cn.dev33.satoken.exception.NotRoleException;
 import com.jwss.sra.common.enums.ApiResultEnum;
 import com.jwss.sra.common.model.ApiResult;
 import com.jwss.sra.common.model.BusinessException;
-import org.sagacity.sqltoy.exception.DataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,11 +29,8 @@ public class GlobalExceptionHandler {
      **/
     @ExceptionHandler(Exception.class)
     public ApiResult<String> handlerException(Exception e) {
-        logger.error("GlobalExceptionHandler error :" + e.getMessage());
-        logger.error(e.getClass().getName());
-        if (e instanceof DataAccessException) {
-            return ApiResult.error(ApiResultEnum.ERROR.getDesc(), ApiResultEnum.ERROR.getCode());
-        } else if (e instanceof NotLoginException) {
+        logger.error("GlobalExceptionHandler errorMsg :" + e.getMessage());
+        if (e instanceof NotLoginException) {
             return ApiResult.error(ApiResultEnum.NOT_LOGIN.getDesc(), ApiResultEnum.NOT_LOGIN.getCode());
         } else if (e instanceof NotPermissionException) {
             return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getDesc(), ApiResultEnum.NOT_PERMISSION.getCode());
