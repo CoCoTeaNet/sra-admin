@@ -12,7 +12,6 @@
       </el-header>
       <!-- 主体 -->
       <el-main>
-        <div style="background: white;padding: 1em;border-radius: 3px;">
           <router-view v-slot="{Component}">
             <keep-alive>
               <transition :name="`slide-fade`" :mode="`out-in`">
@@ -20,7 +19,6 @@
               </transition>
             </keep-alive>
           </router-view>
-        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -58,6 +56,12 @@ const store = useStore();
 
 <!--公有样式-->
 <style>
+.main-bg {
+  background: white;
+  padding: 1em;
+  border-radius: 3px;
+}
+
 .nav-bg {
   background: white;
 }

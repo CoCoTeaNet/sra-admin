@@ -3,7 +3,7 @@
     <!-- 表格操作 -->
     <el-row style="margin-bottom: 1em">
       <el-col :span="20">
-        <el-button type="primary" @click="add">
+        <el-button v-if="!isHideEditButton" type="primary" @click="add">
           <el-space>
             <el-icon>
               <plus/>
@@ -41,7 +41,7 @@
       <!-- 单行操作 -->
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
-          <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+          <el-button v-if="!isHideEditButton" type="text" size="small" @click="edit(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -84,7 +84,7 @@ const selectionIds = ref<any[]>([]);
 // 定义组件参数
 const props = withDefaults(defineProps<{
   // 表单数据
-  editForm: object,
+  editForm?: any,
   // 表单规则
   rules?: any,
   // 总条数
@@ -92,10 +92,14 @@ const props = withDefaults(defineProps<{
   // 分页参数
   pageParam: PageParam,
   // 每页条数
-  pageSizes?: number[]
+  pageSizes?: number[],
+  // 是否隐藏编辑按钮
+  isHideEditButton?: boolean
 }>(), {
   rules: {},
+  editForm: {},
   pageSizes: () => [15, 25, 35, 45, 55],
+  isHideEditButton: false
 });
 
 // 定义组件方法

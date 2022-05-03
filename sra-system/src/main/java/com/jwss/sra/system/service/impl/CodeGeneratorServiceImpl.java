@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -43,6 +44,7 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
             item.setJavaColName(NamingConversionUtils.underlineToHump(item.getColumnName(), 0));
             item.setJavaColNameBigHump(NamingConversionUtils.underlineToHump(item.getColumnName(), 1));
             item.setJavaDataType(NamingConversionUtils.dbDataTypeToJava(item.getDataType()));
+            item.setDataType(NamingConversionUtils.dbDataTypeToSqlJavaTypes(item.getDataType()));
         });
         objectMap.put("colList", colList);
         objectMap.put("author", devEnableProperties.getAuthor());
@@ -56,4 +58,5 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
         String sql = String.format("select * from information_schema.TABLES where TABLE_SCHEMA = '%s' #[and TABLE_NAME like :tableName]", defaultProperties.getDbName());
         return sqlToyLazyDao.findPageBySql(param, sql, param.getTableVO());
     }
+
 }

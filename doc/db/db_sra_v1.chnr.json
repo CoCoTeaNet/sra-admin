@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "3.5.7",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-4-14 20:43:06",
+  "updatedTime": "2022-5-2 00:10:42",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -2195,7 +2195,7 @@
           "defKey": "LOG_NUMBER",
           "defName": "日志编号",
           "comment": "",
-          "type": "",
+          "type": "BIGINT",
           "len": "",
           "scale": "",
           "primaryKey": false,
@@ -2204,7 +2204,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "domain": "E1F7D9EA-D955-49F1-8B42-FF4363A9ADA8",
+          "domain": "",
           "id": "C1EBCAB8-DD18-40D1-A9B9-B0CCCF90B774"
         },
         {
