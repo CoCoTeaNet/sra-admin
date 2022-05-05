@@ -14,11 +14,11 @@
 <table>
     <tr>
         <td><img src="https://s3.bmp.ovh/imgs/2022/03/6f76fc676b99dd37.jpg"/></td>
-        <td><img src="https://s3.bmp.ovh/imgs/2022/03/80061fddb42c7767.jpg"/></td>
+        <td><img src="https://s3.bmp.ovh/imgs/2022/05/05/8249e64aa0704c47.jpg"/></td>
     </tr>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2022/03/8c019b7d820cd9a4.jpg"/></td>
-        <td><img src="https://s3.bmp.ovh/imgs/2022/03/9d080bb3907b6f84.jpg"/></td>
+        <td><img src="http://i.miaosu.bid/data/f_50134496.jpg"/></td>
+        <td><img src="http://i.miaosu.bid/data/f_27282589.jpg"/></td>
     </tr>
 </table>
 
@@ -27,7 +27,7 @@
 * 前后端分离，后端采用流行的MVC三层架构，缓存Redis，数据库MySQL
 
 #### 🍋与其它优秀Admin的不同之处
-1. 很多优秀的Admin系统都是具备代码生成功能，一套代码生成下来的确能省很多事，但是重复性的代码有很多，所以在本项目将其抽象出一层BaseServices；
+1. 很多优秀的Admin系统都是具备代码生成功能，一套代码生成下来的确能省很多事，但是重复性的代码有很多，所以在本项目将其抽象出一层BaseService；
 
 v1.0.1
 ```java
@@ -62,11 +62,11 @@ public class UserServiceImpl{
         return userMapper.getAll();
     }
 }
-// 这里还得加一个mapper
+// + 这里还得加一个mapper
 public class UserMapper{
     public List<User> getAll();
 }
-// 最后就是mapper的xml文件......
+// mapper的xml文件......
 ```
 sqltoy
 ```java
@@ -78,9 +78,9 @@ public class UserServiceImpl{
         return sqlToyLazyDao.findBySql("getAll");
     }
 }
-// 这里不用再写一个mapper.java文件
+// - 这里不用再写一个mapper.java文件
 
-// 最后就是mapper的xml文件......
+// mapper的xml文件......
 ```
 
 #### ☘️ 启动说明
@@ -145,13 +145,13 @@ $ npm run build || yarn run build   #生产环境
 ##### 后端
 
 - [SpringBoot](https://spring.io/projects/spring-boot) ：Spring Boot 可以轻松创建可以“直接运行”的独立的、生产级的基于 Spring 的应用程序。
-- [Sqltoy](https://gitee.com/sagacity/sagacity-sqltoy) ：java真正最强大的ORM框架，支持mysql、oracle、postgresql、sqlserver、db2、dm、mongodb、elasticsearch、tidb、kingbase、oceanbase、guassdb、greenplum、StarRocks、impala(kudu)、clickhouse。
-- [Satoken](https://sa-token.dev33.cn/doc/index.html#/) ：一个轻量级 Java 权限认证框架，让鉴权变得简单、优雅！目前已集成——登录认证、权限认证、分布式Session会话、微服务网关鉴权、单点登录、OAuth2.0、踢人下线、Redis集成、前后台分离、记住我模式、模拟他人账号、临时身份切换、账号封禁、多账号认证体系、注解式鉴权、路由拦截式鉴权、花式token生成、自动续签、同端互斥登录、会话治理、jwt集成、Spring集成、WebFlux集成……
+- [Sqltoy](https://gitee.com/sagacity/sagacity-sqltoy) ：java真正最强大的ORM框架，支持市场上流行数据库。
+- [Satoken](https://sa-token.dev33.cn/doc/index.html#/) ：一个轻量级 Java 权限认证框架，让鉴权变得简单、优雅！
 - [Hutool](https://www.hutool.cn/) ：小而全的Java工具类库，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。
 
 ##### 前端
 
-- [Vue3开发文档](https://v3.cn.vuejs.org/) ：Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
+- [Vue3开发文档](https://v3.cn.vuejs.org/) ：Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
 - [Element Plus](https://element-plus.gitee.io/zh-CN/) ：基于 Vue 3，面向设计师和开发者的组件库，简洁、美观、稳定、易用。
 - [Apache ECharts](https://echarts.apache.org/handbook/zh/get-started/) ：一个基于 JavaScript 的开源可视化图表库，功能非常强大。
 
