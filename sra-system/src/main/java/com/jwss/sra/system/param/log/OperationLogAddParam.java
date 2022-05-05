@@ -13,7 +13,7 @@ public class OperationLogAddParam {
     /**
      * 日志编号
      */
-    private Integer logNumber;
+    private Long logNumber;
 
     /**
      * 请求IP地址
@@ -60,11 +60,11 @@ public class OperationLogAddParam {
      */
     private LocalDateTime operationTime;
 
-    public Integer getLogNumber() {
+    public Long getLogNumber() {
         return logNumber;
     }
 
-    public void setLogNumber(Integer logNumber) {
+    public void setLogNumber(Long logNumber) {
         this.logNumber = logNumber;
     }
 

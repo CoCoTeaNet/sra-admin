@@ -21,7 +21,7 @@ public class OperationLogVO implements Serializable {
     /**
      * 日志编号
      */
-    private Integer logNumber;
+    private Long logNumber;
 
     /**
      * 请求IP地址
@@ -32,6 +32,11 @@ public class OperationLogVO implements Serializable {
      * 操作人员
      */
     private String operator;
+
+    /**
+     * 操作人员昵称
+     */
+    private String operatorName;
 
     /**
      * 请求方式
@@ -78,11 +83,19 @@ public class OperationLogVO implements Serializable {
         return this;
     }
 
-    public Integer getLogNumber() {
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public Long getLogNumber() {
         return this.logNumber;
     }
 
-    public OperationLogVO setLogNumber(Integer logNumber) {
+    public OperationLogVO setLogNumber(Long logNumber) {
         this.logNumber=logNumber;
         return this;
     }

@@ -1,7 +1,6 @@
 package com.jwss.sra.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.jwss.sra.common.enums.*;
 import com.jwss.sra.common.model.BusinessException;
@@ -12,8 +11,6 @@ import com.jwss.sra.config.properties.DevEnableProperties;
 import com.jwss.sra.framework.constant.RedisKey;
 import com.jwss.sra.framework.service.IRedisService;
 import com.jwss.sra.framework.util.IpUtils;
-import com.jwss.sra.system.param.menu.MenuPageParam;
-import com.jwss.sra.system.param.role.RoleUpdateParam;
 import com.jwss.sra.system.param.user.UserAddParam;
 import com.jwss.sra.system.param.user.UserLoginParam;
 import com.jwss.sra.system.entity.User;
@@ -21,7 +18,7 @@ import com.jwss.sra.system.entity.UserRole;
 import com.jwss.sra.system.param.user.UserPageParam;
 import com.jwss.sra.system.param.user.UserUpdateParam;
 import com.jwss.sra.system.service.IMenuService;
-import com.jwss.sra.system.service.IRoleService;
+import com.jwss.sra.system.service.IOperationLogService;
 import com.jwss.sra.system.service.IUserService;
 import com.jwss.sra.system.vo.LoginUserVO;
 import com.jwss.sra.system.vo.MenuVO;
@@ -57,6 +54,8 @@ public class UserServiceImpl implements IUserService {
     private IMenuService menuService;
     @Resource
     private IRedisService redisService;
+    @Resource
+    private IOperationLogService operationLogService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -155,6 +154,8 @@ public class UserServiceImpl implements IUserService {
         loginUserVO.setToken(StpUtil.getTokenValue());
         // 缓存权限
         menuService.cachePermission(user.getId());
+        // 保存登录日志
+        operationLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
         return loginUserVO;
     }
 

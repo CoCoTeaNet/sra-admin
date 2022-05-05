@@ -1,5 +1,6 @@
 package com.jwss.sra.system.entity;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import org.sagacity.sqltoy.config.annotation.Entity;
@@ -24,8 +25,8 @@ public class OperationLog implements Serializable {
     /**
      * 日志编号
      */
-    @Column(name="LOG_NUMBER",type=java.sql.Types.INTEGER,nullable=false)
-    private Integer logNumber;
+    @Column(name="LOG_NUMBER",type= Types.BIGINT,nullable=false)
+    private Long logNumber;
 
     /**
      * 请求IP地址
@@ -91,11 +92,11 @@ public class OperationLog implements Serializable {
         return this;
     }
 
-    public Integer getLogNumber() {
+    public Long getLogNumber() {
         return this.logNumber;
     }
 
-    public OperationLog setLogNumber(Integer logNumber) {
+    public OperationLog setLogNumber(Long logNumber) {
         this.logNumber=logNumber;
         return this;
     }

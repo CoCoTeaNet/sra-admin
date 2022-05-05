@@ -33,7 +33,7 @@ export const routes = [
             {path: 'permission-manager', meta: {title: '权限管理'}, name: 'PermissionView', component: PermissionView},
             {path: 'role-manager', meta: {title: '角色管理'}, name: 'RoleView', component: RoleView},
             {path: 'dictionary-manager', meta: {title: '字典管理'}, name: 'DictionaryView', component: DictionaryView},
-            {path: 'operation-log', meta: {title: '日志管理'}, name: 'OperationLog', component: OperationLogView},
+            {path: 'operation-log-manager', meta: {title: '日志管理'}, name: 'OperationLogView', component: OperationLogView},
             {path: 'user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView},
             {path: 'code-generator', meta: {title: '代码生成'}, name: 'CodeGenerator', component: CodeGenerator}
         ]

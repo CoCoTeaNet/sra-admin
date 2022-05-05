@@ -7,9 +7,12 @@
     <sql id="system_operationLog_findByPageParam">
         <value>
             <![CDATA[
-                select sol.*, su.NICKNAME
+                select sol.*, su.NICKNAME as operatorName
                 from sys_operation_log sol
                 left join sys_user su on su.ID = sol.OPERATOR
+                where
+                #[and (sol.LOG_NUMBER = :logNumber or su.NICKNAME like :operatorName)]
+                order by sol.OPERATION_TIME desc
 			]]>
         </value>
     </sql>
