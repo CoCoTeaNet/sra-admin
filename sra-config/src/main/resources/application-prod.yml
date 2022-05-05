@@ -2,12 +2,17 @@ server:
   port: 8080
 
 sra:
+  default:
+    # 服务端请求协议
+    agreement: http
+    # 服务器IP 或 域名
+    domain: 106.52.139.93
   dev-enable:
     permission-cache: true
     strong-password: srapwd
     # 文件上传地址
   file-upload:
-    local-url: F:/server/file/
+    local-url: /home/lighthouse/server/spring-boot/upload
     browser-url: /upload/
 
 spring:

@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import com.jwss.sra.common.enums.OperationStatusEnum;
 import com.jwss.sra.common.model.BusinessException;
+import com.jwss.sra.framework.util.IpUtils;
 import com.jwss.sra.system.entity.OperationLog;
 import com.jwss.sra.system.param.log.OperationLogAddParam;
 import com.jwss.sra.system.param.log.OperationLogPageParam;
@@ -59,7 +60,7 @@ public class OperationLogServiceImpl implements IOperationLogService {
     @Override
     public void saveByLogType(String logType, HttpServletRequest request) throws BusinessException {
         OperationLogAddParam logAddParam = new OperationLogAddParam();
-        logAddParam.setIpAddress(request.getRemoteAddr());
+        logAddParam.setIpAddress(IpUtils.getIp(request));
         logAddParam.setLogType(logType);
         logAddParam.setRequestWay(request.getMethod());
         logAddParam.setLogNumber(System.currentTimeMillis());

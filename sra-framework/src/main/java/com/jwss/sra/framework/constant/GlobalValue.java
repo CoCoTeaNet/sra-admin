@@ -22,10 +22,15 @@ public class GlobalValue {
     public static Integer PORT;
 
     /**
+     * 访问协议
+     */
+    public static String AGREEMENT;
+
+    /**
      * 获取服务器地址
      * @return 服务器地址
      */
     public static String getServerUrl() {
-        return "http://" + SERVER_IP + ":" + PORT;
+        return AGREEMENT + "://" + SERVER_IP + ":" + PORT;
     }
 }

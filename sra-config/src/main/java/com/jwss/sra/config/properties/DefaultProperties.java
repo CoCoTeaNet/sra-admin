@@ -27,6 +27,32 @@ public class DefaultProperties {
      */
     private String dbName;
 
+    /**
+     * 请求协议
+     */
+    private String agreement;
+
+    /**
+     * 域名 | IP
+     */
+    private String domain;
+
+    public String getAgreement() {
+        return agreement;
+    }
+
+    public void setAgreement(String agreement) {
+        this.agreement = agreement;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
     public String getDbName() {
         return dbName;
     }
