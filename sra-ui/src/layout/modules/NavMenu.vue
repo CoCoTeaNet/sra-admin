@@ -4,7 +4,7 @@
              :style="`height: 100%;padding: 0 ${!store.state.isCollapseMenu ? '10px' : '0'};`"
              :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu">
       <!-- LOGO -->
-      <h3 style="text-align: center;">
+      <h3 style="text-align: center;overflow: hidden;white-space: nowrap;">
         {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
       </h3>
       <!-- 顶级菜单 -->

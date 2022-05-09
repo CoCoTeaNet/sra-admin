@@ -90,9 +90,9 @@ export function getMenuStatusText(v: string) {
 export function getLogTypeText(v: string) {
     switch (parseInt(v)) {
         case 0:
-            return '登录日志';
+            return '<span class="status-tag-green-text">登录日志</span>';
         case 1:
-            return '操作日志';
+            return '<span class="status-tag-blue-text">操作日志</span>';
         default:
             return '';
     }
@@ -110,5 +110,24 @@ export function getOperationStatusText(v: string) {
             return '<span class="status-tag-green">成功</span>';
         default:
             return '';
+    }
+}
+
+/**
+ * 获取请求方式 文本
+ * @param v
+ */
+export function getRequestWay(v: string) {
+    switch (v) {
+        case "GET":
+            return '<span class="status-tag-green-text">GET</span>';
+        case "POST":
+            return '<span class="status-tag-blue-text">POST</span>';
+        case "PUT":
+            return '<span class="status-tag-yellow-text">PUT</span>';
+        case "DELETE":
+            return '<span class="status-tag-red-text">DELETE</span>';
+        default:
+            return v;
     }
 }

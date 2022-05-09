@@ -28,6 +28,7 @@ html, body, #app {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 .status-tag-red, .status-tag-green {
   color: white;
   border-radius: 3px;
@@ -45,4 +46,30 @@ html, body, #app {
   border: 1px solid #67c23a;
 }
 
+
+.status-tag-green-text, .status-tag-blue-text, .status-tag-yellow-text, .status-tag-red-text {
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  font-size: 12px;
+}
+
+.status-tag-green-text {
+  color: #67c23a;
+  border: 1px solid #67c23a;
+}
+
+.status-tag-blue-text {
+  color: dodgerblue;
+  border: 1px solid dodgerblue;
+}
+
+.status-tag-yellow-text {
+  color: yellow;
+  border: 1px solid yellow;
+}
+
+.status-tag-red-text {
+  color: #f56c6c;
+  border: 1px solid #f56c6c;
+}
 </style>
