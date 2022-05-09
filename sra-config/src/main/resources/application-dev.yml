@@ -17,9 +17,9 @@ sra:
     # 强密码
     strong-password: srapwd
     # 文件上传地址
-    file-upload:
-      local-url: F:/server/file/
-      browser-url: /upload/
+  file-upload:
+    local-url: F:/server/file/
+    browser-url: /upload/
 
 spring:
   sqltoy:

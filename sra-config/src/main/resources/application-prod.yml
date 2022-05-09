@@ -12,7 +12,7 @@ sra:
     strong-password: srapwd
     # 文件上传地址
   file-upload:
-    local-url: /home/lighthouse/server/spring-boot/upload
+    local-url: /home/lighthouse/server/spring-boot/upload/
     browser-url: /upload/
 
 spring:
