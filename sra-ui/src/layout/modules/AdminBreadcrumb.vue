@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {RouteLocationMatched, useRoute} from "vue-router";
 import {Expand, Fold} from '@element-plus/icons-vue';
 import {useStore, setCollapseMenu} from "@/store";
@@ -35,7 +35,11 @@ const itemList = ref<RouteLocationMatched[]>([]);
 
 watch(() => route.path, (v: any) => {
   getRouterMatch(route.matched);
-})
+});
+
+onMounted(() => {
+  getRouterMatch(route.matched);
+});
 
 /**
  * 获取路由导航地址
