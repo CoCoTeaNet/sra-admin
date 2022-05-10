@@ -25,8 +25,8 @@
                    v-model:page-size="pageParam.pageSize"
     />
     <!-- 代码对话框 -->
-    <el-dialog title="生成实体类" v-model="dialogVisible" width="80%" style="height: 75%">
-      <iframe :src="codeSrc" style="width: 1024px;height: 640px;border: none"></iframe>
+    <el-dialog title="生成实体类" v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center">
+      <iframe :src="codeSrc" style="width: 100%;height: 640px;border: none"></iframe>
     </el-dialog>
   </div>
 </template>

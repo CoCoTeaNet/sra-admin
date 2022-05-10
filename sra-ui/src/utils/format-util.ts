@@ -6,11 +6,11 @@ export function getSexText(num: string): string {
     let n = parseInt(num);
     switch (n) {
         case 0:
-            return '未知';
+            return '<span class="status-tag-gray-text">未知</span>';
         case 1:
-            return '男';
+            return '<span class="status-tag-blue-text">男</span>';
         case 2:
-            return '女';
+            return '<span class="status-tag-red-text">女</span>';
     }
     return 'fail';
 }
@@ -23,13 +23,13 @@ export function getAccountStatusText(num: string): string {
     let n = parseInt(num);
     switch (n) {
         case 0:
-            return '停用';
+            return '<span class="status-tag-red">停用</span>';
         case 1:
-            return '正常';
+            return '<span class="status-tag-green">正常</span>';
         case 2:
-            return '冻结';
+            return '<span class="status-tag-blue">冻结</span>';
         case 3:
-            return '封禁';
+            return '<span class="status-tag-red">封禁</span>';
     }
     return 'fail';
 }

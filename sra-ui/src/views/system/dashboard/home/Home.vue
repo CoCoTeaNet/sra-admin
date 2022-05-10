@@ -16,8 +16,8 @@
           <template #header>
             <div><span>联系信息</span></div>
           </template>
-          <p>QQ群：xxxxxx</p>
-          <p>博客：<a href="https://live1024.cn">https://live1024.cn</a></p>
+          <p>QQ群：543112505</p>
+          <p>作者博客：<a href="https://live1024.cn">https://live1024.cn</a></p>
           <p>Gitee：<a href="https://gitee.com/momoljw">https://gitee.com/momoljw</a></p>
           <p>GitHub：<a href="https://github.com/momofoolish">https://github.com/momofoolish</a></p>
         </el-card>

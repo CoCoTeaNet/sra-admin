@@ -4,9 +4,10 @@
              :style="`height: 100%;padding: 0 ${!store.state.isCollapseMenu ? '10px' : '0'};`"
              :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu">
       <!-- LOGO -->
-      <h3 style="text-align: center;overflow: hidden;white-space: nowrap;">
-        {{ !store.state.isCollapseMenu ? 'SRA后台管理系统' : 'SR' }}
+      <h3 v-if="!store.state.isCollapseMenu" style="text-align: center;overflow: hidden;white-space: nowrap;">
+        SRA后台管理系统
       </h3>
+      <img v-else :src="require('@/assets/logo.png')" style="width: 100%" alt="logo">
       <!-- 顶级菜单 -->
       <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
         <el-menu-item v-if="!hasChildren(item)" @click="$router.push({path: item.routerPath})" :index="`${index}`">

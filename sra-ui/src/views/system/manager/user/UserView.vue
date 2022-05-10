@@ -11,12 +11,12 @@
       <el-table-column prop="roleName" label="角色"/>
       <el-table-column prop="sex" label="性别">
         <template #default="scope">
-          {{ getSexText(scope.row.sex) }}
+          <span v-html="getSexText(scope.row.sex)"></span>
         </template>
       </el-table-column>
       <el-table-column prop="accountStatus" label="状态">
         <template #default="scope">
-          {{ getAccountStatusText(scope.row.accountStatus) }}
+          <span v-html="getAccountStatusText(scope.row.accountStatus)"></span>
         </template>
       </el-table-column>
     </template>
