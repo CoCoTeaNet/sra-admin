@@ -6,6 +6,7 @@ import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
+import com.jwss.sra.common.enums.MenuTypeEnum;
 import com.jwss.sra.common.util.StringUtils;
 import com.jwss.sra.framework.constant.GlobalValue;
 import com.jwss.sra.framework.constant.RedisKey;
@@ -38,7 +39,7 @@ public class DashboardServiceImpl implements IDashboardService {
     @Override
     public List<Map<String, Object>> getCount() {
         Map<String, Object> hashMap;
-        String tempSql = "select count(1) from %s where DELETE_STATUS=1";
+        String tempSql = "select count(1) from %s where DELETE_STATUS=1 ";
 
         List<Map<String, Object>> mapList = new ArrayList<>(4);
         Long countUser = sqlToyLazyDao.getCount(String.format(tempSql, "sys_user"), null);
@@ -46,16 +47,20 @@ public class DashboardServiceImpl implements IDashboardService {
         hashMap.put("title", "用户数量");
         hashMap.put("count", countUser);
         mapList.add(hashMap);
-        Long countMenu = sqlToyLazyDao.getCount(String.format(tempSql, "sys_menu"), null);
+
+        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + MenuTypeEnum.MENU.getCode();
+        Long countMenu = sqlToyLazyDao.getCount(menuSql, null);
         hashMap=new HashMap<>(2);
         hashMap.put("title", "菜单数量");
         hashMap.put("count", countMenu);
         mapList.add(hashMap);
+
         Long countRole = sqlToyLazyDao.getCount(String.format(tempSql, "sys_role"), null);
         hashMap=new HashMap<>(2);
         hashMap.put("title", "角色数量");
         hashMap.put("count", countRole);
         mapList.add(hashMap);
+
         Long countOnline = (long) redisService.keys(
                 String.format(RedisKey.ONLINE_USER, StringUtils.ASTERISK)
         ).size();
