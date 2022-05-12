@@ -25,15 +25,17 @@
                    v-model:page-size="pageParam.pageSize"
     />
     <!-- 代码对话框 -->
-    <el-dialog title="生成实体类" v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center">
-      <iframe :src="codeSrc" style="width: 100%;height: 640px;border: none"></iframe>
+    <el-dialog title="生成实体类" v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center" @open="">
+      <el-scrollbar style="width: 100%;height: 640px;overflow: auto">
+        <highlightjs :code="codeSrc" language="java" style="border-radius: 3px;"></highlightjs>
+      </el-scrollbar>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue';
-import {findTablesByPage} from "@/api/system/code-generator-api";
+import {nextTick, onMounted, ref, watch} from 'vue';
+import {findTablesByPage, getByTableName} from "@/api/system/code-generator-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {Search} from "@element-plus/icons-vue";
 
@@ -81,7 +83,11 @@ const initTableList = () => {
  * @param row
  */
 const preview = (row: any) => {
-  codeSrc.value = `http://192.168.31.242:7777/codeGenerator/getByTableName/${row.tableName}`;
   dialogVisible.value = true;
+  reqCommonFeedback(getByTableName(row.tableName), (data: any) => {
+    nextTick(() => {
+      codeSrc.value = data;
+    });
+  });
 }
 </script>

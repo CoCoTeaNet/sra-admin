@@ -1,10 +1,3 @@
-<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.5.1/styles/base16/default-light.min.css" rel="stylesheet">
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<pre>
-	<code class="java">
-
-
 package ${objectMap.modulePackage}.entity;
 
 import java.time.LocalDateTime;
@@ -54,8 +47,3 @@ public class ${objectMap.table.javaClassName} implements Serializable {
 		return columnsBuffer.toString();
 	}
 }
-
-
-
-	</code>
-</pre>

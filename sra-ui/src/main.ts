@@ -5,6 +5,9 @@ import App from './App.vue'
 import {router} from './router'
 import { store, key } from './store'
 import * as ElIcons from '@element-plus/icons-vue'
+import 'highlight.js/styles/atom-one-dark.css'
+import 'highlight.js/lib/common'
+import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 const app = createApp(App)
 
@@ -12,8 +15,8 @@ const app = createApp(App)
 for (const name in ElIcons){
     app.component(name,(ElIcons as any)[name])
 }
-
 app.use(router)
 app.use(ElementPlus)
 app.use(store, key)
+app.use(hljsVuePlugin)
 app.mount('#app')

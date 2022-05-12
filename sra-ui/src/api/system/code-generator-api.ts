@@ -1,9 +1,17 @@
-import {request} from '@/utils/axios-util';
+import {request, get, post} from '@/utils/axios-util';
+
+/**
+ * 根据表名称生成实体类属性集合
+ * @param data
+ */
+export function getByTableName(data: any) {
+    return request(`codeGenerator/getByTableName/${data}`, data, get);
+}
 
 /**
  * 分页获取表名称
  * @param data
  */
 export function findTablesByPage(data: any) {
-    return request('codeGenerator/findTablesByPage', data, 'POST');
+    return request('codeGenerator/findTablesByPage', data, post);
 }
