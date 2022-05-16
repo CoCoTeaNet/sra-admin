@@ -91,15 +91,11 @@ public class UserServiceImpl{
 2. 启动本地Redis并运行后端服务
 3. 安装前端依赖并运行前端项目
 
-* 数据库脚本
-
-```text
-/doc/db/DB_SRA_V1.sql
-```
-
 * 后端
 
 ```text
+application.yml配置文件位置：src/main/resources/application.yml
+数据库脚本：/doc/db/DB_SRA_V1.sql
 Main入口主类：sra-bootstrap/src/main/java/com/jwss/bootstrap/SraApplicationBoot.java
 ```
 
