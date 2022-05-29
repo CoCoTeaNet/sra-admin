@@ -104,19 +104,20 @@ Main入口主类：sra-bootstrap/src/main/java/com/jwss/bootstrap/SraApplication
 ```bash
 $ cd sra-ui                         #切换到前端目录
 $ npm install   || yarn             #安装依赖  
-$ npm run serve || yarn run serve   #开发环境  
-$ npm run build || yarn run build   #生产环境
+$ npm run serve || yarn serve       #开发环境  
+$ npm run build || yarn build       #生产环境
 ```
 
 * 访问地址
 
 1. 后端接口文档：http://localhost:7777/doc.html
-2. 前端登录地址：http://localhost:8080/login
+2. 前端登录地址：http://localhost:8080/#/login
 
 * 备注
 
 1. 必须安装Redis；
 2. 目前只支持mysql数据库；
+3. db_sra_v1.chnr.json文件可以用pdman编辑；
 
 #### 🍁 开发规范
 

@@ -7,7 +7,7 @@
         🍬基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。
         是一款前后端分离、开箱即用的后台权限管理系统。
       </p>
-      <p>当前版本：V1.0.2</p>
+      <p>当前版本：V1.0.3</p>
     </el-card>
 
     <el-row :gutter="10" style="margin-top: 1em">
@@ -24,7 +24,18 @@
       </el-col>
       <el-col :span="12">
         <el-card>
-          <el-collapse accordion :model-value="'2'">
+          <el-collapse accordion :model-value="'3'">
+            <!-- v1.0.3 -->
+            <el-collapse-item title="v1.0.3" name="3">
+              <p>版本v1.0.3</p>
+              <div>
+                <ul>
+                  <li>1. 修复已知BUG.</li>
+                  <li>2. 新增CMS模块.</li>
+                </ul>
+              </div>
+            </el-collapse-item>
+
             <!-- v1.0.2 -->
             <el-collapse-item title="v1.0.2" name="2">
               <p>版本v1.0.2</p>
@@ -38,6 +49,7 @@
                 </ul>
               </div>
             </el-collapse-item>
+
             <!-- v1.0.1 -->
             <el-collapse-item title="v1.0.1" name="1">
               <div>
