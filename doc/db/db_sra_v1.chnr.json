@@ -2,9 +2,9 @@
   "name": "db_sra_v1",
   "describe": "db_sra_v1",
   "avatar": "",
-  "version": "3.5.7",
+  "version": "4.1.1",
   "createdTime": "2022-1-10 21:06:10",
-  "updatedTime": "2022-5-2 00:10:42",
+  "updatedTime": "2022-6-7 13:54:08",
   "profile": {
     "default": {
       "db": "BB729A65-0299-4C6B-AB15-A0B517A3ED7E",
@@ -181,6 +181,22 @@
       {
         "defKey": "SQLite",
         "id": "6BB28775-DB72-466F-AEA2-A68E5E986E1E"
+      },
+      {
+        "defKey": "JavaMybatis",
+        "id": "895CFD1D-4273-4D32-A2C4-CAC70200AB5B"
+      },
+      {
+        "defKey": "JavaMybatisPlus",
+        "id": "A2EE7B4A-CE62-4290-B00C-B26C1BF18073"
+      },
+      {
+        "defKey": "Hive",
+        "id": "81CCA482-3F4D-4EAC-8CF9-F5E7BC098AD2"
+      },
+      {
+        "defKey": "Golang",
+        "id": "B91D99E0-9B7C-416C-8737-B760957DAF09"
       }
     ],
     "codeTemplates": [
@@ -190,7 +206,9 @@
         "isDefault": true,
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.autoIncrement ? 'AUTO_INCREMENT' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }} COMMENT '{{=it.func.join(field.defName,field.comment,';')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  COMMENT = '{{=it.func.join(it.entity.defName,it.entity.comment,';') }}';\n$blankline\n",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChanged(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push('代码:'+(before.defKey||'NULL')+'->'+(after.defKey||'NULL'));\n        }\n        if(before.defName !== after.defName){\n            ret.push('显示名称:'+(before.defName||'NULL')+'->'+(after.defName||'NULL'));\n        }\n        if(before.comment !== after.comment){\n            ret.push('说明:'+(before.comment||'NULL')+'->'+(after.comment||'NULL'));\n        }\n        if(ret.length>0){\n            return '    基本信息:\\n\\t'+ret.join('\\n\\t');\n        }\n        return '';\n    };\n    \n    function buildAddedDesc(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        \n        for (let field of fieldAdded) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildRemovedDesc(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        \n        for (let field of fieldRemoved) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildModifiedDesc(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        for (let field1 of fieldModified) { \n            let row = [];\n            let field = field1.before;\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n}}\n\n\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n{{? modifyEntities && modifyEntities.length > 0}}\n/* --------------- 修改表 --------------- */\n{{~ modifyEntities:entity}}\n{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]{{let changeText=baseChanged(entity.data.baseChanged);}}\n{{=baseChanged(entity.data.baseChanged)}}\n    {{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n    修改字段：\n    {{='\\t'}}{{=buildModifiedDesc(entity).join('\\n\\t')}}{{?}}{{\n        /*计算是否调整了属性*/\n        let propAdded = entity.data.propAdded || [];\n        let propRemoved = entity.data.propRemoved || [];\n        let propModified = entity.data.propModified || [];\n        let changed = propAdded.length>0 || propRemoved.length>0 || propModified.length>0;\n        /*计算关联是否调整*/\n        let refEntityAdd = entity.data.refEntityAdd || [];\n        let refEntityRemoved = entity.data.refEntityRemoved || [];\n        let relaArray = [];\n        for (let rela of refEntityAdd) {\n            relaArray.push('建立关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        for (let rela of refEntityRemoved) {\n            relaArray.push('解除关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        /*索引是否修改过*/\n        let indexChanged = entity.data.indexChanged;\n    }}{{=indexChanged?'\\n\\t更改了索引':''}}{{=changed?'\\n\\t更改了属性':''}}{{=relaArray.length>0?('\\n\\t'+relaArray.join('\\n\\t')):''}}\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n    添加字段：\n{{='\\t'}}{{=buildAddedDesc(entity).join('\\n\\t')}}\n{{?}}{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n    删除字段：\n{{='\\t'}}{{=buildRemovedDesc(entity).join('\\n\\t')}}\n{{?}}\n{{~}}\n{{?}}\n",
+        "update": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChangedDDL(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push('ALTER TABLE '+before.defKey+' RENAME TO '+after.defKey);\n        }\n        let commentText = '';\n        let commentChanged = false;\n        if(before.defName !== after.defName){\n            commentText = after.defName;\n            commentChanged = true;\n        }\n        if(before.comment !== after.comment){\n            commentChanged = true;\n            if(commentText){\n                commentText = (commentText+ ';'+after.comment)\n            }else{\n                commentText = after.comment\n            }\n        }\n        if(commentChanged){\n            ret.push('ALTER TABLE '+after.defKey+' COMMENT \\''+commentText+'\\'');\n        }\n        let baseText = '-- 基本信息:\\n';\n        return baseText+ret.join(';\\n')+';';\n    };\n    \n    function buildAddedDDL(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        if(fieldAdded.length == 0){\n            return '';\n        }\n        \n        let firstDDL = 'ALTER TABLE '+entity.data.baseInfo.defKey;\n        for (let field of fieldAdded) { \n            let ddlItem = 'ADD COLUMN '+field.defKey+' '+field.dbType;\n            /*处理数据类型长度*/\n            if(field.len>0){\n                ddlItem += ('('+field.len);\n                if(parseInt(field.scale)>0){\n                    ddlItem += (','+field.scale);\n                }\n                ddlItem += ')';\n            }\n            if(field.notNull){\n                ddlItem += ' NOT NULL';\n            }\n            if(field.autoIncrement){\n                ddlItem += ' AUTO_INCREMENT';\n            }\n            if(field.defaultValue){\n                ddlItem += (' DEFAULT' + field.defaultValue);\n            }\n            ddlItem += (' COMMENT \\''+field.defName+';'+field.comment+'\\'');\n            \n            if(field.index>0 && field.afterFieldKey){\n                ddlItem += (' AFTER '+field.afterFieldKey);\n            }\n            ret.push(ddlItem);\n        }\n        return firstDDL+'\\n'+ret.join(',\\n');\n    };\n    \n    function buildRemovedDDL(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        if(fieldRemoved.length == 0){\n            return '';\n        }\n        \n        let firstDDL = 'ALTER TABLE '+entity.data.baseInfo.defKey;\n        for (let field of fieldRemoved) { \n            ret.push('DROP '+field.defKey);\n        }\n        return firstDDL+'\\n'+ret.join(',\\n');\n    };\n    \n    function buildModifiedDDL(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        let firstDDL = 'ALTER TABLE '+entity.data.baseInfo.defKey;\n        for (let field of fieldModified) { \n            let changeDDL = '';\n            let before = field.before || {};\n            let after = field.after || {};\n            if(before.defKey === after.defKey){\n                changeDDL += (' MODIFY COLUMN '+after.defKey);\n            }else{\n                changeDDL += (' CHANGE COLUMN '+before.defKey+' '+after.defKey);\n            }\n            changeDDL += (' '+after.dbType);\n            if(after.len>0){\n                changeDDL += ('('+after.len);\n                if(parseInt(field.scale)>0){\n                    changeDDL += (','+field.scale);\n                }\n                changeDDL += ')';\n            }\n            if(after.notNull){\n                changeDDL += ' NOT NULL';\n            }\n            let defaultValue = '';\n            if(after.defaultValue != null && after.defaultValue.length>0){\n                defaultValue = (after.defaultValue);\n            }else{\n                defaultValue = 'NULL';\n            }\n            changeDDL += (' DEFAULT ' + defaultValue);\n            let comment = after.comment||'';\n            changeDDL += (' COMMENT \\''+comment+'\\';');\n            ret.push(firstDDL+' '+changeDDL);\n        }\n        return ret;\n    };\n}}\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=it.func.createDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=it.func.dropDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? modifyEntities && modifyEntities.length > 0}}\n{{~ modifyEntities:entity}}\n/* --------------- 修改表 --------------- */\n-- 修改表：{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]\n{{=baseChangedDDL(entity.data.baseChanged)}}\n{{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n-- 修改字段：\n{{=buildModifiedDDL(entity).join('\\n')}}\n{{?}}{{\n/*索引是否修改过*/\nlet indexChanged = entity.data.indexChanged;\n}}\n{{? indexChanged }}\n{{=it.func.indexRebuildDDL(entity.data.baseInfo,entity.data.newIndexes,entity.data.fullFields,entity['type'])}}\n{{?}}\n\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n-- 添加字段：\n{{=buildAddedDDL(entity)}};\n{{?}}\n\n{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n-- 删除字段：\n{{=buildRemovedDDL(entity)}};\n{{?}}\n{{~}}\n{{?}}"
       },
       {
         "type": "dbDDL",
@@ -198,7 +216,9 @@
         "isDefault": true,
         "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? '' : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChanged(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push('代码:'+(before.defKey||'NULL')+'->'+(after.defKey||'NULL'));\n        }\n        if(before.defName !== after.defName){\n            ret.push('显示名称:'+(before.defName||'NULL')+'->'+(after.defName||'NULL'));\n        }\n        if(before.comment !== after.comment){\n            ret.push('说明:'+(before.comment||'NULL')+'->'+(after.comment||'NULL'));\n        }\n        if(ret.length>0){\n            return '    基本信息:\\n\\t'+ret.join('\\n\\t');\n        }\n        return '';\n    };\n    \n    function buildAddedDesc(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        \n        for (let field of fieldAdded) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildRemovedDesc(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        \n        for (let field of fieldRemoved) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildModifiedDesc(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        for (let field1 of fieldModified) { \n            let row = [];\n            let field = field1.before;\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n}}\n{{? createEntities && createEntities.length > 0}}\n/* -------------------------------------------------- */\n创建表：\n{{~ createEntities:entity}}\n    {{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* -------------------------------------------------- */\n删除表：\n{{~ dropEntities:entity}}\n    {{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n\n{{? modifyEntities && modifyEntities.length > 0}}\n{{~ modifyEntities:entity}}\n/* -------------------------------------------------- */\n修改表：{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]{{let changeText=baseChanged(entity.data.baseChanged);}}\n{{=baseChanged(entity.data.baseChanged)}}\n    {{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n    添加字段：\n    {{='\\t'}}{{=buildAddedDesc(entity).join('\\n\\t')}}\n    {{?}}{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n    删除字段：\n    {{='\\t'}}{{=buildRemovedDesc(entity).join('\\n\\t')}}\n    {{?}}{{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n    修改字段：\n    {{='\\t'}}{{=buildModifiedDesc(entity).join('\\n\\t')}}\n    {{?}}{{\n        /*计算是否调整了属性*/\n        let propAdded = entity.data.propAdded || [];\n        let propRemoved = entity.data.propRemoved || [];\n        let propModified = entity.data.propModified || [];\n        let changed = propAdded.length>0 || propRemoved.length>0 || propModified.length>0;\n        /*计算关联是否调整*/\n        let refEntityAdd = entity.data.refEntityAdd || [];\n        let refEntityRemoved = entity.data.refEntityRemoved || [];\n        let relaArray = [];\n        for (let rela of refEntityAdd) {\n            relaArray.push('\\n\\t建立关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        for (let rela of refEntityRemoved) {\n            relaArray.push('\\n\\t解除关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        /*索引是否修改过*/\n        let indexChanged = entity.data.indexChanged;\n    }}\n{{=indexChanged?'\\n\\t更改了索引':''}}\n{{=changed?'\\n\\t更改了属性':''}}\n{{=relaArray.length>0?relaArray.join(''):''}}\n{{~}}\n{{?}}",
+        "update": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChangedDDL(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push(`ALTER TABLE ${before.defKey} RENAME TO ${after.defKey}`);\n        }\n        let commentText = '';\n        let commentChanged = false;\n        if(before.defName !== after.defName){\n            commentText = after.defName;\n            commentChanged = true;\n        }\n        if(before.comment !== after.comment){\n            commentChanged = true;\n            if(commentText){\n                commentText = (commentText+ ';'+after.comment)\n            }else{\n                commentText = after.comment\n            }\n        }\n        if(commentChanged){\n            let myText = `COMMENT ON TABLE ${after.defKey} IS '${commentText}'`;\n            ret.push(myText);\n        }\n        let baseText = '-- 基本信息:\\n';\n        return baseText+ret.join(';\\n')+';';\n    };\n    \n    function buildAddedDDL(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        if(fieldAdded.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldAdded) { \n            let ddlItem = `ADD (${field.defKey} ${field.dbType}`;\n            /*处理数据类型长度*/\n            if(field.len>0){\n                ddlItem += ('('+field.len);\n                if(parseInt(field.scale)>0){\n                    ddlItem += (','+field.scale);\n                }\n                ddlItem += ')';\n            }\n            let defaultValue = field.defaultValue;\n            defaultValue = (defaultValue==null)?\"\":(\"\"+defaultValue);\n            if(defaultValue.length>0){\n                ddlItem += (' DEFAULT ' + defaultValue);\n            }\n            if(field.notNull){\n                ddlItem += ' NOT NULL';\n            }\n            ddlItem += ')';\n            ret.push(`${firstDDL} ${ddlItem}`);\n            \n            /*处理字段注释*/\n            let fieldComments = [];\n            if(field.defName != null &&field.defName.length>0){\n                fieldComments.push(field.defName);\n            }\n            if(field.comment != null &&field.comment.length>0){\n                fieldComments.push(field.comment);\n            }\n            let commentText = fieldComments.join(';');\n            if(commentText != null && commentText.length > 0){\n                let commentDDL = `COMMENT ON COLUMN ${entity.data.baseInfo.defKey}.${field.defKey} IS '${commentText}'`;\n                 ret.push(commentDDL);\n            }\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildRemovedDDL(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        if(fieldRemoved.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldRemoved) { \n            ret.push(`${firstDDL} DROP COLUMN ${field.defKey}`);\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildModifiedDDL(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldModified) { \n            let changeDDL = '';\n            let before = field.before || {};\n            let after = field.after || {};\n            if(before.defKey !== after.defKey){\n                let renameText = `ALTER TABLE ${entity.data.baseInfo.defKey} RENAME COLUMN ${before.defKey} TO ${after.defKey};`;\n                ret.push(renameText);\n            }\n            /*如果没有变化，则不生成变更语句*/\n            if(before.dbType === after.dbType \n            && before['len'] === after['len'] \n            && before.scale === after.scale\n            && before.primaryKey === after.primaryKey\n            && before.notNull === after.notNull\n            && before.autoIncrement === after.autoIncrement\n            && before.defaultValue === after.defaultValue){\n                continue;\n            }\n            changeDDL += ('MODIFY ('+after.defKey+'');\n            changeDDL += (' '+after.dbType);\n            if(after.len>0){\n                changeDDL += ('('+after.len);\n                if(parseInt(field.scale)>0){\n                    changeDDL += (','+field.scale);\n                }\n                changeDDL += ')';\n            }\n            let defaultValue = after.defaultValue;\n            defaultValue = (defaultValue==null)?\"\":(\"\"+defaultValue);\n            if(defaultValue.length>0){\n                changeDDL += (' DEFAULT ' + defaultValue);\n            }\n            \n            if(after.notNull){\n                changeDDL += ' NOT NULL';\n            }\n            changeDDL += ')';\n            ret.push(`${firstDDL} ${changeDDL};`);\n        }\n        return ret;\n    };\n}}\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=it.func.createDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=it.func.dropDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? modifyEntities && modifyEntities.length > 0}}\n{{~ modifyEntities:entity}}\n/* --------------- 修改表 --------------- */\n-- 修改表：{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]\n{{=baseChangedDDL(entity.data.baseChanged)}}\n{{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n-- 修改字段：\n{{=buildModifiedDDL(entity).join('\\n')}}\n{{?}}{{\n/*索引是否修改过*/\nlet indexChanged = entity.data.indexChanged;\n}}\n{{? indexChanged }}\n{{=it.func.indexRebuildDDL(entity.data.baseInfo,entity.data.newIndexes,entity.data.fullFields,entity['type'])}}\n{{?}}\n\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n-- 添加字段：\n{{=buildAddedDDL(entity)}};\n{{?}}\n\n{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n-- 删除字段：\n{{=buildRemovedDDL(entity)}};\n{{?}}\n{{~}}\n{{?}}"
       },
       {
         "type": "dbDDL",
@@ -206,7 +226,9 @@
         "isDefault": true,
         "createTable": "IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{{=it.entity.defKey}}]') AND type in (N'U'))\nDROP TABLE [dbo].[{{=it.entity.defKey}}];\n\nCREATE TABLE [dbo].[{{=it.entity.defKey}}](\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' IDENTITY(1,1)' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n){{=it.separator}}\n$blankline\n{{? it.entity.defKey || it.entity.defName}}EXEC sp_addextendedproperty 'MS_Description', '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}', 'SCHEMA', dbo, 'table', {{=it.entity.defKey}}, null, null;{{?}}\n{{~it.entity.fields:field:index}}\nEXEC sp_addextendedproperty 'MS_Description', '{{=it.func.join(field.defName,field.comment,';')}}', 'SCHEMA', dbo, 'table', {{=it.entity.defKey}}, 'column', {{=field.defKey}};\n{{~}}\n",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChanged(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push('代码:'+(before.defKey||'NULL')+'->'+(after.defKey||'NULL'));\n        }\n        if(before.defName !== after.defName){\n            ret.push('显示名称:'+(before.defName||'NULL')+'->'+(after.defName||'NULL'));\n        }\n        if(before.comment !== after.comment){\n            ret.push('说明:'+(before.comment||'NULL')+'->'+(after.comment||'NULL'));\n        }\n        if(ret.length>0){\n            return '    基本信息:\\n\\t'+ret.join('\\n\\t');\n        }\n        return '';\n    };\n    \n    function buildAddedDesc(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        \n        for (let field of fieldAdded) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildRemovedDesc(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        \n        for (let field of fieldRemoved) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildModifiedDesc(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        for (let field1 of fieldModified) { \n            let row = [];\n            let field = field1.before;\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n}}\n\n\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n{{? modifyEntities && modifyEntities.length > 0}}\n/* --------------- 修改表 --------------- */\n{{~ modifyEntities:entity}}\n{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]{{let changeText=baseChanged(entity.data.baseChanged);}}\n{{=baseChanged(entity.data.baseChanged)}}\n    {{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n    修改字段：\n    {{='\\t'}}{{=buildModifiedDesc(entity).join('\\n\\t')}}{{?}}{{\n        /*计算是否调整了属性*/\n        let propAdded = entity.data.propAdded || [];\n        let propRemoved = entity.data.propRemoved || [];\n        let propModified = entity.data.propModified || [];\n        let changed = propAdded.length>0 || propRemoved.length>0 || propModified.length>0;\n        /*计算关联是否调整*/\n        let refEntityAdd = entity.data.refEntityAdd || [];\n        let refEntityRemoved = entity.data.refEntityRemoved || [];\n        let relaArray = [];\n        for (let rela of refEntityAdd) {\n            relaArray.push('建立关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        for (let rela of refEntityRemoved) {\n            relaArray.push('解除关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        /*索引是否修改过*/\n        let indexChanged = entity.data.indexChanged;\n    }}{{=indexChanged?'\\n\\t更改了索引':''}}{{=changed?'\\n\\t更改了属性':''}}{{=relaArray.length>0?('\\n\\t'+relaArray.join('\\n\\t')):''}}\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n    添加字段：\n{{='\\t'}}{{=buildAddedDesc(entity).join('\\n\\t')}}\n{{?}}{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n    删除字段：\n{{='\\t'}}{{=buildRemovedDesc(entity).join('\\n\\t')}}\n{{?}}\n{{~}}\n{{?}}",
+        "update": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChangedDDL(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push(`EXEC sp_rename '${before.defKey}','${after.defKey}'`);\n        }\n        let commentText = '';\n        let commentChanged = false;\n        if(before.defName !== after.defName){\n            commentText = after.defName;\n            commentChanged = true;\n        }\n        if(before.comment !== after.comment){\n            commentChanged = true;\n            if(commentText){\n                commentText = (commentText+ ';'+after.comment)\n            }else{\n                commentText = after.comment\n            }\n        }\n        if(commentChanged){\n            let myText = `IF ((SELECT COUNT(*) FROM ::fn_listextendedproperty('MS_Description','SCHEMA', 'dbo','TABLE', '${after.defKey}', NULL, NULL)) > 0)\n            \\n\\tEXEC sp_updateextendedproperty 'MS_Description', '${commentText}','SCHEMA', 'dbo','TABLE', '${after.defKey}'\n            \\nELSE\n            \\n\\tEXEC sp_addextendedproperty 'MS_Description', '${commentText}', 'SCHEMA', 'dbo','TABLE', '${after.defKey}'\n            `;\n            ret.push(myText);\n            /*ret.push('ALTER TABLE '+after.defKey+' COMMENT \\''+commentText+'\\'');*/\n        }\n        let baseText = '-- 基本信息:\\n';\n        return baseText+ret.join(';\\n')+';';\n    };\n    \n    function buildAddedDDL(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        if(fieldAdded.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE [dbo].[${entity.data.baseInfo.defKey}]`;\n        for (let field of fieldAdded) { \n            let ddlItem = `ADD [${field.defKey}] ${field.dbType}`;\n            /*处理数据类型长度*/\n            if(field.len>0){\n                ddlItem += ('('+field.len);\n                if(parseInt(field.scale)>0){\n                    ddlItem += (','+field.scale);\n                }\n                ddlItem += ')';\n            }\n            let defaultValue = field.defaultValue;\n            defaultValue = (defaultValue==null)?\"\":(\"\"+defaultValue);\n            if(defaultValue.length>0){\n                ddlItem += (' DEFAULT ' + defaultValue);\n            }\n            if(field.notNull){\n                ddlItem += ' NOT NULL';\n            }\n            ret.push(`${firstDDL} ${ddlItem}`);\n            \n            /*处理字段注释*/\n            let fieldComments = [];\n            if(field.defName != null &&field.defName.length>0){\n                fieldComments.push(field.defName);\n            }\n            if(field.comment != null &&field.comment.length>0){\n                fieldComments.push(field.comment);\n            }\n            let commentText = fieldComments.join(';');\n            if(commentText != null && commentText.length > 0){\n                let commentDDL = `EXEC sp_addextendedproperty 'MS_Description', N'${commentText}','SCHEMA', N'dbo','TABLE', N'${entity.data.baseInfo.defKey}','COLUMN', N'${field.defKey}'`;\n                ret.push(commentDDL);\n            }\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildRemovedDDL(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        if(fieldRemoved.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE [dbo].[${entity.data.baseInfo.defKey}]`;\n        for (let field of fieldRemoved) { \n            ret.push(`${firstDDL} DROP COLUMN [${field.defKey}]`);\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildModifiedDDL(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        let firstDDL = `ALTER TABLE [dbo].[${entity.data.baseInfo.defKey}]`;\n        for (let field of fieldModified) { \n            let changeDDL = '';\n            let before = field.before || {};\n            let after = field.after || {};\n            if(before.defKey === after.defKey){\n                changeDDL += (' ALTER COLUMN ['+after.defKey+']');\n            }else{\n                let renameText = `EXEC sp_rename '[dbo].[${entity.data.baseInfo.defKey}].[${before.defKey}]','${after.defKey}','COLUMN';`;\n                ret.push(renameText);\n                continue;\n            }\n            changeDDL += (' '+after.dbType);\n            if(after.len>0){\n                changeDDL += ('('+after.len);\n                if(parseInt(after.scale)>0){\n                    changeDDL += (','+after.scale);\n                }\n                changeDDL += ')';\n            }\n            let defaultValue = after.defaultValue;\n            defaultValue = (defaultValue==null)?\"\":(\"\"+defaultValue);\n            if(defaultValue.length>0){\n                changeDDL += (' DEFAULT ' + defaultValue);\n            }\n            \n            if(after.notNull){\n                changeDDL += ' NOT NULL';\n            }\n            ret.push(`${firstDDL} ${changeDDL};`);\n        }\n        return ret;\n    };\n}}\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=it.func.createDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=it.func.dropDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? modifyEntities && modifyEntities.length > 0}}\n{{~ modifyEntities:entity}}\n/* --------------- 修改表 --------------- */\n-- 修改表：{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]\n{{=baseChangedDDL(entity.data.baseChanged)}}\n{{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n-- 修改字段：\n{{=buildModifiedDDL(entity).join('\\n')}}\n{{?}}{{\n/*索引是否修改过*/\nlet indexChanged = entity.data.indexChanged;\n}}\n{{? indexChanged }}\n{{=it.func.indexRebuildDDL(entity.data.baseInfo,entity.data.newIndexes,entity.data.fullFields,entity['type'])}}\n{{?}}\n\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n-- 添加字段：\n{{=buildAddedDDL(entity)}};\n{{?}}\n\n{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n-- 删除字段：\n{{=buildRemovedDDL(entity)}};\n{{?}}\n{{~}}\n{{?}}"
       },
       {
         "type": "dbDDL",
@@ -214,13 +236,16 @@
         "isDefault": true,
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' AUTO_INCREMENT' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChanged(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push('代码:'+(before.defKey||'NULL')+'->'+(after.defKey||'NULL'));\n        }\n        if(before.defName !== after.defName){\n            ret.push('显示名称:'+(before.defName||'NULL')+'->'+(after.defName||'NULL'));\n        }\n        if(before.comment !== after.comment){\n            ret.push('说明:'+(before.comment||'NULL')+'->'+(after.comment||'NULL'));\n        }\n        if(ret.length>0){\n            return '    基本信息:\\n\\t'+ret.join('\\n\\t');\n        }\n        return '';\n    };\n    \n    function buildAddedDesc(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        \n        for (let field of fieldAdded) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildRemovedDesc(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        \n        for (let field of fieldRemoved) { \n            let row = [];\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n    \n    function buildModifiedDesc(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        for (let field1 of fieldModified) { \n            let row = [];\n            let field = field1.before;\n            row.push(field.defKey+'['+field.defName+']');\n            ret.push(row.join(\"\"))\n        }\n        return ret;\n    };\n}}\n\n\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=entity.data.defKey}}[{{=entity.data.defName}}]\n{{~}}\n{{?}}\n\n{{? modifyEntities && modifyEntities.length > 0}}\n/* --------------- 修改表 --------------- */\n{{~ modifyEntities:entity}}\n{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]{{let changeText=baseChanged(entity.data.baseChanged);}}\n{{=baseChanged(entity.data.baseChanged)}}\n    {{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n    修改字段：\n    {{='\\t'}}{{=buildModifiedDesc(entity).join('\\n\\t')}}{{?}}{{\n        /*计算是否调整了属性*/\n        let propAdded = entity.data.propAdded || [];\n        let propRemoved = entity.data.propRemoved || [];\n        let propModified = entity.data.propModified || [];\n        let changed = propAdded.length>0 || propRemoved.length>0 || propModified.length>0;\n        /*计算关联是否调整*/\n        let refEntityAdd = entity.data.refEntityAdd || [];\n        let refEntityRemoved = entity.data.refEntityRemoved || [];\n        let relaArray = [];\n        for (let rela of refEntityAdd) {\n            relaArray.push('建立关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        for (let rela of refEntityRemoved) {\n            relaArray.push('解除关联:'+rela.defKey+'['+rela.defName+']');\n        }\n        /*索引是否修改过*/\n        let indexChanged = entity.data.indexChanged;\n    }}{{=indexChanged?'\\n\\t更改了索引':''}}{{=changed?'\\n\\t更改了属性':''}}{{=relaArray.length>0?('\\n\\t'+relaArray.join('\\n\\t')):''}}\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n    添加字段：\n{{='\\t'}}{{=buildAddedDesc(entity).join('\\n\\t')}}\n{{?}}{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n    删除字段：\n{{='\\t'}}{{=buildRemovedDesc(entity).join('\\n\\t')}}\n{{?}}\n{{~}}\n{{?}}",
+        "update": "{{\n    let createEntities = it.changes.filter(function(row){return (row.opt==='add'&&row['type']==='entity');});\n    let dropEntities   = it.changes.filter(function(row){return (row.opt==='delete'&&row['type']==='entity');});\n    let modifyEntities = it.changes.filter(function(row){return (row.opt==='update'&&row['type']==='entity');});\n    \n    function baseChangedDDL(beforeAfter){\n        if(beforeAfter == null){\n            return '';\n        }\n        let ret = [];\n        let before = beforeAfter.before || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        let after = beforeAfter.after || {\"defKey\":\"\",\"defName\":\"\",\"comment\":\"\"};\n        if(before.defKey !== after.defKey){\n            ret.push(`ALTER TABLE ${before.defKey} RENAME TO ${after.defKey}`);\n        }\n        let commentText = '';\n        let commentChanged = false;\n        if(before.defName !== after.defName){\n            commentText = after.defName;\n            commentChanged = true;\n        }\n        if(before.comment !== after.comment){\n            commentChanged = true;\n            if(commentText){\n                commentText = (commentText+ ';'+after.comment)\n            }else{\n                commentText = after.comment\n            }\n        }\n        if(commentChanged){\n            let myText = `COMMENT ON TABLE ${after.defKey} IS '${commentText}'`;\n            ret.push(myText);\n        }\n        let baseText = '-- 基本信息:\\n';\n        return baseText+ret.join(';\\n')+';';\n    };\n    \n    function buildAddedDDL(entity){\n        let ret = [];\n        let fieldAdded = entity.data.fieldAdded||[];\n        if(fieldAdded.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldAdded) { \n            let ddlItem = `ADD COLUMN ${field.defKey} ${field.dbType}`;\n            /*处理数据类型长度*/\n            if(field.len>0){\n                ddlItem += ('('+field.len);\n                if(parseInt(field.scale)>0){\n                    ddlItem += (','+field.scale);\n                }\n                ddlItem += ')';\n            }\n            if(field.notNull){\n                ddlItem += ' NOT NULL';\n            }            \n            let defaultValue = field.defaultValue;\n            defaultValue = (defaultValue==null)?\"\":(\"\"+defaultValue);\n            if(defaultValue.length>0){\n                ddlItem += (' DEFAULT ' + defaultValue);\n            }\n\n            ret.push(`${firstDDL} ${ddlItem}`);\n            \n            /*处理字段注释*/\n            let fieldComments = [];\n            if(field.defName != null &&field.defName.length>0){\n                fieldComments.push(field.defName);\n            }\n            if(field.comment != null &&field.comment.length>0){\n                fieldComments.push(field.comment);\n            }\n            let commentText = fieldComments.join(';');\n            if(commentText != null && commentText.length > 0){\n                let commentDDL = `COMMENT ON COLUMN ${entity.data.baseInfo.defKey}.${field.defKey} IS '${commentText}'`;\n                 ret.push(commentDDL);\n            }\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildRemovedDDL(entity){\n        let ret = [];\n        let fieldRemoved = entity.data.fieldRemoved||[];\n        if(fieldRemoved.length == 0){\n            return '';\n        }\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldRemoved) { \n            ret.push(`${firstDDL} DROP COLUMN ${field.defKey}`);\n        }\n        return '\\n'+ret.join(';\\n');\n    };\n    \n    function buildModifiedDDL(entity){\n        let ret = [];\n        let fieldModified = entity.data.fieldModified||[];\n        \n        let firstDDL = `ALTER TABLE ${entity.data.baseInfo.defKey}`;\n        for (let field of fieldModified) { \n            let before = field.before || {};\n            let after = field.after || {};\n            if(before.defKey !== after.defKey){\n                let renameText = `ALTER TABLE ${entity.data.baseInfo.defKey} RENAME COLUMN ${before.defKey} TO ${after.defKey};`;\n                ret.push(renameText);\n            }\n            /*如果没有变化，则不生成变更语句*/\n            if(before.dbType === after.dbType \n            && before['len'] === after['len'] \n            && before.scale === after.scale\n            && before.primaryKey === after.primaryKey\n            && before.notNull === after.notNull\n            && before.autoIncrement === after.autoIncrement\n            && before.defaultValue === after.defaultValue){\n                continue;\n            }\n            if(before.dbType !== after.dbType || before.len !== after.len || before.scale !== after.scale){\n                let dbTypeDDL = `ALTER TABLE ${entity.data.baseInfo.defKey} ALTER COLUMN ${after.defKey} TYPE ${before.dbType}`;\n                if(after.len>0){\n                    dbTypeDDL += ('('+after.len);\n                    if(parseInt(after.scale)>0){\n                        dbTypeDDL += (','+after.scale);\n                    }\n                    dbTypeDDL += ')';\n                }\n                ret.push(dbTypeDDL+';');\n            }\n            \n            if(before.defaultValue !== after.defaultValue){\n                let defaultDDL = '';\n                let defaultValue = after.defaultValue;\n                defaultValue = (defaultValue==null)?\"NULL\":(\"\"+defaultValue);\n                if(defaultValue.length>0){\n                    defaultDDL += ('SET DEFAULT ' + defaultValue);\n                }\n                let defaultTpl = `ALTER TABLE ${entity.data.baseInfo.defKey} ALTER COLUMN ${defaultDDL};`;\n                ret.push(defaultTpl);\n            }\n            \n            if(before.notNull !== after.notNull){\n                let notNullDDL= 'SET NULL';\n                if(after.notNull){\n                    let notNullDDL= 'SET NOT NULL';\n                }\n                let notNullTpl = `ALTER TABLE ${entity.data.baseInfo.defKey} ALTER COLUMN ${notNullDDL};`;\n                ret.push(notNullTpl);\n            }\n        }\n        return ret;\n    };\n}}\n{{? createEntities && createEntities.length > 0}}\n/* --------------- 创建表 --------------- */\n{{~ createEntities:entity}}\n{{=it.func.createDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? dropEntities && dropEntities.length > 0}}\n/* --------------- 删除表 --------------- */\n{{~ dropEntities:entity}}\n{{=it.func.dropDDL(entity.data,entity['type'])}}\n{{~}}\n{{?}}\n\n\n{{? modifyEntities && modifyEntities.length > 0}}\n{{~ modifyEntities:entity}}\n/* --------------- 修改表 --------------- */\n-- 修改表：{{=entity.data.baseInfo.defKey}}[{{=entity.data.baseInfo.defName}}]\n{{=baseChangedDDL(entity.data.baseChanged)}}\n{{? entity.data.fieldModified && entity.data.fieldModified.length > 0}}\n-- 修改字段：\n{{=buildModifiedDDL(entity).join('\\n')}}\n{{?}}{{\n/*索引是否修改过*/\nlet indexChanged = entity.data.indexChanged;\n}}\n{{? indexChanged }}\n-- 索引重建\n{{=it.func.indexRebuildDDL(entity.data.baseInfo,entity.data.newIndexes,entity.data.fullFields,entity['type'])}}\n{{?}}\n\n{{? entity.data.fieldAdded && entity.data.fieldAdded.length > 0}}\n-- 添加字段：\n{{=buildAddedDDL(entity)}};\n{{?}}\n\n{{? entity.data.fieldRemoved && entity.data.fieldRemoved.length > 0}}\n-- 删除字段：\n{{=buildRemovedDDL(entity)}};\n{{?}}\n{{~}}\n{{?}}"
       },
       {
         "type": "appCode",
         "applyFor": "C7F57515-D42D-436F-8A7F-98C2D19F557C",
         "isDefault": true,
-        "content": "package cn.com.chiner.entity;\n$blankline\nimport javax.persistence.*;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n /**\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\n@Table(name=\"{{=it.entity.defKey}}\")\npublic class {{=it.func.camel(it.entity.defKey,true) }} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    {{? field.primaryKey }}\n    @Id\n    @GeneratedValue\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        this.{{=it.func.camel(field.defKey,false)}}={{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}"
+        "content": "package cn.com.chiner.entity;\n$blankline\nimport javax.persistence.*;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n /**\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\n@Table(name=\"{{=it.entity.defKey}}\")\npublic class {{=it.func.camel(it.entity.defKey,true) }} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    {{? field.primaryKey }}\n    @Id\n    @GeneratedValue\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        this.{{=it.func.camel(field.defKey,false)}}={{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}",
+        " JpaBean": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.entity;\n$blankline\nimport io.swagger.annotations.ApiModel;\nimport io.swagger.annotations.ApiModelProperty;\nimport javax.persistence.*;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n\n /**\n * {{=it.entity.defName}};{{=it.entity.comment}}\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@ApiModel(value = \"{{=it.entity.defName}}\",description = \"{{=it.entity.comment}}\")\n@Table(name=\"{{=it.entity.defKey}}\")\npublic class {{=beanClass}} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    {{? field.primaryKey }}\n    @Id\n    @GeneratedValue\n    {{?}}\n    @ApiModelProperty(name = \"{{=field.defName}}\",notes = \"{{=field.comment}}\")\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        this.{{=it.func.camel(field.defKey,false)}}={{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}"
       },
       {
         "type": "dbDDL",
@@ -228,7 +253,9 @@
         "isDefault": true,
         "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? '' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
       },
       {
         "type": "dbDDL",
@@ -236,13 +263,17 @@
         "isDefault": true,
         "createTable": "CREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? '' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ','('+field.defaultValue+')',' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
       },
       {
         "type": "appCode",
         "applyFor": "8456226E-B7E8-4784-AF89-652594A71CAA",
         "isDefault": true,
-        "content": "using System;\nusing System.Collections.Generic;\n\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n/*\n * @author : http://www.chiner.com.cn\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\nnamespace Chiner.Application\n{\n    public partial class {{=it.func.camel(it.entity.defKey,true) }}\n    {\n    \n        {{~it.entity.fields:field:index}}\n        /// <summary>\n        /// {{=it.func.join(field.defName,field.comment,';')}}\n        /// </summary>\n        public {{=field.type}} {{=it.func.camel(field.defKey,true)}} { get; set; }\n        $blankline\n        {{~}}\n        \n    }\n}"
+        "content": "using System;\nusing System.Collections.Generic;\n\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n/*\n * @author : http://www.chiner.com.cn\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\nnamespace Chiner.Application\n{\n    public partial class {{=it.func.camel(it.entity.defKey,true) }}\n    {\n    \n        {{~it.entity.fields:field:index}}\n        /// <summary>\n        /// {{=it.func.join(field.defName,field.comment,';')}}\n        /// </summary>\n        public {{=field.type}} {{=it.func.camel(field.defKey,true)}} { get; set; }\n        $blankline\n        {{~}}\n        \n    }\n}",
+        "Default": "using System;\nusing System.Collections.Generic;\n\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n}}\n/*\n * @author : http://www.chiner.com.cn\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\nnamespace PDManer.Application\n{\n    public partial class {{=it.func.camel(it.entity.defKey,true) }}\n    {\n    \n        {{~it.entity.fields:field:index}}\n        /// <summary>\n        /// {{=it.func.join(field.defName,field.comment,';')}}\n        /// </summary>\n        public {{=field.type}} {{=it.func.camel(field.defKey,true)}} { get; set; }\n        $blankline\n        {{~}}\n        \n    }\n}",
+        "SqlSugar": "using System;\nusing System.Collections.Generic;\nusing SqlSugar;\n\n$blankline\n{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    var sqlSugartable='[SugarTable(\"{{=it.entity.defKey}}\", TableDescription = \"{{=it.func.join(it.entity.defName,it.entity.comment,';')}}\")]';\n}}\n/*\n * @author : xkdong@163.com\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n * @desc : {{=it.func.join(it.entity.defName,it.entity.comment,'-')}}\n */\nnamespace Model.DBModel\n{\n    /// <summary>\n    /// {{=it.func.join(it.entity.defName,it.entity.comment,';')}}\n    /// </summary>\n    {{=sqlSugartable}}\n    public class {{=it.entity.defKey}}\n    {\n        {{~it.entity.fields:field:index}}\n        /// <summary>\n        /// {{=it.func.join(field.defName,field.comment,';')}}\n        /// </summary>\n        {{? field.primaryKey }}\n        [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]\n        {{?}}\n        public {{=field.type}} {{=it.func.camel(field.defKey,true)}}{ get; set; }\n        $blankline\n        {{~}}\n    }\n}"
       },
       {
         "type": "dbDDL",
@@ -250,7 +281,9 @@
         "isDefault": true,
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= field.autoIncrement ? ' AUTO_INCREMENT' : '' }}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
       },
       {
         "type": "dbDDL",
@@ -258,7 +291,9 @@
         "isDefault": true,
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{= field.defaultValue ? it.func.join(' DEFAULT ',field.defaultValue,' ') : '' }}{{?}}{{= field.notNull ? ' NOT NULL' : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n);\n$blankline\n{{? it.entity.defKey || it.entity.defName}}COMMENT ON TABLE {{=it.entity.defKey}} IS '{{=it.func.join(it.entity.defName,it.entity.comment,';')}}';{{?}}\n{{~it.entity.fields:field:index}}\n{{? field.defName || field.comment}}COMMENT ON COLUMN {{=it.entity.defKey}}.{{=field.defKey}} IS '{{=it.func.join(field.defName,field.comment,';')}}';{{?}}\n{{~}}",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
       },
       {
         "type": "dbDDL",
@@ -272,14 +307,54 @@
         "isDefault": true,
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.autoIncrement ? 'AUTO_INCREMENT' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }} COMMENT '{{=it.func.join(field.defName,field.comment,';')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  COMMENT = '{{=it.func.join(it.entity.defName,it.entity.comment,';') }}';\n$blankline\n",
         "createIndex": "",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
       },
       {
         "applyFor": "6BB28775-DB72-466F-AEA2-A68E5E986E1E",
         "type": "dbDDL",
         "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    {{=field.defKey}} {{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.autoIncrement ? 'AUTOINCREMENT' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }}{{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }} --{{=it.func.join(field.defName,field.comment,';')}}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  ; --{{=it.func.join(it.entity.defName,it.entity.comment,';') }}\n$blankline\n",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX {{=index.defKey}} ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
-        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n"
+        "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
+        "message": "",
+        "update": ""
+      },
+      {
+        "applyFor": "895CFD1D-4273-4D32-A2C4-CAC70200AB5B",
+        "type": "appCode",
+        "Controller": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.controller;\n$blankline\nimport io.swagger.annotations.Api;\nimport io.swagger.annotations.ApiOperation;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.data.domain.Page;\nimport org.springframework.data.domain.PageRequest;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.web.bind.annotation.*;\nimport {{=pkgName}}.entity.{{=beanClass}};\nimport {{=pkgName}}.service.{{=serviceClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表控制层\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Api(tags = \"{{=it.entity.defName}}对象功能接口\")\n@RestController\n@RequestMapping(\"/{{=it.func.camel(it.entity.defKey,false)}}\")\npublic class {{=beanClass}}Controller{\n    @Autowired\n    private {{=serviceClass}} {{=serviceVarName}};\n    $blankline\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    @ApiOperation(\"通过ID查询单条数据\")\n    @GetMapping(\"{{{=it.func.camel(pkVarName,false)}}}\")\n    public ResponseEntity<{{=beanClass}}> queryById({{=pkDataType}} {{=pkVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.queryById({{=pkVarName}}));\n    }\n    $blankline\n    /** \n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param pageRequest 分页对象\n     * @return 查询结果\n     */\n    @ApiOperation(\"分页查询\")\n    @GetMapping\n    public ResponseEntity<Page<{{=beanClass}}>> paginQuery({{=beanClass}} {{=beanVarName}}, PageRequest pageRequest){\n        return ResponseEntity.ok({{=serviceVarName}}.paginQuery({{=beanVarName}}, pageRequest));\n    }\n    $blankline\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    @ApiOperation(\"新增数据\")\n    @PostMapping\n    public ResponseEntity<{{=beanClass}}> add({{=beanClass}} {{=beanVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.insert({{=beanVarName}}));\n    }\n    $blankline\n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    @ApiOperation(\"更新数据\")\n    @PutMapping\n    public ResponseEntity<{{=beanClass}}> edit({{=beanClass}} {{=beanVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.update({{=beanVarName}}));\n    }\n    $blankline\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    @ApiOperation(\"通过主键删除数据\")\n    @DeleteMapping\n    public ResponseEntity<Boolean> deleteById({{=pkDataType}} {{=pkVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.deleteById({{=pkVarName}}));\n    }\n}",
+        "Service": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.service;\n$blankline\nimport org.springframework.data.domain.Page;\nimport org.springframework.data.domain.PageRequest;\nimport {{=pkgName}}.entity.{{=beanClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表服务接口\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\npublic interface {{=serviceClass}}{\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    {{=beanClass}} queryById({{=pkDataType}} {{=pkVarName}});\n    \n    /** \n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param pageRequest 分页对象\n     * @return 查询结果\n     */\n    Page<{{=beanClass}}> paginQuery({{=beanClass}} {{=beanVarName}}, PageRequest pageRequest);\n\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    {{=beanClass}} insert({{=beanClass}} {{=beanVarName}});\n\n    \n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    {{=beanClass}} update({{=beanClass}} {{=beanVarName}});\n\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    boolean deleteById({{=pkDataType}} {{=pkVarName}});\n}",
+        "ServiceImpl": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkVarNameU = \"UndefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkVarNameU = it.func.camel(field.defKey,true);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    var mapperName = beanVarName+'Mapper';\n    \n}}package {{=pkgName}}.service.impl;\n$blankline\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Service;\nimport org.springframework.data.domain.Page;\nimport org.springframework.data.domain.PageImpl;\nimport org.springframework.data.domain.PageRequest;\nimport {{=pkgName}}.entity.{{=beanClass}};\nimport {{=pkgName}}.mapper.{{=beanClass}}Mapper;\nimport {{=pkgName}}.service.{{=serviceClass}};\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表服务实现类\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Service\npublic class {{=serviceClass}}Impl implements {{=serviceClass}}{\n    @Autowired\n    private {{=beanClass}}Mapper {{=mapperName}};\n    $blankline\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    public {{=beanClass}} queryById({{=pkDataType}} {{=pkVarName}}){\n        return {{=mapperName}}.queryById({{=pkVarName}});\n    }\n    $blankline\n    /** \n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param pageRequest 分页对象\n     * @return 查询结果\n     */\n    public Page<{{=beanClass}}> paginQuery({{=beanClass}} {{=beanVarName}}, PageRequest pageRequest){\n        long total = {{=mapperName}}.count({{=beanVarName}});\n        return new PageImpl<>({{=mapperName}}.queryAllByLimit({{=beanVarName}}, pageRequest), pageRequest, total);\n    }\n    $blankline\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    public {{=beanClass}} insert({{=beanClass}} {{=beanVarName}}){\n        {{=mapperName}}.insert({{=beanVarName}});\n        return {{=beanVarName}};\n    }\n    $blankline\n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    public {{=beanClass}} update({{=beanClass}} {{=beanVarName}}){\n        {{=mapperName}}.update({{=beanVarName}});\n        return queryById({{=beanVarName}}.get{{=pkVarNameU}}());\n    }\n    $blankline\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    public boolean deleteById({{=pkDataType}} {{=pkVarName}}){\n        int total = {{=mapperName}}.deleteById({{=pkVarName}});\n        return total > 0;\n    }\n}",
+        "Mapper": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.mapper;\n$blankline\nimport java.util.List;\nimport org.apache.ibatis.annotations.Mapper;\nimport org.apache.ibatis.annotations.Param;\nimport org.springframework.data.domain.Pageable;\nimport {{=pkgName}}.entity.{{=beanClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表数据库访问层\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Mapper\npublic interface {{=beanClass}}Mapper{\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    {{=beanClass}} queryById({{=pkDataType}} {{=pkVarName}});\n    \n    /** \n     * 分页查询指定行数据\n     *\n     * @param {{=beanVarName}} 查询条件\n     * @param pageable 分页对象\n     * @return 对象列表\n     */\n    List<{{=beanClass}}> queryAllByLimit({{=beanClass}} {{=beanVarName}}, @Param(\"pageable\") Pageable pageable);\n\n    /** \n     * 统计总行数\n     *\n     * @param {{=beanVarName}} 查询条件\n     * @return 总行数\n     */\n    long count({{=beanClass}} {{=beanVarName}});\n\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 影响行数\n     */\n    int insert({{=beanClass}} {{=beanVarName}});\n\n    /** \n     * 批量新增数据\n     *\n     * @param entities List<{{=beanClass}}> 实例对象列表\n     * @return 影响行数\n     */\n    int insertBatch(@Param(\"entities\") List<{{=beanClass}}> entities);\n    \n    /** \n     * 批量新增或按主键更新数据\n     *\n     * @param entities List<{{=beanClass}}> 实例对象列表\n     * @return 影响行数\n     */\n    int insertOrUpdateBatch(@Param(\"entities\") List<{{=beanClass}}> entities);\n    \n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 影响行数\n     */\n    int update({{=beanClass}} {{=beanVarName}});\n\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 影响行数\n     */\n    int deleteById({{=pkDataType}} {{=pkVarName}});\n}",
+        "Mapper.xml": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    var pkField = \"UNDEFINED_ID\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkField = field.defKey;\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n<mapper namespace=\"{{=pkgName}}.mapper.{{=beanClass}}Mapper\">\n    <resultMap type=\"{{=pkgName}}.entity.{{=beanClass}}\" id=\"{{=beanClass}}Map\">\n    {{~it.entity.fields:field:index}}\n        <result property=\"{{=it.func.camel(field.defKey,false)}}\" column=\"{{=field.defKey}}\" jdbcType=\"{{=field.dbType}}\"/>\n    {{~}}\n    </resultMap>\n    $blankline\n    <!-- 通过ID查询单条数据 -->\n    <select id=\"queryById\" resultMap=\"{{=beanClass}}Map\">\n        select\n            {{=it.entity.fields.map(function(e,i){return e.defKey}).join(',')}}\n        from {{=it.entity.defKey}}\n        where {{=pkField}} = #{{{=pkVarName}}}\n    </select>\n    $blankline\n    <!--分页查询指定行数据-->\n    <select id=\"queryAllByLimit\" resultMap=\"{{=beanClass}}Map\">\n        select\n            {{=it.entity.fields.map(function(e,i){return e.defKey}).join(',')}}\n        from {{=it.entity.defKey}}\n        <where>\n        {{~it.entity.fields:field:index}}\n            <if test=\"{{=it.func.camel(field.defKey,false)}} != null and {{=it.func.camel(field.defKey,false)}} != ''\">\n                and {{=field.defKey}} = #{{{=it.func.camel(field.defKey,false)}}}\n            </if>\n        {{~}}\n        </where>\n        limit #{pageable.offset}, #{pageable.pageSize}\n    </select>\n    $blankline\n    <!--统计总行数-->\n    <select id=\"count\" resultType=\"java.lang.Long\">\n        select count(1)\n        from {{=it.entity.defKey}}\n        <where>\n        {{~it.entity.fields:field:index}}\n            <if test=\"{{=it.func.camel(field.defKey,false)}} != null and {{=it.func.camel(field.defKey,false)}} != ''\">\n                and {{=field.defKey}} = #{{{=it.func.camel(field.defKey,false)}}}\n            </if>\n        {{~}}\n        </where>\n    </select>\n    $blankline\n    <!--新增数据-->\n    <insert id=\"insert\" keyProperty=\"{{=pkField}}\" useGeneratedKeys=\"true\">\n        insert into {{=it.entity.defKey}}({{=it.entity.fields.map(function(e,i){return e.defKey}).join(',')}})\n        values ({{=it.entity.fields.map(function(e,i){return '#{'+it.func.camel(e.defKey,false)+'}'}).join(',')}})\n    </insert>\n    $blankline\n    <!-- 批量新增数据 -->\n    <insert id=\"insertBatch\" keyProperty=\"{{=pkField}}\" useGeneratedKeys=\"true\">\n        insert into {{=it.entity.defKey}}({{=it.entity.fields.map(function(e,i){return e.defKey}).join(',')}})\n        values\n        <foreach collection=\"entities\" item=\"entity\" separator=\",\">\n            ({{=it.entity.fields.map(function(e,i){return '#{entity.'+it.func.camel(e.defKey,false)+'}'}).join(',')}})\n        </foreach>\n    </insert>\n    $blankline\n    <!-- 批量新增或按主键更新数据 -->\n    <insert id=\"insertOrUpdateBatch\" keyProperty=\"{{=pkField}}\" useGeneratedKeys=\"true\">\n        insert into {{=it.entity.defKey}}({{=it.entity.fields.map(function(e,i){return e.defKey}).join(',')}})\n        values\n        <foreach collection=\"entities\" item=\"entity\" separator=\",\">\n            ({{=it.entity.fields.map(function(e,i){return '#{entity.'+it.func.camel(e.defKey,false)+'}'}).join(',')}})\n        </foreach>\n        on duplicate key update\n        {{=it.entity.fields.map(function(e,i){return e.defKey + '=values('+e.defKey+')'}).join(',\\n\\t\\t')}}\n    </insert>\n    $blankline\n    <!-- 更新数据 -->\n    <update id=\"update\">\n        update {{=it.entity.defKey}}\n        <set>\n        {{~it.entity.fields:field:index}}\n            <if test=\"{{=it.func.camel(field.defKey,false)}} != null and {{=it.func.camel(field.defKey,false)}} != ''\">\n                {{=field.defKey}} = #{{{=it.func.camel(field.defKey,false)}}},\n            </if>\n        {{~}}\n        </set>\n        where {{=pkField}} = #{{{=pkVarName}}}\n    </update>\n    $blankline\n    <!--通过主键删除-->\n    <delete id=\"deleteById\">\n        delete from {{=it.entity.defKey}} where {{=pkField}} = #{{{=pkVarName}}}\n    </delete>\n</mapper>\n\n",
+        "Entity": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.entity;\n$blankline\nimport io.swagger.annotations.ApiModel;\nimport io.swagger.annotations.ApiModelProperty;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n\n /**\n * {{=it.entity.defName}};{{=it.entity.comment}}\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@ApiModel(value = \"{{=it.entity.defName}}\",description = \"{{=it.entity.comment}}\")\npublic class {{=beanClass}} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    @ApiModelProperty(name = \"{{=field.defName}}\",notes = \"{{=field.comment}}\")\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        this.{{=it.func.camel(field.defKey,false)}}={{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}"
+      },
+      {
+        "applyFor": "A2EE7B4A-CE62-4290-B00C-B26C1BF18073",
+        "type": "appCode",
+        "Controller": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.controller;\n$blankline\nimport java.util.List;\nimport io.swagger.annotations.Api;\nimport io.swagger.annotations.ApiOperation;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.data.domain.PageImpl;\nimport org.springframework.data.domain.PageRequest;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.web.bind.annotation.*;\nimport {{=pkgName}}.entity.{{=beanClass}};\nimport {{=pkgName}}.service.{{=serviceClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表控制层\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Api(tags = \"{{=it.entity.defName}}对象功能接口\")\n@RestController\n@RequestMapping(\"/{{=it.func.camel(it.entity.defKey,false)}}\")\npublic class {{=beanClass}}Controller{\n    @Autowired\n    private {{=serviceClass}} {{=serviceVarName}};\n    $blankline\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    @ApiOperation(\"通过ID查询单条数据\")\n    @GetMapping(\"{{{=it.func.camel(pkVarName,false)}}}\")\n    public ResponseEntity<{{=beanClass}}> queryById({{=pkDataType}} {{=pkVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.queryById({{=pkVarName}}));\n    }\n    $blankline\n    /** \n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param pageRequest 分页对象\n     * @return 查询结果\n     */\n    @ApiOperation(\"分页查询\")\n    @GetMapping\n    public ResponseEntity<PageImpl<{{=beanClass}}>> paginQuery({{=beanClass}} {{=beanVarName}}, PageRequest pageRequest){\n        //1.分页参数\n        long current = pageRequest.getPageNumber();\n        long size = pageRequest.getPageSize();\n\n        //2.分页查询\n        /*把Mybatis的分页对象做封装转换，MP的分页对象上有一些SQL敏感信息，还是通过spring的分页模型来封装数据吧*/\n        com.baomidou.mybatisplus.extension.plugins.pagination.Page<{{=beanClass}}> pageResult = {{=serviceVarName}}.paginQuery({{=beanVarName}}, current,size);\n\n        //3. 分页结果组装\n        List<{{=beanClass}}> dataList = pageResult.getRecords();\n        long total = pageResult.getTotal();\n        PageImpl<{{=beanClass}}> retPage = new PageImpl<{{=beanClass}}>(dataList,pageRequest,total);\n        return ResponseEntity.ok(retPage);\n    }\n    $blankline\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    @ApiOperation(\"新增数据\")\n    @PostMapping\n    public ResponseEntity<{{=beanClass}}> add({{=beanClass}} {{=beanVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.insert({{=beanVarName}}));\n    }\n    $blankline\n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    @ApiOperation(\"更新数据\")\n    @PutMapping\n    public ResponseEntity<{{=beanClass}}> edit({{=beanClass}} {{=beanVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.update({{=beanVarName}}));\n    }\n    $blankline\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    @ApiOperation(\"通过主键删除数据\")\n    @DeleteMapping\n    public ResponseEntity<Boolean> deleteById({{=pkDataType}} {{=pkVarName}}){\n        return ResponseEntity.ok({{=serviceVarName}}.deleteById({{=pkVarName}}));\n    }\n}",
+        "Service": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.service;\n$blankline\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\nimport {{=pkgName}}.entity.{{=beanClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表服务接口\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\npublic interface {{=serviceClass}}{\n    $blankline\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    {{=beanClass}} queryById({{=pkDataType}} {{=pkVarName}});\n    $blankline\n    /**\n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param current 当前页码\n     * @param size  每页大小\n     * @return\n     */\n    Page<{{=beanClass}}> paginQuery({{=beanClass}} {{=beanVarName}}, long current, long size);\n\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    {{=beanClass}} insert({{=beanClass}} {{=beanVarName}});\n\n    \n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    {{=beanClass}} update({{=beanClass}} {{=beanVarName}});\n\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    boolean deleteById({{=pkDataType}} {{=pkVarName}});\n}",
+        "ServiceImpl": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkVarNameU = \"UndefinedId\";\n    var pkFieldKey = \"UNDEFINED\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkFieldKey = field.defKey;\n            pkVarName = it.func.camel(field.defKey,false);\n            pkVarNameU = it.func.camel(field.defKey,true);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    var mapperName = beanVarName+'Mapper';\n    \n}}package {{=pkgName}}.service.impl;\n$blankline\nimport cn.hutool.core.util.StrUtil;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Service;\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\nimport com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;\n\nimport {{=pkgName}}.entity.{{=beanClass}};\nimport {{=pkgName}}.mapper.{{=beanClass}}Mapper;\nimport {{=pkgName}}.service.{{=serviceClass}};\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表服务实现类\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Service\npublic class {{=serviceClass}}Impl implements {{=serviceClass}}{\n    @Autowired\n    private {{=beanClass}}Mapper {{=mapperName}};\n    $blankline\n    /** \n     * 通过ID查询单条数据 \n     *\n     * @param {{=pkVarName}} 主键\n     * @return 实例对象\n     */\n    public {{=beanClass}} queryById({{=pkDataType}} {{=pkVarName}}){\n        return {{=mapperName}}.selectById({{=pkVarName}});\n    }\n    $blankline\n    /**\n     * 分页查询\n     *\n     * @param {{=beanVarName}} 筛选条件\n     * @param current 当前页码\n     * @param size  每页大小\n     * @return\n     */\n    public Page<{{=beanClass}}> paginQuery({{=beanClass}} {{=beanVarName}}, long current, long size){\n        //1. 构建动态查询条件\n        LambdaQueryWrapper<{{=beanClass}}> queryWrapper = new LambdaQueryWrapper<>();\n        {{~it.entity.fields.filter(function(e){return e[\"type\"]===\"String\"&&e.defKey !== pkFieldKey}):field:index}}\n        if(StrUtil.isNotBlank({{=beanVarName}}.get{{=it.func.camel(field.defKey,true)}}())){\n            queryWrapper.eq({{=beanClass}}::get{{=it.func.camel(field.defKey,true)}}, {{=beanVarName}}.get{{=it.func.camel(field.defKey,true)}}());\n        }\n        {{~}}\n\n        //2. 执行分页查询\n        Page<{{=beanClass}}> pagin = new Page<>(current , size , true);\n        IPage<{{=beanClass}}> selectResult = {{=mapperName}}.selectByPage(pagin , queryWrapper);\n        pagin.setPages(selectResult.getPages());\n        pagin.setTotal(selectResult.getTotal());\n        pagin.setRecords(selectResult.getRecords());\n\n        //3. 返回结果\n        return pagin;\n    }\n    $blankline\n    /** \n     * 新增数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    public {{=beanClass}} insert({{=beanClass}} {{=beanVarName}}){\n        {{=mapperName}}.insert({{=beanVarName}});\n        return {{=beanVarName}};\n    }\n    $blankline\n    /** \n     * 更新数据\n     *\n     * @param {{=beanVarName}} 实例对象\n     * @return 实例对象\n     */\n    public {{=beanClass}} update({{=beanClass}} {{=beanVarName}}){\n        //1. 根据条件动态更新\n        LambdaUpdateChainWrapper<{{=beanClass}}> chainWrapper = new LambdaUpdateChainWrapper<{{=beanClass}}>({{=mapperName}});\n        {{~it.entity.fields.filter(function(e){return e[\"type\"]===\"String\"&&e.defKey !== pkFieldKey}):field:index}}\n        if(StrUtil.isNotBlank({{=beanVarName}}.get{{=it.func.camel(field.defKey,true)}}())){\n            chainWrapper.eq({{=beanClass}}::get{{=it.func.camel(field.defKey,true)}}, {{=beanVarName}}.get{{=it.func.camel(field.defKey,true)}}());\n        }\n        {{~}}\n        //2. 设置主键，并更新\n        chainWrapper.set({{=beanClass}}::get{{=pkVarNameU}}, {{=beanVarName}}.get{{=pkVarNameU}}());\n        boolean ret = chainWrapper.update();\n        //3. 更新成功了，查询最最对象返回\n        if(ret){\n            return queryById({{=beanVarName}}.get{{=pkVarNameU}}());\n        }else{\n            return {{=beanVarName}};\n        }\n    }\n    $blankline\n    /** \n     * 通过主键删除数据\n     *\n     * @param {{=pkVarName}} 主键\n     * @return 是否成功\n     */\n    public boolean deleteById({{=pkDataType}} {{=pkVarName}}){\n        int total = {{=mapperName}}.deleteById({{=pkVarName}});\n        return total > 0;\n    }\n}",
+        "Mapper": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.mapper;\n$blankline\n\nimport com.baomidou.mybatisplus.core.conditions.Wrapper;\nimport com.baomidou.mybatisplus.core.mapper.BaseMapper;\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.baomidou.mybatisplus.core.toolkit.Constants;\nimport org.apache.ibatis.annotations.Mapper;\nimport org.apache.ibatis.annotations.Param;\nimport {{=pkgName}}.entity.{{=beanClass}};\n$blankline\n\n /**\n * {{=it.entity.defName}};({{=it.entity.defKey}})表数据库访问层\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@Mapper\npublic interface {{=beanClass}}Mapper  extends BaseMapper<{{=beanClass}}>{\n    /** \n     * 分页查询指定行数据\n     *\n     * @param page 分页参数\n     * @param wrapper 动态查询条件\n     * @return 分页对象列表\n     */\n    IPage<{{=beanClass}}> selectByPage(IPage<{{=beanClass}}> page , @Param(Constants.WRAPPER) Wrapper<{{=beanClass}}> wrapper);\n}",
+        "Mapper.xml": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    var pkField = \"UNDEFINED_ID\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkField = field.defKey;\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n$blankline\n\n<mapper namespace=\"{{=pkgName}}.mapper.{{=beanClass}}Mapper\">\n     <select id=\"selectByPage\" resultType=\"{{=pkgName}}.entity.{{=beanClass}}\">\n        select * from user ${ew.customSqlSegment}\n    </select>\n</mapper>\n\n",
+        "Entity": "{{  var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1;\n    var days=today.getDate();\n    \n    var pkVarName = \"undefinedId\";\n    var pkDataType = \"String\";\n    it.entity.fields.forEach(function(field){\n        if(field.primaryKey){\n            pkVarName = it.func.camel(field.defKey,false);\n            pkDataType = field[\"type\"];\n            return;\n        }\n    });\n    \n    var pkgName = it.entity.env.base.nameSpace;\n    var beanClass = it.entity.env.base.codeRoot;\n    var beanVarName = beanClass.charAt(0).toLowerCase()+beanClass.slice(1);\n    var serviceClass = beanClass+'Service';\n    var serviceVarName= beanVarName+'Service';\n    \n}}package {{=pkgName}}.entity;\n$blankline\nimport io.swagger.annotations.ApiModel;\nimport io.swagger.annotations.ApiModelProperty;\nimport com.baomidou.mybatisplus.annotation.TableName;\nimport com.baomidou.mybatisplus.annotation.TableId;\nimport java.io.Serializable;\nimport java.util.Date;\n$blankline\n\n /**\n * {{=it.entity.defName}};{{=it.entity.comment}}\n * @author : http://www.chiner.pro\n * @date : {{=fullYear}}-{{=month}}-{{=days}}\n */\n@ApiModel(value = \"{{=it.entity.defName}}\",description = \"{{=it.entity.comment}}\")\n@TableName(\"{{=it.entity.defKey}}\")\npublic class {{=beanClass}} implements Serializable,Cloneable{\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    @ApiModelProperty(name = \"{{=field.defName}}\",notes = \"{{=field.comment}}\")\n    {{? field.primaryKey }}\n    @TableId\n    {{?}}\n    private {{=field.type}} {{=it.func.camel(field.defKey,false)}} ;\n{{~}}\n$blankline\n\n{{~it.entity.fields:field:index}}\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public {{=field.type}} get{{=it.func.camel(field.defKey,true)}}(){\n        return this.{{=it.func.camel(field.defKey,false)}};\n    }\n    /** {{=it.func.join(field.defName,field.comment,';')}} */\n    public void set{{=it.func.camel(field.defKey,true)}}({{=field.type}} {{= it.func.camel(field.defKey,false) }}){\n        this.{{=it.func.camel(field.defKey,false)}}={{=it.func.camel(field.defKey,false)}};\n    }\n{{~}}\n}"
+      },
+      {
+        "applyFor": "81CCA482-3F4D-4EAC-8CF9-F5E7BC098AD2",
+        "type": "dbDDL",
+        "createTable": "/**字段名,关键字等全部用的小写*/\ndrop table if exists {{=it.entity.defKey}};\n/**补充上库名,external关键字根据建表规范看是否添加*/\ncreate [external] table if not exists {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n/**这里把varchar,char,text,date,datetime字段全部映射为string类型.tinyint unsigned,bit,Integer,tinyint,smallint,mediumint映射为int类型,int unsigned映射为bigint.其它自定义映射规则根据自己情况修改*/\n/**当长度>0只有为decimal类型或double类型时才保留长度和小数的位数*/\n{{~it.entity.fields:field:index}}\n    {{=it.func.lowerCase(field.defKey)}} {{=it.func.lowerCase(field.dbType)=='varchar'||it.func.lowerCase(field.dbType)=='char'||it.func.lowerCase(field.dbType)=='text'||it.func.lowerCase(field.dbType)=='date'||it.func.lowerCase(field.dbType)=='datetime' ? 'string':it.func.lowerCase(field.dbType)=='tinyint unsigned'||it.func.lowerCase(field.dbType)=='bit'||it.func.lowerCase(field.dbType)=='integer'||it.func.lowerCase(field.dbType)=='tinyint'||it.func.lowerCase(field.dbType)=='smallint'||it.func.lowerCase(field.dbType)=='mediumint' ? 'int':it.func.lowerCase(field.dbType)=='int unsigned' ? 'bigint':it.func.lowerCase(field.dbType)}}{{?field.len>0&&(it.func.lowerCase(field.dbType)=='decimal'||it.func.lowerCase(field.dbType)=='double')}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{=')'}}{{?}}{{?}} comment '{{=it.func.join(field.defName,field.comment,'')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n{{?}}\n)\n{{\n    let partitionedBy = it.entity.properties['partitioned by'];\n    partitionedBy = partitionedBy?partitionedBy:'请在扩展属性中配置[partitioned by]属性';\n}}\ncomment '{{=it.func.join(it.entity.defName,';') }}'\n/**是否分区表,分区字段名和字段注释自定义*/\n[partitioned by {{=partitionedBy}}]\n/**文件存储格式自定义*/\n[stored as orc]\n/**hdfs上的地址自定义*/\n[location xxx]\n;",
+        "createView": "",
+        "deleteTable": "",
+        "createIndex": "",
+        "deleteIndex": "",
+        "message": "",
+        "update": ""
+      },
+      {
+        "applyFor": "B91D99E0-9B7C-416C-8737-B760957DAF09",
+        "type": "appCode",
+        "content": "{{\n    var today=new Date();\n    var fullYear=today.getFullYear();\n    var month=today.getMonth() + 1<10?\"0\"+today.getMonth():today.getMonth();\n    var days=today.getDate()<10?\"0\"+today.getDate():today.getDate();\n    var hours = today.getHours()<10?\"0\"+today.getHours():today.getHours();         \n\tvar minutes = today.getMinutes()<10?\"0\"+today.getMinutes():today.getMinutes();      \n\tvar seconds = today.getSeconds()<10?\"0\"+today.getSeconds():today.getSeconds();    \n}}\n// Package models  {{=it.func.join(it.entity.defName,it.entity.comment,'，')}}\n// author : http://www.liyang.love\n// date : {{=fullYear}}-{{=month}}-{{=days}} {{=hours}}:{{=minutes}}\n// desc : {{=it.func.join(it.entity.defName,it.entity.comment,'，')}}\npackage models\n\n$blankline\n\n// {{=it.func.camel(it.entity.defKey,true) }}  {{=it.func.join(it.entity.defName,it.entity.comment,'，')}}。\n// 说明:{{=it.entity.comment}}\n// 表名:{{=it.entity.defKey}}\n// group: {{=it.func.camel(it.entity.defKey,true) }}\n// obsolete:\n// appliesto:go 1.8+;\n// namespace:hongmouer.his.models.{{=it.func.camel(it.entity.defKey,true) }}\n// assembly: hongmouer.his.models.go\n// class:HongMouer.HIS.Models.{{=it.func.camel(it.entity.defKey,true) }}\n// version:{{=fullYear}}-{{=month}}-{{=days}} {{=hours}}:{{=minutes}}\ntype {{=it.func.camel(it.entity.defKey,true) }} struct {\n    {{~it.entity.fields:field:index}}\n    {{=formatGoLang(it.func.camel(field.defKey,true),null,field,it.entity.fields,null,1)}} {{=formatGoLang(field.type,\"type\",field,it.entity.fields,10,3)}}  `gorm:\"column:{{=field.primaryKey?\"primaryKey;\":\"\"}}{{=field.defKey}}\" json:\"{{=it.func.camel(field.defKey,true)}}\"` {{=formatGoLang(\"gorm:column:\"+field.defKey+\" json:\"+it.func.camel(field.defKey,true),null,field,it.entity.fields,null,2)}}  //type:{{=formatGoLang(field.type,\"type\",field,it.entity.fields,null,3)}}  comment:{{=formatGoLang(it.func.join(field.defName,field.comment,';'),\"defName\",field,it.entity.fields,null,4)}}  version:{{=fullYear}}-{{=month}}-{{=days}} {{=hours}}:{{=minutes}}\n    {{~}}\n}\n\n\n$blankline\n// TableName 表名:{{=it.entity.defKey}}，{{=it.entity.defName}}。\n// 说明:{{=it.entity.comment}}\nfunc (ZentaoUserInfo) TableName() string {\n\treturn \"{{=it.entity.defKey}}\"\n}\n\n{{\n\nfunction formatGoLang(str, fieldName, field, fileds, emptLength, isFiled) {\n    var maxLength = 0;\n\n    if (isFiled == 1) {\n        for (var i = 0; i < fileds.length; i++) {\n            if (getBlength(it.func.camel(fileds[i].defKey, true)) > maxLength) {\n                maxLength = getBlength(it.func.camel(fileds[i].defKey, true)) + 2;\n            }\n        }\n    } else if (isFiled == 2) {\n        for (var i = 0; i < fileds.length; i++) {\n            var newStr = \"gorm:column:\" + fileds[i].defKey + \" json:\" + it.func.camel(fileds[i].defKey, true);\n            if (getBlength(newStr) > maxLength) {\n                maxLength = getBlength(newStr) + 2;\n            }\n        }\n        var empt = \"\";\n        var strLength = getBlength(str);\n        if (field.primaryKey) {\n            strLength += getBlength(\"primaryKey;\");\n        }\n        for (var j = 0; j < maxLength - strLength; j++) {\n            empt += ' ';\n        }\n        return empt;\n    } else if (isFiled == 3) {\n        /*获取某个字段的最大长度*/\n        for (var i = 0; i < fileds.length; i++) {\n            var newStr = eval(\"fileds[\" + i + \"].\" + fieldName);\n            if (getBlength(newStr) > maxLength) {\n                maxLength = getBlength(newStr) + 1;\n            }\n        }\n    } else if (isFiled == 4) {\n        /*获取某个字段的最大长度*/\n        for (var i = 0; i < fileds.length; i++) {\n            var newStr = fileds[i].comment + \";\" + fileds[i].defName;\n            if (getBlength(newStr) > maxLength) {\n                maxLength = getBlength(newStr) + 1;\n            }\n        }\n    }\n    else {\n        maxLength = emptLength;\n    }\n\n    var strLength = getBlength(str);\n    for (var j = 0; j < maxLength - strLength; j++) {\n        str += ' ';\n    }\n    return str;\n}\n\nfunction getBlength(str) {\n    var n = 0;\n    for (var i = str.length; i--;) {\n        n += str.charCodeAt(i) > 255 ? 2 : 1;\n    }\n    return n;\n} \n\n}}"
       }
     ],
     "generatorDoc": {
@@ -343,7 +418,69 @@
         "id": "47B4B487-EFD9-4BFA-9F44-31AD1B2BFEA7"
       }
     ],
-    "menuWidth": "310px"
+    "menuWidth": "310px",
+    "headers": [
+      {
+        "refKey": "defKey",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "defName",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "primaryKey",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "notNull",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "autoIncrement",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "domain",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "type",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "len",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "scale",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "comment",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "refDict",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "defaultValue",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "isStandard",
+        "hideInGraph": false
+      },
+      {
+        "refKey": "uiHint",
+        "hideInGraph": true
+      },
+      {
+        "refKey": "extProps",
+        "hideInGraph": true
+      }
+    ]
   },
   "entities": [
     {
@@ -355,6 +492,16 @@
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
+          "freeze": true,
+          "refKey": "hideInGraph",
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true
+        },
+        {
           "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false,
@@ -365,7 +512,7 @@
           "relationNoShow": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": true,
           "code": "chnname",
@@ -375,7 +522,7 @@
           "relationNoShow": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "primaryKey",
           "hideInGraph": false,
           "code": "pk",
@@ -436,16 +583,6 @@
         },
         {
           "freeze": false,
-          "refKey": "comment",
-          "hideInGraph": true,
-          "code": "remark",
-          "value": "说明",
-          "newCode": "comment",
-          "com": "Input",
-          "relationNoShow": true
-        },
-        {
-          "freeze": false,
           "refKey": "scale",
           "hideInGraph": false,
           "code": "scale",
@@ -453,6 +590,16 @@
           "newCode": "scale",
           "com": "Input",
           "relationNoShow": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "freeze": false,
@@ -476,6 +623,16 @@
         },
         {
           "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false
+        },
+        {
+          "freeze": false,
           "refKey": "uiHint",
           "hideInGraph": true,
           "code": "uiHint",
@@ -485,24 +642,9 @@
           "relationNoShow": true
         },
         {
-          "freeze": false,
-          "refKey": "hideInGraph",
+          "refKey": "extProps",
           "hideInGraph": true,
-          "code": "relationNoShow",
-          "value": "关系图",
-          "newCode": "hideInGraph",
-          "com": "Icon",
-          "relationNoShow": true
-        },
-        {
-          "freeze": false,
-          "refKey": "isStandard",
-          "hideInGraph": false,
-          "code": "isStandard",
-          "value": "标准字段",
-          "newCode": "isStandard",
-          "com": "label",
-          "relationNoShow": false
+          "freeze": false
         }
       ],
       "fields": [
@@ -688,7 +830,24 @@
           "id": "64C31982-EB4A-49B7-B192-E5BC9ABEEFF5"
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "955A5F70-AB44-48A4-91BD-E68CD12D4069",
+          "refEntity": "30600614-A11A-40C3-9AC3-052F79978E12",
+          "refField": "40B0AD66-91B0-4413-9611-652D2D76B0C5",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        },
+        {
+          "myField": "955A5F70-AB44-48A4-91BD-E68CD12D4069",
+          "refEntity": "0875E2EC-C66A-496D-A0A1-47E847218E1D",
+          "refField": "77285098-F72A-4AAC-9BC6-75C6D0EC371B",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
       "indexes": []
     },
     {
@@ -700,7 +859,7 @@
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
-          "freeze": false,
+          "freeze": true,
           "refKey": "hideInGraph",
           "hideInGraph": true,
           "code": "relationNoShow",
@@ -710,7 +869,7 @@
           "relationNoShow": true
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false,
           "code": "name",
@@ -720,7 +879,7 @@
           "relationNoShow": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": false,
           "code": "chnname",
@@ -848,6 +1007,11 @@
           "newCode": "uiHint",
           "com": "Select",
           "relationNoShow": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
         }
       ],
       "fields": [
@@ -1145,7 +1309,16 @@
           "id": "DAC80D69-53DB-410F-B727-5EB16C5852AC"
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "397D8CEB-B660-4CC2-AA87-6B6868FA4B85",
+          "refEntity": "00B17DD2-B63A-4FCD-A108-BBFE1E967350",
+          "refField": "82264184-B860-4503-A95E-70A7C18F3D3A",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
       "indexes": []
     },
     {
@@ -1157,17 +1330,17 @@
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
-          "freeze": false,
+          "freeze": true,
           "refKey": "hideInGraph",
           "hideInGraph": true
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": false
         },
@@ -1230,6 +1403,11 @@
           "freeze": false,
           "refKey": "uiHint",
           "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
         }
       ],
       "fields": [
@@ -1527,7 +1705,16 @@
           "id": "1D8F97B6-B83C-4E11-B09F-1F203527CAEB"
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "1695E1E6-2E42-4AB5-90E3-1C3F6EA80D6B",
+          "refEntity": "0875E2EC-C66A-496D-A0A1-47E847218E1D",
+          "refField": "CCCB86E0-F3AB-42C8-BEE5-E5B1E76F3CC3",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
       "indexes": []
     },
     {
@@ -1539,17 +1726,17 @@
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
-          "freeze": false,
+          "freeze": true,
           "refKey": "hideInGraph",
           "hideInGraph": true
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": false
         },
@@ -1612,6 +1799,11 @@
           "freeze": false,
           "refKey": "uiHint",
           "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
         }
       ],
       "fields": [
@@ -1664,7 +1856,16 @@
           "id": "40B0AD66-91B0-4413-9611-652D2D76B0C5"
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "94197DB1-4B41-4F1C-8C4D-F9EA1F333C36",
+          "refEntity": "8B5A7FB0-9D6C-47AF-AB82-F235585BB770",
+          "refField": "397D8CEB-B660-4CC2-AA87-6B6868FA4B85",
+          "myRows": "n",
+          "refRows": "1",
+          "innerType": ""
+        }
+      ],
       "indexes": []
     },
     {
@@ -1676,17 +1877,17 @@
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
-          "freeze": false,
+          "freeze": true,
           "refKey": "hideInGraph",
           "hideInGraph": true
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": false
         },
@@ -1749,6 +1950,11 @@
           "freeze": false,
           "refKey": "uiHint",
           "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
         }
       ],
       "fields": [
@@ -1805,25 +2011,25 @@
       "indexes": []
     },
     {
-      "id": "9B89525F-C36C-440C-A7DA-889C61C3493B",
-      "defKey": "sys_dictionary",
-      "defName": "系统字典表",
+      "id": "00B17DD2-B63A-4FCD-A108-BBFE1E967350",
+      "defKey": "sys_operation_log",
+      "defName": "系统操作日志表",
       "comment": "",
       "properties": {},
       "nameTemplate": "{defKey}[{defName}]",
       "headers": [
         {
-          "freeze": false,
+          "freeze": true,
           "refKey": "hideInGraph",
           "hideInGraph": true
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defKey",
           "hideInGraph": false
         },
         {
-          "freeze": true,
+          "freeze": false,
           "refKey": "defName",
           "hideInGraph": false
         },
@@ -1886,6 +2092,281 @@
           "freeze": false,
           "refKey": "uiHint",
           "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
+        }
+      ],
+      "fields": [
+        {
+          "defKey": "ID",
+          "defName": "主键id",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": true,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "92F0AE7C-B284-46E1-B4D0-ED62E75E9B48"
+        },
+        {
+          "defKey": "LOG_NUMBER",
+          "defName": "日志编号",
+          "comment": "",
+          "type": "BIGINT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "C1EBCAB8-DD18-40D1-A9B9-B0CCCF90B774"
+        },
+        {
+          "defKey": "IP_ADDRESS",
+          "defName": "请求IP地址",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 128,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "E780A721-245A-4A71-856C-CFFE32AA48BC"
+        },
+        {
+          "defKey": "OPERATOR",
+          "defName": "操作人员",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
+          "id": "82264184-B860-4503-A95E-70A7C18F3D3A"
+        },
+        {
+          "defKey": "REQUEST_WAY",
+          "defName": "请求方式",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 10,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "7E044BB8-C8D4-4FC1-B973-5BAF3EFFFC9D"
+        },
+        {
+          "defKey": "OPERATION_STATUS",
+          "defName": "操作状态",
+          "comment": "0异常 1成功",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "967EA675-BEE4-4698-B67C-2E31CCF4D53E"
+        },
+        {
+          "defKey": "SYSTEM_MODULE",
+          "defName": "系统模块",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 100,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "98E7C2C5-BA42-41E3-BEA6-ABE80A8682CE"
+        },
+        {
+          "defKey": "OPERATION_TYPE",
+          "defName": "操作类型",
+          "comment": "0登录日志 1操作日志",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "C832662F-E1E8-4CF8-9FA8-F1802B743D1D"
+        },
+        {
+          "defKey": "OPERATION_ADDRESS",
+          "defName": "操作地点",
+          "comment": "",
+          "type": "VARCHAR",
+          "len": 512,
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "",
+          "id": "AB08B267-5651-4335-97F6-F7FA7BA89E00"
+        },
+        {
+          "defKey": "LOG_TYPE",
+          "defName": "日志类型",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "96247443-9349-4A36-A179-00C909151FE8",
+          "id": "E95CB652-D1FD-45CC-9544-CE653C5B5F4A"
+        },
+        {
+          "defKey": "OPERATION_TIME",
+          "defName": "操作时间",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": false,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "domain": "AD71B399-0A90-4F1B-AC14-6B55DD1EB0CE",
+          "id": "8F572BFB-B75B-4323-9E8A-BFE2DCC6BCA1"
+        }
+      ],
+      "correlations": [],
+      "indexes": []
+    },
+    {
+      "id": "9B89525F-C36C-440C-A7DA-889C61C3493B",
+      "defKey": "sys_dictionary",
+      "defName": "系统字典表",
+      "comment": "",
+      "properties": {},
+      "nameTemplate": "{defKey}[{defName}]",
+      "headers": [
+        {
+          "freeze": true,
+          "refKey": "hideInGraph",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "defName",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "primaryKey",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "notNull",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "autoIncrement",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "domain",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "type",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "len",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "scale",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "comment",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "refDict",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "defaultValue",
+          "hideInGraph": true
+        },
+        {
+          "freeze": false,
+          "refKey": "isStandard",
+          "hideInGraph": false
+        },
+        {
+          "freeze": false,
+          "refKey": "uiHint",
+          "hideInGraph": true
+        },
+        {
+          "refKey": "extProps",
+          "hideInGraph": true,
+          "freeze": false
         }
       ],
       "fields": [
@@ -2085,271 +2566,6 @@
           "refDict": "",
           "domain": "96247443-9349-4A36-A179-00C909151FE8",
           "id": "57B2613C-8E13-4BE1-8EE6-1D9B670560DC"
-        }
-      ],
-      "correlations": [],
-      "indexes": []
-    },
-    {
-      "id": "00B17DD2-B63A-4FCD-A108-BBFE1E967350",
-      "defKey": "sys_operation_log",
-      "defName": "系统操作日志表",
-      "comment": "",
-      "properties": {},
-      "nameTemplate": "{defKey}[{defName}]",
-      "headers": [
-        {
-          "freeze": false,
-          "refKey": "hideInGraph",
-          "hideInGraph": true
-        },
-        {
-          "freeze": true,
-          "refKey": "defKey",
-          "hideInGraph": false
-        },
-        {
-          "freeze": true,
-          "refKey": "defName",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "primaryKey",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "notNull",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "autoIncrement",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "domain",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "type",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "len",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "scale",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "comment",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "refDict",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "defaultValue",
-          "hideInGraph": true
-        },
-        {
-          "freeze": false,
-          "refKey": "isStandard",
-          "hideInGraph": false
-        },
-        {
-          "freeze": false,
-          "refKey": "uiHint",
-          "hideInGraph": true
-        }
-      ],
-      "fields": [
-        {
-          "defKey": "ID",
-          "defName": "主键id",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": true,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
-          "id": "92F0AE7C-B284-46E1-B4D0-ED62E75E9B48"
-        },
-        {
-          "defKey": "LOG_NUMBER",
-          "defName": "日志编号",
-          "comment": "",
-          "type": "BIGINT",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "",
-          "id": "C1EBCAB8-DD18-40D1-A9B9-B0CCCF90B774"
-        },
-        {
-          "defKey": "IP_ADDRESS",
-          "defName": "请求IP地址",
-          "comment": "",
-          "type": "VARCHAR",
-          "len": 128,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": true,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "",
-          "id": "E780A721-245A-4A71-856C-CFFE32AA48BC"
-        },
-        {
-          "defKey": "OPERATOR",
-          "defName": "操作人员",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "42FD5505-0C08-4A3D-9A80-E8CF6F6FCCFB",
-          "id": "82264184-B860-4503-A95E-70A7C18F3D3A"
-        },
-        {
-          "defKey": "REQUEST_WAY",
-          "defName": "请求方式",
-          "comment": "",
-          "type": "VARCHAR",
-          "len": 10,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "",
-          "id": "7E044BB8-C8D4-4FC1-B973-5BAF3EFFFC9D"
-        },
-        {
-          "defKey": "OPERATION_STATUS",
-          "defName": "操作状态",
-          "comment": "0异常 1成功",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "96247443-9349-4A36-A179-00C909151FE8",
-          "id": "967EA675-BEE4-4698-B67C-2E31CCF4D53E"
-        },
-        {
-          "defKey": "SYSTEM_MODULE",
-          "defName": "系统模块",
-          "comment": "",
-          "type": "VARCHAR",
-          "len": 100,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "",
-          "id": "98E7C2C5-BA42-41E3-BEA6-ABE80A8682CE"
-        },
-        {
-          "defKey": "OPERATION_TYPE",
-          "defName": "操作类型",
-          "comment": "0登录日志 1操作日志",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "96247443-9349-4A36-A179-00C909151FE8",
-          "id": "C832662F-E1E8-4CF8-9FA8-F1802B743D1D"
-        },
-        {
-          "defKey": "OPERATION_ADDRESS",
-          "defName": "操作地点",
-          "comment": "",
-          "type": "VARCHAR",
-          "len": 512,
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "",
-          "id": "AB08B267-5651-4335-97F6-F7FA7BA89E00"
-        },
-        {
-          "defKey": "LOG_TYPE",
-          "defName": "日志类型",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "96247443-9349-4A36-A179-00C909151FE8",
-          "id": "E95CB652-D1FD-45CC-9544-CE653C5B5F4A"
-        },
-        {
-          "defKey": "OPERATION_TIME",
-          "defName": "操作时间",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "domain": "AD71B399-0A90-4F1B-AC14-6B55DD1EB0CE",
-          "id": "8F572BFB-B75B-4323-9E8A-BFE2DCC6BCA1"
         }
       ],
       "correlations": [],
@@ -2630,20 +2846,7 @@
               "port": "94197DB1-4B41-4F1C-8C4D-F9EA1F333C36%in"
             },
             "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            }
-          },
-          {
-            "id": "dc922d60-2b2e-4cb5-ac78-266cb231b8a9",
-            "shape": "table",
-            "position": {
-              "x": -184,
-              "y": 214
-            },
-            "count": 0,
-            "originKey": "8B5A7FB0-9D6C-47AF-AB82-F235585BB770"
+            "fillColor": "#ACDAFC"
           },
           {
             "id": "22f3858b-823f-419c-a8b7-2d195d2ed2e5",
@@ -2657,10 +2860,7 @@
               "port": "955A5F70-AB44-48A4-91BD-E68CD12D4069%in"
             },
             "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            }
+            "fillColor": "#ACDAFC"
           },
           {
             "id": "14b4a046-a7ba-4880-9ca9-49ff47e007b9",
@@ -2674,10 +2874,7 @@
               "port": "955A5F70-AB44-48A4-91BD-E68CD12D4069%out"
             },
             "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            }
+            "fillColor": "#ACDAFC"
           },
           {
             "id": "14e350f4-8e19-4439-b899-84b3b2b5f3eb",
@@ -2691,40 +2888,54 @@
               "port": "1695E1E6-2E42-4AB5-90E3-1C3F6EA80D6B%in"
             },
             "relation": "1:n",
+            "fillColor": "#ACDAFC"
+          },
+          {
+            "id": "2e929927-0fbb-4f3c-8f4e-96d58e18add3",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "c29382dd-5bb1-4249-b45a-586cd564974f",
+              "port": "82264184-B860-4503-A95E-70A7C18F3D3A%out"
+            },
+            "target": {
+              "cell": "dc922d60-2b2e-4cb5-ac78-266cb231b8a9",
+              "port": "397D8CEB-B660-4CC2-AA87-6B6868FA4B85%out"
+            },
+            "relation": "1:n",
             "fillColor": "#ACDAFC",
             "router": {
               "name": "manhattan"
             }
           },
           {
-            "id": "7a87bef0-7175-4eb3-8e12-3bfb97eda55c",
+            "id": "c29382dd-5bb1-4249-b45a-586cd564974f",
             "shape": "table",
             "position": {
-              "x": 259,
+              "x": -189,
+              "y": -289
+            },
+            "count": 0,
+            "originKey": "00B17DD2-B63A-4FCD-A108-BBFE1E967350"
+          },
+          {
+            "id": "c920c888-f4ba-40da-ac30-f21654845c1c",
+            "shape": "table",
+            "position": {
+              "x": -565.5,
+              "y": -289
+            },
+            "count": 0,
+            "originKey": "9B89525F-C36C-440C-A7DA-889C61C3493B"
+          },
+          {
+            "id": "dc922d60-2b2e-4cb5-ac78-266cb231b8a9",
+            "shape": "table",
+            "position": {
+              "x": -184,
               "y": 214
             },
             "count": 0,
-            "originKey": "5C808DB0-A0D7-4DC7-BED2-321387E00B66"
-          },
-          {
-            "id": "50b7303c-aa41-4606-8904-8cab000c9220",
-            "shape": "table",
-            "position": {
-              "x": 241,
-              "y": 10
-            },
-            "count": 0,
-            "originKey": "30600614-A11A-40C3-9AC3-052F79978E12"
-          },
-          {
-            "id": "16869e25-d241-4c9e-8bb7-d19ef421501e",
-            "shape": "table",
-            "position": {
-              "x": 670,
-              "y": 10
-            },
-            "count": 0,
-            "originKey": "0875E2EC-C66A-496D-A0A1-47E847218E1D"
+            "originKey": "8B5A7FB0-9D6C-47AF-AB82-F235585BB770"
           },
           {
             "id": "d19469bb-1eef-401a-874d-d257b3ba4c9e",
@@ -2735,6 +2946,36 @@
             },
             "count": 0,
             "originKey": "73C0E5D4-7FB4-477B-9921-8B5417DD0142"
+          },
+          {
+            "id": "7a87bef0-7175-4eb3-8e12-3bfb97eda55c",
+            "shape": "table",
+            "position": {
+              "x": 241,
+              "y": 194
+            },
+            "count": 0,
+            "originKey": "5C808DB0-A0D7-4DC7-BED2-321387E00B66"
+          },
+          {
+            "id": "50b7303c-aa41-4606-8904-8cab000c9220",
+            "shape": "table",
+            "position": {
+              "x": 251,
+              "y": -5
+            },
+            "count": 0,
+            "originKey": "30600614-A11A-40C3-9AC3-052F79978E12"
+          },
+          {
+            "id": "16869e25-d241-4c9e-8bb7-d19ef421501e",
+            "shape": "table",
+            "position": {
+              "x": 620,
+              "y": -5
+            },
+            "count": 0,
+            "originKey": "0875E2EC-C66A-496D-A0A1-47E847218E1D"
           }
         ]
       },
