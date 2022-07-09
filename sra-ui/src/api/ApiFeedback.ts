@@ -44,13 +44,16 @@ enum ApiResultEnum {
  */
 export function reqFeedback(apiFn: any, successMsg: string, errorMsg: string, successCallback: Function) {
     apiFn.then((res: any) => {
-        if (res.code === 200) {
+        if (res.code === ApiResultEnum.SUCCESS) {
             if (successMsg) {
                 ElMessage.success(successMsg);
             }
             successCallback(res.data);
         } else if (res.code === ApiResultEnum.NOT_LOGIN || res.code === ApiResultEnum.TOKEN_INVALID) {
-            router.push({path: '/login'}).then(r => console.log('未登录'));
+            router.push({path: '/login'}).then(r => ElMessage({
+                message: res.message,
+                type: 'warning',
+            }));
         } else {
             if (errorMsg) {
                 ElMessage.error(errorMsg);
@@ -63,7 +66,7 @@ export function reqFeedback(apiFn: any, successMsg: string, errorMsg: string, su
             }
         }
     }).catch((e: any) => {
-        ElMessage.error(e);
+        console.log(e)
     });
 }
 

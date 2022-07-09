@@ -69,7 +69,7 @@
 
 <script setup lang="ts">
 import * as echarts from "echarts";
-import {onMounted, reactive, ref} from "vue";
+import {nextTick, onMounted, reactive, ref} from "vue";
 import {getSystemInfo, getCount} from "@/api/system/dashboard-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import unitUtil from "@/utils/unit-util";
@@ -91,7 +91,7 @@ onMounted(() => {
 const initSystemInfo = () => {
   reqCommonFeedback(getSystemInfo(), (systemModel: SystemModel) => {
     systemInfo.data = systemModel;
-    initPie(systemModel);
+    nextTick(() => initPie(systemModel));
   });
 }
 
@@ -109,31 +109,37 @@ const initCount = () => {
  * @param systemModel
  */
 const initPie = (systemModel: SystemModel): void => {
-  let myChart = echarts.init(document.getElementById("dashboardPieId"));
-  let option = {
-    title: {text: 'CPU使用情况', subtext: `CPU核心数: ${systemModel.cpuCount}`, left: 'center'},
-    tooltip: {trigger: 'item', formatter: '{b} : {c} %'},
-    legend: {orient: 'vertical', left: 'left'},
-    series: [
-      {
-        type: 'pie',
-        radius: '50%',
-        data: [
-          {value: systemModel.cpuSystemUsed, name: 'CPU系统使用率'},
-          {value: systemModel.cpuUserUsed, name: 'CPU用户使用率'},
-          {value: systemModel.cpuFree, name: 'CPU空闲率'}
-        ],
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: "rgba(0, 0, 0, 0.5)"
+  let htmlElement = document.getElementById("dashboardPieId") as HTMLElement;
+  if (htmlElement) {
+    let myChart = echarts.getInstanceByDom(htmlElement);
+    if (myChart === undefined) {
+      myChart = echarts.init(htmlElement);
+    }
+    let option = {
+      title: {text: 'CPU使用情况', subtext: `CPU核心数: ${systemModel.cpuCount}`, left: 'center'},
+      tooltip: {trigger: 'item', formatter: '{b} : {c} %'},
+      legend: {orient: 'vertical', left: 'left'},
+      series: [
+        {
+          type: 'pie',
+          radius: '50%',
+          data: [
+            {value: systemModel.cpuSystemUsed, name: 'CPU系统使用率'},
+            {value: systemModel.cpuUserUsed, name: 'CPU用户使用率'},
+            {value: systemModel.cpuFree, name: 'CPU空闲率'}
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
           }
         }
-      }
-    ]
-  };
-  option && myChart.setOption(option);
+      ]
+    };
+    option && myChart.setOption(option);
+  }
 }
 </script>
 

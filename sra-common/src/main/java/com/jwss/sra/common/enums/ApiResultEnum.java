@@ -12,7 +12,7 @@ public enum ApiResultEnum {
     /**
      * 内部错误
      */
-    ERROR(500, "内部错误"),
+    ERROR(500, "系统异常，请联系管理员"),
     /**
      * 未找到资源
      */
@@ -34,8 +34,8 @@ public enum ApiResultEnum {
      */
     TOKEN_INVALID(4003, "TOKEN失效")
     ;
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     ApiResultEnum(Integer code, String desc) {
         this.code = code;

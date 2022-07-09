@@ -29,16 +29,16 @@ public class GlobalExceptionHandler {
      **/
     @ExceptionHandler(Exception.class)
     public ApiResult<String> handlerException(Exception e) {
-        logger.error("GlobalExceptionHandler errorMsg :" + e.getMessage());
+        logger.error("全局异常捕获，异常消息:" + e.getMessage());
         if (e instanceof NotLoginException) {
-            return ApiResult.error(ApiResultEnum.NOT_LOGIN.getDesc(), ApiResultEnum.NOT_LOGIN.getCode());
+            return ApiResult.error(ApiResultEnum.NOT_LOGIN.getCode(), ApiResultEnum.NOT_LOGIN.getDesc());
         } else if (e instanceof NotPermissionException) {
-            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getDesc(), ApiResultEnum.NOT_PERMISSION.getCode());
+            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
         } else if (e instanceof BusinessException) {
             BusinessException businessException = (BusinessException) e;
-            return ApiResult.error(businessException.getErrorMsg(), businessException.getErrorCode());
+            return ApiResult.error(businessException.getErrorCode(), businessException.getErrorMsg());
         } else if (e instanceof NotRoleException) {
-            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getDesc(), ApiResultEnum.NOT_PERMISSION.getCode());
+            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
         }
         return ApiResult.error();
     }

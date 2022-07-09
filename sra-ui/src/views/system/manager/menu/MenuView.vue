@@ -39,7 +39,7 @@
         <el-input v-model="editForm.data.menuName"></el-input>
       </el-form-item>
       <el-form-item prop="menuType" label="菜单类型">
-        <el-radio-group v-model="editForm.data.menuType">
+        <el-radio-group v-model="editForm.data.menuType" @change="menuTypeChange">
           <el-radio label="0">目录</el-radio>
           <el-radio label="1">菜单</el-radio>
           <el-radio label="2">按钮</el-radio>
@@ -48,7 +48,7 @@
       <el-form-item prop="routerPath" label="路由地址">
         <el-input v-model="editForm.data.routerPath"></el-input>
       </el-form-item>
-      <el-form-item prop="isExternalLink" label="是否外链">
+      <el-form-item v-if="isShowExternalLink" prop="isExternalLink" label="是否外链">
         <el-radio-group v-model="editForm.data.isExternalLink">
           <el-radio label="0">是</el-radio>
           <el-radio label="1">否</el-radio>
@@ -109,10 +109,8 @@ const defaultProps = {
 
 // 表单参数
 const editForm = reactive<any>({data: initData});
-
 // 加载进度
 const loading = ref<boolean>(true);
-
 // 表单校验规则
 const rules = reactive({
   menuName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
@@ -121,12 +119,12 @@ const rules = reactive({
   routerPath: [{required: true, min: 2, max: 255, message: '长度限制2~255', trigger: 'blur'}],
   isExternalLink: [{required: true, message: '请选择链接类型', trigger: 'blur'}],
 });
-
 // api分页请求参数
 const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: ''});
-
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
+// 是否显示外链选择按钮
+const isShowExternalLink = ref<boolean>(false);
 
 // 初始化数据
 onMounted(() => {
@@ -228,6 +226,10 @@ const removeBatch = (ids: string[]): void => {
  */
 const handleChange = (data: any) => {
   editForm.data.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
+}
+
+const menuTypeChange= (value: string) => {
+  isShowExternalLink.value = value === "1";
 }
 </script>
 

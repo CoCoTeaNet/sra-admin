@@ -8,8 +8,9 @@ import java.util.Date;
 
 /**
  * 返回数据模型
- * @date 2022-1-12 16:21:52
+ *
  * @author jwss
+ * @date 2022-1-12 16:21:52
  */
 public class ApiResult<T> implements Serializable {
     private static final long serialVersionUID = -4073679724104914374L;
@@ -28,6 +29,7 @@ public class ApiResult<T> implements Serializable {
 
     /**
      * 根据布尔值判断成功通知还是失败通知
+     *
      * @param b 布尔值
      * @return 结果集
      */
@@ -41,15 +43,17 @@ public class ApiResult<T> implements Serializable {
 
     /**
      * 成功通知结果
+     *
      * @param data 数据
      * @return 成功结果
      */
-    public static<T> ApiResult<T> ok(T data) {
+    public static <T> ApiResult<T> ok(T data) {
         return new ApiResult<>(ApiResultEnum.SUCCESS.getCode(), data, ApiResultEnum.SUCCESS.getDesc());
     }
 
     /**
      * 成功通知结果（无数据返回）
+     *
      * @return 成功结果
      */
     public static ApiResult<String> ok() {
@@ -58,6 +62,7 @@ public class ApiResult<T> implements Serializable {
 
     /**
      * 失败通知结果（无数据返回）
+     *
      * @return 错误结果
      */
     public static ApiResult<String> error() {
@@ -66,19 +71,53 @@ public class ApiResult<T> implements Serializable {
 
     /**
      * 失败通知结果
+     *
      * @param data 数据
      * @return 成功结果
      */
-    public static<T> ApiResult<T> error(T data) {
+    public static <T> ApiResult<T> error(T data) {
         return error(data, ApiResultEnum.ERROR.getCode());
     }
 
     /**
      * 失败通知结果
+     *
+     * @param data    通知数据
+     * @param message 通知消息
+     * @return 成功结果
+     */
+    public static <T> ApiResult<T> error(T data, String message) {
+        return new ApiResult<>(ApiResultEnum.ERROR.getCode(), data, message);
+    }
+
+    /**
+     * 失败通知结果
+     *
+     * @param message 通知消息
+     * @return 成功结果
+     */
+    public static ApiResult<String> error(String message) {
+        return error(StringUtils.EMPTY_STRING, message);
+    }
+
+    /**
+     * 失败通知结果
+     *
+     * @param errorCode 错误码
+     * @param message 通知消息
+     * @return 成功结果
+     */
+    public static ApiResult<String> error(Integer errorCode, String message) {
+        return new ApiResult<>(errorCode, StringUtils.EMPTY_STRING, message);
+    }
+
+    /**
+     * 失败通知结果
+     *
      * @param data 数据
      * @return 成功结果
      */
-    public static<T> ApiResult<T> error(T data, Integer errorCode) {
+    public static <T> ApiResult<T> error(T data, Integer errorCode) {
         return new ApiResult<>(errorCode, data, ApiResultEnum.SUCCESS.getDesc());
     }
 
