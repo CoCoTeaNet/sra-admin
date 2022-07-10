@@ -15,6 +15,7 @@
         <module>sra-config</module>
         <module>sra-framework</module>
         <module>sra-system</module>
+        <module>sra-cms</module>
     </modules>
 
     <properties>
@@ -26,6 +27,7 @@
         <sra-common.version>1.0.2</sra-common.version>
         <sra-config.version>1.0.2</sra-config.version>
         <sra-bootstrap.version>1.0.2</sra-bootstrap.version>
+        <sra-cms.version>1.0.2</sra-cms.version>
         <!-- 外部框架版本 -->
         <spring-boot-starter-web.version>2.6.2</spring-boot-starter-web.version>
         <sqltoy.version>5.1.23</sqltoy.version>
@@ -52,6 +54,12 @@
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-system</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <!-- 内容管理模块 -->
+            <dependency>
+                <groupId>com.jwss</groupId>
+                <artifactId>sra-cms</artifactId>
                 <version>1.0.2</version>
             </dependency>
             <!-- 引入框架模块 -->

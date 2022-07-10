@@ -25,6 +25,11 @@
             <groupId>com.jwss</groupId>
             <artifactId>sra-system</artifactId>
         </dependency>
+        <!-- 引入内容管理模块 -->
+        <dependency>
+            <groupId>com.jwss</groupId>
+            <artifactId>sra-cms</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
