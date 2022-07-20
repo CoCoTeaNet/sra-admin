@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sss-rbac-admin</artifactId>
         <groupId>com.jwss</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -25,11 +25,6 @@
             <groupId>com.jwss</groupId>
             <artifactId>sra-system</artifactId>
         </dependency>
-        <!-- 引入内容管理模块 -->
-        <dependency>
-            <groupId>com.jwss</groupId>
-            <artifactId>sra-cms</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -37,9 +32,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                     <mainClass>com.jwss.sra.bootstrap.SraApplicationBoot</mainClass>　　
-                </configuration>
+                <version>2.3.12.RELEASE</version>
                 <executions>
                      <execution>
                          <goals>
