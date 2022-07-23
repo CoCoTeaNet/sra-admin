@@ -1,0 +1,36 @@
+div, ul, li, body, html {
+    padding: 0;
+    margin: 0;
+}
+
+.global-dist {
+    width: 85%;
+}
+
+.nav-inner-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.nav {
+    background-color: cornflowerblue;
+    width: 100%;
+    height: 46px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: cornflowerblue;
+    font-size: 16px;
+    font-weight: 500;
+    background: white;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.nav a:hover {
+    background-color: rgba(255, 255, 255, 0.85);
+}
