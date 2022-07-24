@@ -126,3 +126,15 @@ const hasChildren = (m: MenuModel) => {
   return m.children && m.children.length > 0;
 }
 </script>
+
+<style scoped lang="css">
+.el-menu-item.is-active {
+  color: #000000;
+  background-color: rgb(204, 204, 204);
+  padding: 3px;
+}
+
+.el-menu-item:hover {
+  background-color: rgb(204, 204, 204, 0.5);
+}
+</style>

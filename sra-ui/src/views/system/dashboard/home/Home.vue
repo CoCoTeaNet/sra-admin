@@ -24,7 +24,21 @@
       </el-col>
       <el-col :span="12">
         <el-card>
-          <el-collapse accordion :model-value="'3'">
+
+
+          <el-collapse accordion :model-value="'4'">
+            <!-- v1.0.3 -->
+            <el-collapse-item title="v1.1.0" name="4">
+              <p>版本v1.1.0</p>
+              <div>
+                <ul>
+                  <li>1. 修复已知BUG.</li>
+                  <li>2. 新增CMS模块.</li>
+                  <li>3. 更改gav,优化UI界面.</li>
+                </ul>
+              </div>
+            </el-collapse-item>
+
             <!-- v1.0.3 -->
             <el-collapse-item title="v1.0.3" name="3">
               <p>版本v1.0.3</p>
@@ -35,7 +49,6 @@
                 </ul>
               </div>
             </el-collapse-item>
-
             <!-- v1.0.2 -->
             <el-collapse-item title="v1.0.2" name="2">
               <p>版本v1.0.2</p>
@@ -49,7 +62,6 @@
                 </ul>
               </div>
             </el-collapse-item>
-
             <!-- v1.0.1 -->
             <el-collapse-item title="v1.0.1" name="1">
               <div>
@@ -61,12 +73,12 @@
               </div>
             </el-collapse-item>
           </el-collapse>
+
+
         </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped src="./css/Home.css"></style>

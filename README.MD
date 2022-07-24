@@ -53,7 +53,7 @@ $ npm run build || yarn build       #生产环境
 
 * 访问地址
 
-1. 后端接口文档：http://localhost:7777/doc.html
+1. 后端接口文档：http://localhost:9000/doc.html
 2. 前端登录地址：http://localhost:8080/#/login
 
 * 备注
