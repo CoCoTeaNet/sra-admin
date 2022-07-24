@@ -1,9 +1,19 @@
+a {
+    color: #000011;
+    text-decoration: none;
+}
+
+.article-list:hover {
+    background-color: rgba(240, 248, 255, 0.42);
+}
+
 div, ul, li, body, html {
     padding: 0;
     margin: 0;
 }
 
 .global-dist {
+    margin: 0 auto;
     width: 85%;
 }
 
@@ -11,7 +21,6 @@ div, ul, li, body, html {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 auto;
     height: 100%;
 }
 
@@ -33,4 +42,14 @@ div, ul, li, body, html {
 
 .nav a:hover {
     background-color: rgba(255, 255, 255, 0.85);
+}
+
+.main {
+    display: flex;
+}
+
+.main-left-card {
+    color: rgba(100, 149, 237, 1);
+    font-size: 14px;
+    padding-left: 3px;
 }
