@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.jwss</groupId>
-            <artifactId>sra-framework</artifactId>
+            <artifactId>sra-config</artifactId>
         </dependency>
     </dependencies>
 </project>

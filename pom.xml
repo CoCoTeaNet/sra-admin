@@ -22,16 +22,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 内部模块版本 -->
-        <sra-system.version>1.0.2</sra-system.version>
-        <sra-framework.version>1.0.2</sra-framework.version>
-        <sra-common.version>1.0.2</sra-common.version>
-        <sra-config.version>1.0.2</sra-config.version>
-        <sra-bootstrap.version>1.0.2</sra-bootstrap.version>
-        <sra-cms.version>1.0.2</sra-cms.version>
+        <sra.version>1.0.2</sra.version>
         <!-- 外部框架版本 -->
-        <spring-boot-starter-web.version>2.6.2</spring-boot-starter-web.version>
+        <spring-boot-starter.version>2.6.2</spring-boot-starter.version>
         <sqltoy.version>5.1.23</sqltoy.version>
-        <mysql-connector.version>8.0.26</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.28.0</satoken.version>
         <swagger.version>2.9.2</swagger.version>
@@ -54,37 +49,37 @@
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-system</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
             <!-- 内容管理模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-cms</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
             <!-- 引入框架模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-framework</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
             <!-- 常用工具模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-common</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
             <!-- 配置模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-config</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
             <!-- 项目启动模块 -->
             <dependency>
                 <groupId>com.jwss</groupId>
                 <artifactId>sra-bootstrap</artifactId>
-                <version>1.0.2</version>
+                <version>${sra.version}</version>
             </dependency>
 
             <!-- 外部框架 -->
@@ -92,18 +87,18 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot-starter-web.version}</version>
+                <version>${spring-boot-starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot-starter-web.version}</version>
+                <version>${spring-boot-starter.version}</version>
             </dependency>
             <!--引用AOP-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
-                <version>${spring-boot-starter-web.version}</version>
+                <version>${spring-boot-starter.version}</version>
             </dependency>
             <!-- sqltoy spring boot starter -->
             <dependency>
@@ -196,7 +191,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${spring-boot-starter-web.version}</version>
+                <version>${spring-boot-starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.freemarker</groupId>

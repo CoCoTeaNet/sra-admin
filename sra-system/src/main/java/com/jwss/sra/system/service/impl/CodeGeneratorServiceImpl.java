@@ -38,7 +38,7 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
         tableVO.setJavaClassName(NamingConversionUtils.underlineToHump(tableVO.getTableName(), 1));
         Map<String, Object> objectMap = new HashMap<>(10);
         // 获取表字段信息
-        sql = String.format("select * from information_schema.COLUMNS where TABLE_NAME = '%s'", tableName);
+        sql = String.format("select * from information_schema.COLUMNS where TABLE_NAME = '%s' and TABLE_SCHEMA = '%s'", tableName, defaultProperties.getDbName());
         List<TableColVO> colList = sqlToyLazyDao.findBySql(sql, new TableColVO());
         colList.forEach(item -> {
             item.setJavaColName(NamingConversionUtils.underlineToHump(item.getColumnName(), 0));

@@ -82,6 +82,8 @@ public class NamingConversionUtils {
                 return "INTEGER";
             case "datetime":
                 return "DATE";
+            case "text":
+                return "VARCHAR";
             default:
                 return type.toUpperCase(Locale.ROOT);
         }

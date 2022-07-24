@@ -17,7 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- 引入常用工具模块 -->
         <dependency>
             <groupId>com.jwss</groupId>
             <artifactId>sra-config</artifactId>

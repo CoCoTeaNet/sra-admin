@@ -25,10 +25,12 @@
                    v-model:page-size="pageParam.pageSize"
     />
     <!-- 代码对话框 -->
-    <el-dialog title="生成实体类" v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center" @open="">
-      <el-scrollbar style="width: 100%;height: 640px;overflow: auto">
-        <highlightjs :code="codeSrc" language="java" style="border-radius: 3px;"></highlightjs>
-      </el-scrollbar>
+    <el-dialog v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center">
+      <div>
+        <el-scrollbar style="width: 100%;height: 640px;overflow: auto">
+          <highlightjs :code="codeSrc" language="java" style="border-radius: 3px;"></highlightjs>
+        </el-scrollbar>
+      </div>
     </el-dialog>
   </div>
 </template>
