@@ -131,3 +131,24 @@ export function getRequestWay(v: string) {
             return v;
     }
 }
+
+/**
+ * 获取发布状态 文本
+ * 1正常 2审核中 3审核不通过 4冻结 5保存
+ */
+export function getPublishStatus(v: string) {
+    switch (parseInt(v)) {
+        case 1:
+            return '<span class="status-tag-green-text">正常</span>';
+        case 2:
+            return '<span class="status-tag-gray-text">审核中</span>';
+        case 3:
+            return '<span class="status-tag-red-text">审核不通过</span>';
+        case 4:
+            return '<span class="status-tag-yellow-text">冻结</span>';
+        case 5:
+            return '<span class="status-tag-blue-text">保存</span>';
+        default:
+            return v;
+    }
+}
