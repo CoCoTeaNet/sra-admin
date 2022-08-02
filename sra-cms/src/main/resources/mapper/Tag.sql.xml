@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
     <!-- 根据实体参数获取查询 -->
-    <sql id="system_dictionary_findByEntityParam">
+    <sql id="system_tag_findByEntityParam">
         <value>
             <![CDATA[
                 select ID, PARENT_ID, TAG_NAME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, DELETE_STATUS, REVISION

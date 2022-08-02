@@ -16,6 +16,7 @@
         <module>sra-framework</module>
         <module>sra-system</module>
         <module>sra-cms</module>
+        <module>sra-schedule</module>
     </modules>
 
     <properties>
@@ -81,7 +82,12 @@
                 <artifactId>sra-bootstrap</artifactId>
                 <version>${sra.version}</version>
             </dependency>
-
+            <!-- 引入任务调度模块 -->
+            <dependency>
+                <groupId>com.sra-app</groupId>
+                <artifactId>sra-schedule</artifactId>
+                <version>${sra.version}</version>
+            </dependency>
             <!-- 外部框架 -->
             <!-- springboot -->
             <dependency>
