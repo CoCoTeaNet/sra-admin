@@ -59,7 +59,6 @@ $ npm run build || yarn build       #生产环境
 * 备注
 
 1. 必须安装Redis；
-2. db_sra_v1.chnr.json文件可以用pdman编辑；
 
 #### 🍁 开发规范
 
