@@ -1,4 +1,4 @@
-package com.sraapp.cms.param;
+package com.sraapp.cms.param.article;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,27 +8,37 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 新增文章参数
+ * 更新文章参数
  *
  * @author CoCoTea
  * @date 2022-7-24 16:01:22
  */
-@ApiModel("新增文章参数")
-public class ArticleAddParam implements Serializable {
+@ApiModel("更新文章参数")
+public class ArticleUpdateParam implements Serializable {
 
-    @ApiModelProperty(value = "文章标题",required = true)
-    @NotBlank(message = "标题为空")
+    @ApiModelProperty(value = "文章id", required = true)
+    @NotBlank(message = "文章id为空")
+    private String id;
+
+    @ApiModelProperty(value = "文章内容")
     private String title;
 
-    @ApiModelProperty(value = "文章内容", required = true)
-    @NotBlank(message = "内容为空")
+    @ApiModelProperty(value = "文章内容")
     private String content;
 
-    @ApiModelProperty("文章简介")
+    @ApiModelProperty(value = "文章简介")
     private String summary;
 
-    @ApiModelProperty("文章标签ID")
+    @ApiModelProperty(value = "文章标签")
     private List<String> tagIds;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

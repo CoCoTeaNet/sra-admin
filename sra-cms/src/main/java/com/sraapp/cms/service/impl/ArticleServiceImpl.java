@@ -2,11 +2,12 @@ package com.sraapp.cms.service.impl;
 
 import cn.hutool.core.convert.Convert;
 import com.sraapp.cms.entity.CmsArticle;
-import com.sraapp.cms.param.ArticleAddParam;
-import com.sraapp.cms.param.ArticlePageParam;
-import com.sraapp.cms.param.ArticleUpdateParam;
+import com.sraapp.cms.param.article.ArticleAddParam;
+import com.sraapp.cms.param.article.ArticlePageParam;
+import com.sraapp.cms.param.article.ArticleUpdateParam;
 import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.vo.ArticleVo;
+import com.sraapp.cms.vo.TagVo;
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.model.BusinessException;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
@@ -58,7 +59,8 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public Page<ArticleVo> listByPage(ArticlePageParam param) throws BusinessException {
-        return null;
+        Page<ArticleVo> page = sqlToyLazyDao.findPageBySql(param, "cms_article_findByPageParam", param.getArticleVo());
+        return page;
     }
 
     @Override
@@ -68,5 +70,31 @@ public class ArticleServiceImpl implements IArticleService {
         article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
         Long update = sqlToyLazyDao.update(article);
         return update > 0;
+    }
+
+    @Override
+    public CmsArticle detail(String id) {
+        CmsArticle article = sqlToyLazyDao.loadBySql("cms_article_findByEntityParam", new CmsArticle().setId(id));
+        return article;
+    }
+
+    @Override
+    public List<ArticleVo> findByCommentNumDesc() {
+        return null;
+    }
+
+    @Override
+    public List<ArticleVo> findByTimeDesc() {
+        return null;
+    }
+
+    @Override
+    public List<ArticleVo> findByArchiveList() {
+        return null;
+    }
+
+    @Override
+    public List<TagVo> findHotTagList() {
+        return null;
     }
 }
