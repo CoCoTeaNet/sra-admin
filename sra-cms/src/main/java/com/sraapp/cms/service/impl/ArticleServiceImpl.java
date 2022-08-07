@@ -58,7 +58,8 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public Page<ArticleVo> listByPage(ArticlePageParam param) throws BusinessException {
-        return null;
+        Page<ArticleVo> page = sqlToyLazyDao.findPageBySql(param, "cms_article_findByPageParam", param.getArticleVo());
+        return page;
     }
 
     @Override

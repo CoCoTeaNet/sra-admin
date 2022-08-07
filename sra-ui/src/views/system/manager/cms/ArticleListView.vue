@@ -7,7 +7,7 @@
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="summary" label="简介"/>
-      <el-table-column prop="email" label="发布状态">
+      <el-table-column prop="publishStatus" label="发布状态">
         <template #default="scope">
           <span v-html="getPublishStatus(scope.row.publishStatus)"></span>
         </template>
@@ -19,51 +19,87 @@
     </template>
     <!-- 表单 -->
     <template v-slot:edit>
-      <el-form-item prop="username" label="账号名">
+      <el-form-item prop="username" label="标题">
         <el-input v-model="editForm.data.username"></el-input>
       </el-form-item>
-      <el-form-item prop="nickname" label="用户昵称">
-        <el-input v-model="editForm.data.nickname"></el-input>
+      <el-form-item prop="content" label="内容">
+        <div>
+          <Toolbar
+              style="border-bottom: 1px solid #ccc"
+              :mode="mode"
+              :editor="editorRef"
+              :defaultConfig="toolbarConfig"
+          />
+          <Editor
+              style="height: 450px; overflow-y: hidden;"
+              :mode="mode"
+              v-model="valueHtml"
+              :defaultConfig="editorConfig"
+              @onCreated="handleCreated"
+          />
+        </div>
       </el-form-item>
-      <el-form-item prop="password" label="用户密码">
-        <el-input :prefix-icon="Lock" v-model="editForm.data.password" type="password" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="email" label="邮箱">
-        <el-input v-model="editForm.data.email"></el-input>
-      </el-form-item>
-      <el-form-item prop="roleName" label="角色">
-        <el-select v-model="editForm.data.roleId" placeholder="选择角色">
-          <el-option v-for="item in roleOptions" :key="item.id" :label="item.roleName" :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="sort" label="性别">
-        <el-radio-group v-model="editForm.data.sex">
-          <el-radio label="0">不公开</el-radio>
-          <el-radio label="1">男</el-radio>
-          <el-radio label="2">女</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="sort" label="状态">
-        <el-radio-group v-model="editForm.data.accountStatus">
-          <el-radio label="0">停用</el-radio>
-          <el-radio label="1">正常</el-radio>
-          <el-radio label="2">冻结</el-radio>
-          <el-radio label="3">封禁</el-radio>
-        </el-radio-group>
+      <el-form-item prop="tag" label="标签">
+        <el-tag
+            v-for="tag in dynamicTags"
+            :key="tag"
+            class="mx-1"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)"
+        >
+          {{ tag }}
+        </el-tag>
+        <el-input
+            v-if="inputVisible"
+            ref="InputRef"
+            v-model="inputValue"
+            class="ml-1 w-20"
+            size="small"
+            @keyup.enter="handleInputConfirm"
+            @blur="handleInputConfirm"
+        />
+        <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+          + 新增
+        </el-button>
       </el-form-item>
     </template>
   </sra-simple-table>
 </template>
 
 <script setup lang="ts">
-import {Lock} from "@element-plus/icons-vue";
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, reactive, nextTick, ref, watch, shallowRef, onBeforeUnmount} from "vue";
 import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {listByPage, deleteBatch, add, update} from "@/api/system/user-api";
-import roleApi from "@/api/system/role-api";
+import {listByPage, deleteBatch, add, update} from "@/api/cms/article-api";
 import {getPublishStatus} from "@/utils/format-util";
+import '@wangeditor/editor/dist/css/style.css';
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
+import {ElInput} from 'element-plus';
+
+const inputValue = ref('');
+const dynamicTags = ref(['Tag 1']);
+const inputVisible = ref(false);
+const InputRef = ref<InstanceType<typeof ElInput>>();
+
+const handleClose = (tag: string) => {
+  dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
+}
+
+const showInput = () => {
+  inputVisible.value = true
+  nextTick(() => {
+    InputRef.value!.input!.focus()
+  })
+}
+
+const handleInputConfirm = () => {
+  if (inputValue.value) {
+    dynamicTags.value.push(inputValue.value)
+  }
+  inputVisible.value = false
+  inputValue.value = ''
+}
 
 const initData: UserModel = {
   id: '',
@@ -77,6 +113,12 @@ const initData: UserModel = {
   password: ''
 };
 
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef()
+// 内容 HTML
+const valueHtml = ref('<p>hello</p>')
+const mode = ref('default')
+
 const roleOptions = ref<RoleModel[]>([]);
 // 表单参数
 const editForm = reactive<any>({data: initData});
@@ -88,16 +130,12 @@ const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 const loading = ref<boolean>(true);
 // 表单校验规则
 const rules = reactive({
-  username: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  nickname: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  password: [{required: true, min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
-  roleId: [{required: true, message: '请选择角色', trigger: 'blur'}]
+  title: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
 });
 
 // 初始化数据
 onMounted(() => {
   initTable();
-  getRoles();
 });
 
 // 监听当前页的变化
@@ -124,18 +162,18 @@ const initAdd = (): void => {
   editForm.data = initData;
 }
 
-/**
- * 获取角色列表
- */
-const getRoles = () => {
-  let param: any = {
-    pageNo: 1,
-    pageSize: 1000,
-    roleVO: {roleName: ''}
-  }
-  reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
-    roleOptions.value = data.rows;
-  });
+const toolbarConfig = {}
+const editorConfig = {placeholder: '请输入内容...'}
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+  const editor = editorRef.value
+  if (editor == null) return
+  editor.destroy()
+})
+
+const handleCreated = (editor: any) => {
+  editorRef.value = editor;
 }
 
 /**
