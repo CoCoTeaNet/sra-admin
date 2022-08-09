@@ -5,6 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <#-- boostrap框架 -->
+    <link rel="stylesheet" href="/bootstrap-5.1.3/css/bootstrap.min.css">
+    <script src="/bootstrap-5.1.3/jquery-3.6.0.min.js"></script>
+    <script src="/bootstrap-5.1.3/js/bootstrap.min.js"></script>
+    <#-- 本地css和js -->
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/index.js"></script>
     <title>首页</title>
@@ -12,79 +17,115 @@
 <body>
 
 <#--导航-->
-<div class="nav">
-    <div class="nav-inner-box global-dist">
-        <ul>
-            <a href="#">首页</a>
-            <a href="#">归档</a>
-            <a href="#">标签</a>
-        </ul>
-        <ul>
-            <input type="text" placeholder="搜索">
-        </ul>
-        <ul>
-            <a href="#">关于</a>
-            <a href="#">后台管理</a>
-        </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">LOGO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">归档</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        更多
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">关于</a></li>
+                        <li><a class="dropdown-item" href="#">Gitee</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">后台管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="搜索" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
     </div>
-</div>
+</nav>
 
 <#--内容-->
-<div class="global-dist main">
-    <#-- 左侧 -->
-    <#-- 文章列表 -->
-    <div style="width: 79%;padding-right: 1em;">
-        <#list 1..10 as n>
-            <div class="article-list" style="border-bottom: 1px solid #b9b9b961;">
-                <a href="/cmsPage/detail/12313"><h3>张三是大傻逼</h3></a>
-                <div style="color: slategray">张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼张三是大傻逼</div>
-                <p style="color: darkgrey">2022-2-22</p>
+<div class="container">
+    <div class="row">
+        <#-- 左侧 -->
+        <div class="col-8">
+            <#-- 文章列表 -->
+            <div style="padding-top: 1.33em;">
+                <#list 1..10 as n>
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="..." class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-muted">2022-12-12</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </#list>
             </div>
-        </#list>
-    </div>
-    <#-- 右侧 -->
-    <div style="width: 21%">
-        <#-- 文章列表-时间倒叙 -->
-        <div style="padding-top: 1.33em;">
-            <div style="background-color: whitesmoke;">最新文章</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
         </div>
-        <#-- 归档 -->
-        <div style="padding-top: 1.33em;">
-            <div style="background-color: whitesmoke;">归档</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-        </div>
-        <#-- 标签 -->
-        <div style="padding-top: 1.33em;">
-            <div style="background-color: whitesmoke;">标签</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-        </div>
-        <#-- 评论 -->
-        <div style="padding-top: 1.33em;">
-            <div style="background-color: whitesmoke;">评论</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-            <div class="main-left-card">玛娃是大傻逼</div>
-        </div>
-        <#-- 脚注 -->
-        <div class="main-left-card" style="margin-top: 1.33em;font-size: 14px;border: 1px solid #b9b9b961">
-            <p>联系我们（工作时间：8:30-22:00）</p>
-            <p>京ICP备XXXXXXXX号 经营性网站备案信息</p>
-            <p>公安备案号XXXXXXXXXXXXX</p>
+        <#-- 右侧 -->
+        <div class="col-4">
+            <#-- 文章列表 -->
+            <ul class="list-group list-group-flush" style="padding-top: 1.33em;">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">A fourth item</li>
+                <li class="list-group-item">And a fifth one</li>
+            </ul>
+            <#-- 归档 -->
+            <div style="padding-top: 1.33em;">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A list item
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A second list item
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A third list item
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                </ul>
+            </div>
+            <#-- 标签 -->
+            <div style="padding-top: 1.33em;">
+                <span class="badge rounded-pill bg-primary">Primary</span>
+                <span class="badge rounded-pill bg-secondary">Secondary</span>
+                <span class="badge rounded-pill bg-success">Success</span>
+                <span class="badge rounded-pill bg-danger">Danger</span>
+                <span class="badge rounded-pill bg-warning text-dark">Warning</span>
+                <span class="badge rounded-pill bg-info text-dark">Info</span>
+                <span class="badge rounded-pill bg-light text-dark">Light</span>
+                <span class="badge rounded-pill bg-dark">Dark</span>
+            </div>
+            <#-- 脚注 -->
+            <div class="card" style="margin-top: 1.33em">
+                <div class="card-body">
+                    <p>联系我们（工作时间：8:30-22:00）</p>
+                    <p>京ICP备XXXXXXXX号 经营性网站备案信息</p>
+                    <p>公安备案号XXXXXXXXXXXXX</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
