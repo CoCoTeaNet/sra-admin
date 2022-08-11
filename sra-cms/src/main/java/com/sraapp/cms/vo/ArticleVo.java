@@ -31,6 +31,11 @@ public class ArticleVo implements Serializable {
     private String publishStatus;
 
     /**
+     * 标签
+     */
+    private String tags;
+
+    /**
      * 创建人
      */
     private String createBy;
@@ -39,16 +44,6 @@ public class ArticleVo implements Serializable {
      * 创建时间
      */
     private LocalDateTime createTime;
-
-    /**
-     * 更新人
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
     public String getId() {
         return id;
@@ -90,6 +85,14 @@ public class ArticleVo implements Serializable {
         this.publishStatus = publishStatus;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     public String getCreateBy() {
         return createBy;
     }
@@ -104,21 +107,5 @@ public class ArticleVo implements Serializable {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
     }
 }

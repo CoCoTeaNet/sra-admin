@@ -39,4 +39,9 @@ public class StringUtils {
      * 百分号
      */
     public final static String PERCENT = "%";
+
+    /**
+     * 逗号
+     */
+    public final static String COMMA = ",";
 }

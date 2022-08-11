@@ -15,6 +15,7 @@ import java.util.List;
  */
 @ApiModel("新增文章参数")
 public class ArticleAddParam implements Serializable {
+    private static final long serialVersionUID = 1113969990552647916L;
 
     @ApiModelProperty(value = "文章标题",required = true)
     @NotBlank(message = "标题为空")
@@ -24,11 +25,8 @@ public class ArticleAddParam implements Serializable {
     @NotBlank(message = "内容为空")
     private String content;
 
-    @ApiModelProperty("文章简介")
-    private String summary;
-
     @ApiModelProperty("文章标签ID")
-    private List<String> tagIds;
+    private List<String> tags;
 
     public String getTitle() {
         return title;
@@ -46,19 +44,11 @@ public class ArticleAddParam implements Serializable {
         this.content = content;
     }
 
-    public String getSummary() {
-        return summary;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public List<String> getTagIds() {
-        return tagIds;
-    }
-
-    public void setTagIds(List<String> tagIds) {
-        this.tagIds = tagIds;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }
