@@ -14,16 +14,16 @@ public enum MenuTypeEnum {
      */
     PERMISSION(1, "权限");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     MenuTypeEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

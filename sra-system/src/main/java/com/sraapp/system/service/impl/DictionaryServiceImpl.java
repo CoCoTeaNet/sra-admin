@@ -2,7 +2,7 @@ package com.sraapp.system.service.impl;
 
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.util.GenerateDsUtils;
-import com.sraapp.common.util.StringUtils;
+import com.sraapp.common.constant.CharConstant;
 import com.sraapp.system.entity.Dictionary;
 import com.sraapp.system.param.dictionary.DictionaryAddParam;
 import com.sraapp.system.param.dictionary.DictionaryPageParam;
@@ -33,7 +33,7 @@ public class DictionaryServiceImpl implements IDictionaryService {
     public boolean add(DictionaryAddParam param) {
         Dictionary dictionary = sqlToyLazyDao.convertType(param, Dictionary.class);
         if (StringUtil.isBlank(dictionary.getParentId())) {
-            dictionary.setParentId(StringUtils.ZERO);
+            dictionary.setParentId(CharConstant.ZERO);
         }
         Object o = sqlToyLazyDao.save(dictionary);
         return o != null;

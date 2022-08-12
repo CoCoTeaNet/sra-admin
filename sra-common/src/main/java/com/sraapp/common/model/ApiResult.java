@@ -1,7 +1,7 @@
 package com.sraapp.common.model;
 
 import com.sraapp.common.enums.ApiResultEnum;
-import com.sraapp.common.util.StringUtils;
+import com.sraapp.common.constant.CharConstant;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -57,7 +57,7 @@ public class ApiResult<T> implements Serializable {
      * @return 成功结果
      */
     public static ApiResult<String> ok() {
-        return new ApiResult<>(ApiResultEnum.SUCCESS.getCode(), StringUtils.EMPTY_STRING, ApiResultEnum.SUCCESS.getDesc());
+        return new ApiResult<>(ApiResultEnum.SUCCESS.getCode(), CharConstant.EMPTY_STRING, ApiResultEnum.SUCCESS.getDesc());
     }
 
     /**
@@ -66,7 +66,7 @@ public class ApiResult<T> implements Serializable {
      * @return 错误结果
      */
     public static ApiResult<String> error() {
-        return new ApiResult<>(ApiResultEnum.ERROR.getCode(), StringUtils.EMPTY_STRING, ApiResultEnum.ERROR.getDesc());
+        return new ApiResult<>(ApiResultEnum.ERROR.getCode(), CharConstant.EMPTY_STRING, ApiResultEnum.ERROR.getDesc());
     }
 
     /**
@@ -97,7 +97,7 @@ public class ApiResult<T> implements Serializable {
      * @return 成功结果
      */
     public static ApiResult<String> error(String message) {
-        return error(StringUtils.EMPTY_STRING, message);
+        return error(CharConstant.EMPTY_STRING, message);
     }
 
     /**
@@ -108,7 +108,7 @@ public class ApiResult<T> implements Serializable {
      * @return 成功结果
      */
     public static ApiResult<String> error(Integer errorCode, String message) {
-        return new ApiResult<>(errorCode, StringUtils.EMPTY_STRING, message);
+        return new ApiResult<>(errorCode, CharConstant.EMPTY_STRING, message);
     }
 
     /**

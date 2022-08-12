@@ -59,7 +59,7 @@ public class Dictionary implements Serializable {
 	 * 启用状态;0关闭 1启用
 	 */
 	@Column(name="ENABLE_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=true)
-	private String enableStatus;
+	private Integer enableStatus;
 	
 	/**
 	 * jdbcType:INT
@@ -101,218 +101,131 @@ public class Dictionary implements Serializable {
 	 * 删除状态;0删除 1未删除
 	 */
 	@Column(name="DELETE_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=true)
-	private String deleteStatus;
-	
-	/** default constructor */
-	public Dictionary() {
-	}
-	
-	/** pk constructor */
-	public Dictionary(String id)
-	{
-		this.id=id;
-	}
-	
-	/**
-	 *@param id the id to set
-	 */
-	public Dictionary setId(String id) {
-		this.id=id;
-		return this;
-	}
-		
-	/**
-	 *@return the Id
-	 */
+	private Integer deleteStatus;
+
 	public String getId() {
-	    return this.id;
+		return id;
 	}
-	
-	/**
-	 *@param parentId the parentId to set
-	 */
-	public Dictionary setParentId(String parentId) {
-		this.parentId=parentId;
+
+	public Dictionary setId(String id) {
+		this.id = id;
 		return this;
 	}
-		
-	/**
-	 *@return the ParentId
-	 */
+
 	public String getParentId() {
-	    return this.parentId;
+		return parentId;
 	}
-	
-	/**
-	 *@param dictionaryName the dictionaryName to set
-	 */
-	public Dictionary setDictionaryName(String dictionaryName) {
-		this.dictionaryName=dictionaryName;
+
+	public Dictionary setParentId(String parentId) {
+		this.parentId = parentId;
 		return this;
 	}
-		
-	/**
-	 *@return the DictionaryName
-	 */
+
 	public String getDictionaryName() {
-	    return this.dictionaryName;
+		return dictionaryName;
 	}
-	
-	/**
-	 *@param remark the remark to set
-	 */
-	public Dictionary setRemark(String remark) {
-		this.remark=remark;
+
+	public Dictionary setDictionaryName(String dictionaryName) {
+		this.dictionaryName = dictionaryName;
 		return this;
 	}
-		
-	/**
-	 *@return the Remark
-	 */
+
 	public String getRemark() {
-	    return this.remark;
+		return remark;
 	}
-	
-	/**
-	 *@param sort the sort to set
-	 */
-	public Dictionary setSort(Integer sort) {
-		this.sort=sort;
+
+	public Dictionary setRemark(String remark) {
+		this.remark = remark;
 		return this;
 	}
-		
-	/**
-	 *@return the Sort
-	 */
+
 	public Integer getSort() {
-	    return this.sort;
+		return sort;
 	}
-	
-	/**
-	 *@param enableStatus the enableStatus to set
-	 */
-	public Dictionary setEnableStatus(String enableStatus) {
-		this.enableStatus=enableStatus;
+
+	public Dictionary setSort(Integer sort) {
+		this.sort = sort;
 		return this;
 	}
-		
-	/**
-	 *@return the EnableStatus
-	 */
-	public String getEnableStatus() {
-	    return this.enableStatus;
+
+	public Integer getEnableStatus() {
+		return enableStatus;
 	}
-	
-	/**
-	 *@param revision the revision to set
-	 */
-	public Dictionary setRevision(Integer revision) {
-		this.revision=revision;
+
+	public Dictionary setEnableStatus(Integer enableStatus) {
+		this.enableStatus = enableStatus;
 		return this;
 	}
-		
-	/**
-	 *@return the Revision
-	 */
+
 	public Integer getRevision() {
-	    return this.revision;
+		return revision;
 	}
-	
-	/**
-	 *@param createBy the createBy to set
-	 */
-	public Dictionary setCreateBy(String createBy) {
-		this.createBy=createBy;
+
+	public Dictionary setRevision(Integer revision) {
+		this.revision = revision;
 		return this;
 	}
-		
-	/**
-	 *@return the CreateBy
-	 */
+
 	public String getCreateBy() {
-	    return this.createBy;
+		return createBy;
 	}
-	
-	/**
-	 *@param createTime the createTime to set
-	 */
-	public Dictionary setCreateTime(LocalDateTime createTime) {
-		this.createTime=createTime;
+
+	public Dictionary setCreateBy(String createBy) {
+		this.createBy = createBy;
 		return this;
 	}
-		
-	/**
-	 *@return the CreateTime
-	 */
+
 	public LocalDateTime getCreateTime() {
-	    return this.createTime;
+		return createTime;
 	}
-	
-	/**
-	 *@param updateBy the updateBy to set
-	 */
-	public Dictionary setUpdateBy(String updateBy) {
-		this.updateBy=updateBy;
+
+	public Dictionary setCreateTime(LocalDateTime createTime) {
+		this.createTime = createTime;
 		return this;
 	}
-		
-	/**
-	 *@return the UpdateBy
-	 */
+
 	public String getUpdateBy() {
-	    return this.updateBy;
+		return updateBy;
 	}
-	
-	/**
-	 *@param updateTime the updateTime to set
-	 */
-	public Dictionary setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime=updateTime;
+
+	public Dictionary setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 		return this;
 	}
-		
-	/**
-	 *@return the UpdateTime
-	 */
+
 	public LocalDateTime getUpdateTime() {
-	    return this.updateTime;
+		return updateTime;
 	}
-	
-	/**
-	 *@param deleteStatus the deleteStatus to set
-	 */
-	public Dictionary setDeleteStatus(String deleteStatus) {
-		this.deleteStatus=deleteStatus;
+
+	public Dictionary setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime = updateTime;
 		return this;
 	}
-		
-	/**
-	 *@return the DeleteStatus
-	 */
-	public String getDeleteStatus() {
-	    return this.deleteStatus;
+
+	public Integer getDeleteStatus() {
+		return deleteStatus;
 	}
 
+	public Dictionary setDeleteStatus(Integer deleteStatus) {
+		this.deleteStatus = deleteStatus;
+		return this;
+	}
 
-	/**
-     * @todo vo columns to String
-     */
-    @Override
+	@Override
 	public String toString() {
-		StringBuilder columnsBuffer=new StringBuilder();
-		columnsBuffer.append("id=").append(getId()).append("\n");
-		columnsBuffer.append("parentId=").append(getParentId()).append("\n");
-		columnsBuffer.append("dictionaryName=").append(getDictionaryName()).append("\n");
-		columnsBuffer.append("remark=").append(getRemark()).append("\n");
-		columnsBuffer.append("sort=").append(getSort()).append("\n");
-		columnsBuffer.append("enableStatus=").append(getEnableStatus()).append("\n");
-		columnsBuffer.append("revision=").append(getRevision()).append("\n");
-		columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-		columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-		columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-		columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-		columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
-		return columnsBuffer.toString();
+		return "Dictionary{" +
+				"id='" + id + '\'' +
+				", parentId='" + parentId + '\'' +
+				", dictionaryName='" + dictionaryName + '\'' +
+				", remark='" + remark + '\'' +
+				", sort=" + sort +
+				", enableStatus=" + enableStatus +
+				", revision=" + revision +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				", deleteStatus=" + deleteStatus +
+				'}';
 	}
-	
 }

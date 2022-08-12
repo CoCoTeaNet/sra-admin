@@ -12,7 +12,7 @@ import com.sraapp.cms.vo.TagVo;
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.enums.PublishStatusEnum;
 import com.sraapp.common.model.BusinessException;
-import com.sraapp.common.util.StringUtils;
+import com.sraapp.common.constant.CharConstant;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public boolean add(ArticleAddParam param) throws BusinessException {
         StringBuilder tagBuilder = new StringBuilder();
-        param.getTags().forEach(item -> tagBuilder.append(item).append(StringUtils.COMMA));
+        param.getTags().forEach(item -> tagBuilder.append(item).append(CharConstant.COMMA));
         CmsArticle article = Convert.convert(CmsArticle.class, param);
         article.setTags(tagBuilder.substring(0, tagBuilder.length() - 1));
         article.setPublishStatus(PublishStatusEnum.NORMAL.getCode());
@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements IArticleService {
         for (String id : idList) {
             CmsArticle article = new CmsArticle();
             article.setId(id);
-            article.setDeleteStatus(Integer.parseInt(DeleteStatusEnum.DELETE.getCode()));
+            article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
             articleList.add(article);
         }
         Long updateAll = sqlToyLazyDao.updateAll(articleList);
@@ -73,7 +73,7 @@ public class ArticleServiceImpl implements IArticleService {
     public boolean delete(String id) throws BusinessException {
         CmsArticle article = new CmsArticle();
         article.setId(id);
-        article.setDeleteStatus(Integer.parseInt(DeleteStatusEnum.DELETE.getCode()));
+        article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
         Long update = sqlToyLazyDao.update(article);
         return update > 0;
     }

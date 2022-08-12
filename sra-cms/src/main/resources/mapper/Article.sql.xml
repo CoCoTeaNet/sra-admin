@@ -25,24 +25,6 @@
     <sql id="cms_article_findByPageParam">
         <value>
             <![CDATA[
-                select ID, TITLE, SUMMARY, PUBLISH_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
-                from cms_article
-                where
-                #[and ID = :id]
-                #[and TITLE = :title]
-                #[and PUBLISH_STATUS = :publishStatus]
-                #[and CREATE_BY = :createBy]
-                #[and UPDATE_BY = :updateBy]
-                and DELETE_STATUS = 1
-                order by CREATE_TIME desc, UPDATE_TIME desc
-			]]>
-        </value>
-    </sql>
-
-    <!-- 根据分页参数获取查询 -->
-    <sql id="cms_article_findByPageParam">
-        <value>
-            <![CDATA[
                 select ca.ID,
                        ca.TITLE,
                        ca.CONTENT,

@@ -25,6 +25,15 @@ public interface IRedisService {
     void saveByHours(String key, String value, int hours);
 
     /**
+     * 保存方法，时间为分钟
+     *
+     * @param key k
+     * @param value v
+     * @param minutes 单位分钟
+     */
+    void saveByMinutes(String key, String value, int minutes);
+
+    /**
      * 保存方法，时效为永久
      *
      * @param key k

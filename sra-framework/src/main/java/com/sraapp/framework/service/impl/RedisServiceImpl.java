@@ -27,6 +27,11 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     @Override
+    public void saveByMinutes(String key, String value, int minutes){
+        stringRedisTemplate.opsForValue().set(key, value, minutes, TimeUnit.MINUTES);
+    }
+
+    @Override
     public void save(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
     }

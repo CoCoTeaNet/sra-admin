@@ -24,16 +24,16 @@ public enum MenuStatusEnum {
      */
     HIDE_CLOSE(3, "隐藏&关闭");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     MenuStatusEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

@@ -14,16 +14,16 @@ public enum DeleteStatusEnum {
      */
     NOT_DELETE(1, "未删除"),
     ;
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     DeleteStatusEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

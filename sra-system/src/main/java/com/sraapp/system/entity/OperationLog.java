@@ -50,7 +50,7 @@ public class OperationLog implements Serializable {
      * 操作状态;0异常 1成功
      */
     @Column(name="OPERATION_STATUS",length=1L,type=java.sql.Types.CHAR)
-    private String operationStatus;
+    private Integer operationStatus;
 
     /**
      * 系统模块
@@ -62,7 +62,7 @@ public class OperationLog implements Serializable {
      * 操作类型;0登录日志 1操作日志
      */
     @Column(name="OPERATION_TYPE",length=1L,type=java.sql.Types.CHAR)
-    private String operationType;
+    private Integer operationType;
 
     /**
      * 操作地点
@@ -82,121 +82,119 @@ public class OperationLog implements Serializable {
     @Column(name="OPERATION_TIME",type=java.sql.Types.DATE)
     private LocalDateTime operationTime;
 
-
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public OperationLog setId(String id) {
-        this.id=id;
+        this.id = id;
         return this;
     }
 
     public Long getLogNumber() {
-        return this.logNumber;
+        return logNumber;
     }
 
     public OperationLog setLogNumber(Long logNumber) {
-        this.logNumber=logNumber;
+        this.logNumber = logNumber;
         return this;
     }
 
     public String getIpAddress() {
-        return this.ipAddress;
+        return ipAddress;
     }
 
     public OperationLog setIpAddress(String ipAddress) {
-        this.ipAddress=ipAddress;
+        this.ipAddress = ipAddress;
         return this;
     }
 
     public String getOperator() {
-        return this.operator;
+        return operator;
     }
 
     public OperationLog setOperator(String operator) {
-        this.operator=operator;
+        this.operator = operator;
         return this;
     }
 
     public String getRequestWay() {
-        return this.requestWay;
+        return requestWay;
     }
 
     public OperationLog setRequestWay(String requestWay) {
-        this.requestWay=requestWay;
+        this.requestWay = requestWay;
         return this;
     }
 
-    public String getOperationStatus() {
-        return this.operationStatus;
+    public Integer getOperationStatus() {
+        return operationStatus;
     }
 
-    public OperationLog setOperationStatus(String operationStatus) {
-        this.operationStatus=operationStatus;
+    public OperationLog setOperationStatus(Integer operationStatus) {
+        this.operationStatus = operationStatus;
         return this;
     }
 
     public String getSystemModule() {
-        return this.systemModule;
+        return systemModule;
     }
 
     public OperationLog setSystemModule(String systemModule) {
-        this.systemModule=systemModule;
+        this.systemModule = systemModule;
         return this;
     }
 
-    public String getOperationType() {
-        return this.operationType;
+    public Integer getOperationType() {
+        return operationType;
     }
 
-    public OperationLog setOperationType(String operationType) {
-        this.operationType=operationType;
+    public OperationLog setOperationType(Integer operationType) {
+        this.operationType = operationType;
         return this;
     }
 
     public String getOperationAddress() {
-        return this.operationAddress;
+        return operationAddress;
     }
 
     public OperationLog setOperationAddress(String operationAddress) {
-        this.operationAddress=operationAddress;
+        this.operationAddress = operationAddress;
         return this;
     }
 
     public String getLogType() {
-        return this.logType;
+        return logType;
     }
 
     public OperationLog setLogType(String logType) {
-        this.logType=logType;
+        this.logType = logType;
         return this;
     }
 
     public LocalDateTime getOperationTime() {
-        return this.operationTime;
+        return operationTime;
     }
 
     public OperationLog setOperationTime(LocalDateTime operationTime) {
-        this.operationTime=operationTime;
+        this.operationTime = operationTime;
         return this;
     }
 
-
     @Override
     public String toString() {
-        StringBuilder columnsBuffer = new StringBuilder();
-        columnsBuffer.append("id=").append(getId()).append("\n");
-        columnsBuffer.append("logNumber=").append(getLogNumber()).append("\n");
-        columnsBuffer.append("ipAddress=").append(getIpAddress()).append("\n");
-        columnsBuffer.append("operator=").append(getOperator()).append("\n");
-        columnsBuffer.append("requestWay=").append(getRequestWay()).append("\n");
-        columnsBuffer.append("operationStatus=").append(getOperationStatus()).append("\n");
-        columnsBuffer.append("systemModule=").append(getSystemModule()).append("\n");
-        columnsBuffer.append("operationType=").append(getOperationType()).append("\n");
-        columnsBuffer.append("operationAddress=").append(getOperationAddress()).append("\n");
-        columnsBuffer.append("logType=").append(getLogType()).append("\n");
-        columnsBuffer.append("operationTime=").append(getOperationTime()).append("\n");
-        return columnsBuffer.toString();
+        return "OperationLog{" +
+                "id='" + id + '\'' +
+                ", logNumber=" + logNumber +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", operator='" + operator + '\'' +
+                ", requestWay='" + requestWay + '\'' +
+                ", operationStatus=" + operationStatus +
+                ", systemModule='" + systemModule + '\'' +
+                ", operationType=" + operationType +
+                ", operationAddress='" + operationAddress + '\'' +
+                ", logType='" + logType + '\'' +
+                ", operationTime=" + operationTime +
+                '}';
     }
 }

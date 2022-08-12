@@ -1,10 +1,10 @@
-package com.sraapp.common.util;
+package com.sraapp.common.constant;
 
 /**
  * @date 2022-1-12 16:37:00
  * @author jwss
  */
-public class StringUtils {
+public class CharConstant {
     /**
      * 空字符串
      */

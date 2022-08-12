@@ -2,9 +2,9 @@ package com.sraapp.cms.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
-import com.sraapp.cms.param.ArticleAddParam;
-import com.sraapp.cms.param.ArticlePageParam;
-import com.sraapp.cms.param.ArticleUpdateParam;
+import com.sraapp.cms.param.article.ArticleAddParam;
+import com.sraapp.cms.param.article.ArticlePageParam;
+import com.sraapp.cms.param.article.ArticleUpdateParam;
 import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.vo.ArticleVo;
 import com.sraapp.common.model.ApiResult;

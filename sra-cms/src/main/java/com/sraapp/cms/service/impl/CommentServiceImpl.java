@@ -7,9 +7,11 @@ import com.sraapp.cms.service.ICommentService;
 import com.sraapp.cms.vo.CommentVo;
 import com.sraapp.common.model.BusinessException;
 import org.sagacity.sqltoy.model.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements ICommentService {
     @Override
     public boolean add(CommentAddParam param) throws BusinessException {
