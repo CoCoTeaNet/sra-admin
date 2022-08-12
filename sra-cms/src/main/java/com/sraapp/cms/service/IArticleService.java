@@ -22,6 +22,4 @@ public interface IArticleService extends IBaseService<Page<ArticleVo>, ArticlePa
     List<ArticleVo> findByTimeDesc();
 
     List<ArticleVo> findByArchiveList();
-
-    List<TagVo> findHotTagList();
 }

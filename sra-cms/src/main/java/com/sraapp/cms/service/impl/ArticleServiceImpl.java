@@ -98,9 +98,4 @@ public class ArticleServiceImpl implements IArticleService {
     public List<ArticleVo> findByArchiveList() {
         return null;
     }
-
-    @Override
-    public List<TagVo> findHotTagList() {
-        return null;
-    }
 }

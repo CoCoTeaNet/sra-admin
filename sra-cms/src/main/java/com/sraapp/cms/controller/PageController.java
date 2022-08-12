@@ -36,12 +36,10 @@ public class PageController {
         // 热门评论
         List<CommentVo> commentVoList = commentService.findHotComment();
         // 获取标签列表
-        List<TagVo> tagVoList = articleService.findHotTagList();
         modelMap.addAttribute("articleServiceByCommentNumDesc", articleServiceByCommentNumDesc);
         modelMap.addAttribute("articleServiceByTimeDesc", articleServiceByTimeDesc);
         modelMap.addAttribute("articleServiceByArchiveList", articleServiceByArchiveList);
         modelMap.addAttribute("commentVoList", commentVoList);
-        modelMap.addAttribute("tagVoList", tagVoList);
         return "index";
     }
 

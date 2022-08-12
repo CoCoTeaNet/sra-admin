@@ -25,7 +25,7 @@ public class ArticleAddParam implements Serializable {
     @NotBlank(message = "内容为空")
     private String content;
 
-    @ApiModelProperty("文章标签ID")
+    @ApiModelProperty("文章标签")
     private List<String> tags;
 
     public String getTitle() {
