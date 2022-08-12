@@ -43,16 +43,23 @@
     <sql id="cms_article_findByPageParam">
         <value>
             <![CDATA[
-                select ID, TITLE, CONTENT, SUMMARY, PUBLISH_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY
-                from cms_article
+                select ca.ID,
+                       ca.TITLE,
+                       ca.CONTENT,
+                       ca.SUMMARY,
+                       ca.PUBLISH_STATUS,
+                       ca.TAGS,
+                       su.USERNAME as createBy,
+                       ca.CREATE_TIME
+                from cms_article ca left join sys_user su on su.ID = ca.CREATE_BY
                 where
-                #[and ID = :id]
-                #[and TITLE = :title]
-                #[and PUBLISH_STATUS = :publishStatus]
-                #[and CREATE_BY = :createBy]
-                #[and UPDATE_BY = :updateBy]
-                and DELETE_STATUS = 1
-                order by CREATE_TIME desc, UPDATE_TIME desc
+                #[and ca.ID = :id]
+                #[and ca.TITLE = :title]
+                #[and ca.PUBLISH_STATUS = :publishStatus]
+                #[and su.USERNAME like :createBy]
+                #[and ca.UPDATE_BY = :updateBy]
+                and ca.DELETE_STATUS = 1
+                order by ca.CREATE_TIME desc, ca.UPDATE_TIME desc
 			]]>
         </value>
     </sql>

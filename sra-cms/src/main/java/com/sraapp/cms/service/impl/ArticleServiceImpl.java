@@ -1,6 +1,7 @@
 package com.sraapp.cms.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.sraapp.cms.entity.CmsArticle;
 import com.sraapp.cms.param.article.ArticleAddParam;
 import com.sraapp.cms.param.article.ArticlePageParam;
@@ -9,7 +10,9 @@ import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.vo.ArticleVo;
 import com.sraapp.cms.vo.TagVo;
 import com.sraapp.common.enums.DeleteStatusEnum;
+import com.sraapp.common.enums.PublishStatusEnum;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.common.util.StringUtils;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
@@ -30,10 +33,13 @@ public class ArticleServiceImpl implements IArticleService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean add(ArticleAddParam param) throws BusinessException {
+        StringBuilder tagBuilder = new StringBuilder();
+        param.getTags().forEach(item -> tagBuilder.append(item).append(StringUtils.COMMA));
         CmsArticle article = Convert.convert(CmsArticle.class, param);
+        article.setTags(tagBuilder.substring(0, tagBuilder.length() - 1));
+        article.setPublishStatus(PublishStatusEnum.NORMAL.getCode());
         Object save = sqlToyLazyDao.save(article);
-        // 关联标签
-        return true;
+        return StrUtil.isNotBlank(save.toString());
     }
 
     @Override
@@ -42,7 +48,7 @@ public class ArticleServiceImpl implements IArticleService {
         for (String id : idList) {
             CmsArticle article = new CmsArticle();
             article.setId(id);
-            article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+            article.setDeleteStatus(Integer.parseInt(DeleteStatusEnum.DELETE.getCode()));
             articleList.add(article);
         }
         Long updateAll = sqlToyLazyDao.updateAll(articleList);
@@ -67,7 +73,7 @@ public class ArticleServiceImpl implements IArticleService {
     public boolean delete(String id) throws BusinessException {
         CmsArticle article = new CmsArticle();
         article.setId(id);
-        article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+        article.setDeleteStatus(Integer.parseInt(DeleteStatusEnum.DELETE.getCode()));
         Long update = sqlToyLazyDao.update(article);
         return update > 0;
     }
