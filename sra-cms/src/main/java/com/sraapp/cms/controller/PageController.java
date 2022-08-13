@@ -5,7 +5,6 @@ import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.service.ICommentService;
 import com.sraapp.cms.vo.ArticleVo;
 import com.sraapp.cms.vo.CommentVo;
-import com.sraapp.cms.vo.TagVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +44,7 @@ public class PageController {
 
     @GetMapping("/detail/{articleId}")
     public String detail(@PathVariable("articleId") String articleId, ModelMap modelMap) {
-        CmsArticle article = articleService.detail(articleId);
+        ArticleVo article = articleService.detail(articleId);
         modelMap.addAttribute("article", article);
         return "detail";
     }

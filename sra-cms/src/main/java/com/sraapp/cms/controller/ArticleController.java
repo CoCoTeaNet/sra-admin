@@ -11,10 +11,8 @@ import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
 import io.swagger.annotations.ApiOperation;
 import org.sagacity.sqltoy.model.Page;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -61,5 +59,13 @@ public class ArticleController {
     public ApiResult<?> listByPage(@RequestBody ArticlePageParam param) throws BusinessException {
         Page<ArticleVo> list = articleService.listByPage(param);
         return ApiResult.ok(list);
+    }
+
+    @ApiOperation("文章详细")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @GetMapping("/detail/{articleId}")
+    public ApiResult<?> detail(@PathVariable("articleId") String articleId) {
+        ArticleVo article = articleService.detail(articleId);
+        return ApiResult.ok(article);
     }
 }

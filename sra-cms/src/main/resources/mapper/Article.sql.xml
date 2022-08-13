@@ -7,7 +7,7 @@
     <sql id="cms_article_findByEntityParam">
         <value>
             <![CDATA[
-                select ID, TITLE, CONTENT, SUMMARY, PUBLISH_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+                select ID, TITLE, CONTENT, SUMMARY, PUBLISH_STATUS,TAGS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
                 from cms_article
                 where
                 #[and ID = :id]
@@ -27,6 +27,7 @@
             <![CDATA[
                 select ca.ID,
                        ca.TITLE,
+                       ca.COVER,
                        ca.CONTENT,
                        ca.SUMMARY,
                        ca.PUBLISH_STATUS,

@@ -25,6 +25,9 @@ public class ArticleAddParam implements Serializable {
     @NotBlank(message = "内容为空")
     private String content;
 
+    @ApiModelProperty(value = "简介")
+    private String summary;
+
     @ApiModelProperty("文章标签")
     private List<String> tags;
 
@@ -50,5 +53,14 @@ public class ArticleAddParam implements Serializable {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public ArticleAddParam setSummary(String summary) {
+        this.summary = summary;
+        return this;
     }
 }

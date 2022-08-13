@@ -16,59 +16,68 @@ import java.util.List;
 @ApiModel("更新文章参数")
 public class ArticleUpdateParam implements Serializable {
 
+    private static final long serialVersionUID = -8951611583471320888L;
+
     @ApiModelProperty(value = "文章id", required = true)
     @NotBlank(message = "文章id为空")
     private String id;
 
-    @ApiModelProperty(value = "文章内容")
+    @ApiModelProperty(value = "文章标题",required = true)
+    @NotBlank(message = "标题为空")
     private String title;
 
-    @ApiModelProperty(value = "文章内容")
+    @ApiModelProperty(value = "文章内容", required = true)
+    @NotBlank(message = "内容为空")
     private String content;
 
-    @ApiModelProperty(value = "文章简介")
+    @ApiModelProperty(value = "简介")
     private String summary;
 
-    @ApiModelProperty(value = "文章标签")
-    private List<String> tagIds;
+    @ApiModelProperty("文章标签")
+    private List<String> tags;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public ArticleUpdateParam setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public ArticleUpdateParam setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
-    public List<String> getTagIds() {
-        return tagIds;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTagIds(List<String> tagIds) {
-        this.tagIds = tagIds;
+    public ArticleUpdateParam setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public ArticleUpdateParam setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public ArticleUpdateParam setTags(List<String> tags) {
+        this.tags = tags;
+        return this;
     }
 }

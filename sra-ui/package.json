@@ -17,7 +17,7 @@
     "echarts": "^5.3.0",
     "element-plus": "^2.2.1",
     "highlight.js": "^11.5.1",
-    "vue": "^3.2.13",
+    "vue": "^3.2.32",
     "vue-axios": "^3.4.1",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.12",

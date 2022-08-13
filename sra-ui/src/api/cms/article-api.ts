@@ -1,4 +1,4 @@
-import {request, post} from '@/utils/axios-util';
+import {request, post, get} from '@/utils/axios-util';
 
 /**
  * 新增文章
@@ -21,7 +21,7 @@ export function update(data: any) {
  * @param data
  * @returns {Promise<*>}
  */
-export function deleteBatch(data: any) {
+export function deleteBatch(data: string[]) {
     return request('cms/article/deleteBatch', data, post);
 }
 
@@ -30,4 +30,11 @@ export function deleteBatch(data: any) {
  */
 export function listByPage(data: any) {
     return request('cms/article/listByPage', data, post);
+}
+
+/**
+ * 文章详细
+ */
+export function detail(id: string) {
+    return request(`cms/article/detail/${id}`, {}, get);
 }
