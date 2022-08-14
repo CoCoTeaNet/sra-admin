@@ -37,10 +37,12 @@
                 from cms_article ca left join sys_user su on su.ID = ca.CREATE_BY
                 where
                 #[and ca.ID = :id]
-                #[and ca.TITLE = :title]
+                #[and ca.TITLE like :title]
                 #[and ca.PUBLISH_STATUS = :publishStatus]
                 #[and su.USERNAME like :createBy]
                 #[and ca.UPDATE_BY = :updateBy]
+                #[and ca.CREATE_TIME >= :beginTime]
+                #[and ca.CREATE_TIME < :endTime]
                 and ca.DELETE_STATUS = 1
                 order by ca.CREATE_TIME desc, ca.UPDATE_TIME desc
 			]]>

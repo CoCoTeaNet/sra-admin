@@ -6,9 +6,9 @@
       </div>
     </el-form>
 
-    <el-row justify="end" :gutter="10" class="tm-operate">
+    <div class="tm-operate">
       <slot name="operate"></slot>
-    </el-row>
+    </div>
 
     <div style="width: 100%;margin-top: 1em">
       <slot name="default"></slot>
@@ -37,11 +37,8 @@
   margin-right: 1em;
 }
 
-.tm-form {
-  height: 32px;
-}
-
 .tm-operate {
-  /*margin-top: 3px;*/
+  display: flex;
+  justify-content: end;
 }
 </style>

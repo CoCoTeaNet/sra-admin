@@ -48,6 +48,27 @@ public class ArticleVo implements Serializable {
      */
     private LocalDateTime createTime;
 
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public ArticleVo setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+        return this;
+    }
+
+    public LocalDateTime getBeginTime() {
+        return beginTime;
+    }
+
+    public ArticleVo setBeginTime(LocalDateTime beginTime) {
+        this.beginTime = beginTime;
+        return this;
+    }
+
     public List<String> getTagList() {
         return tagList;
     }
