@@ -51,6 +51,17 @@ public class ArticleVo implements Serializable {
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
 
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public ArticleVo setCover(String cover) {
+        this.cover = cover;
+        return this;
+    }
+
     public LocalDateTime getEndTime() {
         return endTime;
     }

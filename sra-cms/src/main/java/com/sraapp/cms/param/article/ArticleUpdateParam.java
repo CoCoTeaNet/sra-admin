@@ -36,6 +36,18 @@ public class ArticleUpdateParam implements Serializable {
     @ApiModelProperty("文章标签")
     private List<String> tags;
 
+    @ApiModelProperty("文章封面")
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public ArticleUpdateParam setCover(String cover) {
+        this.cover = cover;
+        return this;
+    }
+
     public String getId() {
         return id;
     }

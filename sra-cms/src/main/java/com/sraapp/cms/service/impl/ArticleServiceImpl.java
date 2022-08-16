@@ -15,6 +15,8 @@ import com.sraapp.common.enums.PublishStatusEnum;
 import com.sraapp.common.model.BusinessException;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.model.QueryExecutor;
+import org.sagacity.sqltoy.model.QueryResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,7 +96,14 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public List<ArticleVo> findByTimeDesc() {
-        return null;
+        String sql = "select ID, TITLE, COVER, SUMMARY, CREATE_TIME from cms_article where DELETE_STATUS = 1 order by CREATE_TIME desc, UPDATE_TIME desc limit 15";
+        List<ArticleVo> list = sqlToyLazyDao.findBySql(sql, new ArticleVo());
+        list.forEach(articleVo -> {
+            if (StrUtil.isBlank(articleVo.getCover())) {
+                articleVo.setCover("/default/default-cover.jpg");
+            }
+        });
+        return list;
     }
 
     @Override

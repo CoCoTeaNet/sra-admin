@@ -62,17 +62,17 @@
         <div class="col-8">
             <#-- 文章列表 -->
             <div style="padding-top: 1.33em;">
-                <#list 1..10 as n>
+                <#list articleServiceByTimeDesc as article>
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="..." class="img-fluid rounded-start" alt="...">
+                                <img src="${article.cover}" class="img-fluid rounded-start" alt="${article.title}">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <p class="card-text"><small class="text-muted">2022-12-12</small></p>
+                                    <h5 class="card-title">${article.title}</h5>
+                                    <p class="card-text">${article.summary}</p>
+                                    <p class="card-text"><small class="text-muted">${article.createTime}</small></p>
                                 </div>
                             </div>
                         </div>

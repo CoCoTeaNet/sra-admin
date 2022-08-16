@@ -31,7 +31,7 @@ public class CmsArticle implements Serializable {
      * 封面
      */
     @Column(name="COVER",length=200L,type=java.sql.Types.VARCHAR,nullable=false)
-    private String COVER;
+    private String cover;
 
     /**
      * 内容
@@ -180,12 +180,13 @@ public class CmsArticle implements Serializable {
         this.tags = tags;
     }
 
-    public String getCOVER() {
-        return COVER;
+    public String getCover() {
+        return cover;
     }
 
-    public void setCOVER(String COVER) {
-        this.COVER = COVER;
+    public CmsArticle setCover(String cover) {
+        this.cover = cover;
+        return this;
     }
 
     public Integer getPublishStatus() {
