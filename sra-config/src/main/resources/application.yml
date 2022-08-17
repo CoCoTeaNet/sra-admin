@@ -26,9 +26,6 @@ sra:
       - /upload/**
       - /codeGenerator/**
       - /schedule/**
-  package-scan:
-    # 多个包用冒号隔开
-    swagger-packages: com.sraapp.system.controller,com.sraapp.cms.controller
 
 # Sa-Token 配置
 sa-token:

@@ -1,11 +1,7 @@
 package com.sraapp.system.param.role;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author jwss
@@ -13,7 +9,6 @@ import java.time.LocalDateTime;
  * @version 1.0.0
  * @description sys_role,系统角色表  
  */
-@ApiModel("系统角色新增参数")
 public class RoleAddParam implements Serializable {
 
 	private static final long serialVersionUID = -6663565327923196565L;
@@ -21,21 +16,18 @@ public class RoleAddParam implements Serializable {
 	/**
 	 * 角色名称
 	 */
-	@ApiModelProperty(value = "角色名称", required = true)
 	@NotBlank(message = "角色名称为空")
 	private String roleName;
 	
 	/**
 	 * 角色标识
 	 */
-	@ApiModelProperty(value = "角色标识", required = true)
 	@NotBlank(message = "角色标识为空")
 	private String roleKey;
 	
 	/**
 	 * 显示排序
 	 */
-	@ApiModelProperty(value = "显示顺序", required = false)
 	private Integer sort;
 
 	public String getRoleName() {

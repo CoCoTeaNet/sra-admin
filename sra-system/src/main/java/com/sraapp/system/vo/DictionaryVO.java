@@ -1,7 +1,5 @@
 package com.sraapp.system.vo;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,28 +13,20 @@ public class DictionaryVO implements Serializable {
 
 	private static final long serialVersionUID = 79792592030448781L;
 	
-	@ApiModelProperty("主键id")
 	private String id;
 	
-	@ApiModelProperty("父级ID")
 	private String parentId;
 	
-	@ApiModelProperty("字典名称")
 	private String dictionaryName;
 	
-	@ApiModelProperty("备注")
 	private String remark;
 	
-	@ApiModelProperty("排序号")
 	private Integer sort;
 	
-	@ApiModelProperty("启用状态;0关闭 1启用")
 	private String enableStatus;
 
-	@ApiModelProperty("创建人")
 	private String createBy;
 
-	@ApiModelProperty("子项")
 	private List<DictionaryVO> children;
 
 	public String getId() {

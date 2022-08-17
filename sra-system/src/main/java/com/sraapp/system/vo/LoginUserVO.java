@@ -1,7 +1,5 @@
 package com.sraapp.system.vo;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,25 +13,18 @@ public class LoginUserVO implements Serializable {
 
     private static final long serialVersionUID = 1641777558644610990L;
 
-    @ApiModelProperty("登录状态")
     private Boolean loginStatus;
 
-    @ApiModelProperty("主键id")
     private String id;
 
-    @ApiModelProperty("用户账号")
     private String username;
 
-    @ApiModelProperty("用户昵称")
     private String nickname;
 
-    @ApiModelProperty("头像地址")
     private String avatar;
 
-    @ApiModelProperty("权限集合")
     private List<MenuVO> menuList;
 
-    @ApiModelProperty("token")
     private String token;
 
     public Boolean getLoginStatus() {

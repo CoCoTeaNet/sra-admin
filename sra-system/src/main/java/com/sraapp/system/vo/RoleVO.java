@@ -1,7 +1,5 @@
 package com.sraapp.system.vo;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,70 +17,58 @@ public class RoleVO implements Serializable {
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
 	private String id;
 	
 	/**
 	 * 乐观锁
 	 */
-	@ApiModelProperty("乐观锁")
 	private Integer revision;
 	
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
 	private String createBy;
 	
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
 	private LocalDateTime createTime;
 	
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
 	private String updateBy;
 	
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
 	private LocalDateTime updateTime;
 	
 	/**
 	 * 删除状态;0删除 1未删除
 	 */
-	@ApiModelProperty("删除状态；0删除 1未删除")
 	private String deleteStatus;
 	
 	/**
 	 * 角色名称
 	 */
-	@ApiModelProperty("角色名称")
 	private String roleName;
 
-	@ApiModelProperty("角色id")
 	private String roleId;
 	
 	/**
 	 * 角色标识
 	 */
-	@ApiModelProperty("角色标识")
 	private String roleKey;
 	
 	/**
 	 * 显示排序
 	 */
-	@ApiModelProperty("显示顺序")
 	private Integer sort;
 	
 	/**
 	 * 备注
 	 */
-	@ApiModelProperty("备注")
 	private String remark;
 
 	public String getRoleId() {

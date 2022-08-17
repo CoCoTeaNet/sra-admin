@@ -1,8 +1,5 @@
 package com.sraapp.system.param.user;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -12,32 +9,24 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_user,系统用户表  
  */
-@ApiModel(value = "新增用户参数")
 public class UserAddParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
 
 	@NotBlank(message = "账号名为空")
-	@ApiModelProperty(name = "用户账号", required = true)
 	private String username;
 
-	@ApiModelProperty(name = "用户昵称")
 	private String nickname;
 
-	@ApiModelProperty(name = "性别")
 	private String sex;
 
-	@ApiModelProperty(name = "邮箱")
 	private String email;
 
-	@ApiModelProperty(name = "用户密码")
 	private String password;
 
-	@ApiModelProperty(name = "账号状态")
 	private String accountStatus;
 
 	@NotBlank(message = "角色ID为空")
-	@ApiModelProperty(name = "角色ID", required = true)
 	private String roleId;
 
 	public String getNickname() {

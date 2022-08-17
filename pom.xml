@@ -30,8 +30,6 @@
         <mysql-connector.version>8.0.28</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.28.0</satoken.version>
-        <swagger.version>2.9.2</swagger.version>
-        <knife4j.version>3.0.2</knife4j.version>
         <jackson.version>2.11.3</jackson.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
@@ -130,18 +128,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${alibaba-druid.version}</version>
-            </dependency>
-            <!-- knife4j -->
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-ui</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <!-- swagger2 -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
             </dependency>
             <!-- jackson -->
             <dependency>
