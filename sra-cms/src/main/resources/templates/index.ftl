@@ -93,30 +93,23 @@
             <#-- 归档 -->
             <div style="padding-top: 1.33em;">
                 <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        A list item
-                        <span class="badge bg-primary rounded-pill">14</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        A second list item
-                        <span class="badge bg-primary rounded-pill">2</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        A third list item
-                        <span class="badge bg-primary rounded-pill">1</span>
-                    </li>
+
+                    <#list archiveVoList as item>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${item.day}
+                            <span class="badge bg-primary rounded-pill">${item.total}</span>
+                        </li>
+                    </#list>
+
                 </ul>
             </div>
             <#-- 标签 -->
             <div style="padding-top: 1.33em;">
-                <span class="badge rounded-pill bg-primary">Primary</span>
-                <span class="badge rounded-pill bg-secondary">Secondary</span>
-                <span class="badge rounded-pill bg-success">Success</span>
-                <span class="badge rounded-pill bg-danger">Danger</span>
-                <span class="badge rounded-pill bg-warning text-dark">Warning</span>
-                <span class="badge rounded-pill bg-info text-dark">Info</span>
-                <span class="badge rounded-pill bg-light text-dark">Light</span>
-                <span class="badge rounded-pill bg-dark">Dark</span>
+
+                <#list tags as tag>
+                    <span class="badge rounded-pill ${tag.color}">${tag.tagName}</span>
+                </#list>
+
             </div>
             <#-- 脚注 -->
             <div class="card" style="margin-top: 1.33em">

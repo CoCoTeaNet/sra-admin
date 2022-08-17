@@ -3,8 +3,10 @@ package com.sraapp.cms.controller;
 import com.sraapp.cms.entity.CmsArticle;
 import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.service.ICommentService;
+import com.sraapp.cms.vo.ArchiveVo;
 import com.sraapp.cms.vo.ArticleVo;
 import com.sraapp.cms.vo.CommentVo;
+import com.sraapp.cms.vo.TagVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,17 +30,17 @@ public class PageController {
     @GetMapping("/index")
     public String index(ModelMap modelMap) {
         // 获取文章列表（时间倒叙、评论数最多）
-        List<ArticleVo> articleServiceByCommentNumDesc = articleService.findByCommentNumDesc();
         List<ArticleVo> articleServiceByTimeDesc = articleService.findByTimeDesc();
         // 归档列表
-        List<ArticleVo> articleServiceByArchiveList = articleService.findByArchiveList();
+        List<ArchiveVo> archiveVoList = articleService.findByArchiveList();
         // 热门评论
         List<CommentVo> commentVoList = commentService.findHotComment();
         // 获取标签列表
-        modelMap.addAttribute("articleServiceByCommentNumDesc", articleServiceByCommentNumDesc);
+        List<TagVo> tags = articleService.findTags(articleServiceByTimeDesc);
         modelMap.addAttribute("articleServiceByTimeDesc", articleServiceByTimeDesc);
-        modelMap.addAttribute("articleServiceByArchiveList", articleServiceByArchiveList);
+        modelMap.addAttribute("archiveVoList", archiveVoList);
         modelMap.addAttribute("commentVoList", commentVoList);
+        modelMap.addAttribute("tags", tags);
         return "index";
     }
 

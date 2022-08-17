@@ -49,4 +49,14 @@
         </value>
     </sql>
 
+    <sql id="cms_article_findByArchiveList">
+        <value><![CDATA[
+            select date_format(CREATE_TIME, '%Y-%m-%d') as day, count(1) as total
+            from cms_article
+            where DELETE_STATUS = 1
+            group by day
+            order by day desc
+            limit 5
+        ]]></value>
+    </sql>
 </sqltoy>

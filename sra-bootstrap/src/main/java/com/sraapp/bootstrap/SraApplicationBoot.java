@@ -18,8 +18,13 @@ import java.util.Objects;
  * @author jwss
  * @date 2022-1-12 14:12:24
  */
+@ComponentScan(basePackages = {
+        "com.sraapp.config",
+        "com.sraapp.framework",
+        "com.sraapp.system",
+        "com.sraapp.cms"
+})
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.sraapp"})
 public class SraApplicationBoot {
     private static final Logger logger = LoggerFactory.getLogger(SraApplicationBoot.class);
 
