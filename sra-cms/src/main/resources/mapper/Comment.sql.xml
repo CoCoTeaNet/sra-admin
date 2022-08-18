@@ -22,4 +22,22 @@
         </value>
     </sql>
 
+    <sql id="cms_comment_findByPageParam">
+        <value>
+            <![CDATA[
+                select ID, PARENT_ID, REPLY_USER_ID, CONTENT, REPLY_TYPE, CREATE_BY, CREATE_TIME
+                from cms_comment
+                where
+                #[and ID = :id]
+                #[and CREATE_BY = :createBy]
+                #[and UPDATE_BY = :updateBy]
+                #[and REPLY_TYPE = :replyType]
+                #[and REPLY_USER_ID = :replyUserId]
+                #[and PARENT_ID = :parentId]
+                and DELETE_STATUS = 1
+                order by CREATE_TIME desc, UPDATE_TIME desc
+			]]>
+        </value>
+    </sql>
+
 </sqltoy>

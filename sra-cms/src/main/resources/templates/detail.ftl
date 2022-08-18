@@ -1,13 +1,13 @@
-<!doctype html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    文章细节
-</body>
-</html>
+<#include "./common/layout.ftl">
+
+<@layout>
+    <h2>${article.title}</h2>
+
+    <p class="card-text"><small class="text-muted">${article.createTime}</small></p>
+
+    <div style="overflow: auto;white-space: pre-wrap;word-wrap: break-word">${article.content}</div>
+
+    <#list article.tagList as tag>
+        <span class="badge rounded-pill bg-primary">${tag}</span>
+    </#list>
+</@layout>

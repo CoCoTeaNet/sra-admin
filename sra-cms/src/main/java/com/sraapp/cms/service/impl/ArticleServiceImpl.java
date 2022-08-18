@@ -98,6 +98,7 @@ public class ArticleServiceImpl implements IArticleService {
     public List<TagVo> findTags(List<ArticleVo> articleVoList) {
         List<String> tags = new ArrayList<>();
         final String[] colors = {"bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning text-dark", "bg-info text-dark", "bg-light text-dark", "bg-dark"};
+        if (articleVoList == null) articleVoList = findByTimeDesc();
         articleVoList.forEach(item -> {
             JSONArray array = JSONUtil.parseArray(item.getTags());
             tags.addAll(array.toList(String.class));

@@ -1,6 +1,5 @@
 package com.sraapp.cms.controller;
 
-import com.sraapp.cms.entity.CmsArticle;
 import com.sraapp.cms.service.IArticleService;
 import com.sraapp.cms.service.ICommentService;
 import com.sraapp.cms.vo.ArchiveVo;
@@ -41,13 +40,18 @@ public class PageController {
         modelMap.addAttribute("archiveVoList", archiveVoList);
         modelMap.addAttribute("commentVoList", commentVoList);
         modelMap.addAttribute("tags", tags);
+        modelMap.addAttribute("title", "首页");
         return "index";
     }
 
-    @GetMapping("/detail/{articleId}")
+    @GetMapping("/p/{articleId}")
     public String detail(@PathVariable("articleId") String articleId, ModelMap modelMap) {
         ArticleVo article = articleService.detail(articleId);
         modelMap.addAttribute("article", article);
+        modelMap.addAttribute("archiveVoList", articleService.findByArchiveList());
+        modelMap.addAttribute("commentVoList", commentService.findHotComment());
+        modelMap.addAttribute("tags", articleService.findTags(null));
+        modelMap.addAttribute("title", article.getTitle());
         return "detail";
     }
 }
