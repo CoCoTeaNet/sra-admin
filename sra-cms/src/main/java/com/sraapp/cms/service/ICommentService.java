@@ -10,5 +10,5 @@ import org.sagacity.sqltoy.model.Page;
 import java.util.List;
 
 public interface ICommentService extends IBaseService<Page<CommentVo>, CommentPageParam, CommentAddParam, CommentUpdateParam> {
-    List<CommentVo> findHotComment();
+    List<CommentVo> listByArticleId(String articleId);
 }

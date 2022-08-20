@@ -16,6 +16,7 @@
                 #[and REPLY_TYPE = :replyType]
                 #[and REPLY_USER_ID = :replyUserId]
                 #[and PARENT_ID = :parentId]
+                #[and ARTICLE_ID = :articleId]
                 and DELETE_STATUS = 1
                 order by CREATE_TIME desc, UPDATE_TIME desc
 			]]>

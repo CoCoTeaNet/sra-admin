@@ -12,13 +12,6 @@ sra:
     excludes:
       - /test/index
       - /favicon.ico
-      # swagger和knife
-      - /v2/api-docs
-      - /configuration/ui
-      - /swagger-resources/**
-      - /configuration/security
-      - /doc.html
-      - /webjars/**
       # 登录
       - /user/login
       - /file/verificationCode

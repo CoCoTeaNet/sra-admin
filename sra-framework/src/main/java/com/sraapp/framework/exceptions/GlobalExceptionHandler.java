@@ -8,8 +8,11 @@ import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 /**
  * 全局异常
@@ -25,6 +28,12 @@ public class GlobalExceptionHandler {
     public ApiResult<?> handlerException(Exception e) {
         logger.error("全局异常捕获，异常消息:" + e.getMessage());
         return ApiResult.error("系统异常，请联系管理员~");
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResult<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        logger.error("校验参数异常:" + e.getMessage());
+        return ApiResult.error(Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
     }
 
     @ExceptionHandler(NotLoginException.class)

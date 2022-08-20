@@ -16,7 +16,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm p-3 mb-5 bg-body rounded">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">LOGO</a>
+            <a class="navbar-brand" href="#">SRA BLOG</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,21 +28,13 @@
                         <a class="nav-link active" aria-current="page" href="/cmsPage/index">首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">归档</a>
+                        <a class="nav-link" href="https://gitee.com/momoljw/sss-rbac-admin">Gitee</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            更多
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">关于</a></li>
-                            <li><a class="dropdown-item" href="#">Gitee</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">后台管理</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/momofoolish/sss-rbac-admin">GitHub</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://106.52.139.93">后台系统</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -59,13 +51,13 @@
             <div class="col-8"> <#nested > </div>
             <div class="col-4">
                 <#-- 文章列表 -->
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                </ul>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">作者：CoCoTea</h5>
+                        <p class="card-text">人生苦短，及时行乐，所以目标是成为独立开发者。</p>
+                        <a href="https://gitee.com/momoljw" class="btn btn-outline-success">查看TA的主页</a>
+                    </div>
+                </div>
                 <#-- 归档 -->
                 <div style="padding-top: 1.33em;">
                     <ul class="list-group">
