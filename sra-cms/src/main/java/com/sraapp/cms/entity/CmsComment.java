@@ -84,15 +84,8 @@ public class CmsComment implements Serializable {
     /**
      * 文章id
      */
-    @Column(name="article_id",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+    @Column(name="ARTICLE_ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
     private String articleId;
-
-    /**
-     * 评论类型：1文章 2反馈
-     */
-    @Column(name="comment_type",type=java.sql.Types.INTEGER,nullable=false)
-    private Integer commentType;
-
 
     public String getId() {
         return this.id;
@@ -202,15 +195,6 @@ public class CmsComment implements Serializable {
         return this;
     }
 
-    public Integer getCommentType() {
-        return this.commentType;
-    }
-
-    public CmsComment setCommentType(Integer commentType) {
-        this.commentType=commentType;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "CmsComment{" +
@@ -226,7 +210,6 @@ public class CmsComment implements Serializable {
                 ", deleteStatus=" + deleteStatus +
                 ", revision=" + revision +
                 ", articleId='" + articleId + '\'' +
-                ", commentType=" + commentType +
                 '}';
     }
 }

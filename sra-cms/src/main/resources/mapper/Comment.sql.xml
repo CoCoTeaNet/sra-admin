@@ -30,11 +30,14 @@
                 from cms_comment
                 where
                 #[and ID = :id]
-                #[and CREATE_BY = :createBy]
+                #[and CREATE_BY like :createBy]
                 #[and UPDATE_BY = :updateBy]
                 #[and REPLY_TYPE = :replyType]
                 #[and REPLY_USER_ID = :replyUserId]
                 #[and PARENT_ID = :parentId]
+                #[and CONTENT like :content]
+                #[and CREATE_TIME >= :beginTime]
+                #[and CREATE_TIME < :endTime]
                 and DELETE_STATUS = 1
                 order by CREATE_TIME desc, UPDATE_TIME desc
 			]]>

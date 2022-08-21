@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +45,10 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public boolean deleteBatch(List<String> idList) throws BusinessException {
-        return false;
+        List<CmsComment> comments = new ArrayList<>(idList.size());
+        idList.forEach(item -> comments.add(new CmsComment().setId(item).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())));
+        Long all = sqlToyLazyDao.updateAll(comments);
+        return all > 0;
     }
 
     @Override
@@ -54,7 +58,8 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public Page<CommentVo> listByPage(CommentPageParam param) throws BusinessException {
-        return null;
+        Page<CommentVo> page = sqlToyLazyDao.findPageBySql(param, "cms_comment_findByPageParam", param.getCommentVo());
+        return page;
     }
 
     @Override

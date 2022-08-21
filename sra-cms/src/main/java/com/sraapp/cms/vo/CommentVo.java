@@ -50,6 +50,26 @@ public class CommentVo implements Serializable {
      * 评论类型：1文章 2反馈
      */
     private Integer commentType;
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
+
+    public LocalDateTime getBeginTime() {
+        return beginTime;
+    }
+
+    public CommentVo setBeginTime(LocalDateTime beginTime) {
+        this.beginTime = beginTime;
+        return this;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public CommentVo setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+        return this;
+    }
 
     public String getId() {
         return id;
