@@ -2,12 +2,12 @@
  * 用户模型
  */
 interface UserModel {
-    id: string,
-    username: string,
-    nickname: string,
+    id?: string,
+    username?: string,
+    nickname?: string,
     email?: string,
-    sex?: string,
-    accountStatus?: string,
+    sex?: number,
+    accountStatus?: number,
     avatar?: string,
     roleId?: string,
     roleName?: string,

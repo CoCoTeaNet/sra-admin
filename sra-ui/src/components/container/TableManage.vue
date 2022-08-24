@@ -17,6 +17,10 @@
     <div style="margin-top: 3px">
       <slot name="page"></slot>
     </div>
+
+    <div>
+      <slot name="form"></slot>
+    </div>
   </div>
 </template>
 
