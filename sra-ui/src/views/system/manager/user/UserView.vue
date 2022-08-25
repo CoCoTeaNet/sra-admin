@@ -186,7 +186,7 @@ const onCreate = () => {
 }
 
 const onDelete = (id: string) => {
-  ElMessageBox.confirm('确认该用户?', 'Warning', {
+  ElMessageBox.confirm('确认该用户?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -204,7 +204,7 @@ const onDeleteBatch = () => {
   multipleSelection.value.map((item, index) => {
     ids.push(item.id);
   });
-  ElMessageBox.confirm('确认所选用户?', 'Warning', {
+  ElMessageBox.confirm('确认删除所选用户?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',

@@ -1,5 +1,5 @@
 interface RoleModel {
-    id: string,
+    id?: string,
     roleName: string,
     roleKey: string,
     sort?: number

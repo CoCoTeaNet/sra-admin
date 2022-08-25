@@ -1,6 +1,9 @@
 package com.sraapp.system.service.impl;
 
+import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.system.entity.User;
+import com.sraapp.system.entity.UserRole;
 import com.sraapp.system.param.role.RoleAddParam;
 import com.sraapp.system.param.role.RolePageParam;
 import com.sraapp.system.param.role.RoleUpdateParam;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +48,15 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public boolean deleteBatch(List<String> idList) {
-        return false;
+        List<Role> roleList = new ArrayList<>();
+        for (String id : idList) {
+            Role article = new Role();
+            article.setId(id);
+            article.setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+            roleList.add(article);
+        }
+        Long count = sqlToyLazyDao.updateAll(roleList);
+        return count > 0;
     }
 
     @Override
@@ -58,7 +70,7 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public boolean grantPermissionsByRoleId(List<RoleMenuVO> roleMenuVOList) throws BusinessException {
         List<RoleMenu> roleMenuList = sqlToyLazyDao.convertType(roleMenuVOList, RoleMenu.class);
-        if (roleMenuList.size() <= 0) {
+        if (roleMenuList.size() == 0) {
             throw new BusinessException("集合为空");
         }
         // 先删除所有权限再设置

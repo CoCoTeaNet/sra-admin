@@ -44,6 +44,12 @@ public class RoleController {
         return ApiResult.flag(b);
     }
 
+    @PostMapping("/deleteBatch")
+    public ApiResult<String> deleteBatch(@RequestBody List<String> idList) throws BusinessException {
+        boolean b = roleService.deleteBatch(idList);
+        return ApiResult.flag(b);
+    }
+
     @PostMapping("/grantPermissionsByRoleId")
     public ApiResult<String> grantPermissionsByRoleId(@Valid @RequestBody List<RoleMenuVO> param) throws BusinessException {
         boolean b = roleService.grantPermissionsByRoleId(param);
