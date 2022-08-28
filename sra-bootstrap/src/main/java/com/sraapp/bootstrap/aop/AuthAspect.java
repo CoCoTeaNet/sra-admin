@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * 用户认证切面
  *
- * @author jwss
+ * @author CoCoTea
  * @date 2022-4-10 20:23:17
  */
 @Aspect
@@ -23,7 +23,7 @@ public class AuthAspect {
     @Resource
     private IRedisService redisService;
 
-    @Pointcut("execution(public * com.jwss.sra.*.controller.*.*(..))")
+    @Pointcut("execution(public * com.sraapp.*.controller.*.*(..))")
     public void requestAspect() {
     }
 
