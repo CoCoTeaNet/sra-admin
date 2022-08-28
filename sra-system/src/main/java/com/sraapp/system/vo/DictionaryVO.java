@@ -23,7 +23,7 @@ public class DictionaryVO implements Serializable {
 	
 	private Integer sort;
 	
-	private String enableStatus;
+	private Integer enableStatus;
 
 	private String createBy;
 
@@ -69,14 +69,6 @@ public class DictionaryVO implements Serializable {
 		this.sort = sort;
 	}
 
-	public String getEnableStatus() {
-		return enableStatus;
-	}
-
-	public void setEnableStatus(String enableStatus) {
-		this.enableStatus = enableStatus;
-	}
-
 	public String getCreateBy() {
 		return createBy;
 	}
@@ -91,6 +83,15 @@ public class DictionaryVO implements Serializable {
 
 	public void setChildren(List<DictionaryVO> children) {
 		this.children = children;
+	}
+
+	public Integer getEnableStatus() {
+		return enableStatus;
+	}
+
+	public DictionaryVO setEnableStatus(Integer enableStatus) {
+		this.enableStatus = enableStatus;
+		return this;
 	}
 
 	@Override

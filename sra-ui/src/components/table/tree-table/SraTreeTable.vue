@@ -1,86 +1,81 @@
 <template>
-  <div>
+  <table-manage>
     <!-- 表格操作 -->
-    <el-row style="margin-bottom: 1em">
-      <el-col :span="20">
-        <el-button type="primary" @click="add">
-          <el-space>
-            <el-icon>
-              <plus/>
-            </el-icon>
-            添加
-          </el-space>
-        </el-button>
-        <el-button type="danger" @click="removeBatch">
-          <el-space>
-            <el-icon>
-              <delete/>
-            </el-icon>
-            删除
-          </el-space>
-        </el-button>
-        <el-button type="text" @click="$emit('refresh')">
-          <el-space>
-            <el-icon><refresh /></el-icon>
-            刷新
-          </el-space>
-        </el-button>
-        <el-button type="text" @click="doExpandAll">
-          <el-space>
-            <el-icon>
-              <arrow-right-bold v-if="!isExpandAll" />
-              <arrow-down-bold v-else/>
-            </el-icon>
-            {{ isExpandAll ? '收起' : '展开' }}
-          </el-space>
-        </el-button>
+    <template #search>
+      <el-input style="width: 200px;margin-right: 12px" placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey"
+                @keypress.enter="enterSearch"/>
+      <el-button  @click="$emit('refresh')">
+        <el-space>
+          <el-icon>
+            <refresh/>
+          </el-icon>
+          刷新
+        </el-space>
+      </el-button>
+      <el-button @click="doExpandAll">
+        <el-space>
+          <el-icon>
+            <arrow-right-bold v-if="!isExpandAll"/>
+            <arrow-down-bold v-else/>
+          </el-icon>
+          {{ isExpandAll ? '收起' : '展开' }}
+        </el-space>
+      </el-button>
+    </template>
 
-      </el-col>
-      <el-col :span="4" style="text-align: right">
-        <el-input placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey" @keypress.enter="enterSearch"/>
-      </el-col>
-    </el-row>
+    <template #operate>
+      <el-button type="primary" @click="add">{{`添加${title}`}}</el-button>
+      <el-button type="danger" @click="removeBatch">批量删除</el-button>
+    </template>
 
     <!-- 表格视图 -->
-    <el-table v-if="isShowTable" stripe row-key="id"
-              :data="pageVo.records" :default-expand-all="isExpandAll"
-              @select="selectChange" @select-all="selectChange">
-      <!-- 表格插槽 -->
-      <slot name="default"></slot>
-      <!-- 单行操作 -->
-      <el-table-column fixed="right" label="操作" width="120">
-        <template #default="scope">
-          <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <template #default>
+      <el-table v-if="isShowTable" stripe row-key="id"
+                :data="pageVo.records" :default-expand-all="isExpandAll"
+                @select="selectChange" @select-all="selectChange">
+        <!-- 表格插槽 -->
+        <slot name="default"></slot>
+        <!-- 单行操作 -->
+        <el-table-column fixed="right" label="操作" width="200">
+          <template #default="scope">
+            <el-button link size="small" type="primary" @click="edit(scope.row)">编辑</el-button>
+            <el-button link size="small" type="danger" @click="remove(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
 
     <!-- 分页 -->
-    <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo" :total="pageVo.total"
-                   :page-sizes="pageSizes" :hide-on-single-page="true">
-    </el-pagination>
+    <template #page>
+      <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
+                     v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo"
+                     :total="pageVo.total"
+                     :page-sizes="pageSizes" :hide-on-single-page="true">
+      </el-pagination>
+    </template>
 
     <!-- 编辑对话框 -->
-    <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
-        <slot name="edit"></slot>
-      </el-form>
-      <template #footer>
+    <template #form>
+      <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
+        <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
+          <slot name="edit"></slot>
+        </el-form>
+        <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
           <el-button type="primary" @click="dialogConfirm(sttFormRef)">确认</el-button>
         </span>
-      </template>
-    </el-dialog>
-  </div>
+        </template>
+      </el-dialog>
+    </template>
+  </table-manage>
 </template>
 
 <script lang="ts" setup>
 import {nextTick, ref} from "vue";
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
+import TableManage from "@/components/container/TableManage.vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
@@ -100,6 +95,7 @@ const isShowTable = ref<boolean>(true);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
+  title?: string,
   // 表单数据
   editForm: any,
   //表单规则
@@ -111,6 +107,7 @@ const props = withDefaults(defineProps<{
   // 每页条数
   pageSizes?: number[]
 }>(), {
+  title: '',
   rules: {},
   pageSizes: () => [15, 25, 35, 45, 55],
 });
@@ -209,7 +206,7 @@ const selectChange = (val: any[]) => {
 const doExpandAll = () => {
   isShowTable.value = false;
   isExpandAll.value = !isExpandAll.value;
-  nextTick(()=>{
+  nextTick(() => {
     isShowTable.value = true;
   });
 }

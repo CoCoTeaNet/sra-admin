@@ -66,9 +66,6 @@ spring:
   # sqltoy框架相关配置
   sqltoy:
     unify-fields-handler: com.sraapp.config.sqltoy.SqlToyUnifyFieldsHandler
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
   servlet:
     multipart:
       max-file-size: 10MB

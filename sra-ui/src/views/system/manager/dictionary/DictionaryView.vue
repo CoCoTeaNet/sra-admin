@@ -1,5 +1,5 @@
 <template>
-  <sra-tree-table class="main-bg" v-loading="loading"
+  <sra-tree-table class="main-bg" v-loading="loading" title="字典"
                   :editForm="editForm.data" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove" @add="initAdd"
                   @enter-search="initTable" @refresh="refresh">
@@ -10,7 +10,7 @@
       <el-table-column prop="remark" label="备注"/>
       <el-table-column prop="enableStatus" label="是否启用">
         <template #default="scope">
-          <div v-html="getIsSomethingText(scope.row.enableStatus)"></div>
+          <el-tag :type="getConfirm(scope.row.enableStatus, 0)">{{getConfirm(scope.row.enableStatus, 1)}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序号" sortable/>
@@ -18,7 +18,7 @@
 
     <!-- 新增&编辑表单 -->
     <template v-slot:edit>
-      <el-form-item prop="dictionaryName" label="菜单名称">
+      <el-form-item prop="dictionaryName" label="字典名称">
         <el-input v-model="editForm.data.dictionaryName"></el-input>
       </el-form-item>
       <el-form-item prop="remark" label="备注">
@@ -26,8 +26,8 @@
       </el-form-item>
       <el-form-item prop="enableStatus" label="是否启用">
         <el-radio-group v-model="editForm.data.enableStatus">
-          <el-radio label="0">是</el-radio>
-          <el-radio label="1">否</el-radio>
+          <el-radio :label="0">是</el-radio>
+          <el-radio :label="1">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item prop="sort" label="显示顺序">
@@ -48,7 +48,6 @@ import {onMounted, reactive, ref} from "vue";
 import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import {listByTree, add, deleteBatch, update} from "@/api/system/dictionary-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {getIsSomethingText} from "@/utils/format-util";
 
 const initForm = {
   id: '',
@@ -56,7 +55,24 @@ const initForm = {
   remark: '',
   parentId: '',
   sort: 1,
-  enableStatus: '0'
+  enableStatus: 0
+}
+
+const getConfirm: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'success', text: '是'};
+      break;
+    case 1:
+      obj = {color: 'info', text: '否'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
 }
 
 // 级联选择框配置
@@ -78,12 +94,12 @@ const loading = ref<boolean>(true);
 // 表单校验规则
 const rules = reactive({
   dictionaryName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  enableStatus: [{message: '请选择菜单编号', trigger: 'blur'}],
+  enableStatus: [{required: true, message: '请选择启用状态', trigger: 'blur'}],
   remark: [{min: 2, max: 255, message: '长度限制2~255', trigger: 'blur'}]
 });
 
 // api分页请求参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: '', searchObject: {}});
 
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
@@ -153,7 +169,8 @@ const initTable = (): void => {
  * @param callback 回调函数，调用就会关闭对话框
  */
 const doUpdate = (formEl: any, callback: Function): void => {
-  formEl.validate((valid: any) => {
+  console.log(editForm.data)
+  formEl.validate((valid: boolean) => {
     if (valid) {
       if (!editForm.data.id) {
         // 新增

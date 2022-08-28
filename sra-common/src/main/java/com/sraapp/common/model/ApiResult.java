@@ -4,12 +4,13 @@ import com.sraapp.common.enums.ApiResultEnum;
 import com.sraapp.common.constant.CharConstant;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * 返回数据模型
  *
- * @author jwss
+ * @author CoCoTea
  * @date 2022-1-12 16:21:52
  */
 public class ApiResult<T> implements Serializable {
@@ -18,13 +19,13 @@ public class ApiResult<T> implements Serializable {
     private Integer code;
     private T data;
     private String message;
-    private Date time;
+    private LocalDateTime time;
 
     public ApiResult(Integer code, T data, String message) {
         this.code = code;
         this.data = data;
         this.message = message;
-        this.time = new Date();
+        this.time = LocalDateTime.now();
     }
 
     /**
@@ -145,11 +146,12 @@ public class ApiResult<T> implements Serializable {
         this.message = message;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public ApiResult<T> setTime(LocalDateTime time) {
         this.time = time;
+        return this;
     }
 }

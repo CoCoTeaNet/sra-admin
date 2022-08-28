@@ -44,7 +44,7 @@
               性别
             </div>
           </template>
-          {{ getSexText(detailUser.sex) }}
+          {{ getSex(detailUser.sex) }}
         </el-descriptions-item>
         <el-descriptions-item>
           <template #label>
@@ -104,8 +104,11 @@
       <el-form ref="ucvFormRef" label-width="120px" label-position="right" :rules="rules" :model="editForm">
 
         <el-form-item prop="avatar" label="用户头像" :auto-upload="false" list-type="picture-card">
-          <el-upload action="/api/file/upload" list-type="picture-card" :limit="1" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-            <el-icon> <Plus/> </el-icon>
+          <el-upload action="/api/file/upload" list-type="picture-card" :limit="1" :on-success="handleAvatarSuccess"
+                     :before-upload="beforeAvatarUpload">
+            <el-icon>
+              <Plus/>
+            </el-icon>
 
             <template #file="{ file }">
               <div>
@@ -131,9 +134,9 @@
         </el-form-item>
         <el-form-item label="性别">
           <el-radio-group v-model="editForm.sex">
-            <el-radio label="0">不公开</el-radio>
-            <el-radio label="1">男</el-radio>
-            <el-radio label="2">女</el-radio>
+            <el-radio :label="0">不公开</el-radio>
+            <el-radio :label="1">男</el-radio>
+            <el-radio :label="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
@@ -150,7 +153,6 @@ import type {FormInstance} from 'element-plus';
 import {Lock} from "@element-plus/icons-vue";
 import {getDetail, update} from "@/api/system/user-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {getSexText} from "@/utils/format-util";
 import {RULE_MOBILE, RULE_EMAIL} from "@/utils/rules-util";
 import {updateUserInfo} from "@/store";
 
@@ -181,6 +183,13 @@ const rules = reactive({
   nickname: [{min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
   password: [{min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}]
 });
+const getSex = (sex: number) => {
+  switch (sex) {
+    case 0: return '不公开';
+    case 1: return '男';
+    case 2: return '女';
+  }
+}
 
 onMounted(() => {
   initUserDetail();
@@ -221,7 +230,8 @@ const handleAvatarSuccess = (resp: any) => {
 /**
  * todo 头像上传前校验
  */
-const beforeAvatarUpload = () => {}
+const beforeAvatarUpload = () => {
+}
 </script>
 
 <style scoped>

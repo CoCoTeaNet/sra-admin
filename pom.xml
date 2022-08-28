@@ -30,7 +30,7 @@
         <mysql-connector.version>8.0.28</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.28.0</satoken.version>
-        <jackson.version>2.11.3</jackson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
         <hutool.version>5.7.19</hutool.version>
@@ -129,21 +129,11 @@
                 <artifactId>druid</artifactId>
                 <version>${alibaba-druid.version}</version>
             </dependency>
-            <!-- jackson -->
+            <!-- fastjson -->
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
             <dependency>
@@ -167,10 +157,10 @@
                 <artifactId>oshi-core</artifactId>
                 <version>${hutool-oshi.version}</version>
             </dependency>
-            <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
+            <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis-jackson</artifactId>
+                <artifactId>sa-token-dao-redis</artifactId>
                 <version>${sa-token-redis.version}</version>
             </dependency>
             <!-- 提供Redis连接池 -->
