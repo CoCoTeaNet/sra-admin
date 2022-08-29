@@ -66,7 +66,7 @@ public class Role implements Serializable {
 	 * 删除状态;0删除 1未删除
 	 */
 	@Column(name="DELETE_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
-	private String deleteStatus;
+	private Integer deleteStatus;
 	
 	/**
 	 * jdbcType:VARCHAR
@@ -95,201 +95,120 @@ public class Role implements Serializable {
 	 */
 	@Column(name="REMARK",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String remark;
-	
-	/** default constructor */
-	public Role() {
-	}
-	
-	/** pk constructor */
-	public Role(String id)
-	{
-		this.id=id;
-	}
-	
-	/**
-	 *@param id the id to set
-	 */
-	public Role setId(String id) {
-		this.id=id;
-		return this;
-	}
-		
-	/**
-	 *@return the Id
-	 */
+
 	public String getId() {
-	    return this.id;
+		return id;
 	}
-	
-	/**
-	 *@param revision the revision to set
-	 */
-	public Role setRevision(Integer revision) {
-		this.revision=revision;
+
+	public Role setId(String id) {
+		this.id = id;
 		return this;
 	}
-		
-	/**
-	 *@return the Revision
-	 */
+
 	public Integer getRevision() {
-	    return this.revision;
+		return revision;
 	}
-	
-	/**
-	 *@param createBy the createBy to set
-	 */
-	public Role setCreateBy(String createBy) {
-		this.createBy=createBy;
+
+	public Role setRevision(Integer revision) {
+		this.revision = revision;
 		return this;
 	}
-		
-	/**
-	 *@return the CreateBy
-	 */
+
 	public String getCreateBy() {
-	    return this.createBy;
+		return createBy;
 	}
-	
-	/**
-	 *@param createTime the createTime to set
-	 */
-	public Role setCreateTime(LocalDateTime createTime) {
-		this.createTime=createTime;
+
+	public Role setCreateBy(String createBy) {
+		this.createBy = createBy;
 		return this;
 	}
-		
-	/**
-	 *@return the CreateTime
-	 */
+
 	public LocalDateTime getCreateTime() {
-	    return this.createTime;
+		return createTime;
 	}
-	
-	/**
-	 *@param updateBy the updateBy to set
-	 */
-	public Role setUpdateBy(String updateBy) {
-		this.updateBy=updateBy;
+
+	public Role setCreateTime(LocalDateTime createTime) {
+		this.createTime = createTime;
 		return this;
 	}
-		
-	/**
-	 *@return the UpdateBy
-	 */
+
 	public String getUpdateBy() {
-	    return this.updateBy;
+		return updateBy;
 	}
-	
-	/**
-	 *@param updateTime the updateTime to set
-	 */
-	public Role setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime=updateTime;
+
+	public Role setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 		return this;
 	}
-		
-	/**
-	 *@return the UpdateTime
-	 */
+
 	public LocalDateTime getUpdateTime() {
-	    return this.updateTime;
+		return updateTime;
 	}
-	
-	/**
-	 *@param deleteStatus the deleteStatus to set
-	 */
-	public Role setDeleteStatus(String deleteStatus) {
-		this.deleteStatus=deleteStatus;
+
+	public Role setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime = updateTime;
 		return this;
 	}
-		
-	/**
-	 *@return the DeleteStatus
-	 */
-	public String getDeleteStatus() {
-	    return this.deleteStatus;
+
+	public Integer getDeleteStatus() {
+		return deleteStatus;
 	}
-	
-	/**
-	 *@param roleName the roleName to set
-	 */
-	public Role setRoleName(String roleName) {
-		this.roleName=roleName;
+
+	public Role setDeleteStatus(Integer deleteStatus) {
+		this.deleteStatus = deleteStatus;
 		return this;
 	}
-		
-	/**
-	 *@return the RoleName
-	 */
+
 	public String getRoleName() {
-	    return this.roleName;
+		return roleName;
 	}
-	
-	/**
-	 *@param roleKey the roleKey to set
-	 */
-	public Role setRoleKey(String roleKey) {
-		this.roleKey=roleKey;
+
+	public Role setRoleName(String roleName) {
+		this.roleName = roleName;
 		return this;
 	}
-		
-	/**
-	 *@return the RoleKey
-	 */
+
 	public String getRoleKey() {
-	    return this.roleKey;
+		return roleKey;
 	}
-	
-	/**
-	 *@param sort the sort to set
-	 */
-	public Role setSort(Integer sort) {
-		this.sort=sort;
+
+	public Role setRoleKey(String roleKey) {
+		this.roleKey = roleKey;
 		return this;
 	}
-		
-	/**
-	 *@return the Sort
-	 */
+
 	public Integer getSort() {
-	    return this.sort;
+		return sort;
 	}
-	
-	/**
-	 *@param remark the remark to set
-	 */
-	public Role setRemark(String remark) {
-		this.remark=remark;
+
+	public Role setSort(Integer sort) {
+		this.sort = sort;
 		return this;
 	}
-		
-	/**
-	 *@return the Remark
-	 */
+
 	public String getRemark() {
-	    return this.remark;
+		return remark;
 	}
 
+	public Role setRemark(String remark) {
+		this.remark = remark;
+		return this;
+	}
 
-	/**
-     * @todo vo columns to String
-     */
-    @Override
+	@Override
 	public String toString() {
-		StringBuilder columnsBuffer=new StringBuilder();
-		columnsBuffer.append("id=").append(getId()).append("\n");
-		columnsBuffer.append("revision=").append(getRevision()).append("\n");
-		columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-		columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-		columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-		columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-		columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
-		columnsBuffer.append("roleName=").append(getRoleName()).append("\n");
-		columnsBuffer.append("roleKey=").append(getRoleKey()).append("\n");
-		columnsBuffer.append("sort=").append(getSort()).append("\n");
-		columnsBuffer.append("remark=").append(getRemark()).append("\n");
-		return columnsBuffer.toString();
+		return "Role{" +
+				"id='" + id + '\'' +
+				", revision=" + revision +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				", deleteStatus=" + deleteStatus +
+				", roleName='" + roleName + '\'' +
+				", roleKey='" + roleKey + '\'' +
+				", sort=" + sort +
+				", remark='" + remark + '\'' +
+				'}';
 	}
-	
 }

@@ -8,8 +8,11 @@ import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 /**
  * 全局异常
@@ -21,26 +24,40 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    /**
-     * 异常捕获
-     *
-     * @param e 捕获的异常
-     * @return 封装的返回对象
-     **/
     @ExceptionHandler(Exception.class)
-    public ApiResult<String> handlerException(Exception e) {
+    public ApiResult<?> handlerException(Exception e) {
         logger.error("全局异常捕获，异常消息:" + e.getMessage());
-        if (e instanceof NotLoginException) {
-            return ApiResult.error(ApiResultEnum.NOT_LOGIN.getCode(), ApiResultEnum.NOT_LOGIN.getDesc());
-        } else if (e instanceof NotPermissionException) {
-            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
-        } else if (e instanceof BusinessException) {
-            BusinessException businessException = (BusinessException) e;
-            return ApiResult.error(businessException.getErrorCode(), businessException.getErrorMsg());
-        } else if (e instanceof NotRoleException) {
-            return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
-        }
-        return ApiResult.error();
+        return ApiResult.error("系统异常，请联系管理员~");
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResult<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        logger.error("校验参数异常:" + e.getMessage());
+        return ApiResult.error(Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
+    }
+
+    @ExceptionHandler(NotLoginException.class)
+    public ApiResult<?> handlerNotLoginException(NotLoginException e) {
+        logger.error("登录失效异常:" + e.getMessage());
+        return ApiResult.error(ApiResultEnum.NOT_LOGIN.getCode(), ApiResultEnum.NOT_LOGIN.getDesc());
+    }
+
+    @ExceptionHandler(NotPermissionException.class)
+    public ApiResult<?> handlerNotPermissionException(NotPermissionException e) {
+        logger.error("权限不足异常:" + e.getMessage());
+        return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ApiResult<?> handlerBusinessException(BusinessException e) {
+        logger.error("业务逻辑异常: " + e.getMessage());
+        return ApiResult.error(e.getErrorCode(), e.getErrorMsg());
+    }
+
+    @ExceptionHandler(NotRoleException.class)
+    public ApiResult<?> handlerNotRoleException(NotRoleException e) {
+        logger.error("角色未知异常: " + e.getMessage());
+        return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
     }
 
 }

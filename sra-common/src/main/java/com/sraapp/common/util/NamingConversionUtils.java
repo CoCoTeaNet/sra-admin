@@ -2,6 +2,7 @@ package com.sraapp.common.util;
 
 import com.sraapp.common.constant.JavaTypeConstant;
 import com.sraapp.common.constant.DataBaseTypeConstant;
+import com.sraapp.common.constant.CharConstant;
 
 import java.util.Locale;
 
@@ -24,11 +25,11 @@ public class NamingConversionUtils {
      * @return 驼峰命名字符串
      */
     public static String underlineToHump(String s, Integer type) {
-        if (s == null || StringUtils.EMPTY_STRING.equals(s)) {
+        if (s == null || CharConstant.EMPTY_STRING.equals(s)) {
             return null;
         }
         s = s.toLowerCase(Locale.ROOT);
-        String[] strings = s.split(StringUtils.UNDERLINE);
+        String[] strings = s.split(CharConstant.UNDERLINE);
         if (strings.length <= 1) {
             if (type == 1) {
                 return String.valueOf(s.charAt(0)).toUpperCase(Locale.ROOT) + s.substring(1);
@@ -55,7 +56,7 @@ public class NamingConversionUtils {
      * @return Java属性类型
      */
     public static String dbDataTypeToJava(String s) {
-        if (s == null || StringUtils.EMPTY_STRING.equals(s)) {
+        if (s == null || CharConstant.EMPTY_STRING.equals(s)) {
             return null;
         }
         String upperCase = s.toUpperCase(Locale.ROOT);

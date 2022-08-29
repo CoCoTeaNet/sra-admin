@@ -7,7 +7,7 @@ import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import com.sraapp.common.enums.MenuTypeEnum;
-import com.sraapp.common.util.StringUtils;
+import com.sraapp.common.constant.CharConstant;
 import com.sraapp.framework.constant.GlobalValue;
 import com.sraapp.framework.constant.RedisKey;
 import com.sraapp.framework.service.IRedisService;
@@ -62,7 +62,7 @@ public class DashboardServiceImpl implements IDashboardService {
         mapList.add(hashMap);
 
         Long countOnline = (long) redisService.keys(
-                String.format(RedisKey.ONLINE_USER, StringUtils.ASTERISK)
+                String.format(RedisKey.ONLINE_USER, CharConstant.ASTERISK)
         ).size();
         hashMap=new HashMap<>(2);
         hashMap.put("title", "在线用户");

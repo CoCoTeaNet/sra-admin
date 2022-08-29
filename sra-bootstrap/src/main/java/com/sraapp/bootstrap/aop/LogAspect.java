@@ -32,7 +32,7 @@ public class LogAspect {
     @Resource
     private IOperationLogService operationLogService;
 
-    @Pointcut("execution(public * com.jwss.sra.*.controller.*.*(..))")
+    @Pointcut("execution(public * com.sraapp.*.controller.*.*(..))")
     public void requestAspect() {
     }
 

@@ -1,174 +1,163 @@
 <template>
-  <sra-simple-table class="main-bg" v-loading="loading"
-                    :editForm="editForm.data" :pageVo="pageVo" :pageParam="pageParam" :rules="rules"
-                    @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
-                    @dialog-confirm="doUpdate" @remove-batch="removeBatch">
-    <template v-slot:column>
-      <el-table-column type="selection" width="55"/>
-      <el-table-column prop="username" label="账号"/>
-      <el-table-column prop="nickname" label="昵称"/>
-      <el-table-column prop="email" label="邮箱"/>
-      <el-table-column prop="roleName" label="角色"/>
-      <el-table-column prop="sex" label="性别">
-        <template #default="scope">
-          <span v-html="getSexText(scope.row.sex)"></span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="accountStatus" label="状态">
-        <template #default="scope">
-          <span v-html="getAccountStatusText(scope.row.accountStatus)"></span>
-        </template>
-      </el-table-column>
-    </template>
-    <!-- 表单 -->
-    <template v-slot:edit>
-      <el-form-item prop="username" label="账号名">
-        <el-input v-model="editForm.data.username"></el-input>
+  <table-manage>
+    <template #search>
+      <el-form-item label="用户账号">
+        <el-input placeholder="账号" v-model="pageParam.searchObject.username"/>
       </el-form-item>
-      <el-form-item prop="nickname" label="用户昵称">
-        <el-input v-model="editForm.data.nickname"></el-input>
+      <el-form-item label="用户昵称">
+        <el-input placeholder="昵称" v-model="pageParam.searchObject.nickname"/>
       </el-form-item>
-      <el-form-item prop="password" label="用户密码">
-        <el-input :prefix-icon="Lock" v-model="editForm.data.password" type="password" autocomplete="off"></el-input>
+      <el-form-item label="账号邮箱">
+        <el-input placeholder="邮箱" v-model="pageParam.searchObject.email"/>
       </el-form-item>
-      <el-form-item prop="email" label="邮箱">
-        <el-input v-model="editForm.data.email"></el-input>
-      </el-form-item>
-      <el-form-item prop="roleName" label="角色">
-        <el-select v-model="editForm.data.roleId" placeholder="选择角色">
-          <el-option v-for="item in roleOptions" :key="item.id" :label="item.roleName" :value="item.id">
-          </el-option>
+      <el-form-item label="用户性别">
+        <el-select placeholder="选择性别" v-model="pageParam.searchObject.sex">
+          <el-option v-for="i in sexList" :label="i.label" :value="i.value"/>
         </el-select>
       </el-form-item>
-      <el-form-item prop="sort" label="性别">
-        <el-radio-group v-model="editForm.data.sex">
-          <el-radio label="0">不公开</el-radio>
-          <el-radio label="1">男</el-radio>
-          <el-radio label="2">女</el-radio>
-        </el-radio-group>
+      <el-form-item label="账号状态">
+        <el-select placeholder="选择状态" v-model="pageParam.searchObject.accountStatus">
+          <el-option v-for="i in accountStatusList" :label="i.label" :value="i.value"/>
+        </el-select>
       </el-form-item>
-      <el-form-item prop="sort" label="状态">
-        <el-radio-group v-model="editForm.data.accountStatus">
-          <el-radio label="0">停用</el-radio>
-          <el-radio label="1">正常</el-radio>
-          <el-radio label="2">冻结</el-radio>
-          <el-radio label="3">封禁</el-radio>
-        </el-radio-group>
+      <el-form-item>
+        <el-button type="primary" @click="loadTableData">搜索</el-button>
+        <el-button @click="onResetSearchForm">重置</el-button>
       </el-form-item>
     </template>
-  </sra-simple-table>
+
+    <template #operate>
+      <el-button type="primary" @click="onCreate">添加用户</el-button>
+      <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
+    </template>
+
+    <template #default>
+      <el-table v-loading="loading" :data="pageVo.records" style="width: 100%" @selection-change="handleSelectionChange"
+                max-height="700px">
+        <el-table-column type="selection" width="55"/>
+        <el-table-column prop="username" width="200" label="账号"/>
+        <el-table-column prop="nickname" width="200" label="昵称"/>
+        <el-table-column prop="email" width="200" label="邮箱"/>
+        <el-table-column prop="roleName" width="100" label="角色"/>
+        <el-table-column prop="sex" width="100" label="性别">
+          <template #default="scope">
+            <el-tag :type="getSex(scope.row.sex, 0)">
+              {{ getSex(scope.row.sex, 1) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="accountStatus" width="100" label="状态">
+          <template #default="scope">
+            <el-tag :type="getAccountStatus(scope.row.accountStatus, 0)">
+              {{ getAccountStatus(scope.row.accountStatus, 1) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="lastLoginIp" width="200" label="最后登录IP"/>
+        <el-table-column prop="lastLoginTime" width="200" label="最后登录时间"/>
+        <el-table-column fixed="right" label="操作" width="240">
+          <template #default="scope">
+            <el-button link type="primary" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+
+    <template #page>
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
+                     :total="pageVo.total" :page-size="pageParam.pageSize" :page-sizes=[5,10,15]
+                     @current-change="onPageChange" @size-change="onSizeChange"/>
+    </template>
+
+    <template #form>
+      <add-user v-model:show="formShow" :user="editUser" :edit-type="editType" @onConfirm="loadTableData"/>
+    </template>
+  </table-manage>
 </template>
 
 <script setup lang="ts">
-import {Lock} from "@element-plus/icons-vue";
-import {onMounted, reactive, ref, watch} from "vue";
-import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
-import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {listByPage, deleteBatch, add, update} from "@/api/system/user-api";
-import roleApi from "@/api/system/role-api";
-import {getSexText, getAccountStatusText} from "@/utils/format-util";
+import {nextTick, onMounted, ref} from "vue";
+import {reqCommonFeedback} from "@/api/ApiFeedback";
+import {listByPage, deleteBatch} from "@/api/system/user-api";
+import TableManage from "@/components/container/TableManage.vue";
+import AddUser from "@/views/system/manager/user/module/AddUser.vue";
+import {ElMessage, ElMessageBox} from "element-plus";
 
-const initData: UserModel = {
-  id: '',
-  username: '',
-  nickname: '',
-  email: '',
-  sex: '0',
-  accountStatus: '1',
-  roleId: '',
-  roleName: '',
-  password: ''
-};
-
-const roleOptions = ref<RoleModel[]>([]);
-// 表单参数
-const editForm = reactive<any>({data: initData});
+const formShow = ref<boolean>(false);
+const editType = ref<string>("create");
+const editUser = ref<UserModel>();
+const multipleSelection = ref<any[]>([]);
 // 分页参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {}});
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 // 加载进度
 const loading = ref<boolean>(true);
-// 表单校验规则
-const rules = reactive({
-  username: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  nickname: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  password: [{required: true, min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
-  roleId: [{required: true, message: '请选择角色', trigger: 'blur'}]
-});
+const accountStatusList = ref<any>([
+  {label: '停用', value: 0},
+  {label: '正常', value: 1},
+  {label: '冻结', value: 2},
+  {label: '封禁', value: 3}
+]);
+const sexList = ref<any>([
+  {label: '不公开', value: 0},
+  {label: '男', value: 1},
+  {label: '女', value: 2}
+]);
 
 // 初始化数据
 onMounted(() => {
-  initTable();
-  getRoles();
+  loadTableData();
 });
 
-// 监听当前页的变化
-watch(
-    () => [pageParam.value.pageNo, pageParam.value.pageSize], () => {
-      initTable();
-    }
-)
-
-/**
- * 初始化编辑数据
- * @param row
- */
-const edit = (row: any): void => {
-  if (row) {
-    editForm.data = row;
+const getAccountStatus: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'warning', text: '停用'};
+      break;
+    case 1:
+      obj = {color: 'success', text: '正常'};
+      break;
+    case 2:
+      obj = {color: 'info', text: '冻结'};
+      break;
+    case 3:
+      obj = {color: 'danger', text: '封禁'};
+      break;
   }
+  return type === 0 ? obj.color : obj.text;
 }
 
-/**
- * 初始化新增数据
- */
-const initAdd = (): void => {
-  editForm.data = initData;
-}
-
-/**
- * 获取角色列表
- */
-const getRoles = () => {
-  let param: any = {
-    pageNo: 1,
-    pageSize: 1000,
-    roleVO: {roleName: ''}
+const getSex: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'info', text: '不公开'};
+      break;
+    case 1:
+      obj = {color: 'primary', text: '男'};
+      break;
+    case 2:
+      obj = {color: 'success', text: '女'};
+      break;
   }
-  reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
-    roleOptions.value = data.rows;
-  });
+  return type === 0 ? obj.color : obj.text;
 }
 
-/**
- * 刷新
- */
-const refresh = (): void => {
-  pageParam.value.pageNo = 1;
-  pageParam.value.pageSize = 15;
-  pageParam.value.searchKey = '';
-  setTimeout(initTable, 200);
+const onEdit = (row: UserModel): void => {
+  formShow.value = true;
+  editUser.value = row;
+  editType.value = 'update';
 }
 
-/**
- * 单个移除
- * @param row
- */
-const remove = (row: any) => removeBatch([row.id]);
-
-/**
- * 初始化数据
- */
-const initTable = () => {
-  // 渲染数据
-  if (!loading.value) {
-    loading.value = true;
-  }
+const loadTableData = () => {
+  if (!loading.value) loading.value = true;
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    userVO: {nickname: pageParam.value.searchKey, username: pageParam.value.searchKey}
+    userVO: pageParam.value.searchObject
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;
@@ -177,39 +166,59 @@ const initTable = () => {
   });
 }
 
-/**
- * 更新操作
- * @param formEl 表单组件对象
- * @param callback 回调函数，调用就会关闭对话框
- */
-const doUpdate = (formEl: any, callback: Function): void => {
-  formEl.validate((valid: any) => {
-    if (valid) {
-      if (!editForm.data.id) {
-        // 新增
-        reqSuccessFeedback(add(editForm.data), '新增成功', () => {
-          initTable();
-          callback();
-        });
-      } else {
-        // 修改
-        reqSuccessFeedback(update(editForm.data), '修改成功', () => {
-          initTable();
-          callback();
-        });
+const onPageChange = (currentPage: number) => {
+  pageParam.value.pageNo = currentPage;
+  nextTick(() => loadTableData());
+}
+
+const onSizeChange = (size: number) => {
+  pageParam.value.pageSize = size;
+  nextTick(() => loadTableData());
+}
+
+const onResetSearchForm = () => {
+  pageParam.value.searchObject = {};
+}
+
+const onCreate = () => {
+  formShow.value = true;
+  editType.value = 'create';
+}
+
+const onDelete = (id: string) => {
+  ElMessageBox.confirm('确认该用户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       }
-    }
+  ).then(() => {
+    reqCommonFeedback(deleteBatch([id]), () => {
+      ElMessage({type: 'success', message: '删除成功'});
+      loadTableData();
+    });
   });
 }
 
-/**
- * 批量删除
- * @param ids
- */
-const removeBatch = (ids: string[]) => {
-  reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
-    initTable();
+const onDeleteBatch = () => {
+  let ids: string[] = [];
+  multipleSelection.value.map((item, index) => {
+    ids.push(item.id);
   });
+  ElMessageBox.confirm('确认删除所选用户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqCommonFeedback(deleteBatch(ids), () => {
+      ElMessage({type: 'success', message: '删除成功'});
+      loadTableData();
+    });
+  });
+}
+
+const handleSelectionChange = (arr: any) => {
+  multipleSelection.value = arr;
 }
 </script>
 

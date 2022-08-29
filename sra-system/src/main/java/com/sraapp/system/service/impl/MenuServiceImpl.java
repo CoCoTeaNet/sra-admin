@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.enums.IsSomethingEnum;
 import com.sraapp.common.util.GenerateDsUtils;
-import com.sraapp.common.util.StringUtils;
+import com.sraapp.common.constant.CharConstant;
 import com.sraapp.framework.constant.RedisKey;
 import com.sraapp.framework.service.IRedisService;
 import com.sraapp.system.param.menu.MenuUpdateParam;
@@ -43,7 +43,7 @@ public class MenuServiceImpl implements IMenuService {
             menu.setParentId(String.valueOf(0));
         }
         if (StringUtil.isBlank(menu.getPermissionCode()) && StringUtil.isNotBlank(menu.getRouterPath())) {
-            menu.setPermissionCode(menu.getRouterPath().replace(StringUtils.LEFT_LINE, StringUtils.COLON));
+            menu.setPermissionCode(menu.getRouterPath().replace(CharConstant.LEFT_LINE, CharConstant.COLON));
         }
         Object menuId = sqlToyLazyDao.save(menu);
         return menuId != null;
@@ -79,7 +79,7 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<MenuVO> listByUserId(String isMenu) {
+    public List<MenuVO> listByUserId(Integer isMenu) {
         Map<String, Object> hashMap = new HashMap<>(2);
         hashMap.put("userId", StpUtil.getLoginId());
         hashMap.put("isMenu", isMenu);

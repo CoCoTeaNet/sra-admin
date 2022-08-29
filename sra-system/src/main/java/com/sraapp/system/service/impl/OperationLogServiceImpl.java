@@ -58,7 +58,7 @@ public class OperationLogServiceImpl implements IOperationLogService {
     }
 
     @Override
-    public void saveByLogType(String logType, HttpServletRequest request) throws BusinessException {
+    public void saveByLogType(Integer logType, HttpServletRequest request) throws BusinessException {
         OperationLogAddParam logAddParam = new OperationLogAddParam();
         logAddParam.setIpAddress(IpUtils.getIp(request));
         logAddParam.setLogType(logType);

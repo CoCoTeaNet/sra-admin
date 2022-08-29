@@ -1,38 +1,22 @@
 <template>
-  <div>
+  <table-manage>
     <!-- 表格操作 -->
-    <el-row style="margin-bottom: 1em">
-      <el-col :span="20">
-        <el-button v-if="!isHideEditButton" type="primary" @click="add">
-          <el-space>
-            <el-icon>
-              <plus/>
-            </el-icon>
-            添加
-          </el-space>
-        </el-button>
-        <el-button type="danger" @click="removeBatch">
-          <el-space>
-            <el-icon>
-              <delete/>
-            </el-icon>
-            删除
-          </el-space>
-        </el-button>
-        <el-button type="text" @click="$emit('refresh')">
-          <el-space>
-            <el-icon>
-              <refresh/>
-            </el-icon>
-            刷新
-          </el-space>
-        </el-button>
-      </el-col>
-      <el-col :span="4" style="text-align: right">
-        <el-input placeholder="回车搜索" :prefix-icon="Search" v-model:model-value="pageParam.searchKey"
-                  @keypress.enter="$emit('enter-search')"/>
-      </el-col>
-    </el-row>
+    <template #search>
+      <el-input style="width: 200px;margin-right: 12px" placeholder="回车搜索" :prefix-icon="Search"
+                v-model:model-value="pageParam.searchKey" @keypress.enter="$emit('enter-search')"/>
+      <el-button  @click="$emit('refresh')">
+        <el-space>
+          <el-icon>
+            <refresh/>
+          </el-icon>
+          刷新
+        </el-space>
+      </el-button>
+    </template>
+    <template #operate>
+      <el-button v-if="!isHideEditButton" type="primary" @click="add">{{`添加${title}`}}</el-button>
+      <el-button type="danger" @click="removeBatch">批量删除</el-button>
+    </template>
 
     <!-- 表格视图 -->
     <el-table :data="pageVo.records" stripe style="width: 100%" @select="selectChange" @select-all="selectChange">
@@ -42,36 +26,41 @@
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
           <el-button v-if="!isHideEditButton" type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="remove(scope.row)">删除</el-button>
+          <el-button link type="danger" size="small" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
-                   v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo" :total="pageVo.total"
-                   :page-sizes="pageSizes">
-    </el-pagination>
+    <template #page>
+      <el-pagination style="margin-top: 1em" background layout="total, sizes, prev, pager, next, jumper"
+                     v-model:page-size="pageParam.pageSize" v-model:current-page="pageParam.pageNo" :total="pageVo.total"
+                     :page-sizes="pageSizes">
+      </el-pagination>
+    </template>
 
     <!-- 编辑对话框 -->
-    <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
-      <el-form ref="sstFormRef" :model="editForm" label-width="120px" :rules="rules">
-        <slot name="edit"></slot>
-      </el-form>
-      <template #footer>
+    <template #form>
+      <el-dialog v-model="dialogFormVisible" :title="dialogTitle">
+        <el-form ref="sstFormRef" :model="editForm" label-width="120px" :rules="rules">
+          <slot name="edit"></slot>
+        </el-form>
+        <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
           <el-button type="primary" @click="dialogConfirm(sstFormRef)">确认</el-button>
         </span>
-      </template>
-    </el-dialog>
-  </div>
+        </template>
+      </el-dialog>
+    </template>
+  </table-manage>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
 import {ElForm, ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
+import TableManage from "@/components/container/TableManage.vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sstFormRef = ref<FormInstance>();
@@ -83,6 +72,7 @@ const selectionIds = ref<any[]>([]);
 
 // 定义组件参数
 const props = withDefaults(defineProps<{
+  title?: string,
   // 表单数据
   editForm?: any,
   // 表单规则
@@ -96,6 +86,7 @@ const props = withDefaults(defineProps<{
   // 是否隐藏编辑按钮
   isHideEditButton?: boolean
 }>(), {
+  title: '',
   rules: {},
   editForm: {},
   pageSizes: () => [15, 25, 35, 45, 55],

@@ -34,7 +34,9 @@
                 <ul>
                   <li>1. 修复已知BUG.</li>
                   <li>2. 新增CMS模块.</li>
-                  <li>3. 更改gav,优化UI界面.</li>
+                  <li>3. 新增任务调度模块.</li>
+                  <li>4. 更改GAV,优化UI界面.</li>
+                  <li>5. 移除swagger.</li>
                 </ul>
               </div>
             </el-collapse-item>

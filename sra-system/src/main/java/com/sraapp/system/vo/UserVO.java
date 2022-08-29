@@ -13,7 +13,6 @@ public class UserVO implements Serializable {
 
 	private static final long serialVersionUID = 8964336332716926878L;
 	
-/*---begin-auto-generate-don't-update-this-area--*/	
 	/**
 	 * 主键id
 	 */
@@ -47,7 +46,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 删除状态;0删除 1未删除
 	 */
-	private String deleteStatus;
+	private Integer deleteStatus;
 	
 	/**
 	 * 用户账号
@@ -72,7 +71,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 用户性别;0未知 1男 2女
 	 */
-	private String sex;
+	private Integer sex;
 	
 	/**
 	 * 用户邮箱
@@ -92,7 +91,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 账号状态;0停用 1正常 2冻结 3封禁
 	 */
-	private String accountStatus;
+	private Integer accountStatus;
 	
 	/**
 	 * 头像地址
@@ -201,21 +200,6 @@ public class UserVO implements Serializable {
 	}
 	
 	/**
-	 *@param deleteStatus the deleteStatus to set
-	 */
-	public UserVO setDeleteStatus(String deleteStatus) {
-		this.deleteStatus=deleteStatus;
-		return this;
-	}
-		
-	/**
-	 *@return the DeleteStatus
-	 */
-	public String getDeleteStatus() {
-	    return this.deleteStatus;
-	}
-	
-	/**
 	 *@param username the username to set
 	 */
 	public UserVO setUsername(String username) {
@@ -253,21 +237,6 @@ public class UserVO implements Serializable {
 		this.roleName = roleName;
 	}
 
-	/**
-	 *@param sex the sex to set
-	 */
-	public UserVO setSex(String sex) {
-		this.sex=sex;
-		return this;
-	}
-		
-	/**
-	 *@return the Sex
-	 */
-	public String getSex() {
-	    return this.sex;
-	}
-	
 	/**
 	 *@param email the email to set
 	 */
@@ -312,22 +281,7 @@ public class UserVO implements Serializable {
 	public String getDepartmentId() {
 	    return this.departmentId;
 	}
-	
-	/**
-	 *@param accountStatus the accountStatus to set
-	 */
-	public UserVO setAccountStatus(String accountStatus) {
-		this.accountStatus=accountStatus;
-		return this;
-	}
-		
-	/**
-	 *@return the AccountStatus
-	 */
-	public String getAccountStatus() {
-	    return this.accountStatus;
-	}
-	
+
 	/**
 	 *@param avatar the avatar to set
 	 */
@@ -379,6 +333,33 @@ public class UserVO implements Serializable {
 
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
+	}
+
+	public Integer getDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public UserVO setDeleteStatus(Integer deleteStatus) {
+		this.deleteStatus = deleteStatus;
+		return this;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public UserVO setSex(Integer sex) {
+		this.sex = sex;
+		return this;
+	}
+
+	public Integer getAccountStatus() {
+		return accountStatus;
+	}
+
+	public UserVO setAccountStatus(Integer accountStatus) {
+		this.accountStatus = accountStatus;
+		return this;
 	}
 
 	@Override

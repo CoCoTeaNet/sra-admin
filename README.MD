@@ -1,4 +1,4 @@
-﻿### 当前版本V1.0.3
+﻿### 当前版本V1.1.0
 
 #### 🍬 介绍
 
@@ -37,9 +37,9 @@
 * 后端
 
 ```text
-application.yml配置文件位置：src/main/resources/application.yml
-数据库脚本：/doc/db/DB_SRA_V1.sql
-Main入口主类：sra-bootstrap/src/main/java/com/jwss/bootstrap/SraApplicationBoot.java
+1. application.yml：/sra-config/src/main/resources/application.yml
+2. 数据库执行脚本：/doc/DB_SRA_V1.sql
+3. 项目启动类：/sra-bootstrap/src/main/java/com/sraapp/bootstrap/SraApplicationBoot.java
 ```
 
 - 前端
@@ -59,7 +59,6 @@ $ npm run build || yarn build       #生产环境
 * 备注
 
 1. 必须安装Redis；
-2. db_sra_v1.chnr.json文件可以用pdman编辑；
 
 #### 🍁 开发规范
 
@@ -70,7 +69,7 @@ $ npm run build || yarn build       #生产环境
 ```
 ├─logs  ------------------------日志文件  
 ├─doc  -------------------------文档  
-│  └─db  -----------------------数据库脚本  
+│  └─DB_SRA_V1.sql  ------------数据库脚本  
 ├─sra-bootstrap  ---------------启动模块  
 ├─sra-common  ------------------常用模块  
 ├─sra-config  ------------------配置模块  

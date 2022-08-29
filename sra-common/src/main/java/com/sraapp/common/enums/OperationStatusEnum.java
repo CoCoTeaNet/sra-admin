@@ -13,16 +13,16 @@ public enum OperationStatusEnum {
     ERROR(0, "异常"),
     SUCCESS(1, "成功");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     OperationStatusEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

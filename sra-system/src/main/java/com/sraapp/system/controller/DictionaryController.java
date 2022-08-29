@@ -8,7 +8,6 @@ import com.sraapp.system.param.dictionary.DictionaryPageParam;
 import com.sraapp.system.param.dictionary.DictionaryUpdateParam;
 import com.sraapp.system.service.IDictionaryService;
 import com.sraapp.system.vo.DictionaryVO;
-import io.swagger.annotations.Api;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,6 @@ import java.util.List;
  * @author jwss
  * @date 2022-3-22
  */
-@Api(tags = "系统字典接口")
 @Validated
 @RestController
 @RequestMapping("/dictionary")

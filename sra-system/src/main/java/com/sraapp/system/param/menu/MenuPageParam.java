@@ -1,8 +1,6 @@
 package com.sraapp.system.param.menu;
 
 import com.sraapp.system.vo.MenuVO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.sagacity.sqltoy.model.Page;
 
 import java.io.Serializable;
@@ -13,12 +11,10 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
-@ApiModel("菜单分页参数")
 public class MenuPageParam extends Page<MenuVO> implements Serializable{
 
 	private static final long serialVersionUID = -772057092053351688L;
 
-	@ApiModelProperty(value = "菜单属性")
 	private MenuVO menuVO;
 
 	public MenuVO getMenuVO() {

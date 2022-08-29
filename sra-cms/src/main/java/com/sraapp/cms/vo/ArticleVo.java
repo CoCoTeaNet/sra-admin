@@ -2,6 +2,7 @@ package com.sraapp.cms.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ArticleVo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,7 +29,14 @@ public class ArticleVo implements Serializable {
     /**
      * 发布状态;1正常 2审核中 3审核不通过 4冻结 5保存
      */
-    private String publishStatus;
+    private Integer publishStatus;
+
+    /**
+     * 标签
+     */
+    private String tags;
+
+    private List<String> tagList;
 
     /**
      * 创建人
@@ -40,85 +48,116 @@ public class ArticleVo implements Serializable {
      */
     private LocalDateTime createTime;
 
-    /**
-     * 更新人
-     */
-    private String updateBy;
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public ArticleVo setCover(String cover) {
+        this.cover = cover;
+        return this;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public ArticleVo setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+        return this;
+    }
+
+    public LocalDateTime getBeginTime() {
+        return beginTime;
+    }
+
+    public ArticleVo setBeginTime(LocalDateTime beginTime) {
+        this.beginTime = beginTime;
+        return this;
+    }
+
+    public List<String> getTagList() {
+        return tagList;
+    }
+
+    public ArticleVo setTagList(List<String> tagList) {
+        this.tagList = tagList;
+        return this;
+    }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public ArticleVo setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public ArticleVo setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public ArticleVo setContent(String content) {
         this.content = content;
+        return this;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public ArticleVo setSummary(String summary) {
         this.summary = summary;
+        return this;
     }
 
-    public String getPublishStatus() {
+    public Integer getPublishStatus() {
         return publishStatus;
     }
 
-    public void setPublishStatus(String publishStatus) {
+    public ArticleVo setPublishStatus(Integer publishStatus) {
         this.publishStatus = publishStatus;
+        return this;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public ArticleVo setTags(String tags) {
+        this.tags = tags;
+        return this;
     }
 
     public String getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(String createBy) {
+    public ArticleVo setCreateBy(String createBy) {
         this.createBy = createBy;
+        return this;
     }
 
     public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public ArticleVo setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
+        return this;
     }
 }

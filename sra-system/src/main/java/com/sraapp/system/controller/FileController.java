@@ -10,8 +10,6 @@ import com.sraapp.framework.constant.GlobalValue;
 import com.sraapp.framework.constant.RedisKey;
 import com.sraapp.framework.service.IRedisService;
 import com.sraapp.framework.util.IpUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +22,6 @@ import javax.validation.Valid;
  * @author jwss
  * @date 2022-1-12 14:25:41
  */
-@Api(tags = "系统文件接口")
 @Validated
 @RestController
 @RequestMapping("/file")
@@ -34,7 +31,6 @@ public class FileController {
     @Resource
     private IRedisService redisService;
 
-    @ApiOperation(value = "验证码生成")
     @PostMapping("/verificationCode")
     public ApiResult<String> verificationCode(@Valid @RequestBody VerificationCodeParam param, HttpServletRequest request){
         // 生成圆圈干扰的验证码
@@ -47,7 +43,6 @@ public class FileController {
         return ApiResult.ok(captcha.getImageBase64());
     }
 
-    @ApiOperation(value = "文件上传")
     @PostMapping("/upload")
     public ApiResult<String> upload(@RequestParam("file") MultipartFile multipartFile) {
         String fileName = FileUploadUtils.saveMultipartFile(multipartFile, fileUploadProperties.getLocalUrl());

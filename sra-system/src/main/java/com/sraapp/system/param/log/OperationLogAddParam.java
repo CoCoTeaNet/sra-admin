@@ -33,7 +33,7 @@ public class OperationLogAddParam {
     /**
      * 操作状态;0异常 1成功
      */
-    private String operationStatus;
+    private Integer operationStatus;
 
     /**
      * 系统模块
@@ -43,7 +43,7 @@ public class OperationLogAddParam {
     /**
      * 操作类型;0登录日志 1操作日志
      */
-    private String operationType;
+    private Integer operationType;
 
     /**
      * 操作地点
@@ -53,7 +53,7 @@ public class OperationLogAddParam {
     /**
      * 日志类型
      */
-    private String logType;
+    private Integer logType;
 
     /**
      * 操作时间
@@ -64,79 +64,89 @@ public class OperationLogAddParam {
         return logNumber;
     }
 
-    public void setLogNumber(Long logNumber) {
+    public OperationLogAddParam setLogNumber(Long logNumber) {
         this.logNumber = logNumber;
+        return this;
     }
 
     public String getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(String ipAddress) {
+    public OperationLogAddParam setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+        return this;
     }
 
     public String getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
+    public OperationLogAddParam setOperator(String operator) {
         this.operator = operator;
+        return this;
     }
 
     public String getRequestWay() {
         return requestWay;
     }
 
-    public void setRequestWay(String requestWay) {
+    public OperationLogAddParam setRequestWay(String requestWay) {
         this.requestWay = requestWay;
+        return this;
     }
 
-    public String getOperationStatus() {
+    public Integer getOperationStatus() {
         return operationStatus;
     }
 
-    public void setOperationStatus(String operationStatus) {
+    public OperationLogAddParam setOperationStatus(Integer operationStatus) {
         this.operationStatus = operationStatus;
+        return this;
     }
 
     public String getSystemModule() {
         return systemModule;
     }
 
-    public void setSystemModule(String systemModule) {
+    public OperationLogAddParam setSystemModule(String systemModule) {
         this.systemModule = systemModule;
+        return this;
     }
 
-    public String getOperationType() {
+    public Integer getOperationType() {
         return operationType;
     }
 
-    public void setOperationType(String operationType) {
+    public OperationLogAddParam setOperationType(Integer operationType) {
         this.operationType = operationType;
+        return this;
     }
 
     public String getOperationAddress() {
         return operationAddress;
     }
 
-    public void setOperationAddress(String operationAddress) {
+    public OperationLogAddParam setOperationAddress(String operationAddress) {
         this.operationAddress = operationAddress;
+        return this;
     }
 
-    public String getLogType() {
+    public Integer getLogType() {
         return logType;
     }
 
-    public void setLogType(String logType) {
+    public OperationLogAddParam setLogType(Integer logType) {
         this.logType = logType;
+        return this;
     }
 
     public LocalDateTime getOperationTime() {
         return operationTime;
     }
 
-    public void setOperationTime(LocalDateTime operationTime) {
+    public OperationLogAddParam setOperationTime(LocalDateTime operationTime) {
         this.operationTime = operationTime;
+        return this;
     }
 }

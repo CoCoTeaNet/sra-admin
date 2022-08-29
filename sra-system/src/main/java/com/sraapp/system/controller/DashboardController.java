@@ -5,8 +5,6 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.sraapp.common.model.ApiResult;
 import com.sraapp.system.service.IDashboardService;
 import com.sraapp.system.vo.SystemInfoVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +19,6 @@ import java.util.Map;
  * @date 2022-1-26 11:36:32
  * @author jwss
  */
-@Api(tags = "仪表盘接口")
 @Validated
 @RestController
 @RequestMapping("/dashboard")
@@ -35,7 +32,6 @@ public class DashboardController {
         return ApiResult.ok("Hello sss-rbac-admin.");
     }
 
-    @ApiOperation("获取数量统计")
     @GetMapping("getCount")
     @SaCheckPermission("system:dashboard:getCount")
     public ApiResult<List<Map<String, Object>>> getCount() {
@@ -43,7 +39,6 @@ public class DashboardController {
         return ApiResult.ok(count);
     }
 
-    @ApiOperation("获取系统信息")
     @GetMapping("getSystemInfo")
     @SaCheckPermission("system:dashboard:getSystemInfo")
     @SaCheckLogin

@@ -7,11 +7,12 @@
     <sql id="system_role_findByEntityParam">
         <value>
             <![CDATA[
-			    select * from sys_role
-			    where
+			    select ID, REVISION, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, DELETE_STATUS,
+                       ROLE_NAME, ROLE_KEY, SORT, REMARK
+			    from sys_role
+			    where DELETE_STATUS = 1
 			    #[and ROLE_NAME = :roleName]
 			    #[and ROLE_KEY = :roleKey]
-			    #[and DELETE_STATUS = 1]
 			    order by SORT, CREATE_TIME desc
 			]]>
         </value>
@@ -21,10 +22,12 @@
     <sql id="system_role_findByPageParam">
         <value>
             <![CDATA[
-			    select * from sys_role
-			    where
-			    #[and (ROLE_NAME like :roleName or ROLE_KEY like :roleKey)]
-			    #[and DELETE_STATUS = 1]
+			    select ID, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, ROLE_NAME, ROLE_KEY, SORT, REMARK
+			    from sys_role
+			    where DELETE_STATUS = 1
+			    #[and ROLE_NAME like :roleName]
+			    #[and ROLE_KEY like :roleKey]
+			    #[and REMARK like :remark]
 			    order by SORT, CREATE_TIME desc
 			]]>
         </value>
@@ -34,7 +37,9 @@
     <sql id="system_role_loadByUserId">
         <value>
             <![CDATA[
-               select * from sys_role
+			    select ID, REVISION, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, DELETE_STATUS,
+                       ROLE_NAME, ROLE_KEY, SORT, REMARK
+			    from sys_role
                where ID in (select ROLE_ID from sys_user_role where USER_ID=:userId)
             ]]>
         </value>

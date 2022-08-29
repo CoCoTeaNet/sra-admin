@@ -13,16 +13,16 @@ public enum LogTypeEnum {
     LOGIN(0, "登录日志"),
     OPERATION(1, "操作日志");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     LogTypeEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
+    public Integer getCode() {
+        return code;
     }
 
     public String getDesc() {

@@ -28,6 +28,12 @@ public class CmsArticle implements Serializable {
     private String title;
 
     /**
+     * 封面
+     */
+    @Column(name="COVER",length=200L,type=java.sql.Types.VARCHAR,nullable=false)
+    private String cover;
+
+    /**
      * 内容
      */
     @Column(name="CONTENT",length=65535L,type=java.sql.Types.VARCHAR,nullable=false)
@@ -43,7 +49,10 @@ public class CmsArticle implements Serializable {
      * 发布状态;1正常 2审核中 3审核不通过 4冻结 5保存
      */
     @Column(name="PUBLISH_STATUS",length=1L,type=java.sql.Types.CHAR)
-    private String publishStatus;
+    private Integer publishStatus;
+
+    @Column(name="TAGS",length=255L,type=java.sql.Types.VARCHAR)
+    private String tags;
 
     /**
      * 创建人
@@ -73,7 +82,7 @@ public class CmsArticle implements Serializable {
      * 删除状态;0删除 1未删除
      */
     @Column(name="DELETE_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
-    private String deleteStatus;
+    private Integer deleteStatus;
 
     /**
      * 乐观锁
@@ -118,15 +127,6 @@ public class CmsArticle implements Serializable {
         return this;
     }
 
-    public String getPublishStatus() {
-        return this.publishStatus;
-    }
-
-    public CmsArticle setPublishStatus(String publishStatus) {
-        this.publishStatus=publishStatus;
-        return this;
-    }
-
     public String getCreateBy() {
         return this.createBy;
     }
@@ -163,15 +163,6 @@ public class CmsArticle implements Serializable {
         return this;
     }
 
-    public String getDeleteStatus() {
-        return this.deleteStatus;
-    }
-
-    public CmsArticle setDeleteStatus(String deleteStatus) {
-        this.deleteStatus=deleteStatus;
-        return this;
-    }
-
     public Integer getRevision() {
         return this.revision;
     }
@@ -181,6 +172,38 @@ public class CmsArticle implements Serializable {
         return this;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public CmsArticle setCover(String cover) {
+        this.cover = cover;
+        return this;
+    }
+
+    public Integer getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(Integer publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
 
     @Override
     public String toString() {
@@ -190,6 +213,7 @@ public class CmsArticle implements Serializable {
         columnsBuffer.append("content=").append(getContent()).append("\n");
         columnsBuffer.append("summary=").append(getSummary()).append("\n");
         columnsBuffer.append("publishStatus=").append(getPublishStatus()).append("\n");
+        columnsBuffer.append("tags=").append(getTags()).append("\n");
         columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
         columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
         columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");

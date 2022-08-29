@@ -1,5 +1,5 @@
 <template>
-  <sra-tree-table class="main-bg" v-loading="loading"
+  <sra-tree-table class="main-bg" v-loading="loading" title="菜单"
                   :editForm="editForm.data" :pageVo="pageVo" :rules="rules" :page-param="pageParam"
                   @dialog-confirm="doUpdate" @remove-batch="removeBatch" @edit="edit" @remove="remove" @add="initAdd"
                   @enter-search="initTable" @refresh="refresh">
@@ -15,20 +15,20 @@
           </el-icon>
         </template>
       </el-table-column>
-      <el-table-column prop="menuType" label="类型">
+      <el-table-column prop="menuType" label="菜单类型">
         <template #default="scope">
-          <span>{{ getMenuTypeText(scope.row.menuType) }}</span>
+          <el-tag :type="getMenuType(scope.row.menuType, 0)">{{getMenuType(scope.row.menuType, 1)}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="routerPath" label="路由地址"/>
+      <el-table-column width="200" prop="routerPath" label="路由地址"/>
       <el-table-column prop="isExternalLink" label="是否外链">
         <template #default="scope">
-          <div v-html="getIsSomethingText(scope.row.isExternalLink)"></div>
+          <el-tag :type="getConfirm(scope.row.isExternalLink, 0)">{{getConfirm(scope.row.isExternalLink, 1)}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="menuStatus" label="菜单状态">
         <template #default="scope">
-          <div v-html="getMenuStatusText(scope.row.menuStatus)"></div>
+          <el-tag :type="getMenuStatus(scope.row.menuStatus, 0)">{{getMenuStatus(scope.row.menuStatus, 1)}}</el-tag>
         </template>
       </el-table-column>
     </template>
@@ -40,9 +40,9 @@
       </el-form-item>
       <el-form-item prop="menuType" label="菜单类型">
         <el-radio-group v-model="editForm.data.menuType" @change="menuTypeChange">
-          <el-radio label="0">目录</el-radio>
-          <el-radio label="1">菜单</el-radio>
-          <el-radio label="2">按钮</el-radio>
+          <el-radio :label="0">目录</el-radio>
+          <el-radio :label="1">菜单</el-radio>
+          <el-radio :label="2">按钮</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item prop="routerPath" label="路由地址">
@@ -50,8 +50,8 @@
       </el-form-item>
       <el-form-item v-if="isShowExternalLink" prop="isExternalLink" label="是否外链">
         <el-radio-group v-model="editForm.data.isExternalLink">
-          <el-radio label="0">是</el-radio>
-          <el-radio label="1">否</el-radio>
+          <el-radio :label="0">是</el-radio>
+          <el-radio :label="1">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item prop="sort" label="显示顺序">
@@ -68,10 +68,10 @@
       </el-form-item>
       <el-form-item prop="menuStatus" label="菜单状态">
         <el-radio-group v-model="editForm.data.menuStatus">
-          <el-radio label="0">显示并启用</el-radio>
-          <el-radio label="1">隐藏并关闭</el-radio>
-          <el-radio label="2">显示不启用</el-radio>
-          <el-radio label="3">隐藏但启用</el-radio>
+          <el-radio :label="0">显示并启用</el-radio>
+          <el-radio :label="1">隐藏并关闭</el-radio>
+          <el-radio :label="2">显示不启用</el-radio>
+          <el-radio :label="3">隐藏但启用</el-radio>
         </el-radio-group>
       </el-form-item>
     </template>
@@ -84,19 +84,78 @@ import SraTreeTable from "@/components/table/tree-table/SraTreeTable.vue";
 import IconSelection from "@/components/selection/IconSelection.vue";
 import {listByTree, add, deleteBatch, update} from "@/api/system/menu-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
-import {getMenuTypeText, getIsSomethingText, getMenuStatusText} from "@/utils/format-util";
 
 const initData = {
   id: '',
   menuName: '',
-  menuType: '0',
+  menuType: 0,
   iconPath: '',
   routerPath: '',
-  isExternalLink: '1',
-  menuStatus: '0',
+  isExternalLink: 1,
+  menuStatus: 0,
   parentId: '',
   sort: 0,
   isMenu: '0'
+}
+
+const getMenuType: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'success', text: '目录'};
+      break;
+    case 1:
+      obj = {color: 'info', text: '菜单'};
+      break;
+    case 2:
+      obj = {color: 'info', text: '按钮'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
+}
+
+const getConfirm: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'success', text: '是'};
+      break;
+    case 1:
+      obj = {color: 'info', text: '否'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
+}
+
+const getMenuStatus: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'success', text: '显示并启用'};
+      break;
+    case 1:
+      obj = {color: 'warning', text: '隐藏并关闭'};
+      break;
+    case 2:
+      obj = {color: 'primary', text: '显示不启用'};
+      break;
+    case 3:
+      obj = {color: 'info', text: '隐藏但启用'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
 }
 
 // 级联选择框配置
@@ -120,7 +179,7 @@ const rules = reactive({
   isExternalLink: [{required: true, message: '请选择链接类型', trigger: 'blur'}],
 });
 // api分页请求参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 1000, searchKey: '', searchObject: {}});
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 // 是否显示外链选择按钮

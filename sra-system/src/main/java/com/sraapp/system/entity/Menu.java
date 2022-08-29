@@ -66,7 +66,7 @@ public class Menu implements Serializable {
 	 * 删除状态;0删除 1未删除
 	 */
 	@Column(name="DELETE_STATUS",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
-	private String deleteStatus;
+	private Integer deleteStatus;
 	
 	/**
 	 * jdbcType:VARCHAR
@@ -101,21 +101,21 @@ public class Menu implements Serializable {
 	 * 按钮类型;0目录 1菜单 2按钮
 	 */
 	@Column(name="MENU_TYPE",length=1L,type=java.sql.Types.CHAR,nullable=false)
-	private String menuType;
+	private Integer menuType;
 	
 	/**
 	 * jdbcType:CHAR
 	 * 是否菜单
 	 */
 	@Column(name="IS_MENU",length=1L,type=java.sql.Types.CHAR,nullable=false)
-	private String isMenu;
+	private Integer isMenu;
 
 	/**
 	 * jdbcType:CHAR
 	 * 0显示&启用 1隐藏&关闭 2显示&关闭 3隐藏&启用
 	 */
 	@Column(name="MENU_STATUS",length=1L,type=java.sql.Types.CHAR,nullable=false)
-	private String menuStatus;
+	private Integer menuStatus;
 	
 	/**
 	 * jdbcType:INT
@@ -136,7 +136,7 @@ public class Menu implements Serializable {
 	 * 是否外链;0是 1否
 	 */
 	@Column(name="IS_EXTERNAL_LINK",length=1L,type=java.sql.Types.CHAR,nullable=false)
-	private String isExternalLink;
+	private Integer isExternalLink;
 	
 	/**
 	 * jdbcType:VARCHAR
@@ -144,278 +144,167 @@ public class Menu implements Serializable {
 	 */
 	@Column(name="ICON_PATH",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String iconPath;
-	
-	/** default constructor */
-	public Menu() {
-	}
-	
-	/** pk constructor */
-	public Menu(String id)
-	{
-		this.id=id;
-	}
-	
-	/**
-	 *@param id the id to set
-	 */
-	public Menu setId(String id) {
-		this.id=id;
-		return this;
-	}
-		
-	/**
-	 *@return the Id
-	 */
+
 	public String getId() {
-	    return this.id;
-	}
-	
-	/**
-	 *@param revision the revision to set
-	 */
-	public Menu setRevision(Integer revision) {
-		this.revision=revision;
-		return this;
-	}
-		
-	/**
-	 *@return the Revision
-	 */
-	public Integer getRevision() {
-	    return this.revision;
-	}
-	
-	/**
-	 *@param createBy the createBy to set
-	 */
-	public Menu setCreateBy(String createBy) {
-		this.createBy=createBy;
-		return this;
-	}
-		
-	/**
-	 *@return the CreateBy
-	 */
-	public String getCreateBy() {
-	    return this.createBy;
-	}
-	
-	/**
-	 *@param createTime the createTime to set
-	 */
-	public Menu setCreateTime(LocalDateTime createTime) {
-		this.createTime=createTime;
-		return this;
-	}
-		
-	/**
-	 *@return the CreateTime
-	 */
-	public LocalDateTime getCreateTime() {
-	    return this.createTime;
-	}
-	
-	/**
-	 *@param updateBy the updateBy to set
-	 */
-	public Menu setUpdateBy(String updateBy) {
-		this.updateBy=updateBy;
-		return this;
-	}
-		
-	/**
-	 *@return the UpdateBy
-	 */
-	public String getUpdateBy() {
-	    return this.updateBy;
-	}
-	
-	/**
-	 *@param updateTime the updateTime to set
-	 */
-	public Menu setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime=updateTime;
-		return this;
-	}
-		
-	/**
-	 *@return the UpdateTime
-	 */
-	public LocalDateTime getUpdateTime() {
-	    return this.updateTime;
-	}
-	
-	/**
-	 *@param deleteStatus the deleteStatus to set
-	 */
-	public Menu setDeleteStatus(String deleteStatus) {
-		this.deleteStatus=deleteStatus;
-		return this;
-	}
-		
-	/**
-	 *@return the DeleteStatus
-	 */
-	public String getDeleteStatus() {
-	    return this.deleteStatus;
-	}
-	
-	/**
-	 *@param menuName the menuName to set
-	 */
-	public Menu setMenuName(String menuName) {
-		this.menuName=menuName;
-		return this;
-	}
-		
-	/**
-	 *@return the MenuName
-	 */
-	public String getMenuName() {
-	    return this.menuName;
-	}
-	
-	/**
-	 *@param permissionCode the permissionCode to set
-	 */
-	public Menu setPermissionCode(String permissionCode) {
-		this.permissionCode=permissionCode;
-		return this;
-	}
-		
-	/**
-	 *@return the PermissionCode
-	 */
-	public String getPermissionCode() {
-	    return this.permissionCode;
-	}
-	
-	/**
-	 *@param routerPath the routerPath to set
-	 */
-	public Menu setRouterPath(String routerPath) {
-		this.routerPath=routerPath;
-		return this;
-	}
-		
-	/**
-	 *@return the RouterPath
-	 */
-	public String getRouterPath() {
-	    return this.routerPath;
-	}
-	
-	/**
-	 *@param parentId the parentId to set
-	 */
-	public Menu setParentId(String parentId) {
-		this.parentId=parentId;
-		return this;
-	}
-		
-	/**
-	 *@return the ParentId
-	 */
-	public String getParentId() {
-	    return this.parentId;
-	}
-	
-	/**
-	 *@param menuType the menuType to set
-	 */
-	public Menu setMenuType(String menuType) {
-		this.menuType=menuType;
-		return this;
-	}
-		
-	/**
-	 *@return the MenuType
-	 */
-	public String getMenuType() {
-	    return this.menuType;
-	}
-	
-	/**
-	 *@param isMenu the isMenu to set
-	 */
-	public Menu setIsMenu(String isMenu) {
-		this.isMenu=isMenu;
-		return this;
-	}
-		
-	/**
-	 *@return the IsMenu
-	 */
-	public String getIsMenu() {
-	    return this.isMenu;
-	}
-	
-	/**
-	 *@param sort the sort to set
-	 */
-	public Menu setSort(Integer sort) {
-		this.sort=sort;
-		return this;
-	}
-		
-	/**
-	 *@return the Sort
-	 */
-	public Integer getSort() {
-	    return this.sort;
-	}
-	
-	/**
-	 *@param componentPath the componentPath to set
-	 */
-	public Menu setComponentPath(String componentPath) {
-		this.componentPath=componentPath;
-		return this;
-	}
-		
-	/**
-	 *@return the ComponentPath
-	 */
-	public String getComponentPath() {
-	    return this.componentPath;
-	}
-	
-	/**
-	 *@param isExternalLink the isExternalLink to set
-	 */
-	public Menu setIsExternalLink(String isExternalLink) {
-		this.isExternalLink=isExternalLink;
-		return this;
-	}
-		
-	/**
-	 *@return the IsExternalLink
-	 */
-	public String getIsExternalLink() {
-	    return this.isExternalLink;
-	}
-	
-	/**
-	 *@param iconPath the iconPath to set
-	 */
-	public Menu setIconPath(String iconPath) {
-		this.iconPath=iconPath;
-		return this;
-	}
-		
-	/**
-	 *@return the IconPath
-	 */
-	public String getIconPath() {
-	    return this.iconPath;
+		return id;
 	}
 
-	public String getMenuStatus() {
+	public Menu setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public Integer getRevision() {
+		return revision;
+	}
+
+	public Menu setRevision(Integer revision) {
+		this.revision = revision;
+		return this;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public Menu setCreateBy(String createBy) {
+		this.createBy = createBy;
+		return this;
+	}
+
+	public LocalDateTime getCreateTime() {
+		return createTime;
+	}
+
+	public Menu setCreateTime(LocalDateTime createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public Menu setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+		return this;
+	}
+
+	public LocalDateTime getUpdateTime() {
+		return updateTime;
+	}
+
+	public Menu setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime = updateTime;
+		return this;
+	}
+
+	public Integer getDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public Menu setDeleteStatus(Integer deleteStatus) {
+		this.deleteStatus = deleteStatus;
+		return this;
+	}
+
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public Menu setMenuName(String menuName) {
+		this.menuName = menuName;
+		return this;
+	}
+
+	public String getPermissionCode() {
+		return permissionCode;
+	}
+
+	public Menu setPermissionCode(String permissionCode) {
+		this.permissionCode = permissionCode;
+		return this;
+	}
+
+	public String getRouterPath() {
+		return routerPath;
+	}
+
+	public Menu setRouterPath(String routerPath) {
+		this.routerPath = routerPath;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public Menu setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public Integer getMenuType() {
+		return menuType;
+	}
+
+	public Menu setMenuType(Integer menuType) {
+		this.menuType = menuType;
+		return this;
+	}
+
+	public Integer getIsMenu() {
+		return isMenu;
+	}
+
+	public Menu setIsMenu(Integer isMenu) {
+		this.isMenu = isMenu;
+		return this;
+	}
+
+	public Integer getMenuStatus() {
 		return menuStatus;
 	}
 
-	public void setMenuStatus(String menuStatus) {
+	public Menu setMenuStatus(Integer menuStatus) {
 		this.menuStatus = menuStatus;
+		return this;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public Menu setSort(Integer sort) {
+		this.sort = sort;
+		return this;
+	}
+
+	public String getComponentPath() {
+		return componentPath;
+	}
+
+	public Menu setComponentPath(String componentPath) {
+		this.componentPath = componentPath;
+		return this;
+	}
+
+	public Integer getIsExternalLink() {
+		return isExternalLink;
+	}
+
+	public Menu setIsExternalLink(Integer isExternalLink) {
+		this.isExternalLink = isExternalLink;
+		return this;
+	}
+
+	public String getIconPath() {
+		return iconPath;
+	}
+
+	public Menu setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+		return this;
 	}
 
 	@Override
@@ -427,17 +316,17 @@ public class Menu implements Serializable {
 				", createTime=" + createTime +
 				", updateBy='" + updateBy + '\'' +
 				", updateTime=" + updateTime +
-				", deleteStatus='" + deleteStatus + '\'' +
+				", deleteStatus=" + deleteStatus +
 				", menuName='" + menuName + '\'' +
 				", permissionCode='" + permissionCode + '\'' +
 				", routerPath='" + routerPath + '\'' +
 				", parentId='" + parentId + '\'' +
-				", menuType='" + menuType + '\'' +
-				", isMenu='" + isMenu + '\'' +
-				", menuStatus='" + menuStatus + '\'' +
+				", menuType=" + menuType +
+				", isMenu=" + isMenu +
+				", menuStatus=" + menuStatus +
 				", sort=" + sort +
 				", componentPath='" + componentPath + '\'' +
-				", isExternalLink='" + isExternalLink + '\'' +
+				", isExternalLink=" + isExternalLink +
 				", iconPath='" + iconPath + '\'' +
 				'}';
 	}

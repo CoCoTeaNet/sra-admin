@@ -1,61 +1,95 @@
 <template>
-  <div>
-    <sra-simple-table class="main-bg" v-loading="loading"
-                      :editForm="editForm.data" :pageVo="pageVo" :pageParam="pageParam" :rules="rules"
-                      @add="initAdd" @edit="edit" @remove="remove" @enter-search="initTable" @refresh="refresh"
-                      @dialog-confirm="doUpdate" @remove-batch="removeBatch">
-      <template v-slot:column>
+  <table-manage>
+    <template #search>
+      <el-form-item label="角色名称">
+        <el-input placeholder="角色名称" v-model="pageParam.searchObject.roleName"/>
+      </el-form-item>
+      <el-form-item label="角色标识">
+        <el-input placeholder="角色标识" v-model="pageParam.searchObject.roleKey"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="loadTableData">搜索</el-button>
+        <el-button @click="onResetSearchForm">重置</el-button>
+      </el-form-item>
+    </template>
+
+    <template #operate>
+      <el-button type="primary" @click="onCreate">添加角色</el-button>
+      <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
+    </template>
+
+    <template #default>
+      <el-table v-loading="loading" :data="pageVo.records" style="width: 100%" @selection-change="handleSelectionChange"
+                max-height="700px">
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="roleName" label="角色名称"/>
         <el-table-column prop="roleKey" label="角色标识"/>
         <el-table-column prop="sort" label="排序" sortable/>
-        <el-table-column label="权利操作">
+        <el-table-column label="权限操作">
           <template #default="scope">
             <el-button size="small" @click="showDialogMenu(scope.row, 0)">赋予菜单</el-button>
             <el-button size="small" @click="showDialogMenu(scope.row, 1)">授予权限</el-button>
           </template>
         </el-table-column>
-      </template>
-      <!-- 表单 -->
-      <template v-slot:edit>
-        <el-form-item prop="roleName" label="角色名称">
-          <el-input v-model="editForm.data.roleName"></el-input>
-        </el-form-item>
-        <el-form-item prop="roleKey" label="角色标识">
-          <el-input v-model="editForm.data.roleKey"></el-input>
-        </el-form-item>
-        <el-form-item prop="sort" label="排序">
-          <el-input type="number" v-model="editForm.data.sort"></el-input>
-        </el-form-item>
-      </template>
-    </sra-simple-table>
-    <!-- 权限操作 -->
-    <el-dialog v-model="dialogMenuVisible" title="授予权限">
-      <el-tree v-model:default-checked-keys="defaultSelectMenuIdList"
-               @check-change="checkChange"
-               :data="menuOptions"
-               show-checkbox
-               default-expand-all
-               node-key="id"
-               highlight-current
-               :props="defaultProps"
-      />
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogMenuVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogConfirm">确认</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+      </el-table>
+    </template>
+
+    <template #page>
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
+                     :total="pageVo.total" :page-size="pageParam.pageSize" :page-sizes=[5,10,15]
+                     @current-change="onPageChange" @size-change="onSizeChange"/>
+    </template>
+
+    <template #form>
+      <!-- 权限操作 -->
+      <el-dialog v-model="dialogMenuVisible" title="授予权限">
+        <el-tree v-model:default-checked-keys="defaultSelectMenuIdList"
+                 @check-change="checkChange"
+                 :data="menuOptions"
+                 show-checkbox
+                 default-expand-all
+                 node-key="id"
+                 highlight-current
+                 :props="defaultProps"
+        />
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogMenuVisible = false">取消</el-button>
+            <el-button type="primary" @click="dialogConfirm">确认</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+      <el-dialog v-model="dialogEditVisible">
+        <el-form ref="sstFormRef" :model="editForm" label-width="100px">
+          <el-form-item prop="roleName" label="角色名称">
+            <el-input v-model="editForm.roleName"></el-input>
+          </el-form-item>
+          <el-form-item prop="roleKey" label="角色标识">
+            <el-input v-model="editForm.roleKey"></el-input>
+          </el-form-item>
+          <el-form-item prop="sort" label="排序">
+            <el-input type="number" v-model="editForm.sort"></el-input>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogEditVisible = false">取消</el-button>
+            <el-button type="primary" @click="onUpdateFormConfirm(sstFormRef)">确认</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </template>
+  </table-manage>
 </template>
 
 <script setup lang="ts">
-import {onMounted, nextTick, reactive, ref, watch} from "vue";
-import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
+import {onMounted, nextTick, reactive, ref} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import roleApi, {grantPermissionsByRoleId} from "@/api/system/role-api";
 import {listByTree, listByRoleId} from "@/api/system/menu-api";
+import TableManage from "@/components/container/TableManage.vue";
+import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
 
 // 树形选择框配置
 const defaultProps = {
@@ -65,13 +99,7 @@ const defaultProps = {
   checkStrictly: true
 }
 
-const initData: RoleModel = {
-  id: '',
-  roleName: '',
-  roleKey: '',
-  sort: 1
-};
-
+const multipleSelection = ref<any[]>([]);
 // 授予菜单对话框
 const dialogMenuVisible = ref<boolean>(false);
 // 默认已选id
@@ -81,9 +109,9 @@ const menuOptions = ref<RoleModel[]>([]);
 // 授予权限的行id
 const selectId = ref<string>('');
 // 表单参数
-const editForm = reactive<any>({data: initData});
+const editForm = ref<RoleModel>({roleName: '', roleKey: '', sort: 1});
 // 分页参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {}});
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 // 加载进度
@@ -93,64 +121,21 @@ const rules = reactive({
   roleName: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
   roleKey: [{required: true, min: 2, max: 255, message: '长度限制2~155', trigger: 'blur'}]
 });
+const dialogEditVisible = ref<boolean>(false);
+const sstFormRef = ref<FormInstance>();
 
 // 初始化数据
 onMounted(() => {
-  initTable();
+  loadTableData();
 });
 
-// 监听当前页的变化
-watch(
-    () => [pageParam.value.pageNo, pageParam.value.pageSize], () => {
-      initTable();
-    }
-)
-
-/**
- * 初始化编辑数据
- * @param row
- */
-const edit = (row: any): void => {
-  if (row) {
-    editForm.data = row;
-  }
-}
-
-/**
- * 初始化新增数据
- */
-const initAdd = (): void => {
-  editForm.data = initData;
-}
-
-/**
- * 刷新
- */
-const refresh = (): void => {
-  pageParam.value.pageNo = 1;
-  pageParam.value.pageSize = 15;
-  pageParam.value.searchKey = '';
-  setTimeout(initTable, 200);
-}
-
-/**
- * 单个移除
- * @param row
- */
-const remove = (row: any) => removeBatch([row.id]);
-
-/**
- * 初始化数据
- */
-const initTable = () => {
+const loadTableData = () => {
   // 渲染数据
-  if (!loading.value) {
-    loading.value = true;
-  }
+  if (!loading.value) loading.value = true;
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    roleVO: {roleName: pageParam.value.searchKey, roleKey: pageParam.value.searchKey}
+    roleVO: {roleName: pageParam.value.searchObject.roleName, roleKey: pageParam.value.searchObject.roleKey}
   };
   reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;
@@ -159,38 +144,23 @@ const initTable = () => {
   });
 }
 
-/**
- * 更新操作
- * @param formEl 表单组件对象
- * @param callback 回调函数，调用就会关闭对话框
- */
-const doUpdate = (formEl: any, callback: Function): void => {
-  formEl.validate((valid: any) => {
+const onUpdateFormConfirm = (formEl: any): void => {
+  formEl.validate((valid: boolean) => {
     if (valid) {
-      if (!editForm.data.id) {
+      if (!editForm.value.id) {
         // 新增
-        reqSuccessFeedback(roleApi.add(editForm.data), '新增成功', () => {
-          initTable();
-          callback();
+        reqSuccessFeedback(roleApi.add(editForm.value), '新增成功', () => {
+          loadTableData();
+          dialogEditVisible.value = false;
         });
       } else {
         // 修改
-        reqSuccessFeedback(roleApi.update(editForm.data), '修改成功', () => {
-          initTable();
-          callback();
+        reqSuccessFeedback(roleApi.update(editForm.value), '修改成功', () => {
+          loadTableData();
+          dialogEditVisible.value = false;
         });
       }
     }
-  });
-}
-
-/**
- * 批量删除
- * @param ids
- */
-const removeBatch = (ids: string[]) => {
-  reqSuccessFeedback(roleApi.deleteBatch(ids), '删除成功', () => {
-    initTable();
   });
 }
 
@@ -269,6 +239,46 @@ const checkChange = (v1: any, v2: any, v3: any) => {
       defaultSelectMenuIdList.value.splice(index, 1);
     }
   }
+}
+
+const onResetSearchForm = () => {
+  pageParam.value.searchObject = {};
+}
+
+const onCreate = () => {
+  dialogEditVisible.value = true;
+}
+
+const onDeleteBatch = () => {
+  let ids: string[] = [];
+  multipleSelection.value.map((item, index) => {
+    ids.push(item.id);
+  });
+  ElMessageBox.confirm('确认删除所选角色?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqCommonFeedback(roleApi.deleteBatch(ids), () => {
+      ElMessage({type: 'success', message: '删除成功'});
+      loadTableData();
+    });
+  });
+}
+
+const handleSelectionChange = (arr: any) => {
+  multipleSelection.value = arr;
+}
+
+const onPageChange = (currentPage: number) => {
+  pageParam.value.pageNo = currentPage;
+  nextTick(() => loadTableData());
+}
+
+const onSizeChange = (size: number) => {
+  pageParam.value.pageSize = size;
+  nextTick(() => loadTableData());
 }
 </script>
 

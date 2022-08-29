@@ -67,7 +67,7 @@ const store = useStore();
 }
 
 .container-bg {
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  background-color: white;
 }
 
 .nav-bg h3 {

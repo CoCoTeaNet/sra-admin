@@ -12,13 +12,6 @@ sra:
     excludes:
       - /test/index
       - /favicon.ico
-      # swagger和knife
-      - /v2/api-docs
-      - /configuration/ui
-      - /swagger-resources/**
-      - /configuration/security
-      - /doc.html
-      - /webjars/**
       # 登录
       - /user/login
       - /file/verificationCode
@@ -26,9 +19,6 @@ sra:
       - /upload/**
       - /codeGenerator/**
       - /schedule/**
-  package-scan:
-    # 多个包用冒号隔开
-    swagger-packages: com.sraapp.system.controller,com.sraapp.cms.controller
 
 # Sa-Token 配置
 sa-token:
@@ -76,9 +66,6 @@ spring:
   # sqltoy框架相关配置
   sqltoy:
     unify-fields-handler: com.sraapp.config.sqltoy.SqlToyUnifyFieldsHandler
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
   servlet:
     multipart:
       max-file-size: 10MB

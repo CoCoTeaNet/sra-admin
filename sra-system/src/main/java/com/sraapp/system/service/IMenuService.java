@@ -26,7 +26,7 @@ public interface IMenuService extends IBaseService<Page<MenuVO>, MenuPageParam, 
      * @param isMenu 是否菜单
      * @return 用户菜单集合
      */
-    List<MenuVO> listByUserId(String isMenu);
+    List<MenuVO> listByUserId(Integer isMenu);
 
     /**
      * 获取角色请所有菜单

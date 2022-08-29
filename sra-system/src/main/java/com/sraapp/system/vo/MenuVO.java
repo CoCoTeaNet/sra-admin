@@ -1,8 +1,5 @@
 package com.sraapp.system.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,49 +9,152 @@ import java.util.List;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
-@ApiModel("系统菜单表返回对象")
 public class MenuVO implements Serializable {
 
 	private static final long serialVersionUID = 6856092554842076547L;
 
-	@ApiModelProperty("主键id")
 	private String id;
 	
-	@ApiModelProperty("菜单名称")
 	private String menuName;
 	
-	@ApiModelProperty("权限编号")
 	private String permissionCode;
 	
-	@ApiModelProperty("路由地址")
 	private String routerPath;
 	
-	@ApiModelProperty("父主键ID")
 	private String parentId;
 	
-	@ApiModelProperty("按钮类型;0目录 1菜单 2按钮")
-	private String menuType;
+	private Integer menuType;
 	
-	@ApiModelProperty("是否菜单")
 	private String isMenu;
 
-	@ApiModelProperty("菜单状态")
-	private String menuStatus;
+	private Integer menuStatus;
 	
-	@ApiModelProperty("显示顺序")
 	private Integer sort;
 	
-	@ApiModelProperty("组件路径")
 	private String componentPath;
 	
-	@ApiModelProperty("是否外链;0是 1否")
-	private String isExternalLink;
+	private Integer isExternalLink;
 	
-	@ApiModelProperty("菜单图标")
 	private String iconPath;
 
-	@ApiModelProperty("菜单子节点")
 	private List<MenuVO> children;
+
+	public String getId() {
+		return id;
+	}
+
+	public MenuVO setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public MenuVO setMenuName(String menuName) {
+		this.menuName = menuName;
+		return this;
+	}
+
+	public String getPermissionCode() {
+		return permissionCode;
+	}
+
+	public MenuVO setPermissionCode(String permissionCode) {
+		this.permissionCode = permissionCode;
+		return this;
+	}
+
+	public String getRouterPath() {
+		return routerPath;
+	}
+
+	public MenuVO setRouterPath(String routerPath) {
+		this.routerPath = routerPath;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public MenuVO setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public Integer getMenuType() {
+		return menuType;
+	}
+
+	public MenuVO setMenuType(Integer menuType) {
+		this.menuType = menuType;
+		return this;
+	}
+
+	public String getIsMenu() {
+		return isMenu;
+	}
+
+	public MenuVO setIsMenu(String isMenu) {
+		this.isMenu = isMenu;
+		return this;
+	}
+
+	public Integer getMenuStatus() {
+		return menuStatus;
+	}
+
+	public MenuVO setMenuStatus(Integer menuStatus) {
+		this.menuStatus = menuStatus;
+		return this;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public MenuVO setSort(Integer sort) {
+		this.sort = sort;
+		return this;
+	}
+
+	public String getComponentPath() {
+		return componentPath;
+	}
+
+	public MenuVO setComponentPath(String componentPath) {
+		this.componentPath = componentPath;
+		return this;
+	}
+
+	public Integer getIsExternalLink() {
+		return isExternalLink;
+	}
+
+	public MenuVO setIsExternalLink(Integer isExternalLink) {
+		this.isExternalLink = isExternalLink;
+		return this;
+	}
+
+	public String getIconPath() {
+		return iconPath;
+	}
+
+	public MenuVO setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+		return this;
+	}
+
+	public List<MenuVO> getChildren() {
+		return children;
+	}
+
+	public MenuVO setChildren(List<MenuVO> children) {
+		this.children = children;
+		return this;
+	}
 
 	@Override
 	public String toString() {
@@ -64,118 +164,14 @@ public class MenuVO implements Serializable {
 				", permissionCode='" + permissionCode + '\'' +
 				", routerPath='" + routerPath + '\'' +
 				", parentId='" + parentId + '\'' +
-				", menuType='" + menuType + '\'' +
+				", menuType=" + menuType +
 				", isMenu='" + isMenu + '\'' +
-				", menuStatus='" + menuStatus + '\'' +
+				", menuStatus=" + menuStatus +
 				", sort=" + sort +
 				", componentPath='" + componentPath + '\'' +
-				", isExternalLink='" + isExternalLink + '\'' +
+				", isExternalLink=" + isExternalLink +
 				", iconPath='" + iconPath + '\'' +
 				", children=" + children +
 				'}';
-	}
-
-	public String getMenuStatus() {
-		return menuStatus;
-	}
-
-	public void setMenuStatus(String menuStatus) {
-		this.menuStatus = menuStatus;
-	}
-
-	public List<MenuVO> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<MenuVO> children) {
-		this.children = children;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getMenuName() {
-		return menuName;
-	}
-
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
-
-	public String getPermissionCode() {
-		return permissionCode;
-	}
-
-	public void setPermissionCode(String permissionCode) {
-		this.permissionCode = permissionCode;
-	}
-
-	public String getRouterPath() {
-		return routerPath;
-	}
-
-	public void setRouterPath(String routerPath) {
-		this.routerPath = routerPath;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getMenuType() {
-		return menuType;
-	}
-
-	public void setMenuType(String menuType) {
-		this.menuType = menuType;
-	}
-
-	public String getIsMenu() {
-		return isMenu;
-	}
-
-	public void setIsMenu(String isMenu) {
-		this.isMenu = isMenu;
-	}
-
-	public Integer getSort() {
-		return sort;
-	}
-
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
-
-	public String getComponentPath() {
-		return componentPath;
-	}
-
-	public void setComponentPath(String componentPath) {
-		this.componentPath = componentPath;
-	}
-
-	public String getIsExternalLink() {
-		return isExternalLink;
-	}
-
-	public void setIsExternalLink(String isExternalLink) {
-		this.isExternalLink = isExternalLink;
-	}
-
-	public String getIconPath() {
-		return iconPath;
-	}
-
-	public void setIconPath(String iconPath) {
-		this.iconPath = iconPath;
 	}
 }

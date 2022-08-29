@@ -7,15 +7,17 @@
     <sql id="system_user_findByEntityParam">
         <value>
             <![CDATA[
-                select su.*, sr.ROLE_NAME, sr.ID as roleId
+                select su.ID, su.REVISION, su.CREATE_BY, su.CREATE_TIME, su.UPDATE_BY, su.UPDATE_TIME, su.DELETE_STATUS,
+                       su.USERNAME, su.NICKNAME, su.PASSWORD, su.SEX, su.EMAIL, su.MOBILE_PHONE, su.DEPARTMENT_ID,
+                       su.ACCOUNT_STATUS, su.AVATAR, su.LAST_LOGIN_IP, su.LAST_LOGIN_TIME,
+                       sr.ROLE_NAME, sr.ID as roleId
                 from sys_user su
                 left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
-                where
+                where su.DELETE_STATUS=1
                 #[and su.ID = :id]
                 #[and su.USERNAME = :username]
 			    #[and su.NICKNAME = :nickname]
 			    #[and su.PASSWORD = :password]
-                and su.DELETE_STATUS=1
 			]]>
         </value>
     </sql>
@@ -24,12 +26,20 @@
     <sql id="system_user_findByPageParam">
         <value>
             <![CDATA[
-                select su.*, sr.ROLE_NAME, sr.ID as roleId
-                from sys_user su
-                left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
-                where
-			    #[and (su.NICKNAME like :nickname or su.USERNAME like :username)]
-                and su.DELETE_STATUS=1
+                select su.ID, su.REVISION, su.CREATE_BY, su.CREATE_TIME, su.UPDATE_BY, su.UPDATE_TIME, su.DELETE_STATUS,
+                       su.USERNAME, su.NICKNAME, su.PASSWORD, su.SEX, su.EMAIL, su.MOBILE_PHONE, su.DEPARTMENT_ID,
+                       su.ACCOUNT_STATUS, su.AVATAR, su.LAST_LOGIN_IP, su.LAST_LOGIN_TIME,
+                       sr.ROLE_NAME, sr.ID as roleId
+                  from sys_user su
+                  left join sys_role sr on sr.ID in (select ROLE_ID from sys_user_role where USER_ID=su.ID)
+                 where su.DELETE_STATUS=1
+			     #[and su.NICKNAME like :nickname]
+			     #[and su.USERNAME like :username]
+			     #[and su.SEX = :sex]
+			     #[and su.EMAIL like :email]
+			     #[and su.MOBILE_PHONE :mobilePhone]
+			     #[and su.ACCOUNT_STATUS = :accountStatus]
+                 order by su.CREATE_TIME desc
 			]]>
         </value>
     </sql>

@@ -1,5 +1,7 @@
 package com.sraapp.common.util;
 
+import com.sraapp.common.constant.CharConstant;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +24,7 @@ public class SecurityUtils {
     public static String buildMd5Pwd(String pwd, String salt) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            String str = pwd + StringUtils.COLON + salt;
+            String str = pwd + CharConstant.COLON + salt;
             md5.update(str.getBytes(StandardCharsets.UTF_8));
             StringBuilder buffer = new StringBuilder();
             for (byte b : md5.digest()) {

@@ -14,19 +14,15 @@ public enum IsSomethingEnum {
      */
     NO(1, "否");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     IsSomethingEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public String getCode() {
-        return String.valueOf(code);
-    }
-
-    public Integer getCodeInt() {
+    public Integer getCode() {
         return code;
     }
 

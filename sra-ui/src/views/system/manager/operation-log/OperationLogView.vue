@@ -8,22 +8,18 @@
       <el-table-column prop="logNumber" label="日志编号"/>
       <el-table-column prop="operatorName" label="操作人"/>
       <el-table-column prop="ipAddress" label="IP地址"/>
-      <el-table-column prop="requestWay" label="请求方式">
-        <template #default="scope">
-          <span v-html="getRequestWay(scope.row.requestWay)"></span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="requestWay" label="请求方式"/>
       <el-table-column prop="operationStatus" label="操作状态">
         <template #default="scope">
-          <span v-html="getOperationStatusText(scope.row.operationStatus)"></span>
+          <el-tag :type="getOperationStatus(scope.row.operationStatus, 0)">{{getOperationStatus(scope.row.operationStatus, 1)}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="logType" label="日志类型">
         <template #default="scope">
-          <span v-html="getLogTypeText(scope.row.logType)"></span>
+          <el-tag :type="getLogType(scope.row.logType, 0)">{{getLogType(scope.row.logType, 1)}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="operationTime" label="操作时间"/>
+      <el-table-column prop="operationTime" label="操作时间" width="200"/>
     </template>
   </sra-simple-table>
 </template>
@@ -33,14 +29,46 @@ import {onMounted, ref, watch} from "vue";
 import SraSimpleTable from "@/components/table/simple-table/SraSimpleTable.vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import operationLogApi from "@/api/system/operation-log-api";
-import {getOperationStatusText, getLogTypeText, getRequestWay} from "@/utils/format-util";
 
 // 分页参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: '', searchObject: {}});
 // api返回的分页数据
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 // 加载进度
 const loading = ref<boolean>(true);
+const getLogType: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'success', text: '登录日志'};
+      break;
+    case 1:
+      obj = {color: 'warning', text: '操作日志'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
+}
+
+const getOperationStatus: any = (status: number, type: number) => {
+  let obj = {color: '', text: ''};
+  switch (status) {
+    case 0:
+      obj = {color: 'danger', text: '异常'};
+      break;
+    case 1:
+      obj = {color: 'success', text: '成功'};
+      break;
+  }
+  if (type === 0) {
+    return obj.color;
+  } else {
+    return obj.text;
+  }
+}
 
 // 初始化数据
 onMounted(() => {

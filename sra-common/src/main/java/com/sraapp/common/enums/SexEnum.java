@@ -18,8 +18,8 @@ public enum SexEnum {
      */
     WOMAN(2, "女");
 
-    Integer code;
-    String desc;
+    final Integer code;
+    final String desc;
 
     SexEnum(Integer code, String desc) {
         this.code = code;

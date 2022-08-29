@@ -7,5 +7,7 @@ interface PageParam {
     // 页大小
     pageSize: number,
     // 搜索字符串
-    searchKey: string
+    searchKey?: string,
+    // 搜索对象
+    searchObject: any
 }

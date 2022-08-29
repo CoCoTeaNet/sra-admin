@@ -1,8 +1,6 @@
 package com.sraapp.system.param.user;
 
 import com.sraapp.system.vo.UserVO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.sagacity.sqltoy.model.Page;
 
 import java.io.Serializable;
@@ -13,12 +11,10 @@ import java.io.Serializable;
  * @version 1.0.0
  * @description sys_menu,系统菜单表  
  */
-@ApiModel("用户分页参数")
 public class UserPageParam extends Page<UserVO> implements Serializable{
 
 	private static final long serialVersionUID = 5565588370362046172L;
 
-	@ApiModelProperty(value = "用户属性")
 	private UserVO userVO;
 
 	public UserVO getUserVO() {

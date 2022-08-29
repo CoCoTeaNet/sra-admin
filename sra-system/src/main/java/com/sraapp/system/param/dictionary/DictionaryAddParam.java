@@ -1,10 +1,6 @@
 package com.sraapp.system.param.dictionary;
 
-import io.swagger.annotations.ApiModelProperty;
-
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author jwss
@@ -15,19 +11,14 @@ import java.time.LocalDateTime;
 public class DictionaryAddParam implements Serializable {
 	private static final long serialVersionUID = -1767974905556894292L;
 
-	@ApiModelProperty("父级ID")
 	private String parentId;
 	
-	@ApiModelProperty("字典名称")
 	private String dictionaryName;
 	
-	@ApiModelProperty("备注")
 	private String remark;
 	
-	@ApiModelProperty("排序号")
 	private Integer sort;
 	
-	@ApiModelProperty("启用状态;0关闭 1启用")
 	private String enableStatus;
 
 	public String getParentId() {
