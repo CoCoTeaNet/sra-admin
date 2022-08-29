@@ -1,7 +1,8 @@
 package com.sraapp.schedule.controller;
 
 import com.sraapp.common.model.ApiResult;
-import com.sraapp.schedule.service.IJobConfigService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,12 +13,13 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/schedule")
 public class JobConfigController {
-    @Resource
-    private IJobConfigService jobConfigService;
+    private final static Logger logger = LoggerFactory.getLogger(JobConfigController.class);
 
-    @GetMapping("/setCorn")
-    public ApiResult<?> setCorn(@RequestParam("corn") String corn) {
-        jobConfigService.setCorn(corn);
+    @GetMapping("/new")
+    public ApiResult<?> createNewJob(String jobName,
+                                     @RequestParam(required = false,
+                                             defaultValue = "* * * * * ?") String cron) {
+
         return ApiResult.ok();
     }
 }
