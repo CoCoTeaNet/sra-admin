@@ -80,7 +80,7 @@ public class ScheduleJob implements Serializable {
      * 删除状态;0删除 1未删除
      */
     @Column(name = "DELETE_STATUS", length = 1L, type = java.sql.Types.CHAR, nullable = false)
-    private String deleteStatus;
+    private Integer deleteStatus;
 
     /**
      * 乐观锁
@@ -179,17 +179,17 @@ public class ScheduleJob implements Serializable {
         return this;
     }
 
-    public String getDeleteStatus() {
-        return this.deleteStatus;
+    public Integer getDeleteStatus() {
+        return deleteStatus;
     }
 
-    public ScheduleJob setDeleteStatus(String deleteStatus) {
+    public ScheduleJob setDeleteStatus(Integer deleteStatus) {
         this.deleteStatus = deleteStatus;
         return this;
     }
 
     public Integer getRevision() {
-        return this.revision;
+        return revision;
     }
 
     public ScheduleJob setRevision(Integer revision) {
@@ -197,22 +197,21 @@ public class ScheduleJob implements Serializable {
         return this;
     }
 
-
     @Override
     public String toString() {
-        StringBuilder columnsBuffer = new StringBuilder();
-        columnsBuffer.append("id=").append(getId()).append("\n");
-        columnsBuffer.append("name=").append(getName()).append("\n");
-        columnsBuffer.append("className=").append(getClassName()).append("\n");
-        columnsBuffer.append("cornExpression=").append(getCornExpression()).append("\n");
-        columnsBuffer.append("description=").append(getDescription()).append("\n");
-        columnsBuffer.append("active=").append(getActive()).append("\n");
-        columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-        columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-        columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-        columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-        columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
-        columnsBuffer.append("revision=").append(getRevision()).append("\n");
-        return columnsBuffer.toString();
+        return "ScheduleJob{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", className='" + className + '\'' +
+                ", cornExpression='" + cornExpression + '\'' +
+                ", description='" + description + '\'' +
+                ", active='" + active + '\'' +
+                ", createTime=" + createTime +
+                ", createBy='" + createBy + '\'' +
+                ", updateTime=" + updateTime +
+                ", updateBy='" + updateBy + '\'' +
+                ", deleteStatus=" + deleteStatus +
+                ", revision=" + revision +
+                '}';
     }
 }
