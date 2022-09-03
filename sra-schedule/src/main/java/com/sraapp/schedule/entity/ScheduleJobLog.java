@@ -53,6 +53,9 @@ public class ScheduleJobLog implements Serializable {
     @Column(name="SPEND_TIME_MILLIS",type=java.sql.Types.BIGINT)
     private Long spendTimeMillis;
 
+    @Column(name="FINISH_TIME",type=java.sql.Types.DATE)
+    private LocalDateTime finishTime;
+
     /**
      * 创建时间
      */
@@ -194,6 +197,15 @@ public class ScheduleJobLog implements Serializable {
 
     public ScheduleJobLog setRevision(Integer revision) {
         this.revision = revision;
+        return this;
+    }
+
+    public LocalDateTime getFinishTime() {
+        return finishTime;
+    }
+
+    public ScheduleJobLog setFinishTime(LocalDateTime finishTime) {
+        this.finishTime = finishTime;
         return this;
     }
 
