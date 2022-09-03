@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <sql id="schedule_scheduleJob_findByEntityParam">
+    <sql id="schedule_scheduleJobLog_findByEntityParam">
         <value>
             <![CDATA[
 
@@ -11,7 +11,7 @@
         </value>
     </sql>
 
-    <sql id="schedule_scheduleJob_findByPageParam">
+    <sql id="schedule_scheduleJobLog_findByPageParam">
         <value>
             <![CDATA[
 

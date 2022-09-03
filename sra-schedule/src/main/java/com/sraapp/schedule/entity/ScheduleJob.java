@@ -50,36 +50,12 @@ public class ScheduleJob implements Serializable {
      * 是否启用;0未启用 1启用
      */
     @Column(name = "ACTIVE", length = 1L, type = java.sql.Types.CHAR, nullable = false)
-    private String active;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "CREATE_TIME", type = java.sql.Types.DATE, nullable = false)
-    private LocalDateTime createTime;
-
-    /**
-     * 创建人
-     */
-    @Column(name = "CREATE_BY", length = 32L, type = java.sql.Types.VARCHAR, nullable = false)
-    private String createBy;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "UPDATE_TIME", type = java.sql.Types.DATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 更新人
-     */
-    @Column(name = "UPDATE_BY", length = 32L, type = java.sql.Types.VARCHAR)
-    private String updateBy;
+    private Integer active;
 
     /**
      * 删除状态;0删除 1未删除
      */
-    @Column(name = "DELETE_STATUS", length = 1L, type = java.sql.Types.CHAR, nullable = false)
+    @Column(name = "DELETE_STATUS", type = java.sql.Types.INTEGER, nullable = false)
     private Integer deleteStatus;
 
     /**
@@ -134,53 +110,17 @@ public class ScheduleJob implements Serializable {
         return this;
     }
 
-    public String getActive() {
+    public Integer getActive() {
         return this.active;
     }
 
-    public ScheduleJob setActive(String active) {
+    public ScheduleJob setActive(Integer active) {
         this.active = active;
         return this;
     }
 
-    public LocalDateTime getCreateTime() {
-        return this.createTime;
-    }
-
-    public ScheduleJob setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public String getCreateBy() {
-        return this.createBy;
-    }
-
-    public ScheduleJob setCreateBy(String createBy) {
-        this.createBy = createBy;
-        return this;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return this.updateTime;
-    }
-
-    public ScheduleJob setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-        return this;
-    }
-
-    public String getUpdateBy() {
-        return this.updateBy;
-    }
-
-    public ScheduleJob setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-        return this;
-    }
-
     public Integer getDeleteStatus() {
-        return deleteStatus;
+        return this.deleteStatus;
     }
 
     public ScheduleJob setDeleteStatus(Integer deleteStatus) {
@@ -189,7 +129,7 @@ public class ScheduleJob implements Serializable {
     }
 
     public Integer getRevision() {
-        return revision;
+        return this.revision;
     }
 
     public ScheduleJob setRevision(Integer revision) {
@@ -197,21 +137,18 @@ public class ScheduleJob implements Serializable {
         return this;
     }
 
+
     @Override
     public String toString() {
-        return "ScheduleJob{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", className='" + className + '\'' +
-                ", cornExpression='" + cornExpression + '\'' +
-                ", description='" + description + '\'' +
-                ", active='" + active + '\'' +
-                ", createTime=" + createTime +
-                ", createBy='" + createBy + '\'' +
-                ", updateTime=" + updateTime +
-                ", updateBy='" + updateBy + '\'' +
-                ", deleteStatus=" + deleteStatus +
-                ", revision=" + revision +
-                '}';
+        StringBuilder columnsBuffer = new StringBuilder();
+        columnsBuffer.append("id=").append(getId()).append("\n");
+        columnsBuffer.append("name=").append(getName()).append("\n");
+        columnsBuffer.append("className=").append(getClassName()).append("\n");
+        columnsBuffer.append("cornExpression=").append(getCornExpression()).append("\n");
+        columnsBuffer.append("description=").append(getDescription()).append("\n");
+        columnsBuffer.append("active=").append(getActive()).append("\n");
+        columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
+        columnsBuffer.append("revision=").append(getRevision()).append("\n");
+        return columnsBuffer.toString();
     }
 }

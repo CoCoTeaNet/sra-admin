@@ -7,8 +7,8 @@ import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.param.ScheduleJobAddParam;
 import com.sraapp.schedule.param.ScheduleJobPageParam;
 import com.sraapp.schedule.param.ScheduleJobUpdateParam;
-import com.sraapp.schedule.service.ScheduleService;
-import com.sraapp.schedule.vo.ScheduleJobVo;
+import com.sraapp.schedule.service.IScheduleJobService;
+import com.sraapp.schedule.vo.ScheduleJobVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2022/8/9
  */
 @Service
-public class ScheduleServiceImpl implements ScheduleService {
+public class ScheduleJobServiceImpl implements IScheduleJobService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
 
@@ -52,8 +52,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleJobVo> listByPage(ScheduleJobPageParam param) throws BusinessException {
-        // sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJob_findByPageParam", )
+    public Page<ScheduleJobVO> listByPage(ScheduleJobPageParam param) throws BusinessException {
         return null;
     }
 
@@ -62,5 +61,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         ScheduleJob scheduleJob = new ScheduleJob();
         scheduleJob.setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
         return sqlToyLazyDao.update(scheduleJob) > 0;
+    }
+
+    @Override
+    public List<ScheduleJob> getAllActiveScheduleJob() {
+        return null;
     }
 }

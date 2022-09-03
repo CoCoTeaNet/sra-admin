@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @date 2022/8/29
  */
 public class ScheduleJobVO implements Serializable {
+
     private String id;
     private String name;
     private String className;

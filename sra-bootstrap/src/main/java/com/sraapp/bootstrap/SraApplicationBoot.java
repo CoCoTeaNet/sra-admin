@@ -22,7 +22,8 @@ import java.util.Objects;
         "com.sraapp.config",
         "com.sraapp.framework",
         "com.sraapp.system",
-        "com.sraapp.cms"
+        "com.sraapp.cms",
+        "com.sraapp.schedule"
 })
 @SpringBootApplication
 public class SraApplicationBoot {

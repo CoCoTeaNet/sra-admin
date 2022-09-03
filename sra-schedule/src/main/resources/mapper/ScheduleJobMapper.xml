@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="schedule_scheduleJob_findByEntityParam">
+        <value>
+            <![CDATA[
+                select ID, NAME, CLASS_NAME, CORN_EXPRESSION, DESCRIPTION, ACTIVE
+                from sche_job
+                where
+                #[and NAME = :name]
+                #[and CLASS_NAME = :className]
+                #[and ACTIVE = :active]
+                and DELETE_STATUS = 1
+			]]>
+        </value>
+    </sql>
+
+    <sql id="schedule_scheduleJob_findByPageParam">
+        <value>
+            <![CDATA[
+                select ID, NAME, CLASS_NAME, CORN_EXPRESSION, DESCRIPTION, ACTIVE from sche_job
+                where
+                #[and NAME = :name]
+                #[and CLASS_NAME = :className]
+                #[and ACTIVE = :active]
+                and DELETE_STATUS = 1
+			]]>
+        </value>
+    </sql>
+
+</sqltoy>
