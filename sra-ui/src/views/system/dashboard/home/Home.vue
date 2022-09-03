@@ -7,7 +7,7 @@
         🍬基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。
         是一款前后端分离、开箱即用的后台权限管理系统。
       </p>
-      <p>当前版本：V1.0.3</p>
+      <p>当前版本：V1.1.0</p>
     </el-card>
 
     <el-row :gutter="10" style="margin-top: 1em">
