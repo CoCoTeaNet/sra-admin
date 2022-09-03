@@ -1,6 +1,7 @@
 package com.sraapp.schedule.param;
 
 import com.sraapp.schedule.entity.ScheduleJobLog;
+import com.sraapp.schedule.vo.ScheduleJobLogVO;
 import org.sagacity.sqltoy.model.Page;
 
 /**
@@ -9,13 +10,13 @@ import org.sagacity.sqltoy.model.Page;
  */
 public class ScheduleJobLogPageParam extends Page<ScheduleJobLog> {
 
-    private ScheduleJobLog scheduleJob;
+    private ScheduleJobLogVO scheduleJob;
 
-    public ScheduleJobLog getScheduleJob() {
+    public ScheduleJobLogVO getScheduleJobVO() {
         return scheduleJob;
     }
 
-    public void setScheduleJob(ScheduleJobLog scheduleJob) {
+    public void setScheduleJobVO(ScheduleJobLogVO scheduleJob) {
         this.scheduleJob = scheduleJob;
     }
 }

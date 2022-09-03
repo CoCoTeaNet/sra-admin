@@ -53,7 +53,7 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public Page<ScheduleJobVO> listByPage(ScheduleJobPageParam param) throws BusinessException {
-        return null;
+        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJob_findByPageParam", param.getScheduleJobVO());
     }
 
     @Override
@@ -65,6 +65,6 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public List<ScheduleJob> getAllActiveScheduleJob() {
-        return null;
+        return sqlToyLazyDao.findBySql("schedule_scheduleJob_findByEntityParam", new ScheduleJob());
     }
 }

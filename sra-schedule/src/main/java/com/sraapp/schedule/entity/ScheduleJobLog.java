@@ -2,13 +2,14 @@ package com.sraapp.schedule.entity;
 
 import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author Guo wentao
  * @date 2022/9/1
  */
-public class ScheduleJobLog {
+public class ScheduleJobLog implements Serializable {
     private String id;
     private String jobId;
     private String triggerBy;
@@ -16,6 +17,8 @@ public class ScheduleJobLog {
     private Date finishTime;
     private long spendTimeMillis;
     private Integer exeResult;
+
+    private Integer deleteStatus;
 
     public String getId() {
         return id;
@@ -80,6 +83,15 @@ public class ScheduleJobLog {
         return this;
     }
 
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public ScheduleJobLog setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder columnsBuffer = new StringBuilder();
@@ -90,6 +102,7 @@ public class ScheduleJobLog {
         columnsBuffer.append("triggerBy=").append(getTriggerBy()).append("\n");
         columnsBuffer.append("exeResult=").append(getExeResult()).append("\n");
         columnsBuffer.append("spendTimeMillis=").append(getSpendTimeMillis()).append("\n");
+        columnsBuffer.append("deleteStatus=").append(getDeleteStatus()).append("\n");
         return columnsBuffer.toString();
     }
 }
