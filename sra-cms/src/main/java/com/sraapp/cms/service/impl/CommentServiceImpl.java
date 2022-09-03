@@ -34,13 +34,8 @@ public class CommentServiceImpl implements ICommentService {
                 .setCreateTime(LocalDateTime.now())
                 .setContent(param.getContent())
                 .setCreateBy(param.getEmail())
-                .setReplyType(ReplyTypeEnum.ARTICLE.getCode())
-                .setId(IdUtil.fastSimpleUUID());
-        String sql =
-                "insert into cms_comment(ID,CREATE_BY,REPLY_TYPE,CONTENT,PARENT_ID,ARTICLE_ID,DELETE_STATUS,CREATE_TIME)" +
-                        " value(:id,:createBy,:replyType,:content,:parentId,:articleId,:deleteStatus,:createTime)";
-        Object save = sqlToyLazyDao.executeSql(sql, comment);
-        return StrUtil.isNotBlank(save.toString());
+                .setReplyType(ReplyTypeEnum.ARTICLE.getCode());
+        return sqlToyLazyDao.save(comment) != null;
     }
 
     @Override

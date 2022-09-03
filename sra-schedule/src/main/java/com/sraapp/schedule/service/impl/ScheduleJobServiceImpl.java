@@ -1,6 +1,7 @@
 package com.sraapp.schedule.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import com.sraapp.common.enums.ActiveEnum;
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.schedule.entity.ScheduleJob;
@@ -66,6 +67,7 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public List<ScheduleJob> getAllActiveScheduleJob() {
-        return sqlToyLazyDao.findBySql("schedule_scheduleJob_findByEntityParam", new ScheduleJob());
+        ScheduleJob scheduleJob = new ScheduleJob().setActive(ActiveEnum.ACTIVE.getCode());
+        return sqlToyLazyDao.findBySql("schedule_scheduleJob_findByEntityParam", scheduleJob);
     }
 }
