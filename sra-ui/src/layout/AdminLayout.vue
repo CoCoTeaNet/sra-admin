@@ -35,6 +35,7 @@ const store = useStore();
 <!--私有样式-->
 <style scoped>
 .el-aside {
+  overflow-x: hidden;
   transition: width 200ms;
 }
 
