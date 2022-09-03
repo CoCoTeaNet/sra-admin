@@ -147,43 +147,50 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         this.registrar.destroy();
     }
 
-    private Runnable wrapRunnableJob(ScheduleJob scheduleJob) throws Exception {
+    private Runnable wrapRunnableJob(ScheduleJob scheduleJob) {
         String className = scheduleJob.getClassName();
-        Class<?> jobClass = Class.forName(className);
-        IBaseJob job = (IBaseJob) jobClass.newInstance();
-        String loginIdVar = "";
-        if (StpUtil.isLogin()) {
-            loginIdVar = (String) StpUtil.getLoginId();
+        try {
+            Class<?> jobClass = Class.forName(className);
+            IBaseJob job = (IBaseJob) jobClass.getDeclaredConstructor().newInstance();
+            String loginIdVar = "";
+            if (StpUtil.isLogin()) {
+                loginIdVar = (String) StpUtil.getLoginId();
+            }
+            final String loginId = loginIdVar;
+            return () -> {
+                int result = 0;
+                Date triggerTime = new Date();
+                String taskName = scheduleJob.getName();
+                logger.info("开始执行计划任务: {}", taskName);
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start(taskName);
+                try {
+                    job.execute();
+                } catch (Exception e) {
+                    result = 1;
+                    RUNNING_JOB.remove(scheduleJob.getId());
+                    logger.error("计划任务执行出现异常! ", e);
+                }
+                stopWatch.stop();
+                logger.info("计划任务: {} 执行耗时: {}ms", taskName, stopWatch.getLastTaskTimeMillis());
+                try {
+                    ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
+                            .setJobId(scheduleJob.getId())
+                            .setExeResult(result)
+                            .setTriggerBy(loginId)
+                            .setTriggerTime(triggerTime)
+                            .setFinishTime(new Date())
+                            .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
+                    scheduleJobLogService.add(param);
+                } catch (BusinessException e) {
+                    throw new RuntimeException(e);
+                }
+            };
+        } catch (Exception e) {
+            logger.error("加载任务时出现异常", e);
+            e.printStackTrace();
+            return () -> {
+            };
         }
-        final String loginId = loginIdVar;
-        return () -> {
-            int result = 0;
-            Date triggerTime = new Date();
-            String taskName = scheduleJob.getName();
-            logger.info("开始执行计划任务: {}", taskName);
-            StopWatch stopWatch = new StopWatch();
-            stopWatch.start(taskName);
-            try {
-                job.execute();
-            } catch (Exception e) {
-                result = 1;
-                RUNNING_JOB.remove(scheduleJob.getId());
-                logger.error("计划任务执行出现异常! ", e);
-            }
-            stopWatch.stop();
-            logger.info("计划任务: {} 执行耗时: {}ms", taskName, stopWatch.getLastTaskTimeMillis());
-            try {
-                ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
-                        .setJobId(scheduleJob.getId())
-                        .setExeResult(result)
-                        .setTriggerBy(loginId)
-                        .setTriggerTime(triggerTime)
-                        .setFinishTime(new Date())
-                        .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
-                scheduleJobLogService.add(param);
-            } catch (BusinessException e) {
-                throw new RuntimeException(e);
-            }
-        };
     }
 }
