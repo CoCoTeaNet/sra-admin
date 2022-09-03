@@ -6,9 +6,12 @@ import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
 import org.sagacity.sqltoy.config.annotation.Column;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
- * @author CoCoTea
- * Table: sche_job_log,Remark:计划任务执行日志表
+ * @author Guo wentao
+ * @date 2022/9/1
  */
 @Entity(tableName="sche_job_log")
 public class ScheduleJobLog implements Serializable {
@@ -196,19 +199,14 @@ public class ScheduleJobLog implements Serializable {
 
     @Override
     public String toString() {
-        return "ScheduleJobLog{" +
-                "id='" + id + '\'' +
-                ", jobId='" + jobId + '\'' +
-                ", triggerTime=" + triggerTime +
-                ", triggerBy='" + triggerBy + '\'' +
-                ", exeResult=" + exeResult +
-                ", spendTimeMillis=" + spendTimeMillis +
-                ", createTime=" + createTime +
-                ", createBy='" + createBy + '\'' +
-                ", updateTime=" + updateTime +
-                ", updateBy='" + updateBy + '\'' +
-                ", deleteStatus=" + deleteStatus +
-                ", revision=" + revision +
-                '}';
+        StringBuilder columnsBuffer = new StringBuilder();
+        columnsBuffer.append("id=").append(getId()).append("\n");
+        columnsBuffer.append("jobId=").append(getJobId()).append("\n");
+        columnsBuffer.append("triggerTime=").append(getTriggerTime()).append("\n");
+        columnsBuffer.append("finishTime=").append(getFinishTime()).append("\n");
+        columnsBuffer.append("triggerBy=").append(getTriggerBy()).append("\n");
+        columnsBuffer.append("exeResult=").append(getExeResult()).append("\n");
+        columnsBuffer.append("spendTimeMillis=").append(getSpendTimeMillis()).append("\n");
+        return columnsBuffer.toString();
     }
 }

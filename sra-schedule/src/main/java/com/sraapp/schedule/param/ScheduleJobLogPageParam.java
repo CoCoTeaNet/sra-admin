@@ -1,10 +1,7 @@
 package com.sraapp.schedule.param;
 
-import com.sraapp.schedule.vo.ScheduleJobLogVO;
+import com.sraapp.schedule.entity.ScheduleJobLog;
 import org.sagacity.sqltoy.model.Page;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author Guo wentao

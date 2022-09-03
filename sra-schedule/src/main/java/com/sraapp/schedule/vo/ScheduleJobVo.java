@@ -1,3 +1,4 @@
+
 package com.sraapp.schedule.vo;
 
 import java.io.Serializable;

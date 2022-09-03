@@ -66,6 +66,6 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public List<ScheduleJob> getAllActiveScheduleJob() {
-        return null;
+        return sqlToyLazyDao.findBySql("schedule_scheduleJob_findByEntityParam", new ScheduleJob());
     }
 }

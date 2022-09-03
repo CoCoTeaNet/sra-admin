@@ -1,7 +1,11 @@
 package com.sraapp.schedule.service.impl;
 
 import com.sraapp.common.enums.DeleteStatusEnum;
+import cn.hutool.core.convert.Convert;
+import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.schedule.entity.ScheduleJobLog;
+import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.entity.ScheduleJobLog;
 import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.param.ScheduleJobLogPageParam;
@@ -23,12 +27,14 @@ import java.util.List;
  */
 @Service
 public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
+
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
     public boolean add(ScheduleJobLogAddParam param) throws BusinessException {
-        return false;
+        ScheduleJobLog scheduleJob = Convert.convert(ScheduleJobLog.class, param);
+        return sqlToyLazyDao.save(scheduleJob) != null;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
 
     @Override
     public boolean update(ScheduleJobLogUpdateParam param) throws BusinessException {
-        return false;
+        throw new BusinessException("不支持更新操作");
     }
 
     @Override
@@ -58,6 +64,9 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
 
     @Override
     public boolean delete(String id) throws BusinessException {
-        return false;
+        ScheduleJobLog scheduleJobLog = new ScheduleJobLog()
+                .setId(id)
+                .setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+        return sqlToyLazyDao.update(scheduleJobLog) > 0;
     }
 }

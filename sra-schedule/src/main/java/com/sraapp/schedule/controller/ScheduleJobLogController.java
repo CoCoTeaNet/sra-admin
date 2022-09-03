@@ -2,9 +2,9 @@ package com.sraapp.schedule.controller;
 
 import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
-import com.sraapp.schedule.param.*;
 import com.sraapp.schedule.service.IScheduleJobLogService;
 import com.sraapp.schedule.vo.ScheduleJobLogVO;
+import com.sraapp.schedule.param.ScheduleJobLogPageParam;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,4 +32,5 @@ public class ScheduleJobLogController {
         Page<ScheduleJobLogVO> r = scheduleJobLogService.listByPage(param);
         return ApiResult.ok(r);
     }
+
 }

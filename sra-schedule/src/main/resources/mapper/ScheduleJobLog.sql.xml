@@ -9,6 +9,7 @@
                 select *
                 from sche_job_log
                 where DELETE_STATUS = 1
+                #[and JOB_ID = :jobId]
                 #[and TRIGGER_TIME between :beginTime and :endTime]
                 #[and EXE_RESULT = exeResult]
                 order by SORT,CREATE_TIME desc
