@@ -2,10 +2,10 @@
   <table-manage>
     <template #search>
       <el-form-item label="任务标题">
-        <el-input placeholder="任务标题" v-model="page.searchObject.name"/>
+        <el-input placeholder="标题" v-model="page.searchObject.name"/>
       </el-form-item>
       <el-form-item label="Cron表达式">
-        <el-input placeholder="Cron表达式" v-model="page.searchObject.cronExpression"/>
+        <el-input placeholder="例：1-2 * * * * ?" v-model="page.searchObject.cornExpression"/>
       </el-form-item>
       <el-form-item label="任务对应类名">
         <el-input placeholder="任务对应类名" v-model="page.searchObject.className"/>
@@ -40,25 +40,25 @@
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="name" label="任务名称" width="200"/>
         <el-table-column prop="className" label="任务对应类名" width="200"/>
-        <el-table-column prop="methodName" label="方法名" width="300"/>
+        <el-table-column prop="methodName" label="方法名" width="200"/>
+        <el-table-column prop="cornExpression" label="Cron表达式" width="200"/>
         <el-table-column prop="parameters" label="参数JSON对象" width="300"/>
-        <el-table-column prop="cronExpression" label="Cron表达式" width="300"/>
         <el-table-column prop="description" label="任务描述" width="300"/>
         <el-table-column prop="type" label="配置类型" width="100">
           <template #default="scope">
-            <el-tag :type="getTypeListStatus(scope.row.replyType, 0)">
-              {{ getTypeListStatus(scope.row.replyType, 1) }}
+            <el-tag :type="getTypeListStatus(scope.row.type, 0)">
+              {{ getTypeListStatus(scope.row.type, 1) }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="active" label="是否启用" width="100">
           <template #default="scope">
-            <el-tag :type="getActiveListStatus(scope.row.replyType, 0)">
-              {{ getActiveListStatus(scope.row.replyType, 1) }}
+            <el-tag :type="getActiveListStatus(scope.row.active, 0)">
+              {{ getActiveListStatus(scope.row.active, 1) }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="下一次执行时间" min-width="220"/>
+        <el-table-column prop="nextExeTime" label="下一次执行时间" min-width="180"/>
         <el-table-column fixed="right" label="操作" width="240">
           <template #default="scope">
             <el-button link @click="onEdit(scope.row)">编辑</el-button>
@@ -76,7 +76,7 @@
     </template>
 
     <template #form>
-      <add-job :edit-type="editType" :job="editRow" :show="showAddDialog"/>
+      <add-job :edit-type="editType" :job="editRow" v-model:show="showAddDialog" @onConfirm="loadTableData"/>
     </template>
   </table-manage>
 </template>
@@ -90,7 +90,7 @@ import {ElMessage, ElMessageBox} from "element-plus/es";
 import AddJob from "@/views/system/manager/schedule/modules/AddJob.vue";
 
 const loading = ref<boolean>(true);
-const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {name: ''}});
+const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {name:''}});
 const tableData = ref();
 const total = ref<number>(0);
 const multipleSelection = ref<any[]>([]);
@@ -156,12 +156,7 @@ const onSizeChange = (size: number) => {
 
 const loadTableData = () => {
   if (!loading.value) loading.value = true;
-  let searchForm = page.value.searchObject;
-  if (searchForm.createTimeRange) {
-    searchForm.beginTime = searchForm.createTimeRange[0];
-    searchForm.endTime = searchForm.createTimeRange[1];
-  }
-  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, articleVo: searchForm};
+  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, scheduleJobVO: page.value.searchObject};
   reqCommonFeedback(listByPage(param), (data: any) => {
     tableData.value = data.rows;
     total.value = data.recordCount;
@@ -171,7 +166,7 @@ const loadTableData = () => {
 
 const onResetSearchForm = () => {
   page.value.searchObject.name = '';
-  page.value.searchObject.cronExpression = '';
+  page.value.searchObject.cornExpression = '';
   page.value.searchObject.className = '';
   page.value.searchObject.methodName = '';
   page.value.searchObject.type = null;

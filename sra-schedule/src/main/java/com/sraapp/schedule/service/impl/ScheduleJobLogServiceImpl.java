@@ -1,13 +1,19 @@
 package com.sraapp.schedule.service.impl;
 
+import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.schedule.entity.ScheduleJobLog;
 import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.param.ScheduleJobLogPageParam;
 import com.sraapp.schedule.param.ScheduleJobLogUpdateParam;
 import com.sraapp.schedule.service.IScheduleJobLogService;
 import com.sraapp.schedule.vo.ScheduleJobLogVO;
+import org.sagacity.sqltoy.dao.SqlToyLazyDao;
+import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +23,9 @@ import java.util.List;
  */
 @Service
 public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
+    @Resource
+    private SqlToyLazyDao sqlToyLazyDao;
+
     @Override
     public boolean add(ScheduleJobLogAddParam param) throws BusinessException {
         return false;
@@ -24,7 +33,13 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
 
     @Override
     public boolean deleteBatch(List<String> idList) throws BusinessException {
-        return false;
+        List<ScheduleJobLog> scheduleJobs = new ArrayList<>(idList.size());
+        for (String s : idList) {
+            ScheduleJobLog scheduleJobLog = new ScheduleJobLog();
+            scheduleJobLog.setId(s).setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
+            scheduleJobs.add(scheduleJobLog);
+        }
+        return sqlToyLazyDao.updateAll(scheduleJobs) > 0;
     }
 
     @Override
@@ -33,8 +48,12 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
     }
 
     @Override
-    public ScheduleJobLogVO listByPage(ScheduleJobLogPageParam param) throws BusinessException {
-        return null;
+    public Page<ScheduleJobLogVO> listByPage(ScheduleJobLogPageParam param) throws BusinessException {
+        if (param.getTriggerTimeRange() != null && !param.getTriggerTimeRange().isEmpty()) {
+            param.setBeginTime(param.getTriggerTimeRange().get(0)).setEndTime(param.getTriggerTimeRange().get(1));
+        }
+        Page<ScheduleJobLogVO> page = sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJobLog_findByPageParam", param.getScheduleJobLogVO());
+        return page;
     }
 
     @Override

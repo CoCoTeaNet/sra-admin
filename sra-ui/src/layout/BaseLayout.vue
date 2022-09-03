@@ -23,6 +23,6 @@
 ::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
   background-color: #CDD0D6;
-  border-radius: 10px;
+  border-radius: 16px;
 }
 </style>

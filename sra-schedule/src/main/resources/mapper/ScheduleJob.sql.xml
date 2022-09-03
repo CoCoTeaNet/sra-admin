@@ -6,13 +6,12 @@
     <sql id="schedule_scheduleJob_findByEntityParam">
         <value>
             <![CDATA[
-                select ID, NAME, CLASS_NAME, CORN_EXPRESSION, DESCRIPTION, ACTIVE
+                select *
                 from sche_job
-                where
+                where DELETE_STATUS = 1
                 #[and NAME = :name]
                 #[and CLASS_NAME = :className]
                 #[and ACTIVE = :active]
-                and DELETE_STATUS = 1
 			]]>
         </value>
     </sql>
@@ -20,12 +19,16 @@
     <sql id="schedule_scheduleJob_findByPageParam">
         <value>
             <![CDATA[
-                select ID, NAME, CLASS_NAME, CORN_EXPRESSION, DESCRIPTION, ACTIVE from sche_job
-                where
-                #[and NAME = :name]
-                #[and CLASS_NAME = :className]
+                select *
+                from sche_job
+                where DELETE_STATUS = 1
+                #[and NAME like :name]
+                #[and METHOD_NAME like :methodName]
+                #[and CLASS_NAME like :className]
+                #[and CORN_EXPRESSION = :cornExpression]
+                #[and TYPE = :type]
                 #[and ACTIVE = :active]
-                and DELETE_STATUS = 1
+                order by SORT,CREATE_TIME desc
 			]]>
         </value>
     </sql>

@@ -3,18 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <sql id="schedule_scheduleJobLog_findByEntityParam">
-        <value>
-            <![CDATA[
-
-			]]>
-        </value>
-    </sql>
-
     <sql id="schedule_scheduleJobLog_findByPageParam">
         <value>
             <![CDATA[
-
+                select *
+                from sche_job_log
+                where DELETE_STATUS = 1
+                #[and TRIGGER_TIME between :beginTime and :endTime]
+                #[and EXE_RESULT = exeResult]
+                order by SORT,CREATE_TIME desc
 			]]>
         </value>
     </sql>

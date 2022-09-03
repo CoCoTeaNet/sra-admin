@@ -13,8 +13,8 @@
       <el-form-item prop="parameters" label="参数JSON对象">
         <el-input v-model="dataForm.parameters"></el-input>
       </el-form-item>
-      <el-form-item prop="cronExpression" label="Cron表达式">
-        <el-input v-model="dataForm.cronExpression"></el-input>
+      <el-form-item prop="cornExpression" label="Cron表达式">
+        <el-input v-model="dataForm.cornExpression"></el-input>
       </el-form-item>
       <el-form-item prop="description" label="任务描述">
         <el-input v-model="dataForm.description"></el-input>
@@ -30,6 +30,9 @@
           <el-radio :label="0">未启用</el-radio>
           <el-radio :label="1">启用</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item label="排序">
+        <el-input placeholder="排序" type="number" v-model="dataForm.sort"/>
       </el-form-item>
     </el-form>
 
@@ -63,7 +66,7 @@ const rules = reactive({
   className: [{required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur'}],
   methodName: [{required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur'}],
   parameters: [{required: true, min: 0, max: 900, message: '长度限制0~900', trigger: 'blur'}],
-  cronExpression: [{required: true, min: 2, max: 50, message: '长度限制2~50', trigger: 'blur'}],
+  cornExpression: [{required: true, min: 2, max: 50, message: '长度限制2~50', trigger: 'blur'}],
   description: [{required: true, min: 2, max: 900, message: '长度限制6~900', trigger: 'blur'}],
   type: [{required: true, message: '配置类型为空', trigger: 'blur'}],
   active: [{required: true, message: '启用状态为空', trigger: 'blur'}]

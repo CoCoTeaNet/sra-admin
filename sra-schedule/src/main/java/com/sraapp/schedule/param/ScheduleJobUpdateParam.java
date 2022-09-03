@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @date 2022-9-2 20:49:35
  */
 public class ScheduleJobUpdateParam implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1857377900832759819L;
 
     /**
      * 主键id
@@ -24,6 +24,10 @@ public class ScheduleJobUpdateParam implements Serializable {
      */
     private String className;
 
+    private String methodName;
+
+    private String parameters;
+
     /**
      * Cron表达式
      */
@@ -38,6 +42,8 @@ public class ScheduleJobUpdateParam implements Serializable {
      * 是否启用;0未启用 1启用
      */
     private Integer active;
+
+    private Integer sort;
 
     public String getId() {
         return id;
@@ -66,6 +72,24 @@ public class ScheduleJobUpdateParam implements Serializable {
         return this;
     }
 
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public ScheduleJobUpdateParam setMethodName(String methodName) {
+        this.methodName = methodName;
+        return this;
+    }
+
+    public String getParameters() {
+        return parameters;
+    }
+
+    public ScheduleJobUpdateParam setParameters(String parameters) {
+        this.parameters = parameters;
+        return this;
+    }
+
     public String getCornExpression() {
         return cornExpression;
     }
@@ -90,6 +114,15 @@ public class ScheduleJobUpdateParam implements Serializable {
 
     public ScheduleJobUpdateParam setActive(Integer active) {
         this.active = active;
+        return this;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public ScheduleJobUpdateParam setSort(Integer sort) {
+        this.sort = sort;
         return this;
     }
 }

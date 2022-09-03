@@ -13,7 +13,7 @@
       <el-table-column prop="tableComment" label="表描述"/>
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
-          <el-button type="text" size="small" @click="preview(scope.row)">预览代码</el-button>
+          <el-button plain size="small" @click="preview(scope.row)">预览代码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,7 +46,7 @@ const loading = ref<boolean>(false);
 //对话框是否显示
 const dialogVisible = ref<boolean>(false);
 //分页参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: ''});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: '', searchObject: {}});
 //分页返回值
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 //代码页面

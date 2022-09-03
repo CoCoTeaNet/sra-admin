@@ -1,17 +1,14 @@
 <template>
   <table-manage>
     <template #search>
-      <el-form-item label="任务触发人">
-        <el-input placeholder="触发人" v-model="page.searchObject.triggerBy"/>
+      <el-form-item label="触发时间">
+        <el-date-picker v-model="page.searchObject.triggerTimeRange" type="daterange" range-separator="~"
+                        start-placeholder="开始时间" end-placeholder="结束时间"/>
       </el-form-item>
       <el-form-item label="执行结果">
         <el-select placeholder="执行结果" v-model="page.searchObject.exeResult">
           <el-option v-for="i in exeResultList" :label="i.label" :value="i.value"/>
         </el-select>
-      </el-form-item>
-      <el-form-item label="触发时间">
-        <el-date-picker v-model="page.searchObject.triggerTimeRange" type="daterange" range-separator="~"
-                        start-placeholder="开始时间" end-placeholder="结束时间"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="loadTableData">搜索</el-button>
@@ -53,7 +50,7 @@
 import TableManage from "@/components/container/TableManage.vue";
 import {nextTick, onMounted, ref} from "vue";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
-import {deleteBatch, listByPage} from "@/api/schedule/job-api";
+import {deleteBatch, listByPage} from "@/api/schedule/jobLog-api";
 import {ElMessage, ElMessageBox} from "element-plus/es";
 
 const loading = ref<boolean>(true);
@@ -99,7 +96,12 @@ const onSizeChange = (size: number) => {
 
 const loadTableData = () => {
   if (!loading.value) loading.value = true;
-  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, articleVo: page.value.searchObject};
+  let param = {
+    pageNo: page.value.pageNo,
+    pageSize: page.value.pageSize,
+    articleVo: page.value.searchObject,
+    triggerTimeRange: page.value.searchObject.triggerTimeRange
+  };
   reqCommonFeedback(listByPage(param), (data: any) => {
     tableData.value = data.rows;
     total.value = data.recordCount;

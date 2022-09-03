@@ -1,21 +1,58 @@
 package com.sraapp.schedule.param;
 
-import com.sraapp.schedule.entity.ScheduleJobLog;
+import com.sraapp.schedule.vo.ScheduleJobLogVO;
 import org.sagacity.sqltoy.model.Page;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Guo wentao
  * @date 2022/8/29
  */
-public class ScheduleJobLogPageParam extends Page<ScheduleJobLog> {
+public class ScheduleJobLogPageParam extends Page<ScheduleJobLogVO> {
 
-    private ScheduleJobLog scheduleJob;
+    private static final long serialVersionUID = -206977374259097534L;
+    private ScheduleJobLogVO scheduleJobLogVO;
 
-    public ScheduleJobLog getScheduleJob() {
-        return scheduleJob;
+    private List<LocalDateTime> triggerTimeRange;
+
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
+
+    public LocalDateTime getBeginTime() {
+        return beginTime;
     }
 
-    public void setScheduleJob(ScheduleJobLog scheduleJob) {
-        this.scheduleJob = scheduleJob;
+    public ScheduleJobLogPageParam setBeginTime(LocalDateTime beginTime) {
+        this.beginTime = beginTime;
+        return this;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public ScheduleJobLogPageParam setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+        return this;
+    }
+
+    public List<LocalDateTime> getTriggerTimeRange() {
+        return triggerTimeRange;
+    }
+
+    public ScheduleJobLogPageParam setTriggerTimeRange(List<LocalDateTime> triggerTimeRange) {
+        this.triggerTimeRange = triggerTimeRange;
+        return this;
+    }
+
+    public ScheduleJobLogVO getScheduleJobLogVO() {
+        return scheduleJobLogVO;
+    }
+
+    public ScheduleJobLogPageParam setScheduleJobLogVO(ScheduleJobLogVO scheduleJobLogVO) {
+        this.scheduleJobLogVO = scheduleJobLogVO;
+        return this;
     }
 }

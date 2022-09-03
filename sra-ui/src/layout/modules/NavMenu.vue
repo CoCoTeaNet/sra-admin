@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import {useStore} from "@/store";
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import {computed} from "vue";
 
 const store = useStore();
