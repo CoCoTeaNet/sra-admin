@@ -101,6 +101,9 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             }
 
             Runnable runnableJob = wrapRunnableJob(scheduleJob);
+            if (runnableJob == null) {
+                continue;
+            }
             CronTask cronTask = new CronTask(runnableJob, expression);
             registrar.addCronTask(cronTask);
             JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
@@ -112,9 +115,11 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     public boolean start(ScheduleJob scheduleJob) throws Exception {
         if (!RUNNING_JOB.containsKey(scheduleJob.getId())) {
             Runnable runnable = wrapRunnableJob(scheduleJob);
-            Future<?> future = this.executor.submit(runnable);
-            RUNNING_JOB.put(scheduleJob.getId(), future);
-            return true;
+            if (runnable != null) {
+                Future<?> future = this.executor.submit(runnable);
+                RUNNING_JOB.put(scheduleJob.getId(), future);
+                return true;
+            }
         }
         return false;
     }
@@ -132,11 +137,13 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         //计划任务表达式为空则跳过
         if (StrUtil.isNotBlank(expression)) {
             Runnable runnableJob = wrapRunnableJob(scheduleJob);
-            CronTask cronTask = new CronTask(runnableJob, expression);
-            registrar.addCronTask(cronTask);
-            JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
-            registrar.afterPropertiesSet();
-            return JOB_REGISTRY.containsKey(key);
+            if (runnableJob != null) {
+                CronTask cronTask = new CronTask(runnableJob, expression);
+                registrar.addCronTask(cronTask);
+                JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
+                registrar.afterPropertiesSet();
+                return JOB_REGISTRY.containsKey(key);
+            }
         }
         return false;
     }
@@ -153,12 +160,15 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             Class<?> jobClass = Class.forName(className);
             IBaseJob job = (IBaseJob) jobClass.getDeclaredConstructor().newInstance();
             String loginIdVar = "";
-            if (StpUtil.isLogin()) {
-                loginIdVar = (String) StpUtil.getLoginId();
+            try {
+                if (StpUtil.isLogin()) {
+                    loginIdVar = (String) StpUtil.getLoginId();
+                }
+            } catch (Exception ignore) {
             }
             final String loginId = loginIdVar;
             return () -> {
-                int result = 0;
+                int result = 1;
                 Date triggerTime = new Date();
                 String taskName = scheduleJob.getName();
                 logger.info("开始执行计划任务: {}", taskName);
@@ -167,7 +177,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 try {
                     job.execute();
                 } catch (Exception e) {
-                    result = 1;
+                    result = 0;
                     RUNNING_JOB.remove(scheduleJob.getId());
                     logger.error("计划任务执行出现异常! ", e);
                 }
@@ -189,8 +199,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         } catch (Exception e) {
             logger.error("加载任务时出现异常", e);
             e.printStackTrace();
-            return () -> {
-            };
+            return null;
         }
     }
 }
