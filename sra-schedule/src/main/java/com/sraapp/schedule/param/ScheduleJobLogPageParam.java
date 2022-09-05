@@ -3,6 +3,7 @@ package com.sraapp.schedule.param;
 import com.sraapp.schedule.vo.ScheduleJobLogVO;
 import org.sagacity.sqltoy.model.Page;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,13 +11,11 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/8/29
  */
-public class ScheduleJobLogPageParam extends Page<ScheduleJobLogVO> {
+public class ScheduleJobLogPageParam extends Page<ScheduleJobLogVO> implements Serializable {
 
     private static final long serialVersionUID = -206977374259097534L;
     private ScheduleJobLogVO scheduleJobLogVO;
-
     private List<LocalDateTime> triggerTimeRange;
-
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
 

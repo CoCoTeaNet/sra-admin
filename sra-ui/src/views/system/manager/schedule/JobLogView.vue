@@ -54,7 +54,7 @@ import {deleteBatch, listByPage} from "@/api/schedule/jobLog-api";
 import {ElMessage, ElMessageBox} from "element-plus/es";
 
 const loading = ref<boolean>(true);
-const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {triggerBy: '',exeResult:'',triggerTimeRange:''}});
+const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {triggerBy: '',exeResult:'',triggerTimeRange:null}});
 const tableData = ref();
 const total = ref<number>(0);
 const multipleSelection = ref<any[]>([]);
@@ -99,7 +99,7 @@ const loadTableData = () => {
   let param = {
     pageNo: page.value.pageNo,
     pageSize: page.value.pageSize,
-    articleVo: page.value.searchObject,
+    scheduleJobLogVO: page.value.searchObject,
     triggerTimeRange: page.value.searchObject.triggerTimeRange
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
@@ -112,7 +112,7 @@ const loadTableData = () => {
 const onResetSearchForm = () => {
   page.value.searchObject.triggerBy = '';
   page.value.searchObject.exeResult = null;
-  page.value.searchObject.triggerTimeRange = '';
+  page.value.searchObject.triggerTimeRange = null;
 }
 
 const onDelete = (id: string) => {

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * @date 2022/9/1
  */
 public class ScheduleJobLogVO implements Serializable {
-    private static final long serialVersionUID = -3378267153362384063L;
+//    private static final long serialVersionUID = -3378267153362384063L;
 
     /**
      * 主键ID

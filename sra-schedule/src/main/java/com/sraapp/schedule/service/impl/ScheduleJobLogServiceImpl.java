@@ -58,8 +58,7 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
         if (param.getTriggerTimeRange() != null && !param.getTriggerTimeRange().isEmpty()) {
             param.setBeginTime(param.getTriggerTimeRange().get(0)).setEndTime(param.getTriggerTimeRange().get(1));
         }
-        Page<ScheduleJobLogVO> page = sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJobLog_findByPageParam", param.getScheduleJobLogVO());
-        return page;
+        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJobLog_findByPageParam", param.getScheduleJobLogVO());
     }
 
     @Override
