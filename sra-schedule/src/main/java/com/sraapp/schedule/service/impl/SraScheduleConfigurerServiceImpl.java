@@ -105,10 +105,10 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 continue;
             }
             CronTask cronTask = new CronTask(runnableJob, expression);
+            logger.info("{} job add to registrar", scheduleJob);
             registrar.addCronTask(cronTask);
             JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
         }
-        registrar.afterPropertiesSet();
     }
 
     @Override
@@ -141,7 +141,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 CronTask cronTask = new CronTask(runnableJob, expression);
                 registrar.addCronTask(cronTask);
                 JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
-                registrar.afterPropertiesSet();
                 return JOB_REGISTRY.containsKey(key);
             }
         }
