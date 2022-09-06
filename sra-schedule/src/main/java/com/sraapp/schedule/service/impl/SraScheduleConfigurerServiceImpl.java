@@ -14,11 +14,16 @@ import com.sraapp.schedule.service.IScheduleJobRegistryService;
 import com.sraapp.schedule.service.IScheduleJobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.CronTask;
+import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import javax.annotation.PreDestroy;
@@ -32,35 +37,49 @@ import java.util.concurrent.*;
  * @author Guo wentao
  * @date 2022/8/9
  */
-@Component
+@Service
 @EnableScheduling
 public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, IScheduleJobRegistryService {
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
     private static final ConcurrentHashMap<String, CronTask> JOB_REGISTRY = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
     @Resource
     private IScheduleJobService scheduleJobService;
     @Resource
     private IScheduleJobLogService scheduleJobLogService;
     private ThreadPoolExecutor executor;
+    private TaskScheduler taskScheduler;
     private volatile ScheduledTaskRegistrar registrar;
+    private static final ThreadFactory THREAD_FACTORY = runnable -> {
+        Thread thread = new Thread(runnable);
+        thread.setName("SRA-Schedule-Thread");
+        thread.setDaemon(false);
+        return thread;
+    };
 
     public SraScheduleConfigurerServiceImpl() {
         logger.info("SraScheduleConfigurerServiceImpl initializing...");
     }
 
+    @Bean
+    public TaskScheduler taskScheduler() {
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(5);
+        threadPoolTaskScheduler.setThreadFactory(THREAD_FACTORY);
+        threadPoolTaskScheduler.setRemoveOnCancelPolicy(true);
+        threadPoolTaskScheduler.setWaitForTasksToCompleteOnShutdown(true);
+        threadPoolTaskScheduler.setThreadGroupName("SRA-Schedule-Thread");
+        return threadPoolTaskScheduler;
+    }
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        ThreadFactory threadFactory = runnable -> {
-            Thread thread = new Thread(runnable);
-            thread.setName("SRA-Schedule-Thread");
-            thread.setDaemon(false);
-            return thread;
-        };
+
         this.executor = new ThreadPoolExecutor(5, 5, 10,
-                TimeUnit.MINUTES, new ArrayBlockingQueue<>(10), threadFactory);
-        ScheduledExecutorService service = new ScheduledThreadPoolExecutor(5, threadFactory);
-        taskRegistrar.setScheduler(service);
+                TimeUnit.MINUTES, new ArrayBlockingQueue<>(10), THREAD_FACTORY);
+
+        taskRegistrar.setScheduler(taskScheduler);
         this.registrar = taskRegistrar;
 
         List<ScheduleJob> allActiveScheduleJob = scheduleJobService.getAllActiveScheduleJob();
@@ -78,8 +97,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             logger.info("没有加载任何任务...");
             return;
         }
-        List<CronTask> cronTaskList = registrar.getCronTaskList();
-        cronTaskList.clear();
         JOB_REGISTRY.clear();
 
         Enumeration<String> runningKeys = RUNNING_JOB.keys();
@@ -106,8 +123,9 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             }
             CronTask cronTask = new CronTask(runnableJob, expression);
             logger.info("{} job add to registrar", scheduleJob);
-            registrar.addCronTask(cronTask);
+            ScheduledTask scheduledTask = registrar.scheduleCronTask(cronTask);
             JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
+            SCHEDULED_TASK_REGISTRY.put(scheduleJob.getId(), scheduledTask);
         }
     }
 
@@ -127,22 +145,38 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     @Override
     public boolean flushJob(ScheduleJob scheduleJob) throws Exception {
         String key = scheduleJob.getId();
-        JOB_REGISTRY.remove(key);
         if (RUNNING_JOB.containsKey(key)) {
             Future<?> future = RUNNING_JOB.get(key);
             future.cancel(false);
             RUNNING_JOB.remove(key);
         }
+
         String expression = scheduleJob.getCornExpression();
         //计划任务表达式为空则跳过
         if (StrUtil.isNotBlank(expression)) {
             Runnable runnableJob = wrapRunnableJob(scheduleJob);
             if (runnableJob != null) {
                 CronTask cronTask = new CronTask(runnableJob, expression);
-                registrar.addCronTask(cronTask);
-                JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
-                return JOB_REGISTRY.containsKey(key);
+                ScheduledTask scheduledTask = registrar.scheduleCronTask(cronTask);
+                JOB_REGISTRY.put(key, cronTask);
+                SCHEDULED_TASK_REGISTRY.put(key, scheduledTask);
+                return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeJob(String id) throws Exception {
+        JOB_REGISTRY.remove(id);
+        if (RUNNING_JOB.containsKey(id)) {
+            Future<?> future = RUNNING_JOB.get(id);
+            future.cancel(false);
+            RUNNING_JOB.remove(id);
+        }
+        ScheduledTask scheduledTask = SCHEDULED_TASK_REGISTRY.get(id);
+        if (scheduledTask != null) {
+            scheduledTask.cancel();
         }
         return false;
     }

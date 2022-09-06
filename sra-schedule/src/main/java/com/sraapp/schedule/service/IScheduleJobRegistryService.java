@@ -35,4 +35,6 @@ public interface IScheduleJobRegistryService {
      * @throws Exception 刷新任务时出现的异常
      */
     boolean flushJob(ScheduleJob scheduleJob) throws Exception;
+
+    boolean removeJob(String id) throws Exception;
 }

@@ -8,11 +8,13 @@ import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.param.ScheduleJobAddParam;
 import com.sraapp.schedule.param.ScheduleJobPageParam;
 import com.sraapp.schedule.param.ScheduleJobUpdateParam;
+import com.sraapp.schedule.service.IScheduleJobRegistryService;
 import com.sraapp.schedule.service.IScheduleJobService;
 import com.sraapp.schedule.vo.ScheduleJobVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -29,10 +31,20 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
 
+    @Resource
+    private IScheduleJobRegistryService scheduleJobRegistryService;
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean add(ScheduleJobAddParam param) throws BusinessException {
         ScheduleJob scheduleJob = Convert.convert(ScheduleJob.class, param);
-        return sqlToyLazyDao.save(scheduleJob) != null;
+        Object save = sqlToyLazyDao.save(scheduleJob);
+        try {
+            scheduleJobRegistryService.flushJob(scheduleJob);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+        return save != null;
     }
 
     @Override
@@ -49,7 +61,20 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
     @Override
     public boolean update(ScheduleJobUpdateParam param) throws BusinessException {
         ScheduleJob scheduleJob = Convert.convert(ScheduleJob.class, param);
-        return sqlToyLazyDao.update(scheduleJob) > 0;
+        Long row = sqlToyLazyDao.update(scheduleJob);
+        if (row > 0) {
+            try {
+                if (scheduleJob.getActive() == 1) {
+                    scheduleJobRegistryService.flushJob(scheduleJob);
+                } else {
+                    scheduleJobRegistryService.removeJob(scheduleJob.getId());
+                }
+            } catch (Exception e) {
+                throw new BusinessException(e.getMessage());
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -61,7 +86,16 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
     public boolean delete(String id) throws BusinessException {
         ScheduleJob scheduleJob = new ScheduleJob();
         scheduleJob.setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode());
-        return sqlToyLazyDao.update(scheduleJob) > 0;
+        Long row = sqlToyLazyDao.update(scheduleJob);
+        if (row > 0) {
+            try {
+                scheduleJobRegistryService.removeJob(id);
+            } catch (Exception e) {
+                throw new BusinessException(e.getMessage());
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
