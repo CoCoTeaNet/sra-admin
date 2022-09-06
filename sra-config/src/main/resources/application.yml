@@ -76,3 +76,5 @@ spring:
   # 环境配置激活
   profiles:
     active: dev
+  main:
+    allow-circular-references: true

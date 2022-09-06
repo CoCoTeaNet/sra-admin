@@ -1,5 +1,7 @@
 package com.sraapp.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.system.param.log.OperationLogPageParam;
@@ -28,12 +30,14 @@ public class OperationLogController {
     @Resource
     private IOperationLogService operationLogService;
 
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/listByPage")
     public ApiResult<Page<OperationLogVO>> pageApiResult(@RequestBody OperationLogPageParam param) throws BusinessException {
         Page<OperationLogVO> p = operationLogService.listByPage(param);
         return ApiResult.ok(p);
     }
 
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
     public ApiResult<String> deleteBatch(@RequestBody List<String> ids) throws BusinessException {
         boolean b = operationLogService.deleteBatch(ids);
