@@ -47,7 +47,6 @@
               <div>
                 <ul>
                   <li>1. 修复已知BUG.</li>
-                  <li>2. 新增CMS模块.</li>
                 </ul>
               </div>
             </el-collapse-item>
