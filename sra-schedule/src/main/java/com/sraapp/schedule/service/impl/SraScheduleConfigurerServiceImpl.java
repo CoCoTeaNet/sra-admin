@@ -97,18 +97,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             logger.info("没有加载任何任务...");
             return;
         }
-        JOB_REGISTRY.clear();
-
-        Enumeration<String> runningKeys = RUNNING_JOB.keys();
-        Map<String, ScheduleJob> scheduleJobMap = CollectionUtil.toMap(scheduleJobList, MapUtil.newHashMap(), ScheduleJob::getId);
-        while (runningKeys.hasMoreElements()) {
-            String key = runningKeys.nextElement();
-            if (scheduleJobMap.containsKey(key)) {
-                Future<?> future = RUNNING_JOB.get(key);
-                future.cancel(false);
-                RUNNING_JOB.remove(key);
-            }
-        }
 
         for (ScheduleJob scheduleJob : scheduleJobList) {
             String expression = scheduleJob.getCornExpression();
@@ -145,11 +133,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     @Override
     public boolean flushJob(ScheduleJob scheduleJob) throws Exception {
         String key = scheduleJob.getId();
-        if (RUNNING_JOB.containsKey(key)) {
-            Future<?> future = RUNNING_JOB.get(key);
-            future.cancel(false);
-            RUNNING_JOB.remove(key);
-        }
+        removeJob(key);
 
         String expression = scheduleJob.getCornExpression();
         //计划任务表达式为空则跳过
