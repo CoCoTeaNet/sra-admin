@@ -14,12 +14,12 @@
 
 <table>
     <tr>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/%E7%99%BB%E5%BD%95%E9%A1%B5.png"/></td>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90.jpg"/></td>
+        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-1.jpg"/></td>
+        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-2.jpg"/></td>
     </tr>
     <tr>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/%E4%BB%AA%E8%A1%A8%E7%9B%98.jpg"/></td>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/%E8%8F%9C%E5%8D%95.jpg"/></td>
+        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-3.jpg"/></td>
+        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-4.jpg"/></td>
     </tr>
 </table>
 
