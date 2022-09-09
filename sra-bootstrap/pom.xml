@@ -43,7 +43,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                     <mainClass>com.sraapp.bootstrap.SraApplicationBoot</mainClass>　　
+                     <mainClass>com.sraapp.bootstrap.AppBoot</mainClass>　　
                 </configuration>
                 <executions>
                      <execution>

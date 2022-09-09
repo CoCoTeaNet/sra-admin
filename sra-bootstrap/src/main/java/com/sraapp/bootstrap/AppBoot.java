@@ -26,11 +26,11 @@ import java.util.Objects;
         "com.sraapp.schedule"
 })
 @SpringBootApplication
-public class SraApplicationBoot {
-    private static final Logger logger = LoggerFactory.getLogger(SraApplicationBoot.class);
+public class AppBoot {
+    private static final Logger logger = LoggerFactory.getLogger(AppBoot.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(SraApplicationBoot.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(AppBoot.class, args);
         Environment environment = context.getEnvironment();
         String contextPath = environment.getProperty("server.servlet.context-path");
         contextPath = StringUtil.isNullOrEmpty(contextPath) ? contextPath : "";
