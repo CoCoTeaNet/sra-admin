@@ -1,5 +1,6 @@
 package com.sraapp.schedule.service;
 
+import com.sraapp.common.model.BusinessException;
 import com.sraapp.common.service.IBaseService;
 import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.param.ScheduleJobAddParam;
@@ -21,5 +22,21 @@ public interface IScheduleJobService extends IBaseService<Page<ScheduleJobVO>, S
      *
      * @return 已启用的计划任务列表
      */
-    List<ScheduleJob> getAllActiveScheduleJob();
+    List<ScheduleJob> getAllActiveScheduleJob() throws BusinessException;
+
+    /**
+     * 手动执行任务
+     *
+     * @param id 任务ID
+     * @return 任务执行UUID
+     */
+    String execute(String id) throws BusinessException;
+
+    /**
+     * 通过UUID获取手动执行结果
+     *
+     * @param uuid 任务执行UUID
+     * @return 任务执行结果
+     */
+    boolean getExecuteProgress(String uuid) throws BusinessException;
 }
