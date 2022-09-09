@@ -8,8 +8,8 @@ sra:
     # 服务器IP 或 域名
     domain: 106.52.139.93
   dev-enable:
-    author: jwss
-    module-package: com.jwss.sra.system
+    author: CoCoTea
+    module-package: com.sraapp.system
     permission-cache: true
     strong-password: srapwd
     # 文件上传地址
