@@ -82,8 +82,8 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         taskRegistrar.setScheduler(taskScheduler);
         this.registrar = taskRegistrar;
 
-        List<ScheduleJob> allActiveScheduleJob = scheduleJobService.getAllActiveScheduleJob();
         try {
+            List<ScheduleJob> allActiveScheduleJob = scheduleJobService.getAllActiveScheduleJob();
             this.refreshAll(allActiveScheduleJob);
         } catch (Exception e) {
             logger.error("计划任务初始化异常", e);
