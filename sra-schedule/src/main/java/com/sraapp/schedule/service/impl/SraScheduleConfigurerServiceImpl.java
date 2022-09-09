@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.schedule.IBaseJob;
+import com.sraapp.schedule.ScheduleJobRunnable;
 import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.service.IScheduleJobLogService;
@@ -41,7 +42,8 @@ import java.util.concurrent.*;
 @EnableScheduling
 public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, IScheduleJobRegistryService {
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
-    private static final ConcurrentHashMap<String, CronTask> JOB_REGISTRY = new ConcurrentHashMap<>();
+
+    private static final ConcurrentHashMap<String, ScheduleJobRunnable> RUNNABLE_CACHE = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
     @Resource
@@ -112,7 +114,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             CronTask cronTask = new CronTask(runnableJob, expression);
             logger.info("{} job add to registrar", scheduleJob);
             ScheduledTask scheduledTask = registrar.scheduleCronTask(cronTask);
-            JOB_REGISTRY.put(scheduleJob.getId(), cronTask);
             SCHEDULED_TASK_REGISTRY.put(scheduleJob.getId(), scheduledTask);
         }
     }
@@ -120,6 +121,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     @Override
     public boolean start(ScheduleJob scheduleJob) throws Exception {
         if (!RUNNING_JOB.containsKey(scheduleJob.getId())) {
+
             Runnable runnable = wrapRunnableJob(scheduleJob);
             if (runnable != null) {
                 Future<?> future = this.executor.submit(runnable);
@@ -142,7 +144,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
             if (runnableJob != null) {
                 CronTask cronTask = new CronTask(runnableJob, expression);
                 ScheduledTask scheduledTask = registrar.scheduleCronTask(cronTask);
-                JOB_REGISTRY.put(key, cronTask);
                 SCHEDULED_TASK_REGISTRY.put(key, scheduledTask);
                 return true;
             }
@@ -152,7 +153,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
 
     @Override
     public boolean removeJob(String id) throws Exception {
-        JOB_REGISTRY.remove(id);
         if (RUNNING_JOB.containsKey(id)) {
             Future<?> future = RUNNING_JOB.get(id);
             future.cancel(false);
