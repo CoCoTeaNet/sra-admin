@@ -2,6 +2,7 @@ package com.sraapp.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
+import com.sraapp.common.enums.LogTypeEnum;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.framework.util.IpUtils;
 import com.sraapp.system.param.log.OperationLogUpdateParam;
@@ -68,5 +69,24 @@ public class OperationLogServiceImpl implements IOperationLogService {
         logAddParam.setOperationStatus(OperationStatusEnum.SUCCESS.getCode());
         logAddParam.setOperationTime(LocalDateTime.now());
         add(logAddParam);
+    }
+
+    @Override
+    public void saveErrorLog(HttpServletRequest request) {
+        if (StpUtil.isLogin()) {
+            OperationLogAddParam logAddParam = new OperationLogAddParam();
+            logAddParam.setIpAddress(IpUtils.getIp(request));
+            logAddParam.setLogType(LogTypeEnum.OPERATION.getCode());
+            logAddParam.setRequestWay(request.getMethod());
+            logAddParam.setLogNumber(System.currentTimeMillis());
+            logAddParam.setOperator(String.valueOf(StpUtil.getLoginId()));
+            logAddParam.setOperationStatus(OperationStatusEnum.ERROR.getCode());
+            logAddParam.setOperationTime(LocalDateTime.now());
+            try {
+                add(logAddParam);
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

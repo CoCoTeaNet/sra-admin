@@ -1,4 +1,4 @@
-package com.sraapp.config.properties;
+package com.sraapp.bootstrap.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

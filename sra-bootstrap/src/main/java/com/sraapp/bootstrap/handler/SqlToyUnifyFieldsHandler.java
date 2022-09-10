@@ -1,4 +1,4 @@
-package com.sraapp.config.sqltoy;
+package com.sraapp.bootstrap.handler;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.sagacity.sqltoy.model.DataAuthFilterConfig;

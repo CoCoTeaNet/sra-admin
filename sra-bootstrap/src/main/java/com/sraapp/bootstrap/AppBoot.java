@@ -1,7 +1,7 @@
 package com.sraapp.bootstrap;
 
-import com.sraapp.config.properties.DefaultProperties;
-import com.sraapp.config.properties.DevEnableProperties;
+import com.sraapp.system.properties.DefaultProperties;
+import com.sraapp.system.properties.DevEnableProperties;
 import com.sraapp.framework.constant.GlobalValue;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -18,13 +18,7 @@ import java.util.Objects;
  * @author jwss
  * @date 2022-1-12 14:12:24
  */
-@ComponentScan(basePackages = {
-        "com.sraapp.config",
-        "com.sraapp.framework",
-        "com.sraapp.system",
-        "com.sraapp.cms",
-        "com.sraapp.schedule"
-})
+@ComponentScan(basePackages = "com.sraapp")
 @SpringBootApplication
 public class AppBoot {
     private static final Logger logger = LoggerFactory.getLogger(AppBoot.class);
