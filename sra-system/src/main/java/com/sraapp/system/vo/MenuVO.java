@@ -1,6 +1,7 @@
 package com.sraapp.system.vo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -34,8 +35,11 @@ public class MenuVO implements Serializable {
 	private String componentPath;
 	
 	private Integer isExternalLink;
-	
+
 	private String iconPath;
+
+	private LocalDateTime createTime;
+	private LocalDateTime updateTime;
 
 	private List<MenuVO> children;
 
@@ -156,6 +160,24 @@ public class MenuVO implements Serializable {
 		return this;
 	}
 
+	public LocalDateTime getCreateTime() {
+		return createTime;
+	}
+
+	public MenuVO setCreateTime(LocalDateTime createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	public LocalDateTime getUpdateTime() {
+		return updateTime;
+	}
+
+	public MenuVO setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime = updateTime;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "MenuVO{" +
@@ -171,6 +193,8 @@ public class MenuVO implements Serializable {
 				", componentPath='" + componentPath + '\'' +
 				", isExternalLink=" + isExternalLink +
 				", iconPath='" + iconPath + '\'' +
+				", createTime=" + createTime +
+				", updateTime=" + updateTime +
 				", children=" + children +
 				'}';
 	}

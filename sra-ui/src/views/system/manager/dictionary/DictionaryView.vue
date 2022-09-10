@@ -5,7 +5,7 @@
                   @enter-search="initTable" @refresh="refresh">
     <!-- 表格列配置 -->
     <template v-slot:default>
-      <el-table-column type="selection" width="55"/>
+      <el-table-column type="selection" width="80"/>
       <el-table-column prop="dictionaryName" label="名称" sortable/>
       <el-table-column prop="remark" label="备注"/>
       <el-table-column prop="enableStatus" label="是否启用">

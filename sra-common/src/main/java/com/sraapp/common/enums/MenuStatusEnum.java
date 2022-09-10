@@ -3,26 +3,18 @@ package com.sraapp.common.enums;
 /**
  * 菜单状态 枚举值
  *
- * @author jwss
+ * @author CoCoTea
  * @date 2022-4-2 14:16:05
  */
 public enum MenuStatusEnum {
     /**
      * 显示&启用
      */
-    SHOW_ENABLE(0, "显示&启用"),
+    SHOW(0, "显示"),
     /**
      * 隐藏&启用
      */
-    HIDE_ENABLE(1, "隐藏&启用"),
-    /**
-     * 显示&关闭
-     */
-    SHOW_CLOSE(2, "显示&关闭"),
-    /**
-     * 隐藏&关闭
-     */
-    HIDE_CLOSE(3, "隐藏&关闭");
+    HIDE(1, "隐藏");
 
     final Integer code;
     final String desc;

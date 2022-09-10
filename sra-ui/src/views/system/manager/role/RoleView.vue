@@ -42,7 +42,7 @@
 
     <template #form>
       <!-- 权限操作 -->
-      <el-dialog v-model="dialogMenuVisible" title="授予权限">
+      <el-dialog v-model="dialogMenuVisible" title="授予权限" width="50%">
         <el-tree v-model:default-checked-keys="defaultSelectMenuIdList"
                  @check-change="checkChange"
                  :data="menuOptions"
@@ -201,7 +201,7 @@ const getMenus = (t: number, callback: Function) => {
     menuVO: {menuName: '', isMenu: t}
   }
   reqCommonFeedback(listByTree(param), (data: any) => {
-    menuOptions.value = data.rows;
+    menuOptions.value = data;
     nextTick(callback());
   });
 }
