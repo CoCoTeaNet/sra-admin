@@ -101,6 +101,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         }
 
         for (ScheduleJob scheduleJob : scheduleJobList) {
+            logger.info("初始化任务: {}", scheduleJob.getName());
             String expression = scheduleJob.getCornExpression();
             //计划任务表达式为空则跳过
             if (StrUtil.isBlank(expression)) {
@@ -112,7 +113,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 continue;
             }
             CronTask cronTask = new CronTask(runnableJob, expression);
-            logger.info("{} job add to registrar", scheduleJob);
+            logger.info("注册成功");
             ScheduledTask scheduledTask = registrar.scheduleCronTask(cronTask);
             SCHEDULED_TASK_REGISTRY.put(scheduleJob.getId(), scheduledTask);
         }
@@ -172,47 +173,15 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     }
 
     private Runnable wrapRunnableJob(ScheduleJob scheduleJob) {
-        String className = scheduleJob.getClassName();
         try {
-            Class<?> jobClass = Class.forName(className);
-            IBaseJob job = (IBaseJob) jobClass.getDeclaredConstructor().newInstance();
-            String loginIdVar = "";
+            String loginId = "";
             try {
                 if (StpUtil.isLogin()) {
-                    loginIdVar = (String) StpUtil.getLoginId();
+                    loginId = (String) StpUtil.getLoginId();
                 }
             } catch (Exception ignore) {
             }
-            final String loginId = loginIdVar;
-            return () -> {
-                int result = 1;
-                Date triggerTime = new Date();
-                String taskName = scheduleJob.getName();
-                logger.info("开始执行计划任务: {}", taskName);
-                StopWatch stopWatch = new StopWatch();
-                stopWatch.start(taskName);
-                try {
-                    job.execute();
-                } catch (Exception e) {
-                    result = 0;
-                    RUNNING_JOB.remove(scheduleJob.getId());
-                    logger.error("计划任务执行出现异常! ", e);
-                }
-                stopWatch.stop();
-                logger.info("计划任务: {} 执行耗时: {}ms", taskName, stopWatch.getLastTaskTimeMillis());
-                try {
-                    ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
-                            .setJobId(scheduleJob.getId())
-                            .setExeResult(result)
-                            .setTriggerBy(loginId)
-                            .setTriggerTime(triggerTime)
-                            .setFinishTime(new Date())
-                            .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
-                    scheduleJobLogService.add(param);
-                } catch (BusinessException e) {
-                    throw new RuntimeException(e);
-                }
-            };
+            return new ScheduleJobRunnable(scheduleJobLogService, scheduleJob, loginId);
         } catch (Exception e) {
             logger.error("加载任务时出现异常", e);
             e.printStackTrace();

@@ -2,13 +2,17 @@ package com.sraapp.schedule;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.framework.service.IRedisService;
 import com.sraapp.schedule.annotation.DisableConcurrentExecute;
 import com.sraapp.schedule.entity.ScheduleJob;
 import com.sraapp.schedule.param.ScheduleJobLogAddParam;
+import com.sraapp.schedule.service.IScheduleJobLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
+import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,22 +33,19 @@ public class ScheduleJobRunnable implements Runnable {
     private Class<?> jobClass;
     private Object instance;
     private Method method;
-    private String operator = "";
+    private transient String operator = "";
+    private transient IScheduleJobLogService scheduleJobLogService;
 
-    public ScheduleJobRunnable(ScheduleJob scheduleJob) throws Exception {
+    public ScheduleJobRunnable(IScheduleJobLogService scheduleJobLogService, ScheduleJob scheduleJob, String operator) throws Exception {
+        this.operator = operator;
         this.scheduleJob = scheduleJob;
+        this.scheduleJobLogService = scheduleJobLogService;
         this.doInitialize();
     }
 
     private void doInitialize() throws Exception {
         String className = scheduleJob.getClassName();
         jobClass = Class.forName(className);
-        try {
-            if (StpUtil.isLogin()) {
-                operator = (String) StpUtil.getLoginId();
-            }
-        } catch (Exception ignore) {
-        }
         if (scheduleJob.getType() == 0) {
             // 类模式
             // 查看该任务类是否存在DisableConcurrentExecute注解
@@ -57,16 +58,6 @@ public class ScheduleJobRunnable implements Runnable {
             }
             // 按照原有逻辑，将其优化成可以禁止并发执行，并且对该类进行缓存
             instance = jobClass.getDeclaredConstructor().newInstance();
-            String loginIdVar = "";
-            try {
-                if (StpUtil.isLogin()) {
-                    loginIdVar = (String) StpUtil.getLoginId();
-                }
-            } catch (Exception ignore) {
-                this.initialized = false;
-                return;
-            }
-
         } else {
             // 函数模式
             String methodName = scheduleJob.getMethodName();
@@ -126,12 +117,17 @@ public class ScheduleJobRunnable implements Runnable {
         }
         stopWatch.stop();
         logger.info("计划任务: {} 执行耗时: {}ms", taskName, stopWatch.getLastTaskTimeMillis());
-        ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
-                .setJobId(scheduleJob.getId())
-                .setExeResult(result)
-                .setTriggerBy(operator)
-                .setTriggerTime(triggerTime)
-                .setFinishTime(new Date())
-                .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
+        try {
+            ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
+                    .setJobId(scheduleJob.getId())
+                    .setExeResult(result)
+                    .setTriggerBy(operator)
+                    .setTriggerTime(triggerTime)
+                    .setFinishTime(new Date())
+                    .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
+            scheduleJobLogService.add(param);
+        } catch (BusinessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
