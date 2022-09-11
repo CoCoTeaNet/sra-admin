@@ -1,9 +1,9 @@
 package com.sraapp.system.service.impl;
 
 import com.sraapp.common.util.NamingConversionUtils;
-import com.sraapp.config.properties.DefaultProperties;
-import com.sraapp.config.properties.DevEnableProperties;
 import com.sraapp.system.param.generator.TablePageParam;
+import com.sraapp.system.properties.DefaultProperties;
+import com.sraapp.system.properties.DevEnableProperties;
 import com.sraapp.system.service.ICodeGeneratorService;
 import com.sraapp.system.vo.TableColVO;
 import com.sraapp.system.vo.TableVO;

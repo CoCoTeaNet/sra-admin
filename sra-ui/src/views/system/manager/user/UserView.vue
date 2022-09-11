@@ -38,15 +38,15 @@
         <el-table-column prop="username" width="200" label="账号"/>
         <el-table-column prop="nickname" width="200" label="昵称"/>
         <el-table-column prop="email" width="200" label="邮箱"/>
-        <el-table-column prop="roleName" width="100" label="角色"/>
-        <el-table-column prop="sex" width="100" label="性别">
+        <el-table-column prop="roleName" label="角色"/>
+        <el-table-column prop="sex" label="性别">
           <template #default="scope">
             <el-tag :type="getSex(scope.row.sex, 0)">
               {{ getSex(scope.row.sex, 1) }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="accountStatus" width="100" label="状态">
+        <el-table-column prop="accountStatus" label="状态">
           <template #default="scope">
             <el-tag :type="getAccountStatus(scope.row.accountStatus, 0)">
               {{ getAccountStatus(scope.row.accountStatus, 1) }}
@@ -55,10 +55,10 @@
         </el-table-column>
         <el-table-column prop="lastLoginIp" width="200" label="最后登录IP"/>
         <el-table-column prop="lastLoginTime" width="200" label="最后登录时间"/>
-        <el-table-column fixed="right" label="操作" width="240">
+        <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
-            <el-button link type="primary" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
+            <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

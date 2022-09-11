@@ -10,7 +10,7 @@ sra:
   sa-token:
     # 路由放行
     excludes:
-      - /test/index
+      - /test/**
       - /favicon.ico
       # 登录
       - /user/login
@@ -65,7 +65,7 @@ spring:
         min-idle: 0
   # sqltoy框架相关配置
   sqltoy:
-    unify-fields-handler: com.sraapp.config.sqltoy.SqlToyUnifyFieldsHandler
+    unify-fields-handler: com.sraapp.bootstrap.handler.SqlToyUnifyFieldsHandler
   servlet:
     multipart:
       max-file-size: 10MB

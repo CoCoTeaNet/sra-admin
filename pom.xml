@@ -12,7 +12,6 @@
     <modules>
         <module>sra-bootstrap</module>
         <module>sra-common</module>
-        <module>sra-config</module>
         <module>sra-framework</module>
         <module>sra-system</module>
         <module>sra-cms</module>
@@ -29,13 +28,12 @@
         <sqltoy.version>5.1.23</sqltoy.version>
         <mysql-connector.version>8.0.28</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
-        <satoken.version>1.28.0</satoken.version>
+        <satoken.version>1.31.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
         <hutool.version>5.7.19</hutool.version>
         <hutool-oshi.version>5.6.1</hutool-oshi.version>
-        <sa-token-redis.version>1.28.0</sa-token-redis.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <freemaker.version>2.3.31</freemaker.version>
     </properties>
@@ -116,6 +114,12 @@
                 <artifactId>sa-token-spring-boot-starter</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
+            <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
             <!-- mysql连接器 -->
             <dependency>
                 <groupId>mysql</groupId>
@@ -156,12 +160,6 @@
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
                 <version>${hutool-oshi.version}</version>
-            </dependency>
-            <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis</artifactId>
-                <version>${sa-token-redis.version}</version>
             </dependency>
             <!-- 提供Redis连接池 -->
             <dependency>

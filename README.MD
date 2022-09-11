@@ -40,7 +40,7 @@
 ```text
 1. application.yml：/sra-config/src/main/resources/application.yml
 2. 数据库执行脚本：/doc/DB_SRA_V1.sql
-3. 项目启动类：/sra-bootstrap/src/main/java/com/sraapp/bootstrap/SraApplicationBoot.java
+3. 项目启动类：/sra-bootstrap/src/main/java/com/sraapp/bootstrap/AppBoot.java
 ```
 
 - 前端
@@ -68,8 +68,7 @@ $ npm run build || yarn build       #生产环境
 ├─doc  -------------------------文档  
 │  └─DB_SRA_V1.sql  ------------数据库脚本  
 ├─sra-bootstrap  ---------------启动模块  
-├─sra-common  ------------------常用模块  
-├─sra-config  ------------------配置模块  
+├─sra-common  ------------------常用模块   
 ├─sra-framework  ---------------框架模块  
 ├─sra-system  ------------------系统模块  
 ├─sra-cms     ------------------内容模块  
