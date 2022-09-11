@@ -110,7 +110,7 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
         String uuid = UUID.fastUUID().toString(true);
         ScheduleJob scheduleJob = new ScheduleJob().setId(id);
         try {
-            scheduleJobRegistryService.start(sqlToyLazyDao.load(scheduleJob));
+            scheduleJobRegistryService.start(uuid, sqlToyLazyDao.load(scheduleJob));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
@@ -119,6 +119,6 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public boolean getExecuteProgress(String uuid) throws BusinessException {
-        return false;
+        return !scheduleJobRegistryService.isRunning(uuid);
     }
 }

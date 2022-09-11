@@ -33,8 +33,8 @@ public class ScheduleJobRunnable implements Runnable {
     private Class<?> jobClass;
     private Object instance;
     private Method method;
-    private transient String operator = "";
-    private transient IScheduleJobLogService scheduleJobLogService;
+    private String operator = "";
+    private IScheduleJobLogService scheduleJobLogService;
 
     public ScheduleJobRunnable(IScheduleJobLogService scheduleJobLogService, ScheduleJob scheduleJob, String operator) throws Exception {
         this.operator = operator;
@@ -56,8 +56,6 @@ public class ScheduleJobRunnable implements Runnable {
                     break;
                 }
             }
-            // 按照原有逻辑，将其优化成可以禁止并发执行，并且对该类进行缓存
-            instance = jobClass.getDeclaredConstructor().newInstance();
         } else {
             // 函数模式
             String methodName = scheduleJob.getMethodName();
@@ -67,7 +65,6 @@ public class ScheduleJobRunnable implements Runnable {
                     methods.add(method);
                 }
             }
-            Object instance = jobClass.newInstance();
             if (methods.size() == 0) {
                 throw new BusinessException("函数不存在");
             } else if (methods.size() > 1) {
@@ -77,6 +74,7 @@ public class ScheduleJobRunnable implements Runnable {
                 method = methods.get(0);
             }
         }
+        instance = jobClass.getDeclaredConstructor().newInstance();
         this.initialized = true;
     }
 

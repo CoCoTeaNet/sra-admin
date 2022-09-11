@@ -11,10 +11,7 @@ import com.sraapp.schedule.param.ScheduleJobUpdateParam;
 import com.sraapp.schedule.service.IScheduleJobService;
 import com.sraapp.schedule.vo.ScheduleJobVO;
 import org.sagacity.sqltoy.model.Page;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,6 +47,20 @@ public class ScheduleJobController {
     @PostMapping("/update")
     public ApiResult<?> update(@RequestBody ScheduleJobUpdateParam param) throws BusinessException {
         boolean r = scheduleJobService.update(param);
+        return ApiResult.ok(r);
+    }
+
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @GetMapping("/execute")
+    public ApiResult<?> execute(String id) throws BusinessException {
+        String uuid = scheduleJobService.execute(id);
+        return ApiResult.ok(uuid);
+    }
+
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @GetMapping("/progress")
+    public ApiResult<?> progress(String id) throws BusinessException {
+        boolean r = scheduleJobService.getExecuteProgress(id);
         return ApiResult.ok(r);
     }
 }
