@@ -120,15 +120,12 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     }
 
     @Override
-    public boolean start(ScheduleJob scheduleJob) throws Exception {
-        if (!RUNNING_JOB.containsKey(scheduleJob.getId())) {
-
-            Runnable runnable = wrapRunnableJob(scheduleJob);
-            if (runnable != null) {
-                Future<?> future = this.executor.submit(runnable);
-                RUNNING_JOB.put(scheduleJob.getId(), future);
-                return true;
-            }
+    public boolean start(String key, ScheduleJob scheduleJob) throws Exception {
+        ScheduleJobRunnable runnable = wrapRunnableJob(scheduleJob);
+        if (runnable != null && (!isRunning(key) || !runnable.isDisabledConcurrentExecute())) {
+            Future<?> future = this.executor.submit(runnable);
+            RUNNING_JOB.put(key, future);
+            return true;
         }
         return false;
     }
@@ -166,13 +163,18 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         return false;
     }
 
+    @Override
+    public boolean isRunning(String id) {
+        return RUNNING_JOB.containsKey(id) && (!RUNNING_JOB.get(id).isDone() || !RUNNING_JOB.get(id).isCancelled());
+    }
+
     @PreDestroy
     public void destroy() {
         this.executor.shutdown();
         this.registrar.destroy();
     }
 
-    private Runnable wrapRunnableJob(ScheduleJob scheduleJob) {
+    private ScheduleJobRunnable wrapRunnableJob(ScheduleJob scheduleJob) {
         try {
             String loginId = "";
             try {

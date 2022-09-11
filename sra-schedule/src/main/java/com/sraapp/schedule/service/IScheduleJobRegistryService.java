@@ -21,11 +21,12 @@ public interface IScheduleJobRegistryService {
     /**
      * 运行一次任务
      *
+     * @param key         任务执行标识
      * @param scheduleJob 计划任务信息
      * @return 是否执行成功
      * @throws Exception 准备任务时出现的异常
      */
-    boolean start(ScheduleJob scheduleJob) throws Exception;
+    boolean start(String key, ScheduleJob scheduleJob) throws Exception;
 
     /**
      * 刷新指定任务
@@ -37,4 +38,12 @@ public interface IScheduleJobRegistryService {
     boolean flushJob(ScheduleJob scheduleJob) throws Exception;
 
     boolean removeJob(String id) throws Exception;
+
+    /**
+     * 检查任务是否正在执行
+     *
+     * @param id 执行标识
+     * @return 是否正在执行
+     */
+    boolean isRunning(String id);
 }
