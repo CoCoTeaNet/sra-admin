@@ -92,7 +92,7 @@
             <icon-selection v-model="editForm.iconPath"/>
           </el-form-item>
           <el-form-item label="上级菜单">
-            <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+            <el-cascader clearable v-model="editForm.parentId" placeholder="选择节点"
                          :props="defaultProps" :options="records" :show-all-levels="false"
                          @change="handleChange">
             </el-cascader>
@@ -263,7 +263,11 @@ const doUpdate = (formEl: any): void => {
 }
 
 const handleChange = (data: any) => {
-  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
+  if (!data) {
+    editForm.value.parentId = '0';
+    return;
+  }
+  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : '0';
 }
 
 const menuTypeChange = (value: string) => {

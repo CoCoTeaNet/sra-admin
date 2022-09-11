@@ -62,7 +62,7 @@
             <el-input v-model="editForm.sort" type="number"></el-input>
           </el-form-item>
           <el-form-item label="上级菜单">
-            <el-cascader v-model="editForm.parentId" placeholder="选择节点"
+            <el-cascader clearable v-model="editForm.parentId" placeholder="选择节点"
                          :props="defaultProps" :options="records" :show-all-levels="false"
                          @change="handleChange">
             </el-cascader>
@@ -100,7 +100,7 @@ const defaultProps = {
 
 const records = ref<any>();
 const searchObj = ref<MenuModel>({});
-const isExpandAll = ref<boolean>(true);
+const isExpandAll = ref<boolean>(false);
 // 表单参数
 const editForm = ref<MenuModel>({});
 // 加载进度
@@ -172,7 +172,11 @@ const doUpdate = (formEl: any): void => {
 }
 
 const handleChange = (data: any) => {
-  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : 0;
+  if (!data) {
+    editForm.value.parentId = '0';
+    return;
+  }
+  editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : '0';
 }
 
 const onExpandAll = () => {

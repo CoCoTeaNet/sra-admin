@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author jwss
@@ -59,13 +56,10 @@ public class DictionaryServiceImpl implements IDictionaryService {
     }
 
     @Override
-    public Page<DictionaryVO> listByTree(DictionaryPageParam param) {
-        Page<DictionaryVO> page = listByPage(param);
-        List<DictionaryVO> rows = page.getRows();
-        GenerateDsUtils<DictionaryVO> generateDsUtils = new GenerateDsUtils<>();
-        Map<String, DictionaryVO> voMap = generateDsUtils.buildTreeDefault(rows);
-        page.setRows(new ArrayList<>(voMap.values()));
-        return page;
+    public Collection<DictionaryVO> listByTree(DictionaryPageParam param) {
+        List<DictionaryVO> list = sqlToyLazyDao.findBySql("system_dictionary_findByPageParam", param.getDictionaryVO());
+        GenerateDsUtils<DictionaryVO> dsUtils = new GenerateDsUtils<>();
+        return dsUtils.buildTreeDefault(list).values();
     }
 
     @Override

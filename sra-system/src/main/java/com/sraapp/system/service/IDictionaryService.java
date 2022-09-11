@@ -7,6 +7,8 @@ import com.sraapp.system.param.dictionary.DictionaryUpdateParam;
 import com.sraapp.system.vo.DictionaryVO;
 import org.sagacity.sqltoy.model.Page;
 
+import java.util.Collection;
+
 /**
  * 字典 接口服务类
  * @author jwss
@@ -19,5 +21,5 @@ public interface IDictionaryService extends IBaseService<Page<DictionaryVO>, Dic
      * @param param 分页参数
      * @return 分页对象
      */
-    Page<DictionaryVO> listByTree(DictionaryPageParam param);
+    Collection<DictionaryVO> listByTree(DictionaryPageParam param);
 }
