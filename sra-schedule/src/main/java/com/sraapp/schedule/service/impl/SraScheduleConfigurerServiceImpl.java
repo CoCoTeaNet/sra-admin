@@ -1,15 +1,10 @@
 package com.sraapp.schedule.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sraapp.common.model.BusinessException;
-import com.sraapp.schedule.IBaseJob;
 import com.sraapp.schedule.ScheduleJobRunnable;
 import com.sraapp.schedule.entity.ScheduleJob;
-import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.service.IScheduleJobLogService;
 import com.sraapp.schedule.service.IScheduleJobRegistryService;
 import com.sraapp.schedule.service.IScheduleJobService;
@@ -23,9 +18,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
@@ -42,8 +35,6 @@ import java.util.concurrent.*;
 @EnableScheduling
 public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, IScheduleJobRegistryService {
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
-
-    private static final ConcurrentHashMap<String, ScheduleJobRunnable> RUNNABLE_CACHE = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
     @Resource
