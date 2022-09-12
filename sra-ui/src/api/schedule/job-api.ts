@@ -31,3 +31,11 @@ export function deleteBatch(data: string[]) {
 export function listByPage(data: any) {
     return request('schedule/job/listByPage', data, post);
 }
+
+export function execute(data: any) {
+    return request('schedule/job/execute', data, get);
+}
+
+export function queryProgress(data: any) {
+    return request('schedule/job/progress', data, get);
+}

@@ -111,10 +111,10 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
         ScheduleJob scheduleJob = new ScheduleJob().setId(id);
         try {
             scheduleJobRegistryService.start(uuid, sqlToyLazyDao.load(scheduleJob));
+            return uuid;
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
-        return null;
     }
 
     @Override
