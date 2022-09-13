@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Component
 public class ContentSpider implements IBaseJob {
@@ -16,7 +17,7 @@ public class ContentSpider implements IBaseJob {
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
-    public void execute() throws Exception {
+    public void execute(Map<String, Object> params) throws Exception {
         logger.info("任务执行,time={}", System.currentTimeMillis());
     }
 

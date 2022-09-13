@@ -1,5 +1,7 @@
 package com.sraapp.schedule;
 
+import java.util.Map;
+
 /**
  * @author Guo wentao
  * @date 2022/9/1
@@ -11,6 +13,6 @@ public interface IBaseJob {
      *
      * @throws Exception 抛出的异常
      */
-    void execute() throws Exception;
+    void execute(Map<String, Object> param) throws Exception;
 
 }

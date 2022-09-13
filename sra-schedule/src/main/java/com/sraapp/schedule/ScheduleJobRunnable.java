@@ -1,6 +1,8 @@
 package com.sraapp.schedule;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.framework.service.IRedisService;
 import com.sraapp.schedule.annotation.DisableConcurrentExecute;
@@ -15,9 +17,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Guo wentao
@@ -103,11 +103,18 @@ public class ScheduleJobRunnable implements Runnable {
                 throw new BusinessException("任务执行异常，任务初始化失败...");
             }
             Integer type = scheduleJob.getType();
+            String scheduleJobParameters = scheduleJob.getParameters();
             if (type == 0 && instance instanceof IBaseJob) {
                 IBaseJob job = (IBaseJob) instance;
-                job.execute();
+                Map<String, Object> param;
+                if (StrUtil.isNotBlank(scheduleJobParameters)) {
+                    param = JSON.parseObject(scheduleJobParameters);
+                } else {
+                    param = new HashMap<>();
+                }
+                job.execute(param);
             } else if (type == 1) {
-                method.invoke(instance);
+                method.invoke(instance, scheduleJobParameters);
             }
         } catch (Exception e) {
             result = 0;
