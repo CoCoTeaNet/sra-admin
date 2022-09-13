@@ -8,6 +8,7 @@ import com.sraapp.common.enums.ApiResultEnum;
 import com.sraapp.common.enums.LogTypeEnum;
 import com.sraapp.common.model.ApiResult;
 import com.sraapp.common.model.BusinessException;
+import com.sraapp.common.model.NotLogException;
 import com.sraapp.system.service.IOperationLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,11 @@ public class GlobalExceptionHandler {
     public ApiResult<?> handlerBusinessException(BusinessException e) {
         logger.error("业务逻辑异常: " + e.getMessage());
         saveLog();
+        return ApiResult.error(e.getErrorCode(), e.getErrorMsg());
+    }
+
+    @ExceptionHandler(NotLogException.class)
+    public ApiResult<?> handlerNotLogException(NotLogException e) {
         return ApiResult.error(e.getErrorCode(), e.getErrorMsg());
     }
 

@@ -3,6 +3,8 @@ server:
     context-path: /
 
 sra:
+  aop:
+    visits: 30
   default:
     password: sra123456
     salt: sra-salt
