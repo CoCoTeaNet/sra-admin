@@ -114,7 +114,13 @@ public class ScheduleJobRunnable implements Runnable {
                 }
                 job.execute(param);
             } else if (type == 1) {
-                method.invoke(instance, scheduleJobParameters);
+                int parameterCount = method.getParameterCount();
+                if(parameterCount > 0) {
+                    // 后面做成根据类型反射生成
+                    method.invoke(instance, scheduleJobParameters);
+                } else {
+                    method.invoke(instance);
+                }
             }
         } catch (Exception e) {
             result = 0;
