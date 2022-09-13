@@ -36,6 +36,8 @@ public class TableColVO implements Serializable {
     private String javaDataType;
     private String javaColNameBigHump;
 
+    private String tsDataType;
+
     private String author;
     private String modulePackage;
 
@@ -239,6 +241,15 @@ public class TableColVO implements Serializable {
         this.columnComment = columnComment;
     }
 
+    public String getTsDataType() {
+        return tsDataType;
+    }
+
+    public TableColVO setTsDataType(String tsDataType) {
+        this.tsDataType = tsDataType;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "TableColVO{" +
@@ -262,6 +273,12 @@ public class TableColVO implements Serializable {
                 ", extra='" + extra + '\'' +
                 ", privileges='" + privileges + '\'' +
                 ", columnComment='" + columnComment + '\'' +
+                ", javaColName='" + javaColName + '\'' +
+                ", javaDataType='" + javaDataType + '\'' +
+                ", javaColNameBigHump='" + javaColNameBigHump + '\'' +
+                ", tsDataType='" + tsDataType + '\'' +
+                ", author='" + author + '\'' +
+                ", modulePackage='" + modulePackage + '\'' +
                 '}';
     }
 }
