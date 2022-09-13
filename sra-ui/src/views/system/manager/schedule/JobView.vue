@@ -62,7 +62,7 @@
         <el-table-column fixed="right" label="操作" width="240">
           <template #default="scope">
             <el-button link @click="onEdit(scope.row)">编辑</el-button>
-            <el-button link @click="onExecute(scope.row)">执行</el-button>
+            <el-button link type="primary" @click="onExecute(scope.row)">执行</el-button>
             <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>

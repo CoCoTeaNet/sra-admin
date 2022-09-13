@@ -73,7 +73,27 @@ public class NamingConversionUtils {
             case DataBaseTypeConstant.DATETIME:
                 return JavaTypeConstant.LOCAL_DATETIME;
             default:
-                return null;
+                return "";
+        }
+    }
+
+    public static String dbDataTypeToTs(String s) {
+        if (s == null || CharConstant.EMPTY_STRING.equals(s)) {
+            return null;
+        }
+        String upperCase = s.toUpperCase(Locale.ROOT);
+        switch (upperCase) {
+            case DataBaseTypeConstant.VARCHAR:
+            case DataBaseTypeConstant.CHAR:
+            case DataBaseTypeConstant.TEXT:
+            case DataBaseTypeConstant.DATETIME:
+                return "string";
+            case DataBaseTypeConstant.BIGINT:
+            case DataBaseTypeConstant.TIMESTAMP:
+            case DataBaseTypeConstant.INT:
+                return "number";
+            default:
+                return "";
         }
     }
 

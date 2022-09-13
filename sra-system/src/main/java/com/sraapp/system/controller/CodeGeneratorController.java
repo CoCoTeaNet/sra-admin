@@ -29,13 +29,21 @@ public class CodeGeneratorController {
     @Resource
     private ICodeGeneratorService codeGeneratorService;
 
-    @GetMapping("/getByTableName/{tableName}")
-    public ApiResult<String> getByTableName(ModelMap model, @PathVariable String tableName) throws TemplateException, IOException {
-        Map<String, Object> objectMap = codeGeneratorService.getEntityCode(tableName);
+    @GetMapping("/getByTableName")
+    public ApiResult<String> getByTableName(ModelMap model,
+                                            @RequestParam("tableName") String tableName,
+                                            @RequestParam("dbName") String dbName,
+                                            @RequestParam("type") Integer type) throws TemplateException, IOException {
+        Map<String, Object> objectMap = codeGeneratorService.getEntityCode(dbName, tableName);
         model.put("objectMap", objectMap);
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         configuration.setClassForTemplateLoading(CodeGeneratorController.class, "/templates/");
-        Template template = configuration.getTemplate("entity-generator.ftl");
+        Template template;
+        if (type == 0) {
+            template = configuration.getTemplate("java-generator.ftl");
+        } else {
+            template = configuration.getTemplate("ts-generator.ftl");
+        }
         return ApiResult.ok(FreeMarkerTemplateUtils.processTemplateIntoString(template, model));
     }
 
