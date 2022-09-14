@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="initTableList">搜索</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="onReset">重置</el-button>
       </el-form-item>
     </template>
 
@@ -83,7 +83,7 @@ const initTableList = () => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    tableVO: {tableName: pageParam.value.searchKey}
+    tableVO: pageParam.value.searchObject
   }
   reqCommonFeedback(findTablesByPage(param), (res: any) => {
     loading.value = false;
@@ -105,5 +105,9 @@ const preview = (row: any, type: number) => {
       codeSrc.value = data;
     });
   });
+}
+
+const onReset = () => {
+  pageParam.value.searchObject = {};
 }
 </script>

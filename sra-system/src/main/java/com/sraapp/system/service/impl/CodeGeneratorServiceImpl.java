@@ -56,7 +56,10 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
 
     @Override
     public Page<TableVO> findTablesByPage(TablePageParam param) {
-        String sql = String.format("select * from information_schema.TABLES where TABLE_SCHEMA = '%s' #[and TABLE_NAME like :tableName]", defaultProperties.getDbName());
+        if (StrUtil.isBlank(param.getTableVO().getDbName())) {
+            param.getTableVO().setDbName(defaultProperties.getDbName());
+        }
+        String sql = "select * from information_schema.TABLES where #[and TABLE_SCHEMA = :dbName] #[and TABLE_NAME like :tableName]";
         return sqlToyLazyDao.findPageBySql(param, sql, param.getTableVO());
     }
 

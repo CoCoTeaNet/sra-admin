@@ -6,6 +6,7 @@ import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
+import com.sraapp.common.enums.IsSomethingEnum;
 import com.sraapp.common.enums.MenuTypeEnum;
 import com.sraapp.common.constant.CharConstant;
 import com.sraapp.framework.constant.GlobalValue;
@@ -48,7 +49,7 @@ public class DashboardServiceImpl implements IDashboardService {
         hashMap.put("count", countUser);
         mapList.add(hashMap);
 
-        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + MenuTypeEnum.MENU.getCode();
+        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + IsSomethingEnum.YSE.getCode();
         Long countMenu = sqlToyLazyDao.getCount(menuSql, null);
         hashMap=new HashMap<>(2);
         hashMap.put("title", "菜单数量");

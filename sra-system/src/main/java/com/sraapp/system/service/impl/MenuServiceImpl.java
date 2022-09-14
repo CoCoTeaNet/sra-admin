@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import com.sraapp.common.enums.DeleteStatusEnum;
 import com.sraapp.common.enums.IsSomethingEnum;
+import com.sraapp.common.enums.MenuTypeEnum;
 import com.sraapp.common.util.GenerateDsUtils;
 import com.sraapp.common.constant.CharConstant;
 import com.sraapp.framework.constant.RedisKey;
@@ -64,6 +65,7 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public Collection<MenuVO> listByTree(MenuPageParam pageParam) {
         List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenuVO());
+        menuVOList.forEach(item -> item.setDisabled(!Objects.equals(MenuTypeEnum.DIRECTORY.getCode(), item.getMenuType())));
         GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
         return dsUtils.buildTreeDefault(menuVOList).values();
     }

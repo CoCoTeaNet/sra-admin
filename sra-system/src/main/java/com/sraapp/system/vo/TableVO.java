@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class TableVO implements Serializable {
     private static final long serialVersionUID = 21132277961275875L;
 
+    private String dbName;
     /**
      * 表描述
      */
@@ -58,10 +59,20 @@ public class TableVO implements Serializable {
         this.tableCollation = tableCollation;
     }
 
+    public String getDbName() {
+        return dbName;
+    }
+
+    public TableVO setDbName(String dbName) {
+        this.dbName = dbName;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "TableVO{" +
-                "tableComment='" + tableComment + '\'' +
+                "dbName='" + dbName + '\'' +
+                ", tableComment='" + tableComment + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", tableCollation='" + tableCollation + '\'' +
                 ", javaClassName='" + javaClassName + '\'' +
