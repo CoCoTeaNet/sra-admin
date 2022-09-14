@@ -3,6 +3,8 @@ package com.sraapp.schedule;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONValidator;
 import com.sraapp.common.model.BusinessException;
 import com.sraapp.framework.service.IRedisService;
 import com.sraapp.schedule.annotation.DisableConcurrentExecute;
@@ -11,12 +13,16 @@ import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.service.IScheduleJobLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.util.StopWatch;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 /**
@@ -115,9 +121,9 @@ public class ScheduleJobRunnable implements Runnable {
                 job.execute(param);
             } else if (type == 1) {
                 int parameterCount = method.getParameterCount();
-                if(parameterCount > 0) {
+                if (parameterCount > 0) {
                     // 后面做成根据类型反射生成
-                    method.invoke(instance, scheduleJobParameters);
+                    reflectInvokeMethod(scheduleJobParameters);
                 } else {
                     method.invoke(instance);
                 }
@@ -140,5 +146,22 @@ public class ScheduleJobRunnable implements Runnable {
         } catch (BusinessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void reflectInvokeMethod(String parametersString) throws InvocationTargetException, IllegalAccessException, IOException {
+        LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+        Parameter[] parameters = method.getParameters();
+        Object[] parameterObjects = new Object[parameters.length];
+        try (JSONValidator jsonValidator = JSONValidator.from(parametersString)) {
+            JSONObject jsonObject = JSON.parseObject(parametersString);
+            String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
+            for (int i = 0; i < parameters.length; i++) {
+                Parameter parameter = parameters[i];
+                Object object = jsonObject.getObject(parameterNames[i], parameter.getType());
+                parameterObjects[i] = object;
+            }
+        }
+        // 如果是非json字符串怎么办呢？抛出吧
+        method.invoke(instance, parameterObjects);
     }
 }

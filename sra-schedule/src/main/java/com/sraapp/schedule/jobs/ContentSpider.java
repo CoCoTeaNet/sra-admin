@@ -18,6 +18,7 @@ public class ContentSpider implements IBaseJob {
 
     @Override
     public void execute(Map<String, Object> params) throws Exception {
+        logger.info("任务入参, {}", params);
         logger.info("任务执行,time={}", System.currentTimeMillis());
     }
 
