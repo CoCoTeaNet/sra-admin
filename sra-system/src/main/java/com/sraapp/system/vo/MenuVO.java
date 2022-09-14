@@ -43,6 +43,8 @@ public class MenuVO implements Serializable {
 
 	private List<MenuVO> children;
 
+	private Boolean disabled;
+
 	public String getId() {
 		return id;
 	}
@@ -178,6 +180,15 @@ public class MenuVO implements Serializable {
 		return this;
 	}
 
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public MenuVO setDisabled(Boolean disabled) {
+		this.disabled = disabled;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "MenuVO{" +
@@ -196,6 +207,7 @@ public class MenuVO implements Serializable {
 				", createTime=" + createTime +
 				", updateTime=" + updateTime +
 				", children=" + children +
+				", disabled=" + disabled +
 				'}';
 	}
 }
