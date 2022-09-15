@@ -1,10 +1,11 @@
 <template>
-  <el-row align="middle" style="height: 100%;">
-    <el-col :span="8">
-      <admin-breadcrumb/>
+  <el-row align="middle" class="header-row">
+    <el-col :span="20">
+      <!--<admin-breadcrumb/>-->
+      <admin-tab/>
     </el-col>
     <!-- 用户信息 -->
-    <el-col :span="16">
+    <el-col :span="4">
       <el-row :gutter="10" justify="end" align="bottom">
         <div class="mouse-over right-item">
           <el-icon :size="24">
@@ -36,6 +37,7 @@ import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {logout} from "@/api/system/user-api";
 import {setUserInfo, useStore} from "@/store";
 import AdminBreadcrumb from "@/layout/modules/AdminBreadcrumb.vue";
+import AdminTab from "@/layout/modules/AdminTab.vue";
 
 const store = useStore();
 
@@ -72,6 +74,11 @@ const doFullScreen = (event: { exitFullscreen: () => void; }) => {
 </script>
 
 <style>
+.header-row {
+  height: 100%;
+  border-bottom: 1px solid var(--el-border-color-dark);
+}
+
 .mouse-over {
   cursor: pointer;
   padding: 0 3px;
