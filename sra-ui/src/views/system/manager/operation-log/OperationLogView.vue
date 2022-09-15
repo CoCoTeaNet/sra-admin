@@ -18,8 +18,7 @@
     </template>
 
     <template #default>
-      <el-table v-loading="loading" :data="pageVo.records" style="width: 100%" @selection-change="handleSelectionChange"
-                max-height="700px">
+      <el-table v-loading="loading" :data="pageVo.records" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="logNumber" label="日志编号"/>
         <el-table-column prop="operatorName" label="操作人"/>

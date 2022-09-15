@@ -1,11 +1,15 @@
-import {InjectionKey} from 'vue'
-import {createStore, Store, useStore as baseUseStore} from 'vuex'
+import {InjectionKey} from 'vue';
+import {createStore, Store, useStore as baseUseStore} from 'vuex';
+// @ts-ignore
+import md5 from 'js-md5';
+import {router} from "@/router";
 
 export interface State {
     // 用户信息
     userInfo: UserModel,
     // 是否折叠菜单
-    isCollapseMenu: boolean
+    isCollapseMenu: boolean,
+    tabItems: TabItem[]
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -21,13 +25,51 @@ export const store = createStore<State>({
             avatar: '',
             menuList: []
         },
-        isCollapseMenu: false
+        isCollapseMenu: false,
+        tabItems: []
     }
 })
 
 // 定义自己的 `useStore` 组合式函数
 export function useStore() {
     return baseUseStore(key)
+}
+
+export function removeTabItem(id: string) {
+    let arr: TabItem[] = [];
+    store.state.tabItems.forEach((item: TabItem) => {
+        if (item.id != id) arr.push(item);
+    });
+    store.state.tabItems = arr;
+}
+
+export function addTabItem(tab: TabItem) {
+    tab.id = md5(tab.url);
+    if (store.state.tabItems.length === 0) {
+        store.state.tabItems.push(tab);
+    } else {
+        let existFlag = false;
+        store.state.tabItems.forEach((item: TabItem) => {
+            if (item.id == tab.id) {
+                existFlag = true;
+            }
+        });
+        if (!existFlag) {
+            store.state.tabItems.forEach((item: TabItem) => item.isActive = false);
+            store.state.tabItems.push(tab);
+        } else {
+            store.state.tabItems.forEach((item: TabItem) => {
+                item.isActive = item.id === tab.id;
+            });
+        }
+    }
+}
+
+export function initTabItems() {
+    store.state.tabItems = [];
+    let url : string = '/admin/home';
+    store.state.tabItems.push({name: '首页', id: md5(url), isActive: true, url: url});
+    router.push({path: url}).then(r => console.log(r));
 }
 
 /**

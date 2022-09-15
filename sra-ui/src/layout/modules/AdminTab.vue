@@ -1,76 +1,57 @@
 <template>
   <el-scrollbar>
     <div class="scrollbar-flex-content">
-      <p v-for="item in tabItems" :key="item" :class="`scrollbar-tab-item ${item.isActive?'active':''}`"
-         @click="onClick(item)">
-        {{ item.name }}
-        <el-icon class="tab-icon" @click="onClose(item.id)">
+      <p v-for="item in store.state.tabItems" :key="item" :class="`scrollbar-tab-item ${item.isActive?'active':''}`">
+        <span @click="onClick(item)">{{ item.name }}</span>
+        <el-icon class="tab-icon" @click="removeTabItem(item.id)">
           <close/>
         </el-icon>
       </p>
+
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          更多
+          <el-icon class="el-icon--right">
+            <arrow-down/>
+          </el-icon>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="refresh">刷新</el-dropdown-item>
+            <el-dropdown-item @click="onCloseAll">关闭所有</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
 import {Close} from "@element-plus/icons-vue";
-import {onMounted, ref, watch} from "vue";
 import {router} from "@/router";
-import {useRoute} from "vue-router";
+import {useStore} from "@/store";
+import {removeTabItem,initTabItems} from "@/store";
+import {onMounted} from "vue";
 
-const route = useRoute();
-
-interface TabItem {
-  id?: string,
-  name?: string,
-  isActive?: boolean,
-  url?: string
-}
-
-const items: TabItem[] = [
-  {name: '首页', id: '1', isActive: true, url: '/admin/home'},
-  {name: '用户管理', id: '2', isActive: false, url: '/admin/user-manager'},
-  {name: '文章管理', id: '3', isActive: false, url: '/admin/article-list'},
-  {name: '菜单管理', id: '4', isActive: false, url: '/admin/menu-manager'},
-  {name: '日志管理', id: '5', isActive: false, url: '/admin/operation-log-manager'},
-  {name: '角色管理', id: '6', isActive: false, url: '/admin/role-manager'}
-];
-
-const tabItems = ref<TabItem[]>([]);
+const store = useStore();
 
 onMounted(() => {
-  tabItems.value = items;
-});
-
-watch(() => route.path, (v: any) => {
-  console.log(route.matched)
+  initTabItems();
 });
 
 const onClick = (obj: any) => {
   router.push({path: obj.url});
-  tabItems.value.forEach((item: TabItem) => {
+  store.state.tabItems.forEach((item: TabItem) => {
     item.isActive = item.id == obj.id;
   });
 }
 
-const onActive = () => {
-
-}
-
-const onClose = (id: string) => {
-  let arr: TabItem[] = [];
-  tabItems.value.forEach((item: TabItem) => {
-    if (item.id != id) arr.push(item);
-  });
-  tabItems.value = arr;
-}
-
 const onCloseAll = () => {
-
+  initTabItems();
 }
 
-const onAdd = () => {
-
+const refresh = () => {
+  window.location.reload();
 }
 </script>
 
@@ -96,7 +77,7 @@ const onAdd = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 21px;
+  height: 23px;
   margin: 3px;
   padding: 0 3px;
   text-align: center;
@@ -115,5 +96,12 @@ const onAdd = () => {
 .active {
   background-color: var(--el-color-primary);
   color: var(--el-color-white);
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 </style>
