@@ -3,7 +3,7 @@
     <!-- 综合统计 -->
     <el-row :gutter="12">
       <el-col :span="6" v-for="item in countList" :key="item.title">
-        <el-card shadow="always" body-style>
+        <el-card shadow="never" body-style>
           <div style="display: flex;flex-direction: column;align-items: center">
             <h3>{{ item.title }}</h3>
             <span>{{ item.count }}</span>
@@ -15,7 +15,7 @@
     <!-- cpu使用情况 -->
     <el-row style="margin-top: 1em">
       <el-col>
-        <el-card shadow="always">
+        <el-card shadow="never">
           <div id="dashboardPieId" style="height: 300px"></div>
         </el-card>
       </el-col>
@@ -24,7 +24,7 @@
     <!-- 系统信息 -->
     <el-row style="margin-top: 1em">
       <el-col>
-        <el-card shadow="always">
+        <el-card shadow="never">
           <el-descriptions title="系统信息" direction="vertical" :column="4" border>
             <el-descriptions-item label="操作系统">{{ systemInfo.data.os }}</el-descriptions-item>
             <el-descriptions-item label="服务器名">{{ systemInfo.data.serverName }}</el-descriptions-item>
@@ -144,7 +144,5 @@ const initPie = (systemModel: SystemModel): void => {
 </script>
 
 <style scoped>
-.el-card {
-  border: none;
-}
+
 </style>
