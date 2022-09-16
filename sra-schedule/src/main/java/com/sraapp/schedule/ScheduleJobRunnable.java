@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class ScheduleJobRunnable implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleJobRunnable.class);
-
+    private static final LocalVariableTableParameterNameDiscoverer DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
     private final ScheduleJob scheduleJob;
     private boolean initialized = false;
     private boolean disabledConcurrentExecute = false;
@@ -52,7 +52,8 @@ public class ScheduleJobRunnable implements Runnable {
     private void doInitialize() throws Exception {
         String className = scheduleJob.getClassName();
         jobClass = Class.forName(className);
-        if (scheduleJob.getType() == 0) {
+        boolean functionMode = scheduleJob.getType() == 1;
+        if (!functionMode) {
             // 类模式
             // 查看该任务类是否存在DisableConcurrentExecute注解
             Annotation[] declaredAnnotations = jobClass.getDeclaredAnnotations();
@@ -74,14 +75,30 @@ public class ScheduleJobRunnable implements Runnable {
             if (methods.size() == 0) {
                 throw new BusinessException("函数不存在");
             } else if (methods.size() > 1) {
-                // 后续改成按相应的参数查询方法
-                throw new BusinessException("存在同名函数");
+                for (Method method : methods) {
+                    int parameterCount = method.getParameterCount();
+                    String parameters = scheduleJob.getParameters();
+                    try (JSONValidator validator = JSONValidator.from(parameters)) {
+                        JSONObject jsonObject = JSONObject.parseObject(parameters);
+                        Set<String> keys = jsonObject.keySet();
+                        if (keys.size() == parameterCount) {
+                            String[] parameterNames = DISCOVERER.getParameterNames(method);
+                            for (String parameterName : parameterNames) {
+                                if (!keys.contains(parameterName)) {
+                                    break;
+                                }
+                            }
+                            this.method = method;
+                            break;
+                        }
+                    }
+                }
             } else {
                 method = methods.get(0);
             }
         }
         instance = jobClass.getDeclaredConstructor().newInstance();
-        this.initialized = true;
+        this.initialized = !functionMode || this.method != null;
     }
 
     public ScheduleJob getScheduleJob() {
@@ -122,7 +139,6 @@ public class ScheduleJobRunnable implements Runnable {
             } else if (type == 1) {
                 int parameterCount = method.getParameterCount();
                 if (parameterCount > 0) {
-                    // 后面做成根据类型反射生成
                     reflectInvokeMethod(scheduleJobParameters);
                 } else {
                     method.invoke(instance);
@@ -149,12 +165,11 @@ public class ScheduleJobRunnable implements Runnable {
     }
 
     private void reflectInvokeMethod(String parametersString) throws InvocationTargetException, IllegalAccessException, IOException {
-        LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
         Parameter[] parameters = method.getParameters();
         Object[] parameterObjects = new Object[parameters.length];
         try (JSONValidator jsonValidator = JSONValidator.from(parametersString)) {
             JSONObject jsonObject = JSON.parseObject(parametersString);
-            String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
+            String[] parameterNames = DISCOVERER.getParameterNames(method);
             for (int i = 0; i < parameters.length; i++) {
                 Parameter parameter = parameters[i];
                 Object object = jsonObject.getObject(parameterNames[i], parameter.getType());

@@ -42,7 +42,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     @Resource
     private IScheduleJobLogService scheduleJobLogService;
     private ThreadPoolExecutor executor;
-    private TaskScheduler taskScheduler;
     private volatile ScheduledTaskRegistrar registrar;
     private static final ThreadFactory THREAD_FACTORY = runnable -> {
         Thread thread = new Thread(runnable);
@@ -72,7 +71,6 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
         this.executor = new ThreadPoolExecutor(5, 5, 10,
                 TimeUnit.MINUTES, new ArrayBlockingQueue<>(10), THREAD_FACTORY);
 
-        taskRegistrar.setScheduler(taskScheduler);
         this.registrar = taskRegistrar;
 
         try {
