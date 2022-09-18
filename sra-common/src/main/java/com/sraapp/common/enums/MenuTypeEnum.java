@@ -1,18 +1,15 @@
 package com.sraapp.common.enums;
 
 /**
+ * 按钮类型;0目录 1菜单 2按钮
+ *
  * @date 2022-1-12 16:30:04
- * @author jwss
+ * @author CoCoTea
  */
 public enum MenuTypeEnum {
-    /**
-     * 菜单
-     */
-    MENU(0, "菜单"),
-    /**
-     * 权限
-     */
-    PERMISSION(1, "权限");
+    DIRECTORY(0, "目录"),
+    MENU(1, "菜单"),
+    BUTTON(2, "按钮");
 
     final Integer code;
     final String desc;

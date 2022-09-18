@@ -22,9 +22,8 @@
                 	sys_menu.ICON_PATH
                 FROM
                 	sys_menu
-                WHERE
+                WHERE DELETE_STATUS = 1
                 	#[and IS_MENU = :isMenu]
-                	and DELETE_STATUS = 1
                 ORDER BY SORT
 			]]>
         </value>
@@ -100,17 +99,18 @@
                 	sys_menu.SORT,
                 	sys_menu.COMPONENT_PATH,
                 	sys_menu.IS_EXTERNAL_LINK,
-                	sys_menu.ICON_PATH
+                	sys_menu.ICON_PATH,
+                	sys_menu.CREATE_TIME,
+                	sys_menu.UPDATE_TIME
                 FROM
                 	sys_menu
-                WHERE
+                WHERE DELETE_STATUS = 1
                 	#[and IS_MENU = :isMenu]
                 	#[and PERMISSION_CODE = :permissionCode]
                 	#[and ROUTER_PATH = :routerPath]
                 	#[and MENU_NAME like :menuName]
                 	#[and MENU_STATUS = :menuStatus]
-                	and DELETE_STATUS = 1
-                ORDER BY SORT
+                ORDER BY SORT, CREATE_TIME desc
 			]]>
         </value>
     </sql>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card shadow="never">
       <h3>SRA后台管理系统</h3>
       <p>基于springboot，整合satoken、sqltoy的权限管理系统，由此命名为：sss-rbac-admin</p>
       <p>
@@ -12,7 +12,7 @@
 
     <el-row :gutter="10" style="margin-top: 1em">
       <el-col :span="12">
-        <el-card title="联系信息">
+        <el-card shadow="never" title="联系信息">
           <template #header>
             <div><span>联系信息</span></div>
           </template>
@@ -23,7 +23,7 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card>
+        <el-card shadow="never">
 
 
           <el-collapse accordion :model-value="'4'">

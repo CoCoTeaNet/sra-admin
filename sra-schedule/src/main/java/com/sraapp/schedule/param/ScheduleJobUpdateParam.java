@@ -19,6 +19,7 @@ public class ScheduleJobUpdateParam implements Serializable {
      */
     private String name;
 
+    private Integer type;
     /**
      * 任务对应类名
      */
@@ -88,6 +89,14 @@ public class ScheduleJobUpdateParam implements Serializable {
     public ScheduleJobUpdateParam setParameters(String parameters) {
         this.parameters = parameters;
         return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getCornExpression() {

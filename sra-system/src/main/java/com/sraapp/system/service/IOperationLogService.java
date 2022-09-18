@@ -24,4 +24,6 @@ public interface IOperationLogService extends IBaseService<Page<OperationLogVO>,
      * @throws BusinessException 异常抛出
      */
     void saveByLogType(Integer logType, HttpServletRequest request) throws BusinessException;
+
+    void saveErrorLog(HttpServletRequest request);
 }

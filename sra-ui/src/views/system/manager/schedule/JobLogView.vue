@@ -24,15 +24,21 @@
       <el-table v-loading="loading" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange"
                 max-height="700px">
         <el-table-column type="selection" width="55"/>
-        <el-table-column prop="triggerBy" label="任务触发人" width="200"/>
-        <el-table-column prop="exeResult" label="执行结果" width="100"/>
+        <el-table-column prop="triggerBy" label="任务触发人"/>
         <el-table-column prop="triggerTime" label="触发时间" width="200"/>
         <el-table-column prop="spendTimeMillis" label="执行耗时(ms)" width="200"/>
+        <el-table-column prop="exeResult" label="执行结果" width="150">
+          <template #default="scope">
+            <el-tag :type="getExeResultStatus(scope.row.exeResult, 0)">
+              {{ getExeResultStatus(scope.row.exeResult, 1) }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="createBy" label="创建人" width="200"/>
         <el-table-column prop="createTime" label="创建时间" width="200"/>
-        <el-table-column fixed="right" label="操作" width="240">
+        <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
-            <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
+            <el-button plain size="small" type="danger" @click="onDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

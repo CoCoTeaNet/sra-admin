@@ -5,7 +5,7 @@ import {request, get, post} from '@/utils/axios-util';
  * @param data
  */
 export function getByTableName(data: any) {
-    return request(`codeGenerator/getByTableName/${data}`, data, get);
+    return request(`codeGenerator/getByTableName?tableName=${data.tableName}&dbName=${data.dbName}&type=${data.type}`, {}, get);
 }
 
 /**

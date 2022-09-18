@@ -20,7 +20,7 @@ public interface ICodeGeneratorService {
      * @param tableName 表名称
      * @return 实体类属性
      */
-    Map<String, Object> getEntityCode(String tableName);
+    Map<String, Object> getEntityCode(String dbName, String tableName);
 
     /**
      * 分页查找数据库表

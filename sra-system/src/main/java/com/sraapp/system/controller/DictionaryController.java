@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -50,8 +51,8 @@ public class DictionaryController {
 
     @PostMapping("/listByTree")
     @SaCheckPermission("system:dictionary:listByTree")
-    public ApiResult<Page<DictionaryVO>> listByTree(@Valid @RequestBody DictionaryPageParam param) {
-        Page<DictionaryVO> list = dictionaryService.listByTree(param);
+    public ApiResult<?> listByTree(@Valid @RequestBody DictionaryPageParam param) {
+        Collection<DictionaryVO> list = dictionaryService.listByTree(param);
         return ApiResult.ok(list);
     }
 }

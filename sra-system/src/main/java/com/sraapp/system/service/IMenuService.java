@@ -7,7 +7,9 @@ import com.sraapp.system.param.menu.MenuUpdateParam;
 import com.sraapp.system.vo.MenuVO;
 import org.sagacity.sqltoy.model.Page;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @date 2022-1-16 15:47:03
@@ -19,7 +21,7 @@ public interface IMenuService extends IBaseService<Page<MenuVO>, MenuPageParam, 
      * @param pageParam 分页参数
      * @return 分页结果集
      */
-    Page<MenuVO> listByTree(MenuPageParam pageParam);
+    Collection<MenuVO> listByTree(MenuPageParam pageParam);
 
     /**
      * 获取用户的所有菜单

@@ -1,39 +1,55 @@
 <template>
-  <!-- 采用element-ui常用布局：https://element-plus.gitee.io/zh-CN/component/container.html -->
-  <el-container style="height: 100%">
-    <!-- 导航 -->
-    <el-aside class="el-aside nav-bg" :width="store.state.isCollapseMenu ? '64px' : '220px'">
-      <NavMenu/>
-    </el-aside>
-    <el-container class="container-bg">
-      <!-- 头部 -->
-      <el-header>
-        <admin-header/>
-      </el-header>
-      <!-- 主体 -->
-      <el-main>
-          <router-view v-slot="{Component}">
-            <keep-alive>
-              <transition :name="`slide-fade`" :mode="`out-in`">
-                <component :is="Component"/>
-              </transition>
-            </keep-alive>
-          </router-view>
-      </el-main>
-    </el-container>
-  </el-container>
+  <admin-container
+      :l-width="store.state.isCollapseMenu ? '8%' : '18%'"
+      :r-width="store.state.isCollapseMenu ? '92%' : '82%'" >
+    <template #nav>
+      <el-scrollbar>
+        <el-aside class="aside el-aside" :width="store.state.isCollapseMenu ? '64px' : '90%'">
+          <NavMenu/>
+        </el-aside>
+      </el-scrollbar>
+    </template>
+
+    <template #header>
+      <admin-header/>
+    </template>
+
+    <template #main>
+      <div class="main">
+        <router-view v-slot="{Component}">
+          <keep-alive>
+            <transition :name="`slide-fade`" :mode="`out-in`">
+              <component :is="Component"/>
+            </transition>
+          </keep-alive>
+        </router-view>
+      </div>
+    </template>
+  </admin-container>
 </template>
 
 <script setup lang="ts">
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
 import {useStore} from "@/store";
+import AdminContainer from "@/components/container/AdminContainer.vue";
 
 const store = useStore();
 </script>
 
 <!--私有样式-->
 <style scoped>
+.aside {
+  border-radius: 4px;
+  margin: 1em;
+  box-shadow: var(--el-box-shadow);
+}
+
+.main {
+  box-shadow: var(--el-box-shadow-lighter);
+  padding: 1em;
+}
+
 .el-aside {
   overflow-x: hidden;
   transition: width 200ms;
@@ -46,32 +62,11 @@ const store = useStore();
 }
 
 .slide-fade-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 
 .slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
-}
-</style>
-
-<!--公有样式-->
-<style>
-.main-bg {
-  background: white;
-  padding: 1em;
-  border-radius: 3px;
-}
-
-.nav-bg {
-  background: white;
-}
-
-.container-bg {
-  background-color: white;
-}
-
-.nav-bg h3 {
-  color: #333333;
 }
 </style>

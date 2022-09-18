@@ -3,7 +3,7 @@ package com.sraapp.system.satoken;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import com.sraapp.common.enums.IsSomethingEnum;
-import com.sraapp.config.properties.DevEnableProperties;
+import com.sraapp.system.properties.DevEnableProperties;
 import com.sraapp.system.service.IMenuService;
 import com.sraapp.system.service.IRoleService;
 import com.sraapp.system.vo.MenuVO;

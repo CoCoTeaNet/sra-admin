@@ -30,7 +30,7 @@
                   max-height="700px">
           <el-table-column type="selection" width="55"/>
           <el-table-column prop="createBy" label="评论用户" width="200"/>
-          <el-table-column prop="content" label="评论内容" width="300"/>
+          <el-table-column prop="content" label="评论内容" width="400"/>
           <el-table-column prop="replyType" label="评论类型" width="100">
             <template #default="scope">
               <el-tag :type="getReplyType(scope.row.replyType, 0)">
@@ -41,7 +41,7 @@
           <el-table-column prop="createTime" label="评论时间" min-width="220"/>
           <el-table-column fixed="right" label="操作" width="240">
             <template #default="scope">
-              <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
+              <el-button plain size="small" type="danger" @click="onDelete(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -2,15 +2,15 @@
  * 菜单模型
  */
 interface MenuModel {
-    id: string,
+    id?: string,
     parentId?: string,
-    menuName: string,
-    menuType?: string,
+    menuName?: string,
+    menuType?: number,
     iconPath?: string,
     routerPath?: string,
-    menuStatus?: string,
-    isExternalLink?: string,
-    isMenu: string,
+    menuStatus?: number,
+    isExternalLink?: number,
+    isMenu?: number,
     sort?: number,
     permissionCode?: string,
     children?: MenuModel[]

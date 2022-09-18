@@ -62,6 +62,7 @@
         <el-table-column fixed="right" label="操作" width="240">
           <template #default="scope">
             <el-button link @click="onEdit(scope.row)">编辑</el-button>
+            <el-button link type="primary" @click="onExecute(scope.row)">执行</el-button>
             <el-button link type="danger" @click="onDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -85,12 +86,12 @@
 import TableManage from "@/components/container/TableManage.vue";
 import {nextTick, onMounted, ref} from "vue";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
-import {deleteBatch, listByPage} from "@/api/schedule/job-api";
+import {deleteBatch, listByPage, execute, queryProgress} from "@/api/schedule/job-api";
 import {ElMessage, ElMessageBox} from "element-plus/es";
 import AddJob from "@/views/system/manager/schedule/modules/AddJob.vue";
 
 const loading = ref<boolean>(true);
-const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {name:''}});
+const page = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {name: ''}});
 const tableData = ref();
 const total = ref<number>(0);
 const multipleSelection = ref<any[]>([]);
@@ -182,6 +183,19 @@ const onEdit = (row: JobModel) => {
   showAddDialog.value = true;
   editType.value = 'update';
   editRow.value = row;
+}
+
+const onExecute = (row: JobModel) => {
+  reqCommonFeedback(execute({id: row.id}), (data: any) => {
+    ElMessage({type: 'success', message: '开始执行任务'});
+    console.log("data", data)
+    const timer = setInterval(() => {
+      reqCommonFeedback(queryProgress({id: data}), () => {
+        ElMessage({type: 'success', message: '任务执行成功'});
+        clearInterval(timer);
+      })
+    }, 1000)
+  });
 }
 
 const onDelete = (id: string) => {

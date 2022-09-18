@@ -1,9 +1,10 @@
 package com.sraapp.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.sraapp.common.util.NamingConversionUtils;
-import com.sraapp.config.properties.DefaultProperties;
-import com.sraapp.config.properties.DevEnableProperties;
 import com.sraapp.system.param.generator.TablePageParam;
+import com.sraapp.system.properties.DefaultProperties;
+import com.sraapp.system.properties.DevEnableProperties;
 import com.sraapp.system.service.ICodeGeneratorService;
 import com.sraapp.system.vo.TableColVO;
 import com.sraapp.system.vo.TableVO;
@@ -29,16 +30,18 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
     private DefaultProperties defaultProperties;
 
     @Override
-    public Map<String, Object> getEntityCode(String tableName) {
+    public Map<String, Object> getEntityCode(String dbName, String tableName) {
+        String db = StrUtil.isEmpty(dbName) ? defaultProperties.getDbName() : dbName;
         // 获取表信息
-        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s' and TABLE_SCHEMA='%s'", tableName, defaultProperties.getDbName());
+        String sql = String.format("select * from information_schema.TABLES where TABLE_NAME = '%s' and TABLE_SCHEMA='%s'", tableName, db);
         TableVO tableVO = sqlToyLazyDao.loadBySql(sql, new TableVO());
         tableVO.setJavaClassName(NamingConversionUtils.underlineToHump(tableVO.getTableName(), 1));
         Map<String, Object> objectMap = new HashMap<>(10);
         // 获取表字段信息
-        sql = String.format("select * from information_schema.COLUMNS where TABLE_NAME = '%s' and TABLE_SCHEMA = '%s'", tableName, defaultProperties.getDbName());
+        sql = String.format("select * from information_schema.COLUMNS where TABLE_NAME = '%s' and TABLE_SCHEMA = '%s'", tableName, db);
         List<TableColVO> colList = sqlToyLazyDao.findBySql(sql, new TableColVO());
         colList.forEach(item -> {
+            item.setTsDataType(NamingConversionUtils.dbDataTypeToTs(item.getDataType()));
             item.setJavaColName(NamingConversionUtils.underlineToHump(item.getColumnName(), 0));
             item.setJavaColNameBigHump(NamingConversionUtils.underlineToHump(item.getColumnName(), 1));
             item.setJavaDataType(NamingConversionUtils.dbDataTypeToJava(item.getDataType()));
@@ -53,7 +56,10 @@ public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
 
     @Override
     public Page<TableVO> findTablesByPage(TablePageParam param) {
-        String sql = String.format("select * from information_schema.TABLES where TABLE_SCHEMA = '%s' #[and TABLE_NAME like :tableName]", defaultProperties.getDbName());
+        if (StrUtil.isBlank(param.getTableVO().getDbName())) {
+            param.getTableVO().setDbName(defaultProperties.getDbName());
+        }
+        String sql = "select * from information_schema.TABLES where #[and TABLE_SCHEMA = :dbName] #[and TABLE_NAME like :tableName]";
         return sqlToyLazyDao.findPageBySql(param, sql, param.getTableVO());
     }
 

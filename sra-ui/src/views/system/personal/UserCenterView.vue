@@ -1,6 +1,6 @@
 <template>
   <el-space style="width: 100%" direction="vertical" alignment="stretch">
-    <el-card class="box-card">
+    <el-card shadow="never">
       <el-descriptions title="个人信息" :column="3" border>
         <el-descriptions-item>
           <template #label>
@@ -94,7 +94,7 @@
     </el-card>
 
     <!-- 用户表单 -->
-    <el-card>
+    <el-card shadow="never">
       <template #header>
         <div class="card-header">
           <span>更新资料</span>

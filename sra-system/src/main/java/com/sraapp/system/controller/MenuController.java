@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @date 2022-1-16 15:37:26
@@ -58,8 +60,8 @@ public class MenuController {
 
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTree")
-    public ApiResult<Page<MenuVO>> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
-        Page<MenuVO> menus = menuService.listByTree(pageParam);
+    public ApiResult<?> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
+        Collection<MenuVO> menus = menuService.listByTree(pageParam);
         return ApiResult.ok(menus);
     }
 
