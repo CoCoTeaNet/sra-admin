@@ -1,5 +1,6 @@
 package com.sraapp.schedule.jobs;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sraapp.schedule.IBaseJob;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class ContentSpider implements IBaseJob {
         logger.info("任务执行,time={}", System.currentTimeMillis());
     }
 
-    public void test() {
-        logger.info("exec test.");
+    public void test(JSONObject param) {
+        logger.info("exec test.param={}", param);
     }
 }

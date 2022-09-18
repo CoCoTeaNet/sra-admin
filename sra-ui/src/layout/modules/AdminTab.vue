@@ -10,14 +10,13 @@
 
       <el-dropdown>
         <span class="el-dropdown-link">
-          更多
           <el-icon class="el-icon--right">
             <arrow-down/>
           </el-icon>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="refresh">刷新</el-dropdown-item>
+            <el-dropdown-item @click="refresh">刷新页面</el-dropdown-item>
             <el-dropdown-item @click="onCloseAll">关闭所有</el-dropdown-item>
           </el-dropdown-menu>
         </template>
