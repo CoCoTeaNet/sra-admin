@@ -6,7 +6,16 @@
     <sql id="schedule_scheduleJobLog_findByPageParam">
         <value>
             <![CDATA[
-                select ID, JOB_ID, TRIGGER_TIME, TRIGGER_BY, EXE_RESULT, SPEND_TIME_MILLIS, FINISH_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME
+                select ID,
+                       JOB_ID,
+                       TRIGGER_TIME,
+                       EXE_RESULT,
+                       SPEND_TIME_MILLIS,
+                       FINISH_TIME,
+                       CREATE_TIME,
+                       UPDATE_TIME,
+                       (select USERNAME from sys_user where sys_user.ID = sche_job_log.CREATE_BY) as createBy,
+                       (select USERNAME from sys_user where sys_user.ID = sche_job_log.TRIGGER_BY) as triggerBy
                 from sche_job_log
                 where DELETE_STATUS = 1
                 #[and JOB_ID = :jobId]

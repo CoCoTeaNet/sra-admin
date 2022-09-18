@@ -41,6 +41,14 @@ export function removeTabItem(id: string) {
         if (item.id != id) arr.push(item);
     });
     store.state.tabItems = arr;
+    // 激活最后一项
+    if (arr.length > 0) {
+        let activeTab = arr[arr.length - 1];
+        activeTab.isActive = true;
+        router.push({path: activeTab.url ? activeTab.url : ''}).then(r => console.log(r));
+    } else {
+        initTabItems();
+    }
 }
 
 export function addTabItem(tab: TabItem) {
