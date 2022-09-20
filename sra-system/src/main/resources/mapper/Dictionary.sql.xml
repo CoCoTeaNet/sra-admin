@@ -8,12 +8,11 @@
         <value>
             <![CDATA[
                 select ID, PARENT_ID, DICTIONARY_NAME, REMARK, SORT, ENABLE_STATUS from sys_dictionary
-                where
+                where DELETE_STATUS = 1
                 #[and ID = :id]
                 #[and PARENT_ID = :parentId]
                 #[and DICTIONARY_NAME = :dictionaryName]
                 #[and ENABLE_STATUS = :enableStatus]
-                and DELETE_STATUS = 1
 			]]>
         </value>
     </sql>
@@ -25,10 +24,9 @@
                 select sd.ID, sd.PARENT_ID, sd.DICTIONARY_NAME, sd.REMARK, sd.SORT, sd.ENABLE_STATUS, su.NICKNAME
                 from sys_dictionary sd
                 left join sys_user su on su.ID = sd.CREATE_BY
-                where
+                where sd.DELETE_STATUS = 1
                 #[and sd.ENABLE_STATUS = :enableStatus]
                 #[and sd.DICTIONARY_NAME like :dictionaryName]
-                and sd.DELETE_STATUS = 1
                 order by sd.SORT
 			]]>
         </value>

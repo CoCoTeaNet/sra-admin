@@ -10,7 +10,7 @@
                 select sol.*, su.NICKNAME as operatorName
                 from sys_operation_log sol
                 left join sys_user su on su.ID = sol.OPERATOR
-                where
+                where 1=1
                 #[and sol.LOG_NUMBER = :logNumber]
                 #[and su.NICKNAME like :operatorName]
                 order by sol.OPERATION_TIME desc
