@@ -75,9 +75,8 @@
                 	sys_menu.ICON_PATH
                 FROM
                 	sys_menu
-                WHERE
+                WHERE DELETE_STATUS = 1
                     #[ID in (select MENU_ID from sys_role_menu where ROLE_ID=:roleId)]
-                	and DELETE_STATUS = 1
                 ORDER BY SORT
 			]]>
         </value>
