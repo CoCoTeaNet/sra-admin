@@ -20,15 +20,12 @@ public class ScheduleContext {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleContext.class);
     private static final int EXEC_RESULT_SUCCESS = 1;
     private static final int EXEC_RESULT_FAILURE = 0;
-
     private final IScheduleJobRegistryService scheduleJobRegistryService;
     private final IScheduleJobLogService scheduleJobLogService;
     private StopWatch stopWatch;
     private Date triggerTime;
     private ScheduleJob job;
     private String operator;
-    private boolean started = false;
-    private boolean finished = false;
 
     public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, IScheduleJobLogService scheduleJobLogService, ScheduleJob job, String operator) {
         this.scheduleJobRegistryService = scheduleJobRegistryService;
@@ -38,12 +35,6 @@ public class ScheduleContext {
     }
 
     public void start() {
-        synchronized (this) {
-            if (started) {
-                throw new RuntimeException("非法操作，同一个上下文不能被多个任务持有...");
-            }
-            started = true;
-        }
         triggerTime = new Date();
         stopWatch = new StopWatch();
         stopWatch.start(job.getName());
@@ -58,12 +49,6 @@ public class ScheduleContext {
     }
 
     private void log(int result) {
-        synchronized (this) {
-            if (finished) {
-                throw new RuntimeException("非法操作，同一个上下文不能被多个任务持有...");
-            }
-            finished = true;
-        }
         stopWatch.stop();
         logger.info("计划任务: {} 执行耗时: {}ms", job.getName(), stopWatch.getLastTaskTimeMillis());
         try {
