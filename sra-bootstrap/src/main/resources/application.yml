@@ -21,6 +21,8 @@ sra:
       - /upload/**
       - /codeGenerator/**
       - /schedule/**
+      # 内容管理
+      - /cmsPage/**
 
 # Sa-Token 配置
 sa-token:
