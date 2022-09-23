@@ -149,22 +149,17 @@ public class ScheduleJobRunnable implements Runnable {
                 } else if (String.class == type) {
                     parameterObjects[0] = parametersString;
                 } else {
-                    parseParameters(parameterObjects, parameters, jsonObject);
+                    parameterObjects[0] = JSON.parseObject(parametersString, type);
                 }
             } else {
-                parseParameters(parameterObjects, parameters, jsonObject);
+                String[] parameterNames = DISCOVERER.getParameterNames(method);
+                for (int i = 0; i < parameters.length; i++) {
+                    Parameter parameter = parameters[i];
+                    Object object = jsonObject.getObject(parameterNames[i], parameter.getType());
+                    parameterObjects[i] = object;
+                }
             }
         }
-        // 如果是非json字符串怎么办呢？抛出吧
         method.invoke(instance, parameterObjects);
-    }
-
-    private void parseParameters(Object[] parameterObjects, Parameter[] parameters, JSONObject jsonObject) {
-        String[] parameterNames = DISCOVERER.getParameterNames(method);
-        for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
-            Object object = jsonObject.getObject(parameterNames[i], parameter.getType());
-            parameterObjects[i] = object;
-        }
     }
 }
