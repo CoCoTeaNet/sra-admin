@@ -83,16 +83,22 @@ const onCancel = () => emit('update:show', false);
 const onConfirm = (formEl: FormInstance) => {
   formEl.validate((valid: boolean) => {
     if (valid) {
-      if (props.editType === 'create') {
-        reqSuccessFeedback(add(dataForm.value), "添加成功",() => {
-          emit('update:show', false);
-          emit('onConfirm');
-        });
-      } else if (props.editType === 'update') {
-        reqSuccessFeedback(update(dataForm.value), "修改成功",() => {
-          emit('update:show', false);
-          emit('onConfirm');
-        });
+      try {
+        let parameters = eval(`(${dataForm.value.parameters})`);
+        dataForm.value.parameters = JSON.stringify(parameters);
+        if (props.editType === 'create') {
+          reqSuccessFeedback(add(dataForm.value), "添加成功",() => {
+            emit('update:show', false);
+            emit('onConfirm');
+          });
+        } else if (props.editType === 'update') {
+          reqSuccessFeedback(update(dataForm.value), "修改成功",() => {
+            emit('update:show', false);
+            emit('onConfirm');
+          });
+        }
+      } catch(e) {
+        ElMessage({type: 'error', message: '参数为非JSON格式，请检查'});
       }
     }
   });

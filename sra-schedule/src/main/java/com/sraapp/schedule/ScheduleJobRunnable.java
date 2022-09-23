@@ -141,14 +141,30 @@ public class ScheduleJobRunnable implements Runnable {
         Object[] parameterObjects = new Object[parameters.length];
         try (JSONValidator jsonValidator = JSONValidator.from(parametersString)) {
             JSONObject jsonObject = JSON.parseObject(parametersString);
-            String[] parameterNames = DISCOVERER.getParameterNames(method);
-            for (int i = 0; i < parameters.length; i++) {
-                Parameter parameter = parameters[i];
-                Object object = jsonObject.getObject(parameterNames[i], parameter.getType());
-                parameterObjects[i] = object;
+            if (parameters.length == 1) {
+                Parameter theParam = parameters[0];
+                Class<?> type = theParam.getType();
+                if (Map.class == type) {
+                    parameterObjects[0] = jsonObject;
+                } else if (String.class == type) {
+                    parameterObjects[0] = parametersString;
+                } else {
+                    parseParameters(parameterObjects, parameters, jsonObject);
+                }
+            } else {
+                parseParameters(parameterObjects, parameters, jsonObject);
             }
         }
         // 如果是非json字符串怎么办呢？抛出吧
         method.invoke(instance, parameterObjects);
+    }
+
+    private void parseParameters(Object[] parameterObjects, Parameter[] parameters, JSONObject jsonObject) {
+        String[] parameterNames = DISCOVERER.getParameterNames(method);
+        for (int i = 0; i < parameters.length; i++) {
+            Parameter parameter = parameters[i];
+            Object object = jsonObject.getObject(parameterNames[i], parameter.getType());
+            parameterObjects[i] = object;
+        }
     }
 }

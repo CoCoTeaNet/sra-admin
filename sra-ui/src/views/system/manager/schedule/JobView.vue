@@ -188,7 +188,6 @@ const onEdit = (row: JobModel) => {
 const onExecute = (row: JobModel) => {
   reqCommonFeedback(execute({id: row.id}), (data: any) => {
     ElMessage({type: 'success', message: '开始执行任务'});
-    console.log("data", data)
     const timer = setInterval(() => {
       reqCommonFeedback(queryProgress({id: data}), () => {
         ElMessage({type: 'success', message: '任务执行成功'});
