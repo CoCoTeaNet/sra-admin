@@ -21,17 +21,17 @@ public class ScheduleContext {
     private static final int EXEC_RESULT_SUCCESS = 1;
     private static final int EXEC_RESULT_FAILURE = 0;
     private final IScheduleJobRegistryService scheduleJobRegistryService;
-    private final IScheduleJobLogService scheduleJobLogService;
     private StopWatch stopWatch;
     private Date triggerTime;
     private ScheduleJob job;
     private String operator;
+    private String key;
 
-    public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, IScheduleJobLogService scheduleJobLogService, ScheduleJob job, String operator) {
+    public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, ScheduleJob job, String operator, String key) {
         this.scheduleJobRegistryService = scheduleJobRegistryService;
-        this.scheduleJobLogService = scheduleJobLogService;
         this.job = job;
         this.operator = operator;
+        this.key = key;
     }
 
     public void start() {
@@ -51,17 +51,13 @@ public class ScheduleContext {
     private void log(int result) {
         stopWatch.stop();
         logger.info("计划任务: {} 执行耗时: {}ms", job.getName(), stopWatch.getLastTaskTimeMillis());
-        try {
-            ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
-                    .setJobId(job.getId())
-                    .setExeResult(result)
-                    .setTriggerBy(operator)
-                    .setTriggerTime(triggerTime)
-                    .setFinishTime(new Date())
-                    .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
-            scheduleJobLogService.add(param);
-        } catch (BusinessException e) {
-            throw new RuntimeException(e);
-        }
+        ScheduleJobLogAddParam param = new ScheduleJobLogAddParam()
+                .setJobId(job.getId())
+                .setExeResult(result)
+                .setTriggerBy(operator)
+                .setTriggerTime(triggerTime)
+                .setFinishTime(new Date())
+                .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
+        scheduleJobRegistryService.finish(key, param);
     }
 }
