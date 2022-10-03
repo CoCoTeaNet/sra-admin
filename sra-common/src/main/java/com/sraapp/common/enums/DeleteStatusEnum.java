@@ -8,7 +8,7 @@ public enum DeleteStatusEnum {
     /**
      * 删除
      */
-    DELETE(0, "删除"),
+    DELETE(0, "已删除"),
     /**
      * 未删除
      */

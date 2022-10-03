@@ -1,6 +1,8 @@
 package com.sraapp.common.enums;
 
 /**
+ * 常用枚举之是否枚举
+ *
  * @date 2022-1-26 10:51:23
  * @author jwss
  */
@@ -8,11 +10,11 @@ public enum IsSomethingEnum {
     /**
      * 是
      */
-    YSE(0, "是"),
+    N(0, "否"),
     /**
      * 否
      */
-    NO(1, "否");
+    Y(1, "是");
 
     final Integer code;
     final String desc;

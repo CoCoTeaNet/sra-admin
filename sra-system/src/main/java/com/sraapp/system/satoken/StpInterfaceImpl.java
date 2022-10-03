@@ -36,7 +36,7 @@ public class StpInterfaceImpl implements StpInterface {
         List<String> list;
         // 1关闭了缓存 2缓存失效了 3有缓存
         if (!devEnableProperties.getPermissionCache()) {
-            List<MenuVO> menuList = menuService.listByUserId(IsSomethingEnum.NO.getCode());
+            List<MenuVO> menuList = menuService.listByUserId(IsSomethingEnum.N.getCode());
             list = new ArrayList<>(menuList.size());
             menuList.forEach(item -> list.add(item.getPermissionCode()));
         } else if (cachePermissionList == null) {

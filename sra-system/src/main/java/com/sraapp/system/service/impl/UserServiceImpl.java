@@ -148,7 +148,7 @@ public class UserServiceImpl implements IUserService {
         sqlToyLazyDao.update(loginUser);
         // 返回用户登录信息
         LoginUserVO loginUserVO = new LoginUserVO();
-        loginUserVO.setMenuList(new ArrayList<>(dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.YSE.getCode())).values()));
+        loginUserVO.setMenuList(new ArrayList<>(dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.Y.getCode())).values()));
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());
         loginUserVO.setId(user.getId());
