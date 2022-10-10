@@ -4,12 +4,10 @@
            :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu">
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
-      <div style="display: flex;align-items: center">
-        <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
-        <h3 style="overflow: hidden;white-space: nowrap;">
-          SRA后台管理系统
-        </h3>
-      </div>
+      <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
+      <h2 style="overflow: hidden;white-space: nowrap;">
+        SRA后台管理系统
+      </h2>
     </div>
     <img v-else :src="require('@/assets/logo.png')" style="width: 100%;cursor: pointer" alt="logo">
     <!-- 顶级菜单 -->
@@ -141,7 +139,7 @@ const onClickMenu = (item: any) => {
 <style scoped lang="css">
 .logo {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 

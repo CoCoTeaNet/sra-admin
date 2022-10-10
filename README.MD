@@ -1,4 +1,4 @@
-﻿### 当前版本V1.1.0
+﻿### 当前版本V1.1.1
 
 #### 🍬 介绍
 
@@ -54,7 +54,7 @@ $ npm run build || yarn build       #生产环境
 
 * 访问地址
 
-1. 后端接口文档：http://localhost:9000/doc.html
+1. 测试后端接口：http://localhost:9000/test/index
 2. 前端登录地址：http://localhost:8080/#/login
 
 * 备注
@@ -94,7 +94,7 @@ $ npm run build || yarn build       #生产环境
 #### 🖥️ 软件版本要求
 
 - MySQL：8.0及以上
-- JDK：jdk8及以上
+- JDK：jdk8+
 - Nodejs：14.0及以上
 
 #### 🍫 参与贡献
@@ -105,3 +105,4 @@ $ npm run build || yarn build       #生产环境
 4. 新建 Pull Request
 
 - [贡献指南](https://gitee.com/gitee-community/opensource-guide/blob/master/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97.md)
+- 如有更好的想法，欢迎提[issue](https://gitee.com/momoljw/sss-rbac-admin/issues)

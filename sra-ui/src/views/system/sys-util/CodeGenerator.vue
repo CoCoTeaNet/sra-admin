@@ -36,10 +36,10 @@
     </template>
 
     <template #form>
-      <el-dialog v-model="dialogVisible" width="80%;" style="height: 75%;text-align: center" title="在线预览代码">
+      <el-dialog v-model="dialogVisible" title="预览代码">
         <div v-if="dialogVisible">
           <el-scrollbar style="width: 100%;height: 640px;overflow: auto">
-            <highlightjs :code="codeSrc" language="java" style="border-radius: 3px;"></highlightjs>
+            <highlightjs :code="codeSrc" :language="language" style="border-radius: 3px;"></highlightjs>
           </el-scrollbar>
         </div>
       </el-dialog>
@@ -63,6 +63,7 @@ const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchKey: '', search
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
 //代码页面
 const codeSrc = ref<string>('');
+const language = ref<string>('java');
 
 onMounted(() => {
   initTableList();
@@ -98,6 +99,7 @@ const initTableList = () => {
  * @param type
  */
 const preview = (row: any, type: number) => {
+  language.value = type === 0 ? 'java' : 'typescript';
   dialogVisible.value = true;
   let param = {tableName: row.tableName, dbName: pageParam.value.searchObject.dbName, type: type};
   reqCommonFeedback(getByTableName(param), (data: any) => {
