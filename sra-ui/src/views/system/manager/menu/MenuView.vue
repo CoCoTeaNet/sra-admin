@@ -244,7 +244,7 @@ const loadTableData = (): void => {
 }
 
 const doUpdate = (formEl: any): void => {
-  editForm.value.isMenu = 0;
+  editForm.value.isMenu = 1;
   formEl.validate((valid: any) => {
     if (valid) {
       if (!editForm.value.id) {
