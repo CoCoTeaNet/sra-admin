@@ -1,6 +1,7 @@
 package com.sraapp.schedule.service;
 
 import com.sraapp.schedule.entity.ScheduleJob;
+import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 
 import java.util.List;
 
@@ -46,4 +47,11 @@ public interface IScheduleJobRegistryService {
      * @return 是否正在执行
      */
     boolean isRunning(String id);
+
+    /**
+     * 任务完成回调
+     *
+     * @param key 执行的任务的Key
+     */
+    void finish(String key, ScheduleJobLogAddParam param);
 }

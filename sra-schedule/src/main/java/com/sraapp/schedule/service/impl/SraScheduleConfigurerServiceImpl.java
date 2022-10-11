@@ -3,8 +3,11 @@ package com.sraapp.schedule.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.sraapp.common.model.BusinessException;
+import com.sraapp.schedule.ScheduleContext;
 import com.sraapp.schedule.ScheduleJobRunnable;
 import com.sraapp.schedule.entity.ScheduleJob;
+import com.sraapp.schedule.param.ScheduleJobLogAddParam;
 import com.sraapp.schedule.service.IScheduleJobLogService;
 import com.sraapp.schedule.service.IScheduleJobRegistryService;
 import com.sraapp.schedule.service.IScheduleJobService;
@@ -37,6 +40,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Set<String>> RUNNING_MAP = new ConcurrentHashMap<>();
     @Resource
     private IScheduleJobService scheduleJobService;
     @Resource
@@ -154,7 +158,21 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
 
     @Override
     public boolean isRunning(String id) {
-        return RUNNING_JOB.containsKey(id) && (!RUNNING_JOB.get(id).isDone() || !RUNNING_JOB.get(id).isCancelled());
+        return RUNNING_JOB.containsKey(id)
+                && (!RUNNING_JOB.get(id).isDone() || !RUNNING_JOB.get(id).isCancelled());
+    }
+
+    @Override
+    public void finish(String key, ScheduleJobLogAddParam param) {
+        Future<?> future = RUNNING_JOB.get(key);
+        if (future.isDone() || future.isCancelled()) {
+            RUNNING_JOB.remove(key);
+        }
+        try {
+            scheduleJobLogService.add(param);
+        } catch (BusinessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PreDestroy
@@ -164,6 +182,10 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     }
 
     private ScheduleJobRunnable wrapRunnableJob(ScheduleJob scheduleJob) {
+        return wrapRunnableJob(scheduleJob, scheduleJob.getId());
+    }
+
+    private ScheduleJobRunnable wrapRunnableJob(ScheduleJob scheduleJob, String key) {
         try {
             String loginId = "";
             try {
@@ -172,10 +194,10 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 }
             } catch (Exception ignore) {
             }
-            return new ScheduleJobRunnable(scheduleJobLogService, scheduleJob, loginId);
+            ScheduleContext context = new ScheduleContext(this, scheduleJob, loginId, key);
+            return new ScheduleJobRunnable(context, scheduleJob);
         } catch (Exception e) {
             logger.error("加载任务时出现异常", e);
-            e.printStackTrace();
             return null;
         }
     }

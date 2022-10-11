@@ -118,7 +118,7 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public List<MenuVO> cachePermission(String userId) {
         // 缓存权限
-        List<MenuVO> permissions = listByUserId(IsSomethingEnum.NO.getCode());
+        List<MenuVO> permissions = listByUserId(IsSomethingEnum.N.getCode());
         redisService.save(String.format(RedisKey.USER_PERMISSION, userId), JSONUtil.toJsonStr(permissions), 3600 * 24L);
         return permissions;
     }

@@ -21,6 +21,12 @@ sra:
       - /upload/**
       - /codeGenerator/**
       - /schedule/**
+      # 内容管理
+      - /cmsPage/**
+      - /bootstrap-5.1.3/**
+      - /default/**
+      - /css/**
+      - /js/**
 
 # Sa-Token 配置
 sa-token:

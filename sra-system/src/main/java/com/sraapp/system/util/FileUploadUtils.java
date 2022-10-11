@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * 文件上传工具类
@@ -39,7 +41,7 @@ public class FileUploadUtils {
             if (!tempFile.exists()) {
                 boolean mkdirs = tempFile.mkdirs();
             }
-            os = new FileOutputStream(tempFile.getPath() + File.separator + filename);
+            os = Files.newOutputStream(Paths.get(tempFile.getPath() + File.separator + filename));
             // 开始读取
             while ((len = inputStream.read(bs)) != -1) {
                 os.write(bs, 0, len);

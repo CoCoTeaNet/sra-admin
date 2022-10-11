@@ -4,24 +4,12 @@
            :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu">
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
-      <div style="display: flex;align-items: center">
-        <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
-        <h3 style="overflow: hidden;white-space: nowrap;">
-          SRA后台管理系统
-        </h3>
-      </div>
-      <el-button link @click="setCollapseMenu">
-        <template #icon>
-          <el-icon class="mouse-over right-item" :size="24">
-            <expand v-if="store.state.isCollapseMenu"/>
-            <fold v-else/>
-          </el-icon>
-        </template>
-      </el-button>
+      <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
+      <h2 style="overflow: hidden;white-space: nowrap;">
+        SRA后台管理系统
+      </h2>
     </div>
-    <img v-else :src="require('@/assets/logo.png')" style="width: 100%;cursor: pointer" alt="logo"
-         @click="setCollapseMenu">
-
+    <img v-else :src="require('@/assets/logo.png')" style="width: 100%;cursor: pointer" alt="logo">
     <!-- 顶级菜单 -->
     <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
       <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="`${index}`">
@@ -75,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import {useStore, setCollapseMenu} from "@/store";
+import {useStore} from "@/store";
 import {useRoute} from "vue-router";
 import {computed} from "vue";
 import {addTabItem} from "@/store";
@@ -151,7 +139,7 @@ const onClickMenu = (item: any) => {
 <style scoped lang="css">
 .logo {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 

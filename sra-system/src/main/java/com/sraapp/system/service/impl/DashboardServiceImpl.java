@@ -49,7 +49,7 @@ public class DashboardServiceImpl implements IDashboardService {
         hashMap.put("count", countUser);
         mapList.add(hashMap);
 
-        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + IsSomethingEnum.YSE.getCode();
+        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + IsSomethingEnum.Y.getCode();
         Long countMenu = sqlToyLazyDao.getCount(menuSql, null);
         hashMap=new HashMap<>(2);
         hashMap.put("title", "菜单数量");

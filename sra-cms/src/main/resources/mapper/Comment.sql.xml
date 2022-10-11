@@ -9,7 +9,7 @@
             <![CDATA[
                 select ID, PARENT_ID, REPLY_USER_ID, CONTENT, REPLY_TYPE, CREATE_BY, CREATE_TIME
                 from cms_comment
-                where
+                where DELETE_STATUS = 1
                 #[and ID = :id]
                 #[and CREATE_BY = :createBy]
                 #[and UPDATE_BY = :updateBy]
@@ -17,7 +17,6 @@
                 #[and REPLY_USER_ID = :replyUserId]
                 #[and PARENT_ID = :parentId]
                 #[and ARTICLE_ID = :articleId]
-                and DELETE_STATUS = 1
                 order by CREATE_TIME desc, UPDATE_TIME desc
 			]]>
         </value>
@@ -28,7 +27,7 @@
             <![CDATA[
                 select ID, PARENT_ID, REPLY_USER_ID, CONTENT, REPLY_TYPE, CREATE_BY, CREATE_TIME
                 from cms_comment
-                where
+                where DELETE_STATUS = 1
                 #[and ID = :id]
                 #[and CREATE_BY like :createBy]
                 #[and UPDATE_BY = :updateBy]
@@ -38,7 +37,6 @@
                 #[and CONTENT like :content]
                 #[and CREATE_TIME >= :beginTime]
                 #[and CREATE_TIME < :endTime]
-                and DELETE_STATUS = 1
                 order by CREATE_TIME desc, UPDATE_TIME desc
 			]]>
         </value>

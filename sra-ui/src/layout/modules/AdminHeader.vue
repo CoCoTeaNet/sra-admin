@@ -1,9 +1,16 @@
 <template>
   <el-row align="middle" class="header-row">
-    <el-col :span="20">
-      <!--<admin-breadcrumb/>-->
-      <admin-tab/>
+    <el-col :span="1">
+      <el-button link @click="setCollapseMenu">
+        <template #icon>
+          <el-icon class="mouse-over right-item" :size="24">
+            <expand v-if="store.state.isCollapseMenu"/>
+            <fold v-else/>
+          </el-icon>
+        </template>
+      </el-button>
     </el-col>
+    <el-col :span="19"> <admin-tab/> </el-col>
     <!-- 用户信息 -->
     <el-col :span="4">
       <el-row :gutter="10" justify="end" align="bottom">
@@ -31,8 +38,7 @@
 import {router} from "@/router";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {logout} from "@/api/system/user-api";
-import {setUserInfo, useStore} from "@/store";
-import AdminBreadcrumb from "@/layout/modules/AdminBreadcrumb.vue";
+import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 
 const store = useStore();
