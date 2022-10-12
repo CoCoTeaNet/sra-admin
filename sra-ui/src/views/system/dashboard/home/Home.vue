@@ -26,9 +26,20 @@
         <el-card shadow="never">
 
 
-          <el-collapse accordion :model-value="'4'">
+          <el-collapse accordion :model-value="'6'">
+            <!-- v1.1.2 -->
+            <el-collapse-item title="v1.1.2" name="6">
+              <p>版本v1.1.2</p>
+              <div>
+                <ul>
+                  <li>1. 修复文件上传XSS安全漏洞.</li>
+                  <li>2. 增加图片上传格式限制.</li>
+                </ul>
+              </div>
+            </el-collapse-item>
+
             <!-- v1.1.1 -->
-            <el-collapse-item title="v1.1.1" name="4">
+            <el-collapse-item title="v1.1.1" name="5">
               <p>版本v1.1.1</p>
               <div>
                 <ul>
