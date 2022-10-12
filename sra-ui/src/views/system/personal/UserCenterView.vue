@@ -149,12 +149,13 @@
 
 <script setup lang="ts">
 import {onMounted, reactive, ref} from "vue";
-import type {FormInstance} from 'element-plus';
+import type {FormInstance, UploadRawFile} from 'element-plus';
 import {Lock} from "@element-plus/icons-vue";
 import {getDetail, update} from "@/api/system/user-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {RULE_MOBILE, RULE_EMAIL} from "@/utils/rules-util";
 import {updateUserInfo} from "@/store";
+import {ElMessage} from "element-plus";
 
 const validatePhone = (rule: any, value: any, callback: any) => {
   if (!RULE_MOBILE.test(value)) {
@@ -228,9 +229,16 @@ const handleAvatarSuccess = (resp: any) => {
 }
 
 /**
- * todo 头像上传前校验
+ * 头像上传前校验
  */
-const beforeAvatarUpload = () => {
+const beforeAvatarUpload = (rawFile: UploadRawFile) => {
+  console.log(rawFile.type)
+  if (rawFile.type === 'image/jpeg' || rawFile.type === 'image/png' || rawFile.type === 'image/jpg') {
+    return true;
+  } else {
+    ElMessage.error('不支持的图片类型');
+    return false;
+  }
 }
 </script>
 
