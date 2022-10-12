@@ -18,8 +18,10 @@ sra:
     strong-password: srapwd
     # 文件上传地址
   file-upload:
+    # 禁止上传的文件
+    not-support-file-type: js,html,css,java,sh,bat
     local-url: F:/server/file/
-    browser-url: /upload/
+    browser-url: /download/
 
 spring:
   sqltoy:
@@ -33,7 +35,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://106.52.139.93:3306/DB_SRA_V1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
-    password: root
+    password: JwssZxc123..
     druid:
       initial-size: 5
       min-idle: 5
