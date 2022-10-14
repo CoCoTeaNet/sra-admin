@@ -7,7 +7,7 @@
     <groupId>com.sra-app</groupId>
     <artifactId>admin-system</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <modules>
         <module>sra-bootstrap</module>
@@ -22,11 +22,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 内部模块版本 -->
-        <sra.version>1.1.1</sra.version>
+        <sra.version>1.1.2</sra.version>
         <!-- 外部框架版本 -->
-        <spring-boot-starter.version>2.6.2</spring-boot-starter.version>
+        <spring-boot-starter.version>2.7.4</spring-boot-starter.version>
         <sqltoy.version>5.1.23</sqltoy.version>
-        <mysql-connector.version>8.0.28</mysql-connector.version>
+        <mysql-connector.version>8.0.30</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.31.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>

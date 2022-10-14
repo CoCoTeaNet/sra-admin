@@ -34,6 +34,8 @@
                 <ul>
                   <li>1. 修复文件上传XSS安全漏洞.</li>
                   <li>2. 增加图片上传格式限制.</li>
+                  <li>3. 升级springboot到2.7.4版本</li>
+                  <li>4. 升级mysql连接器到8.0.30版本</li>
                 </ul>
               </div>
             </el-collapse-item>
