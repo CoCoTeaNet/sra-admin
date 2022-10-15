@@ -7,6 +7,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 文件上传工具类
@@ -15,21 +17,21 @@ import java.nio.file.Paths;
  * @date 2022-4-9 23:34:04
  */
 public class FileUploadUtils {
-
     /**
      * 保存上传文件
      *
      * @param multipartFile MultipartFile.class
      * @param targetUrl     本地存放文件
-     * @return 文件名称
+     * @return 文件Map：filename文件名 fileType文件类型
      */
-    public static String saveMultipartFile(MultipartFile multipartFile, String targetUrl) {
+    public static Map<String, Object> saveMultipartFile(MultipartFile multipartFile, String targetUrl) {
         OutputStream os = null;
         InputStream inputStream = null;
         String originalFilename = multipartFile.getOriginalFilename();
         assert originalFilename != null;
         String[] split = originalFilename.split("\\.");
-        String filename = DigestUtils.md5DigestAsHex((split[0] + System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8)) + "." + split[1];
+        String fileType = split[split.length-1];
+        String filename = DigestUtils.md5DigestAsHex((split[0] + System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8)) + "." + fileType;
         try {
             inputStream = multipartFile.getInputStream();
             // 1K的数据缓冲
@@ -58,7 +60,10 @@ public class FileUploadUtils {
                 e.printStackTrace();
             }
         }
-        return filename;
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("filename", filename);
+        map.put("fileType", fileType);
+        return map;
     }
 
     /**
@@ -83,4 +88,8 @@ public class FileUploadUtils {
         return file;
     }
 
+    public static String saveFile(MultipartFile multipartFile, String targetUrl) {
+        Map<String, Object> map = saveMultipartFile(multipartFile, targetUrl);
+        return map.get("filename") == null ? "" : map.get("filename").toString();
+    }
 }

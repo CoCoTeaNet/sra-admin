@@ -18,8 +18,10 @@ sra:
     strong-password: srapwd
     # 文件上传地址
   file-upload:
+    # 禁止上传的文件
+    not-support-file-type: js,html,htm,shtml,php,css,java,sh,bat,xml
     local-url: F:/server/file/
-    browser-url: /upload/
+    browser-url: /download/
 
 spring:
   sqltoy:

@@ -14,8 +14,9 @@ sra:
     strong-password: srapwd
     # 文件上传地址
   file-upload:
+    not-support-file-type: js,html,htm,shtml,php,css,java,sh,bat,xml
     local-url: /home/lighthouse/server/spring-boot/upload/
-    browser-url: /upload/
+    browser-url: /download/
 
 spring:
   sqltoy:

@@ -22,6 +22,8 @@ public class FileUploadProperties {
      */
     private String browserUrl;
 
+    private String notSupportFileType;
+
     public String getLocalUrl() {
         return localUrl;
     }
@@ -36,5 +38,14 @@ public class FileUploadProperties {
 
     public void setBrowserUrl(String browserUrl) {
         this.browserUrl = browserUrl;
+    }
+
+    public String getNotSupportFileType() {
+        return notSupportFileType;
+    }
+
+    public FileUploadProperties setNotSupportFileType(String notSupportFileType) {
+        this.notSupportFileType = notSupportFileType;
+        return this;
     }
 }

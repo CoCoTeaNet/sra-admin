@@ -52,6 +52,13 @@ const onBeforeUpload = (rawFile: UploadRawFile) => {
     ElMessage({type: 'error', message: '图片不能超过2M'});
     return false;
   }
+  console.log(rawFile.type)
+  if (rawFile.type === 'image/jpeg' || rawFile.type === 'image/png' || rawFile.type === 'image/jpg') {
+    return true;
+  } else {
+    ElMessage.error('不支持的图片类型');
+    return false;
+  }
 }
 
 const handleSuccess = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
