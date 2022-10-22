@@ -27,8 +27,8 @@
         <el-table-column prop="sort" label="排序" sortable/>
         <el-table-column label="权限操作">
           <template #default="scope">
-            <el-button size="small" @click="showDialogMenu(scope.row, 0)">赋予菜单</el-button>
-            <el-button size="small" @click="showDialogMenu(scope.row, 1)">授予权限</el-button>
+            <el-button size="small" @click="showDialogMenu(scope.row, 1)">赋予菜单</el-button>
+            <el-button size="small" @click="showDialogMenu(scope.row, 0)">授予权限</el-button>
           </template>
         </el-table-column>
       </el-table>
