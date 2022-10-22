@@ -76,7 +76,7 @@
                 FROM
                 	sys_menu
                 WHERE DELETE_STATUS = 1
-                    #[ID in (select MENU_ID from sys_role_menu where ROLE_ID=:roleId)]
+                    #[AND ID in (select MENU_ID from sys_role_menu where ROLE_ID=:roleId)]
                 ORDER BY SORT
 			]]>
         </value>
