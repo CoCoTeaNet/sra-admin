@@ -5,7 +5,7 @@ import com.sraapp.common.util.NamingConversionUtils;
 import com.sraapp.system.param.generator.TablePageParam;
 import com.sraapp.system.properties.DefaultProperties;
 import com.sraapp.system.properties.DevEnableProperties;
-import com.sraapp.system.service.ICodeGeneratorService;
+import com.sraapp.system.service.IGeneratorService;
 import com.sraapp.system.vo.TableColVO;
 import com.sraapp.system.vo.TableVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @author jwss
  */
 @Service
-public class CodeGeneratorServiceImpl implements ICodeGeneratorService {
+public class GeneratorServiceImpl implements IGeneratorService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
     @Resource
