@@ -7,7 +7,7 @@
         🍬基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。
         是一款前后端分离、开箱即用的后台权限管理系统。
       </p>
-      <p>当前版本：V1.1.1</p>
+      <p>当前版本：V1.1.3</p>
     </el-card>
 
     <el-row :gutter="10" style="margin-top: 1em">
@@ -16,7 +16,7 @@
           <template #header>
             <div><span>联系信息</span></div>
           </template>
-          <p>QQ群：543112505</p>
+          <p>QQ技术交流群：543112505</p>
           <p>作者博客：<a href="https://live1024.cn">https://live1024.cn</a></p>
           <p>Gitee：<a href="https://gitee.com/momoljw">https://gitee.com/momoljw</a></p>
           <p>GitHub：<a href="https://github.com/momofoolish">https://github.com/momofoolish</a></p>
@@ -52,7 +52,6 @@
                 </ul>
               </div>
             </el-collapse-item>
-
             <!-- v1.1.0 -->
             <el-collapse-item title="v1.1.0" name="4">
               <p>版本v1.1.0</p>

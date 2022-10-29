@@ -41,6 +41,8 @@ public class GeneratorController {
         Template template;
         if (type == 0) {
             template = configuration.getTemplate("java-generator.ftl");
+        } else if(type == 1) {
+            template = configuration.getTemplate("java-vo-generator.ftl");
         } else {
             template = configuration.getTemplate("ts-generator.ftl");
         }

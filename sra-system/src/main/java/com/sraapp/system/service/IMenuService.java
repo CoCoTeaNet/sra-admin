@@ -50,4 +50,6 @@ public interface IMenuService extends IBaseService<Page<MenuVO>, MenuPageParam, 
      * @return 用户权限
      */
     List<MenuVO> getCachePermission(String userId);
+
+    Collection<MenuVO> listByTreeAsRoleSelection(MenuPageParam pageParam);
 }
