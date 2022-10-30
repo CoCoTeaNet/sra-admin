@@ -20,15 +20,15 @@
 
     <!-- 表格视图 -->
     <template #default>
-      <el-table stripe row-key="id" :data="records">
+      <el-table stripe row-key="id" :data="pageVo.records">
         <el-table-column prop="updateNo" label="版本号" width="150" />
         <el-table-column prop="platformName" label="平台名称" />
         <el-table-column prop="updateDesc" label="更新描述" width="300" />
         <el-table-column prop="downloadUrl" label="下载地址" width="250" />
         <el-table-column prop="createBy" label="创建人" width="150" />
-        <el-table-column prop="createTime" label="创建时间" width="150" />
+        <el-table-column prop="createTime" label="创建时间" width="200" />
         <el-table-column prop="updateBy" label="更新人" width="150" />
-        <el-table-column prop="updateTime" label="更新时间" width="150" />
+        <el-table-column prop="updateTime" label="更新时间" width="200" />
         <!-- 单行操作 -->
         <el-table-column fixed="right" width="150" label="操作">
           <template #default="scope">
@@ -39,6 +39,12 @@
       </el-table>
     </template>
 
+    <template #page>
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
+                     :total="pageVo.total" :page-size="pageVo.pageSize" :page-sizes=[5,10,15]
+                     @current-change="onPageChange" @size-change="onSizeChange"/>
+    </template>
+
     <!-- 编辑对话框 -->
     <template #form>
       <el-dialog v-model="dialogFormVisible" :title="`${editForm.id? '编辑' : '添加'}版本`">
@@ -47,7 +53,7 @@
             <el-input v-model="editForm.updateNo"></el-input>
           </el-form-item>
           <el-form-item prop="updateDesc" label="更新描述">
-            <el-input v-model="editForm.updateDesc"></el-input>
+            <el-input v-model="editForm.updateDesc" type="textarea" rows="8"></el-input>
           </el-form-item>
           <el-form-item prop="platformName" label="平台名称">
             <el-input v-model="editForm.platformName"></el-input>
@@ -68,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, reactive} from "vue";
+import {onMounted, ref, reactive, nextTick} from "vue";
 import {add, deleteBatch, update, listByPage} from "@/api/system/version-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
@@ -78,8 +84,7 @@ import {ElMessageBox} from "element-plus";
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
 
-const records = ref<any>();
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {}});
+const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
 // 表单参数
 const editForm = ref<VersionModel>({});
 // 加载进度
@@ -89,6 +94,8 @@ const rules = reactive({
   updateNo: [{required: true, min: 2, max: 30, message: '长度限制2~20', trigger: 'blur'}],
 });
 const dialogFormVisible = ref<boolean>(false);
+const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
+
 // 初始化数据
 onMounted(() => {
   loadTableData();
@@ -101,6 +108,7 @@ const onEdit = (row: DictionaryModel): void => {
 
 const onAdd = () => {
   dialogFormVisible.value = true;
+  editForm.value = {};
 }
 
 const onRemove = (row: DictionaryModel): void => {
@@ -124,9 +132,21 @@ const loadTableData = (): void => {
     version: pageParam.value.searchObject
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
-    records.value = data.rows;
+    pageVo.value.records = data.rows;
+    pageVo.value.total = data.recordCount;
+    pageVo.value.pageSize = data.pageSize;
     loading.value = false;
   });
+}
+
+const onPageChange = (currentPage: number) => {
+  pageParam.value.pageNo = currentPage;
+  nextTick(() => loadTableData());
+}
+
+const onSizeChange = (size: number) => {
+  pageParam.value.pageSize = size;
+  nextTick(() => loadTableData());
 }
 
 const doUpdate = (formEl: any): void => {
@@ -148,7 +168,7 @@ const doUpdate = (formEl: any): void => {
 }
 
 const resetSearchForm = () => {
-  searchObj.value = {};
+  pageParam.value.searchObject = {};
 }
 </script>
 
