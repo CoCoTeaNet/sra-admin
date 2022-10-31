@@ -18,7 +18,7 @@ sra:
       - /user/login
       - /file/verificationCode
       # 文件访问路径
-      - /upload/**
+      - /download/**
       - /codeGenerator/**
       - /schedule/**
       # 内容管理
