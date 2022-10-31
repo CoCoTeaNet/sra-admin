@@ -1,9 +1,10 @@
 ﻿### 当前版本V1.1.3
 
 #### 🍬 介绍
-
-* 基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
-* 致力于打造一款不用生成冗赘代码的后台管理系统
+出于对国内框架的热情追捧，以及在工作中接触到satoken和sqltoy并且前端方面了解到vue2到vue3热论，已经越来越对国内开源技术的看好，不仅框架的文档简洁易用，而且中文文档国人使用非常友好（英文太烂o(╥﹏╥)o），  
+所以就有了这个sra-admin。对于开发web服务的同志们完全可以用它来学习，不过有些地方可能设计得不太好也欢迎来提出，当然，因为是MIT开源协议，你也可以用于商业项目。
+* 核心：基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
+* 目标：致力于打造一款不用生成冗赘代码的后台管理系统
 
 #### 🏞️ 图片演示
 
@@ -19,8 +20,7 @@
 </table>
 
 #### 🧬 软件架构
-
-* 前后端分离，后端采用流行的MVC三层架构，缓存Redis，数据库MySQL
+[![image.png](https://i.postimg.cc/Bn7TLCXv/image.png)](https://i.postimg.cc/Bn7TLCXv/image.png)
 
 #### ☘️ 启动说明
 
@@ -89,9 +89,9 @@ $ npm run build || yarn build       #生产环境
 
 #### 🖥️ 软件版本要求
 
-- MySQL：8.0及以上
-- JDK：jdk8+
-- Nodejs：14.0及以上
+- MySQL：8.0+
+- JDK：1.8+
+- Nodejs：14.0+
 
 #### 🍫 参与贡献
 
