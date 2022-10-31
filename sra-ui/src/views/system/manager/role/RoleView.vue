@@ -27,8 +27,8 @@
         <el-table-column prop="sort" label="排序" sortable/>
         <el-table-column label="权限操作">
           <template #default="scope">
-            <el-button size="small" @click="showDialogMenu(scope.row, 0)">赋予菜单</el-button>
-            <el-button size="small" @click="showDialogMenu(scope.row, 1)">授予权限</el-button>
+            <el-button size="small" @click="showDialogMenu(scope.row, 1)">赋予菜单</el-button>
+            <el-button size="small" @click="showDialogMenu(scope.row, 0)">授予权限</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,7 +87,7 @@
 import {onMounted, nextTick, reactive, ref} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import roleApi, {grantPermissionsByRoleId} from "@/api/system/role-api";
-import {listByTree, listByRoleId} from "@/api/system/menu-api";
+import {listByTreeAsRoleSelection, listByRoleId} from "@/api/system/menu-api";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
 
@@ -200,7 +200,7 @@ const getMenus = (t: number, callback: Function) => {
     pageSize: 1000,
     menuVO: {menuName: '', isMenu: t}
   }
-  reqCommonFeedback(listByTree(param), (data: any) => {
+  reqCommonFeedback(listByTreeAsRoleSelection(param), (data: any) => {
     menuOptions.value = data;
     nextTick(callback());
   });

@@ -39,6 +39,10 @@ export function listByTree(data: any) {
     return request('menu/listByTree', data, post);
 }
 
+export function listByTreeAsRoleSelection(data: any) {
+    return request('menu/listByTreeAsRoleSelection', data, post);
+}
+
 /**
  * 通过角色获取菜单
  */

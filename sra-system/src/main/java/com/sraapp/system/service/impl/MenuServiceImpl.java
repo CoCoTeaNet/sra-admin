@@ -65,7 +65,7 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public Collection<MenuVO> listByTree(MenuPageParam pageParam) {
         List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenuVO());
-        menuVOList.forEach(item -> item.setDisabled(!Objects.equals(MenuTypeEnum.DIRECTORY.getCode(), item.getMenuType())));
+        menuVOList.forEach(item -> item.setDisabled(!MenuTypeEnum.DIRECTORY.getCode().equals(item.getMenuType())));
         GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
         return dsUtils.buildTreeDefault(menuVOList).values();
     }
@@ -128,6 +128,14 @@ public class MenuServiceImpl implements IMenuService {
         String s = redisService.get(String.format(RedisKey.USER_PERMISSION, userId));
         logger.info("[{}]-permissions={}", userId, s);
         return JSONUtil.toList(s, MenuVO.class);
+    }
+
+    @Override
+    public Collection<MenuVO> listByTreeAsRoleSelection(MenuPageParam pageParam) {
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenuVO());
+        menuVOList.forEach(item -> item.setDisabled(MenuTypeEnum.DIRECTORY.getCode().equals(item.getMenuType())));
+        GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
+        return dsUtils.buildTreeDefault(menuVOList).values();
     }
 
 }

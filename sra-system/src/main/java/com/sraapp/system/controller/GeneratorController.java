@@ -2,7 +2,7 @@ package com.sraapp.system.controller;
 
 import com.sraapp.common.model.ApiResult;
 import com.sraapp.system.param.generator.TablePageParam;
-import com.sraapp.system.service.ICodeGeneratorService;
+import com.sraapp.system.service.IGeneratorService;
 import com.sraapp.system.vo.TableVO;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -25,22 +25,24 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("/codeGenerator")
-public class CodeGeneratorController {
+public class GeneratorController {
     @Resource
-    private ICodeGeneratorService codeGeneratorService;
+    private IGeneratorService generatorService;
 
     @GetMapping("/getByTableName")
     public ApiResult<String> getByTableName(ModelMap model,
                                             @RequestParam("tableName") String tableName,
                                             @RequestParam("dbName") String dbName,
                                             @RequestParam("type") Integer type) throws TemplateException, IOException {
-        Map<String, Object> objectMap = codeGeneratorService.getEntityCode(dbName, tableName);
+        Map<String, Object> objectMap = generatorService.getEntityCode(dbName, tableName);
         model.put("objectMap", objectMap);
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        configuration.setClassForTemplateLoading(CodeGeneratorController.class, "/templates/");
+        configuration.setClassForTemplateLoading(GeneratorController.class, "/templates/");
         Template template;
         if (type == 0) {
             template = configuration.getTemplate("java-generator.ftl");
+        } else if(type == 1) {
+            template = configuration.getTemplate("java-vo-generator.ftl");
         } else {
             template = configuration.getTemplate("ts-generator.ftl");
         }
@@ -50,7 +52,7 @@ public class CodeGeneratorController {
     @ResponseBody
     @PostMapping("/findTablesByPage")
     public ApiResult<Page<TableVO>> findTablesByPage(@Validated @RequestBody TablePageParam param) {
-        Page<TableVO> vo = codeGeneratorService.findTablesByPage(param);
+        Page<TableVO> vo = generatorService.findTablesByPage(param);
         return ApiResult.ok(vo);
     }
 

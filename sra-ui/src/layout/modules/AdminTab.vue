@@ -28,14 +28,16 @@
 <script lang="ts" setup>
 import {Close} from "@element-plus/icons-vue";
 import {router} from "@/router";
-import {useStore} from "@/store";
+import {useRoute} from "vue-router";
+import {useStore, addTabItem} from "@/store";
 import {removeTabItem,initTabItems} from "@/store";
 import {onMounted} from "vue";
 
 const store = useStore();
+const route = useRoute();
 
 onMounted(() => {
-  initTabItems();
+  addTabItem({name: JSON.parse(JSON.stringify(route.meta)).title, url: route.path, isActive: true});
 });
 
 const onClick = (obj: any) => {

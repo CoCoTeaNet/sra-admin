@@ -15,13 +15,14 @@
 
     <template #default>
       <el-table :data="pageVo.records" v-loading="loading">
-        <el-table-column prop="tableName" label="表名称"/>
-        <el-table-column prop="tableCollation" label="字符集"/>
+        <el-table-column prop="tableName" label="表名称" width="200"/>
+        <el-table-column prop="tableCollation" label="字符集" width="200"/>
         <el-table-column prop="tableComment" label="表描述"/>
-        <el-table-column fixed="right" label="操作">
+        <el-table-column fixed="right" label="操作" width="300">
           <template #default="scope">
-            <el-button plain size="small" @click="preview(scope.row, 0)">JAVA实体</el-button>
-            <el-button plain size="small" @click="preview(scope.row, 1)">TS模型</el-button>
+            <el-button plain size="small" @click="preview(scope.row, 0)">JAVA 实体</el-button>
+            <el-button plain size="small" @click="preview(scope.row, 1)">JAVA VO</el-button>
+            <el-button plain size="small" @click="preview(scope.row, 2)">TS 模型</el-button>
           </template>
         </el-table-column>
       </el-table>

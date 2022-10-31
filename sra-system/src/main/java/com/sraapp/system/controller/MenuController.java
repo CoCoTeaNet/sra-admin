@@ -66,6 +66,13 @@ public class MenuController {
     }
 
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @PostMapping("listByTreeAsRoleSelection")
+    public ApiResult<?> listByTreeAsRoleSelection(@Valid @RequestBody MenuPageParam pageParam) {
+        Collection<MenuVO> menus = menuService.listByTreeAsRoleSelection(pageParam);
+        return ApiResult.ok(menus);
+    }
+
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @GetMapping("listByRoleId/{roleId}")
     public ApiResult<List<MenuVO>> listByRoleId(@PathVariable String roleId) {
         List<MenuVO> menus = menuService.listByRoleId(roleId);

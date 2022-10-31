@@ -12,7 +12,7 @@ import java.util.Map;
  * @author jwss
  * @date 2022-4-14 22:53:07
  */
-public interface ICodeGeneratorService {
+public interface IGeneratorService {
 
     /**
      * 根据表名称生成实体类属性集合

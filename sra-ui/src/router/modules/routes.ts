@@ -15,6 +15,7 @@ import ArticleListView from "@/views/system/manager/cms/ArticleListView.vue";
 import CommentView from "@/views/system/manager/cms/CommentView.vue";
 import JobView from "@/views/system/manager/schedule/JobView.vue";
 import JobLogView from "@/views/system/manager/schedule/JobLogView.vue";
+import VersionView from "@/views/system/manager/version/VersionView.vue";
 
 export const routes = [
     {
@@ -43,7 +44,8 @@ export const routes = [
             {path: 'article-list', meta: {title: '文章列表'}, name: 'ArticleListView', component: ArticleListView},
             {path: 'comment-manager', meta: {title: '评论管理'}, name: 'CommentView', component: CommentView},
             {path: 'job-manager', meta: {title: '任务管理'}, name: 'JobView', component: JobView},
-            {path: 'JobLog-manager', meta: {title: '调度记录'}, name: 'JobLogView', component: JobLogView}
+            {path: 'JobLog-manager', meta: {title: '调度记录'}, name: 'JobLogView', component: JobLogView},
+            {path: 'version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
         ]
     },
     {
