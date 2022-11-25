@@ -73,7 +73,7 @@ spring:
         min-idle: 0
   # sqltoy框架相关配置
   sqltoy:
-    unify-fields-handler: net.cocotea.bootstrap.handler.SqlToyUnifyFieldsHandler
+    unify-fields-handler: net.cocotea.admin.bootstrap.handler.SqlToyUnifyFieldsHandler
   servlet:
     multipart:
       max-file-size: 10MB

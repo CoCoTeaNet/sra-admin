@@ -43,7 +43,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                     <mainClass>net.cocotea.bootstrap.AppBoot</mainClass>　　
+                     <mainClass>net.cocotea.admin.bootstrap.AppBoot</mainClass>　　
                 </configuration>
                 <executions>
                      <execution>
