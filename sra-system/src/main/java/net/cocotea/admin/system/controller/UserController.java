@@ -9,7 +9,7 @@ import net.cocotea.admin.system.service.IUserService;
 import net.cocotea.admin.system.vo.LoginUserVO;
 import net.cocotea.admin.system.vo.UserVO;
 import net.cocotea.admin.system.param.user.UserAddParam;
-import net.cocotea.admin.system.param.user.UserLoginParam;
+import net.cocotea.admin.system.param.login.LoginParam;
 import net.cocotea.admin.system.param.user.UserPageParam;
 import net.cocotea.admin.system.param.user.UserUpdateParam;
 import org.sagacity.sqltoy.model.Page;
@@ -64,12 +64,6 @@ public class UserController {
     public ApiResult<Page<UserVO>> listByPage(@Valid @RequestBody UserPageParam param) throws BusinessException {
         Page<UserVO> list = userService.listByPage(param);
         return ApiResult.ok(list);
-    }
-
-    @PostMapping("/login")
-    public ApiResult<LoginUserVO> login(@Valid @RequestBody UserLoginParam param, HttpServletRequest request) throws BusinessException {
-        LoginUserVO s = userService.login(param, request);
-        return ApiResult.ok(s);
     }
 
     @PostMapping("/logout")

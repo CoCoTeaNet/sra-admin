@@ -1,15 +1,15 @@
-package net.cocotea.admin.system.param.user;
+package net.cocotea.admin.system.param.login;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @project sss-rbac-admin
  * @version 1.0.0
  * @description sys_user,系统用户表  
  */
-public class UserLoginParam implements Serializable {
+public class LoginParam implements Serializable {
 
 	private static final long serialVersionUID = -75070990767806255L;
 
@@ -20,16 +20,17 @@ public class UserLoginParam implements Serializable {
 	private String password;
 
 	@NotBlank(message = "验证码不能为空")
-	private String verifyCode;
+	private String captcha;
 
 	private Boolean rememberMe;
 
-	public String getVerifyCode() {
-		return verifyCode;
+	public String getCaptcha() {
+		return captcha;
 	}
 
-	public void setVerifyCode(String verifyCode) {
-		this.verifyCode = verifyCode;
+	public LoginParam setCaptcha(String captcha) {
+		this.captcha = captcha;
+		return this;
 	}
 
 	/**

@@ -13,11 +13,22 @@ export interface BasicPageParams {
 }
 
 /**
+ * @description: 获取登录验证码
+ */
+export function getCaptcha(params) {
+  return http.request({
+    url: '/captcha',
+    method: 'post',
+    params
+  });
+}
+
+/**
  * @description: 获取用户信息
  */
 export function getUserInfo() {
   return http.request({
-    url: '/admin_info',
+    url: '/loginInfo',
     method: 'get',
   });
 }
@@ -59,7 +70,7 @@ export function changePassword(params, uid) {
  */
 export function logout(params) {
   return http.request({
-    url: '/login/logout',
+    url: '/logout',
     method: 'POST',
     params,
   });

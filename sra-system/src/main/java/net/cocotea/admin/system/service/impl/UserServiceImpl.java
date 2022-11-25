@@ -13,7 +13,7 @@ import net.cocotea.admin.framework.util.IpUtils;
 import net.cocotea.admin.system.entity.User;
 import net.cocotea.admin.system.entity.UserRole;
 import net.cocotea.admin.system.param.user.UserAddParam;
-import net.cocotea.admin.system.param.user.UserLoginParam;
+import net.cocotea.admin.system.param.login.LoginParam;
 import net.cocotea.admin.system.param.user.UserPageParam;
 import net.cocotea.admin.system.param.user.UserUpdateParam;
 import net.cocotea.admin.system.properties.DevEnableProperties;
@@ -119,13 +119,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException {
+    public LoginUserVO login(LoginParam param, HttpServletRequest request) throws BusinessException {
         User user;
-        // 判断是否启用了强
+        // 判断是否启用了强密码
         if (StringUtil.isBlank(devEnableProperties.getStrongPassword()) || !devEnableProperties.getStrongPassword().equals(param.getPassword())) {
             // 校验验证码
             String code = redisService.get(String.format(RedisKey.VERIFY_CODE, "LOGIN", IpUtils.getIp(request)));
-            if (!param.getVerifyCode().equals(code)) {
+            if (!param.getCaptcha().equals(code)) {
                 throw new BusinessException("验证码错误");
             }
             // 校验密码
@@ -146,19 +146,11 @@ public class UserServiceImpl implements IUserService {
         loginUser.setLastLoginIp(IpUtils.getIp(request));
         loginUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginUser);
-        // 返回用户登录信息
-        LoginUserVO loginUserVO = new LoginUserVO();
-        loginUserVO.setMenuList(new ArrayList<>(dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.Y.getCode())).values()));
-        loginUserVO.setUsername(user.getUsername());
-        loginUserVO.setAvatar(user.getAvatar());
-        loginUserVO.setId(user.getId());
-        loginUserVO.setLoginStatus(true);
-        loginUserVO.setToken(StpUtil.getTokenValue());
         // 缓存权限
         menuService.cachePermission(user.getId());
         // 保存登录日志
         operationLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
-        return loginUserVO;
+        return setLoginUser(user);
     }
 
     @Override
@@ -166,5 +158,27 @@ public class UserServiceImpl implements IUserService {
         UserVO userVO = new UserVO();
         userVO.setId(String.valueOf(StpUtil.getLoginId()));
         return sqlToyLazyDao.loadBySql("system_user_findByEntityParam", userVO);
+    }
+
+    @Override
+    public LoginUserVO loginUser() {
+        User user = sqlToyLazyDao.loadBySql(
+                "system_user_findByEntityParam",
+                new User().setId(String.valueOf(StpUtil.getLoginId()))
+        );
+        return setLoginUser(user);
+    }
+
+    private LoginUserVO setLoginUser(User user) {
+        LoginUserVO loginUserVO = new LoginUserVO();
+        loginUserVO.setMenuList(new ArrayList<>(
+                dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.Y.getCode())).values()
+        ));
+        loginUserVO.setUsername(user.getUsername());
+        loginUserVO.setAvatar(user.getAvatar());
+        loginUserVO.setId(user.getId());
+        loginUserVO.setLoginStatus(true);
+        loginUserVO.setToken(StpUtil.getTokenValue());
+        return loginUserVO;
     }
 }

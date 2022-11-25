@@ -3,7 +3,7 @@ package net.cocotea.admin.system.controller;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.StrUtil;
-import net.cocotea.admin.system.param.file.VerificationCodeParam;
+import net.cocotea.admin.system.param.login.CaptchaParam;
 import net.cocotea.admin.system.properties.FileUploadProperties;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
@@ -38,7 +38,7 @@ public class FileController {
     private IRedisService redisService;
 
     @PostMapping("/verificationCode")
-    public ApiResult<String> verificationCode(@Valid @RequestBody VerificationCodeParam param, HttpServletRequest request) {
+    public ApiResult<String> verificationCode(@Valid @RequestBody CaptchaParam param, HttpServletRequest request) {
         // 生成圆圈干扰的验证码
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 20);
         redisService.save(

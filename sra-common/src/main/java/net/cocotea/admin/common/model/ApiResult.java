@@ -16,13 +16,13 @@ public class ApiResult<T> implements Serializable {
     private static final long serialVersionUID = -4073679724104914374L;
 
     private Integer code;
-    private T data;
+    private T result;
     private String message;
     private LocalDateTime time;
 
-    public ApiResult(Integer code, T data, String message) {
+    public ApiResult(Integer code, T result, String message) {
         this.code = code;
-        this.data = data;
+        this.result = result;
         this.message = message;
         this.time = LocalDateTime.now();
     }
@@ -129,12 +129,13 @@ public class ApiResult<T> implements Serializable {
         this.code = code;
     }
 
-    public T getData() {
-        return data;
+    public T getResult() {
+        return result;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public ApiResult<T> setResult(T result) {
+        this.result = result;
+        return this;
     }
 
     public String getMessage() {

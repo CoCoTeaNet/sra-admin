@@ -39,6 +39,13 @@
               </template>
             </n-input>
           </n-form-item>
+          <n-form-item>
+            <n-input
+              v-model:value="formInline.captcha"
+              placeholder="请输入验证码">
+            </n-input>
+            <n-image @click="getCaptchaSrc" style="cursor: pointer" width="90" :src="captcha"/>
+          </n-form-item>
           <n-form-item class="default-color">
             <div class="flex justify-between">
               <div class="flex-initial">
@@ -85,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+import {onMounted, reactive, ref} from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useUserStore } from '@/store/modules/user';
   import { useMessage } from 'naive-ui';
@@ -93,9 +100,13 @@
   import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
   import { PageEnum } from '@/enums/pageEnum';
   import { websiteConfig } from '@/config/website.config';
+  import { getCaptcha } from "@/api/system/user";
+
   interface FormState {
     username: string;
     password: string;
+    captcha: string;
+    rememberMe: boolean;
   }
 
   const formRef = ref();
@@ -107,7 +118,8 @@
   const formInline = reactive({
     username: 'admin',
     password: '123456',
-    isCaptcha: true,
+    captcha: '',
+    rememberMe: true,
   });
 
   const rules = {
@@ -120,17 +132,25 @@
   const router = useRouter();
   const route = useRoute();
 
+  const captcha = ref('');
+
+  onMounted(() => {
+    getCaptchaSrc();
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        const { username, password } = formInline;
+        const { username, password, captcha, rememberMe } = formInline;
         message.loading('登录中...');
         loading.value = true;
 
         const params: FormState = {
           username,
           password,
+          captcha,
+          rememberMe: autoLogin.value
         };
 
         try {
@@ -153,6 +173,13 @@
       }
     });
   };
+
+  const getCaptchaSrc = () => {
+    getCaptcha({codeType: "LOGIN"}).then((res) => {
+      captcha.value = `data:image/jpeg;base64,${res}`;
+    });
+  }
+
 </script>
 
 <style lang="less" scoped>

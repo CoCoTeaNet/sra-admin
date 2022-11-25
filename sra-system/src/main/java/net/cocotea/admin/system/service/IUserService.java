@@ -1,7 +1,7 @@
 package net.cocotea.admin.system.service;
 
 import net.cocotea.admin.system.param.user.UserAddParam;
-import net.cocotea.admin.system.param.user.UserLoginParam;
+import net.cocotea.admin.system.param.login.LoginParam;
 import net.cocotea.admin.system.param.user.UserPageParam;
 import net.cocotea.admin.system.param.user.UserUpdateParam;
 import net.cocotea.admin.common.model.BusinessException;
@@ -25,11 +25,13 @@ public interface IUserService extends IBaseService<Page<UserVO>, UserPageParam, 
      * @return token
      * @throws BusinessException 业务异常
      */
-    LoginUserVO login(UserLoginParam param, HttpServletRequest request) throws BusinessException;
+    LoginUserVO login(LoginParam param, HttpServletRequest request) throws BusinessException;
 
     /**
      * 用户获取个人详细信息
      * @return 个人详细信息
      */
     UserVO getDetail();
+
+    LoginUserVO loginUser();
 }

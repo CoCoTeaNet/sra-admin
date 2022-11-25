@@ -5,6 +5,7 @@ export enum ResultEnum {
   SUCCESS = 200,
   ERROR = -1,
   TIMEOUT = 10042,
+  NOT_LOGIN = 4001,
   TYPE = 'success',
 }
 
