@@ -16,7 +16,7 @@ export function adminMenus() {
  */
 export function getMenuList(params?) {
   return http.request({
-    url: '/menu/list',
+    url: '/menu/listByTree',
     method: 'GET',
     params,
   });

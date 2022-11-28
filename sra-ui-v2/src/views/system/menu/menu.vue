@@ -2,7 +2,7 @@
   <div>
     <div class="n-layout-page-header">
       <n-card :bordered="false" title="菜单权限管理">
-        页面数据为 Mock 示例数据，非真实数据。
+        用于管理后台系统菜单
       </n-card>
     </div>
     <n-grid class="mt-4" cols="1 s:1 m:1 l:3 xl:3 2xl:3" responsive="screen" :x-gap="12">
@@ -254,9 +254,9 @@
 
   onMounted(async () => {
     const treeMenuList = await getMenuList();
-    const keys = treeMenuList.list.map((item) => item.key);
+    const keys = treeMenuList.map((item) => item.key);
     Object.assign(formParams, keys);
-    treeData.value = treeMenuList.list;
+    treeData.value = treeMenuList;
     loading.value = false;
   });
 

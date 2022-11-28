@@ -27,7 +27,8 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
- * @author jwss
+ * @author CoCoTea
+ * @since 2022-11-28 17:51:41
  */
 @Service
 public class MenuServiceImpl implements IMenuService {
@@ -63,9 +64,12 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public Collection<MenuVO> listByTree(MenuPageParam pageParam) {
-        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenuVO());
-        menuVOList.forEach(item -> item.setDisabled(!MenuTypeEnum.DIRECTORY.getCode().equals(item.getMenuType())));
+    public Collection<MenuVO> listByTree() {
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", new MenuVO());
+        menuVOList.forEach(item -> {
+            item.setLabel(item.getMenuName());
+            item.setKey(item.getId());
+        });
         GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
         return dsUtils.buildTreeDefault(menuVOList).values();
     }

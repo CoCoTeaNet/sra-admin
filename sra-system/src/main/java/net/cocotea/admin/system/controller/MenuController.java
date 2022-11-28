@@ -58,9 +58,9 @@ public class MenuController {
     }
 
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("listByTree")
-    public ApiResult<?> listByTree(@Valid @RequestBody MenuPageParam pageParam) {
-        Collection<MenuVO> menus = menuService.listByTree(pageParam);
+    @GetMapping("listByTree")
+    public ApiResult<?> listByTree() {
+        Collection<MenuVO> menus = menuService.listByTree();
         return ApiResult.ok(menus);
     }
 

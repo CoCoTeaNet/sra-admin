@@ -38,6 +38,12 @@ public class MenuVO implements Serializable {
 
 	private String iconPath;
 
+	/**
+	 * 适配naive ui树形组件
+	 */
+	private String label;
+	private String key;
+
 	private LocalDateTime createTime;
 	private LocalDateTime updateTime;
 
@@ -189,6 +195,24 @@ public class MenuVO implements Serializable {
 		return this;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public MenuVO setLabel(String label) {
+		this.label = label;
+		return this;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public MenuVO setKey(String key) {
+		this.key = key;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "MenuVO{" +
@@ -204,6 +228,8 @@ public class MenuVO implements Serializable {
 				", componentPath='" + componentPath + '\'' +
 				", isExternalLink=" + isExternalLink +
 				", iconPath='" + iconPath + '\'' +
+				", label='" + label + '\'' +
+				", key='" + key + '\'' +
 				", createTime=" + createTime +
 				", updateTime=" + updateTime +
 				", children=" + children +
