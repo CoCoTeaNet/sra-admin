@@ -40,11 +40,8 @@
             </n-input>
           </n-form-item>
           <n-form-item>
-            <n-input
-              v-model:value="formInline.captcha"
-              placeholder="请输入验证码">
-            </n-input>
-            <n-image @click="getCaptchaSrc" style="cursor: pointer" width="90" :src="captcha"/>
+            <n-input v-model:value="formInline.captcha" placeholder="请输入验证码" />
+            <n-image @click="getCaptchaSrc" style="cursor: pointer" width="90" :src="captcha" />
           </n-form-item>
           <n-form-item class="default-color">
             <div class="flex justify-between">
@@ -92,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive, ref} from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useUserStore } from '@/store/modules/user';
   import { useMessage } from 'naive-ui';
@@ -100,7 +97,7 @@ import {onMounted, reactive, ref} from 'vue';
   import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
   import { PageEnum } from '@/enums/pageEnum';
   import { websiteConfig } from '@/config/website.config';
-  import { getCaptcha } from "@/api/system/user";
+  import { getCaptcha } from '@/api/system/user';
 
   interface FormState {
     username: string;
@@ -117,7 +114,7 @@ import {onMounted, reactive, ref} from 'vue';
 
   const formInline = reactive({
     username: 'admin',
-    password: '123456',
+    password: 'srapwd',
     captcha: '',
     rememberMe: true,
   });
@@ -142,7 +139,7 @@ import {onMounted, reactive, ref} from 'vue';
     e.preventDefault();
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        const { username, password, captcha, rememberMe } = formInline;
+        const { username, password, captcha } = formInline;
         message.loading('登录中...');
         loading.value = true;
 
@@ -150,7 +147,7 @@ import {onMounted, reactive, ref} from 'vue';
           username,
           password,
           captcha,
-          rememberMe: autoLogin.value
+          rememberMe: autoLogin.value,
         };
 
         try {
