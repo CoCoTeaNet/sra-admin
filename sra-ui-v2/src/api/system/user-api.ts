@@ -9,7 +9,7 @@ const get = 'GET';
  */
 export function add(params: any) {
   return http.request({
-    url: 'user/add',
+    url: 'system/user/add',
     method: post,
     params,
   });
@@ -22,7 +22,7 @@ export function add(params: any) {
  */
 export function deleteBatch(params: any) {
   return http.request({
-    url: 'user/deleteBatch',
+    url: 'system/user/deleteBatch',
     method: post,
     params,
   });
@@ -35,7 +35,7 @@ export function deleteBatch(params: any) {
  */
 export function update(params: any) {
   return http.request({
-    url: 'user/update',
+    url: 'system/user/update',
     method: post,
     params,
   });
@@ -48,7 +48,7 @@ export function update(params: any) {
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'user/listByPage',
+    url: 'system/user/listByPage',
     method: post,
     params,
   });
@@ -59,7 +59,7 @@ export function listByPage(params: any) {
  */
 export function login(params: any) {
   return http.request({
-    url: 'user/login',
+    url: 'system/user/login',
     method: post,
     params,
   });
@@ -71,7 +71,7 @@ export function login(params: any) {
  */
 export function logout(params: any) {
   return http.request({
-    url: 'user/logout',
+    url: 'system/user/logout',
     method: post,
     params,
   });
@@ -82,7 +82,7 @@ export function logout(params: any) {
  */
 export function getDetail(params: any) {
   return http.request({
-    url: 'user/getDetail',
+    url: 'system/user/getDetail',
     method: get,
     params,
   });

@@ -17,9 +17,9 @@ export interface BasicPageParams {
  */
 export function getCaptcha(params) {
   return http.request({
-    url: '/captcha',
+    url: 'system/captcha',
     method: 'post',
-    params
+    params,
   });
 }
 
@@ -28,7 +28,7 @@ export function getCaptcha(params) {
  */
 export function getUserInfo() {
   return http.request({
-    url: '/loginInfo',
+    url: 'system/loginInfo',
     method: 'get',
   });
 }
@@ -39,7 +39,7 @@ export function getUserInfo() {
 export function login(params) {
   return http.request<BasicResponseModel>(
     {
-      url: '/login',
+      url: 'system/login',
       method: 'POST',
       params,
     },
@@ -47,31 +47,4 @@ export function login(params) {
       isTransformResponse: false,
     }
   );
-}
-
-/**
- * @description: 用户修改密码
- */
-export function changePassword(params, uid) {
-  return http.request(
-    {
-      url: `/user/u${uid}/changepw`,
-      method: 'POST',
-      params,
-    },
-    {
-      isTransformResponse: false,
-    }
-  );
-}
-
-/**
- * @description: 用户登出
- */
-export function logout(params) {
-  return http.request({
-    url: '/logout',
-    method: 'POST',
-    params,
-  });
 }

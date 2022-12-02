@@ -7,7 +7,7 @@ const post = 'POST';
  */
 export function add(params: any) {
   return http.request({
-    url: 'dictionary/add',
+    url: 'system/dictionary/add',
     method: post,
     params,
   });
@@ -20,7 +20,7 @@ export function add(params: any) {
  */
 export function update(params: any) {
   return http.request({
-    url: 'dictionary/update',
+    url: 'system/dictionary/update',
     method: post,
     params,
   });
@@ -33,7 +33,7 @@ export function update(params: any) {
  */
 export function deleteBatch(params: any) {
   return http.request({
-    url: 'dictionary/deleteBatch',
+    url: 'system/dictionary/deleteBatch',
     method: post,
     params,
   });
@@ -44,7 +44,7 @@ export function deleteBatch(params: any) {
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'dictionary/listByPage',
+    url: 'system/dictionary/listByPage',
     method: post,
     params,
   });
@@ -55,7 +55,7 @@ export function listByPage(params: any) {
  */
 export function listByTree(params: any) {
   return http.request({
-    url: 'dictionary/listByTree',
+    url: 'system/dictionary/listByTree',
     method: post,
     params,
   });

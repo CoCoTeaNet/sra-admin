@@ -8,7 +8,7 @@ const post = 'POST';
  */
 export function listByTree(params: any) {
   return http.request({
-    url: 'version/add',
+    url: 'system/version/add',
     method: post,
     params,
   });
@@ -21,7 +21,7 @@ export function listByTree(params: any) {
  */
 export function deleteBatch(params: any) {
   return http.request({
-    url: 'version/deleteBatch',
+    url: 'system/version/deleteBatch',
     method: post,
     params,
   });
@@ -34,7 +34,7 @@ export function deleteBatch(params: any) {
  */
 export function update(params: any) {
   return http.request({
-    url: 'version/update',
+    url: 'system/version/update',
     method: post,
     params,
   });
@@ -47,7 +47,7 @@ export function update(params: any) {
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'version/listByPage',
+    url: 'system/version/listByPage',
     method: post,
     params,
   });

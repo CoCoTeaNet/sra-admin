@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/system/menu")
 public class MenuController {
     @Resource
     private IMenuService menuService;

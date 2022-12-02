@@ -25,6 +25,7 @@ import javax.validation.Valid;
  */
 @Validated
 @RestController
+@RequestMapping("/system")
 public class LoginController {
     @Resource
     private IUserService userService;

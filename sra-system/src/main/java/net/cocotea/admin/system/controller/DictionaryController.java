@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/dictionary")
+@RequestMapping("/system/dictionary")
 public class DictionaryController {
     @Resource
     private IDictionaryService dictionaryService;

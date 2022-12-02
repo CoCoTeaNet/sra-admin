@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Validated
-@RequestMapping("/version")
+@RequestMapping("/system/version")
 @RestController
 public class VersionController {
     @Resource

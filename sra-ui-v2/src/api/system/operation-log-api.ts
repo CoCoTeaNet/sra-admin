@@ -8,7 +8,7 @@ const post = 'POST';
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'operationLog/listByPage',
+    url: 'system/operationLog/listByPage',
     method: post,
     params,
   });

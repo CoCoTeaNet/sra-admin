@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Validated
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/system/dashboard")
 public class DashboardController {
     @Resource
     private IDashboardService dashboardService;

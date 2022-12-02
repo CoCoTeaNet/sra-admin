@@ -25,7 +25,7 @@ import java.util.List;
  * @author jwss
  */
 @Validated
-@RequestMapping("/user")
+@RequestMapping("/system/user")
 @RestController
 public class UserController {
     @Resource

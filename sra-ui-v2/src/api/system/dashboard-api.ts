@@ -7,7 +7,7 @@ const get = 'GET';
  */
 export function getCount(params: any) {
   return http.request({
-    url: 'dashboard/getCount',
+    url: 'system/dashboard/getCount',
     method: get,
     params,
   });
@@ -18,7 +18,7 @@ export function getCount(params: any) {
  */
 export function getSystemInfo(params: any) {
   return http.request({
-    url: 'dashboard/getSystemInfo',
+    url: 'system/dashboard/getSystemInfo',
     method: get,
     params,
   });

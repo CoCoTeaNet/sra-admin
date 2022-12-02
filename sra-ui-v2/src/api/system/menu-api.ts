@@ -45,7 +45,7 @@ export function deleteBatch(params: any) {
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'menu/listByPage',
+    url: 'system/menu/listByPage',
     method: post,
     params,
   });
@@ -56,7 +56,7 @@ export function listByPage(params: any) {
  */
 export function listByTree(params: any) {
   return http.request({
-    url: 'menu/listByTree',
+    url: 'system/menu/listByTree',
     method: post,
     params,
   });
@@ -64,7 +64,7 @@ export function listByTree(params: any) {
 
 export function listByTreeAsRoleSelection(params: any) {
   return http.request({
-    url: 'menu/listByTreeAsRoleSelection',
+    url: 'system/menu/listByTreeAsRoleSelection',
     method: post,
     params,
   });
@@ -75,7 +75,7 @@ export function listByTreeAsRoleSelection(params: any) {
  */
 export function listByRoleId(params: any) {
   return http.request({
-    url: `menu/listByRoleId/${params}`,
+    url: `system/menu/listByRoleId/${params}`,
     method: get,
   });
 }

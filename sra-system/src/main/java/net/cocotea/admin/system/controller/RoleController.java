@@ -22,7 +22,7 @@ import java.util.List;
  * @author jwss
  */
 @Validated
-@RequestMapping("/role")
+@RequestMapping("/system/role")
 @RestController
 public class RoleController {
     @Resource

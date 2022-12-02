@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Validated
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/system/test")
 public class TestController {
 
     @GetMapping("index")

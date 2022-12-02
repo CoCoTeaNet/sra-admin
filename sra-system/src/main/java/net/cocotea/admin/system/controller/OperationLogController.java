@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/operationLog")
+@RequestMapping("/system/operationLog")
 public class OperationLogController {
     @Resource
     private IOperationLogService operationLogService;
