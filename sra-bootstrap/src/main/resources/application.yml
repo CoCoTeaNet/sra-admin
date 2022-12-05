@@ -15,11 +15,10 @@ sra:
       - /test/**
       - /favicon.ico
       # 登录
-      - /login
-      - /captcha
+      - /system/login
+      - /system/captcha
       # 文件访问路径
       - /download/**
-      - /codeGenerator/**
       - /schedule/**
       # 内容管理
       - /cmsPage/**

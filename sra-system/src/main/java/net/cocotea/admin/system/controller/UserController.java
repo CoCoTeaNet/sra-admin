@@ -66,12 +66,6 @@ public class UserController {
         return ApiResult.ok(list);
     }
 
-    @PostMapping("/logout")
-    public ApiResult<String> logout() {
-        StpUtil.logout();
-        return ApiResult.ok();
-    }
-
     @SaCheckLogin
     @GetMapping("/getDetail")
     public ApiResult<UserVO> getDetail() {

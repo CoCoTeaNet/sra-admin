@@ -97,7 +97,7 @@
   import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
   import { PageEnum } from '@/enums/pageEnum';
   import { websiteConfig } from '@/config/website.config';
-  import { getCaptcha } from '@/api/system/user';
+  import { getCaptcha } from '@/api/system/login-api';
 
   interface FormState {
     username: string;

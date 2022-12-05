@@ -42,6 +42,14 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/views/system/role/role.vue'),
       },
+      {
+        path: 'version',
+        name: 'system_version',
+        meta: {
+          title: '版本发布管理',
+        },
+        component: () => import('@/views/system/manager/version/VersionView.vue'),
+      },
     ],
   },
 ];

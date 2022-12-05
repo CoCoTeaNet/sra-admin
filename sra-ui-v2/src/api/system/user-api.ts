@@ -55,29 +55,6 @@ export function listByPage(params: any) {
 }
 
 /**
- * 用户登录
- */
-export function login(params: any) {
-  return http.request({
-    url: 'system/user/login',
-    method: post,
-    params,
-  });
-}
-
-/**
- * 用户退出登录
- * @returns {Promise<*>}
- */
-export function logout(params: any) {
-  return http.request({
-    url: 'system/user/logout',
-    method: post,
-    params,
-  });
-}
-
-/**
  * 用户获取个人详细信息
  */
 export function getDetail(params: any) {
