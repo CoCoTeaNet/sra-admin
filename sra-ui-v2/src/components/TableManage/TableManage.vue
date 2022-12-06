@@ -14,8 +14,9 @@
     </n-card>
 
     <n-card style="margin-top: 3px">
-      <n-space>
+      <n-space justify="center">
         <slot name="default"></slot>
+        <slot name="page"></slot>
       </n-space>
     </n-card>
 

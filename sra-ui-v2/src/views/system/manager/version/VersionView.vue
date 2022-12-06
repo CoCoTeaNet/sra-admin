@@ -26,8 +26,21 @@
       <n-data-table
         :data="pageVo.records"
         :columns="columns"
-        :pagination="paginationReactive"
         :loading="loading"
+        :scroll-x="1800"
+      />
+    </template>
+
+    <!-- 分页 -->
+    <template #page>
+      <n-pagination v-model:page="pageParam.pageNo"
+                    v-model:page-size="pageParam.pageSize"
+                    v-model:item-count="pageVo.total"
+                    :on-update:page="onPageChange"
+                    :on-update:page-size="onSizeChange"
+                    :page-sizes="[10, 20, 30]"
+                    show-quick-jumper
+                    show-size-picker
       />
     </template>
 
@@ -48,13 +61,13 @@
             <n-input v-model:value="editForm.updateNo" />
           </n-form-item>
           <n-form-item path="updateDesc" label="更新描述">
-            <n-input v-model="editForm.updateDesc" type="textarea" rows="8" />
+            <n-input v-model:value="editForm.updateDesc" type="textarea" rows="8" />
           </n-form-item>
           <n-form-item path="platformName" label="平台名称">
-            <n-input v-model="editForm.platformName" />
+            <n-input v-model:value="editForm.platformName" />
           </n-form-item>
           <n-form-item path="downloadUrl" label="下载地址">
-            <n-input v-model="editForm.downloadUrl" />
+            <n-input v-model:value="editForm.downloadUrl" />
           </n-form-item>
         </n-form>
         <template #action>
@@ -88,7 +101,7 @@
 
   const sttFormRef = ref<FormInst | null>();
   const showModel = ref<boolean>(false);
-  const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 2, searchObject: {} });
+  const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 10, searchObject: {} });
   // 表单参数
   const editForm = ref<VersionModel>({});
   // 加载进度
@@ -98,8 +111,6 @@
     updateNo: { required: true, min: 2, max: 20, message: '字数必须2~20个', trigger: 'blur' },
   };
   const pageVo = ref<PageVO>({
-    pageNo: 1,
-    pageSize: pageParam.value.pageSize,
     total: 0,
     records: [],
   });
@@ -188,16 +199,6 @@
     edit: (row: VersionModel) => onEdit(row),
     remove: (row: VersionModel) => onRemove(row),
   });
-  const paginationReactive = reactive<PaginationProps>({
-    page: pageParam.value.pageNo,
-    pageSize: pageParam.value.pageSize,
-    itemCount: pageVo.value.total,
-    pageSizes: [2, 4, 6],
-    onUpdatePage: (page) => onPageChange(page),
-    onUpdatePageSize: (pageSize) => onSizeChange(pageSize),
-    showQuickJumper: true,
-    showSizePicker: true,
-  });
 
   // 初始化数据
   onMounted(() => {
@@ -206,6 +207,7 @@
 
   const onEdit = (row: VersionModel): void => {
     editForm.value = row;
+    console.log(editForm.value)
     showModel.value = true;
   };
 
