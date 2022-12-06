@@ -3,10 +3,10 @@
     <!-- 表格操作 -->
     <template #search>
       <n-form-item label="版本名称">
-        <n-input placeholder="版本名称" v-model:modn-value="pageParam.searchObject.updateNo" />
+        <n-input placeholder="版本名称" v-model:value="pageParam.searchObject.updateNo" />
       </n-form-item>
       <n-form-item label="平台名称">
-        <n-input placeholder="平台名称" v-model:modn-value="pageParam.searchObject.platformName" />
+        <n-input placeholder="平台名称" v-model:value="pageParam.searchObject.platformName" />
       </n-form-item>
 
       <n-form-item>
@@ -23,38 +23,47 @@
 
     <!-- 表格视图 -->
     <template #default>
-      <n-data-table :data="pageVo.records" :columns="columns" :pagination="paginationReactive" />
+      <n-data-table
+        :data="pageVo.records"
+        :columns="columns"
+        :pagination="paginationReactive"
+        :loading="loading"
+      />
     </template>
 
     <!-- 编辑对话框 -->
     <template #form>
-      <!--<n-dialog v-model="dialogFormVisible" :title="`${editForm.id ? '编辑' : '添加'}`">-->
-      <!--  <n-form ref="sttFormRef" labn-width="120px" :model="editForm" :rules="rules">-->
-      <!--    <n-form-item prop="updateNo" label="版本号">-->
-      <!--      <n-input v-model="editForm.updateNo" />-->
-      <!--    </n-form-item>-->
-      <!--    <n-form-item prop="updateDesc" label="更新描述">-->
-      <!--      <n-input v-model="editForm.updateDesc" type="textarea" rows="8" />-->
-      <!--    </n-form-item>-->
-      <!--    <n-form-item prop="platformName" label="平台名称">-->
-      <!--      <n-input v-model="editForm.platformName" />-->
-      <!--    </n-form-item>-->
-      <!--    <n-form-item prop="downloadUrl" label="下载地址">-->
-      <!--      <n-input v-model="editForm.downloadUrl" />-->
-      <!--    </n-form-item>-->
-      <!--  </n-form>-->
-      <!--  <template #footer>-->
-      <!--    <span class="dialog-footer">-->
-      <!--      <n-button @click="dialogFormVisible = false">取消</n-button>-->
-      <!--      <n-button type="primary" @click="doUpdate(sttFormRef)">确认</n-button>-->
-      <!--    </span>-->
-      <!--  </template>-->
-      <!--</n-dialog>-->
-      <basic-modal @register="modalRegister" ref="modalRef" class="basicModal" @on-ok="okModal">
-        <template #default>
-          <div>123</div>
+      <n-modal v-model:show="showModel" preset="card" style="width: 50%">
+        <template #header>
+          <div style="font-weight: 600"> {{ editForm.id ? '编辑' : '新增' }}版本号 </div>
         </template>
-      </basic-modal>
+        <n-form
+          label-placement="left"
+          ref="sttFormRef"
+          :label-width="100"
+          :model="editForm"
+          :rules="rules"
+        >
+          <n-form-item path="updateNo" label="版本号">
+            <n-input v-model:value="editForm.updateNo" />
+          </n-form-item>
+          <n-form-item path="updateDesc" label="更新描述">
+            <n-input v-model="editForm.updateDesc" type="textarea" rows="8" />
+          </n-form-item>
+          <n-form-item path="platformName" label="平台名称">
+            <n-input v-model="editForm.platformName" />
+          </n-form-item>
+          <n-form-item path="downloadUrl" label="下载地址">
+            <n-input v-model="editForm.downloadUrl" />
+          </n-form-item>
+        </n-form>
+        <template #action>
+          <n-space justify="end">
+            <n-button @click="showModel = false">取消</n-button>
+            <n-button type="primary" @click="doUpdate">确认</n-button>
+          </n-space>
+        </template>
+      </n-modal>
     </template>
   </table-manage>
 </template>
@@ -69,39 +78,31 @@
     DataTableColumns,
     NButton,
     PaginationProps,
+    FormRules,
   } from 'naive-ui';
-  import { useModal } from '@/components/Modal';
   import { Add } from '@vicons/ionicons5';
-  import { renderIcon } from "@/utils";
-
-  const [modalRegister, { openModal, closeModal }] = useModal({
-    title: '新增预约',
-  });
-
-  async function okModal() {
-    closeModal();
-  }
-
-  function showModal() {
-    openModal();
-  }
+  import { renderIcon } from '@/utils';
 
   const message = useMessage();
   const dialog = useDialog();
 
   const sttFormRef = ref<FormInst | null>();
-
-  const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 10, searchObject: {} });
+  const showModel = ref<boolean>(false);
+  const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 2, searchObject: {} });
   // 表单参数
   const editForm = ref<VersionModel>({});
   // 加载进度
   const loading = ref<boolean>(true);
   // 表单校验规则
-  const rules = reactive({
-    updateNo: [{ required: true, min: 2, max: 30, message: '长度限制2~20', trigger: 'blur' }],
+  const rules: FormRules = {
+    updateNo: { required: true, min: 2, max: 20, message: '字数必须2~20个', trigger: 'blur' },
+  };
+  const pageVo = ref<PageVO>({
+    pageNo: 1,
+    pageSize: pageParam.value.pageSize,
+    total: 0,
+    records: [],
   });
-  const dialogFormVisible = ref<boolean>(false);
-  const pageVo = ref<PageVO>({ pageNo: 1, pageSize: 10, total: 0, records: [] });
 
   const createColumns = ({
     edit,
@@ -154,14 +155,13 @@
       {
         title: '操作',
         key: 'actions',
+        width: 200,
         fixed: 'right',
         render(row) {
           return [
             h(
               NButton,
               {
-                strong: true,
-                tertiary: true,
                 size: 'small',
                 style: {
                   marginRight: '6px',
@@ -173,9 +173,8 @@
             h(
               NButton,
               {
-                strong: true,
-                tertiary: true,
                 size: 'small',
+                type: 'error',
                 onClick: () => onRemove(row),
               },
               { default: () => '删除' }
@@ -190,8 +189,10 @@
     remove: (row: VersionModel) => onRemove(row),
   });
   const paginationReactive = reactive<PaginationProps>({
-    page: pageVo.value.pageNo,
-    pageSize: pageVo.value.pageSize,
+    page: pageParam.value.pageNo,
+    pageSize: pageParam.value.pageSize,
+    itemCount: pageVo.value.total,
+    pageSizes: [2, 4, 6],
     onUpdatePage: (page) => onPageChange(page),
     onUpdatePageSize: (pageSize) => onSizeChange(pageSize),
     showQuickJumper: true,
@@ -203,18 +204,17 @@
     loadTableData();
   });
 
-  const onEdit = (row: DictionaryModel): void => {
+  const onEdit = (row: VersionModel): void => {
     editForm.value = row;
-    dialogFormVisible.value = true;
+    showModel.value = true;
   };
 
   const onAdd = () => {
-    // dialogFormVisible.value = true;
-    // editForm.value = {};
-    showModal();
+    editForm.value = {};
+    showModel.value = true;
   };
 
-  const onRemove = (row: DictionaryModel): void => {
+  const onRemove = (row: VersionModel): void => {
     dialog.warning({
       title: '警告',
       content: '确认删除这行数据？',
@@ -238,7 +238,6 @@
     listByPage(param).then((data) => {
       pageVo.value.records = data.rows;
       pageVo.value.total = data.recordCount;
-      pageVo.value.pageSize = data.pageSize;
       loading.value = false;
     });
   };
@@ -253,19 +252,20 @@
     nextTick(() => loadTableData());
   };
 
-  const doUpdate = (formEl: any): void => {
-    formEl.validate((valid: any) => {
-      if (valid) {
+  const doUpdate = (): void => {
+    console.log(editForm.value);
+    sttFormRef.value?.validate((errors) => {
+      if (!errors) {
         if (!editForm.value.id) {
           add(editForm.value).then(() => {
             loadTableData();
-            dialogFormVisible.value = false;
+            showModel.value = false;
             message.success('保存成功');
           });
         } else {
           update(editForm.value).then(() => {
             loadTableData();
-            dialogFormVisible.value = false;
+            showModel.value = false;
             message.success('更新成功');
           });
         }
@@ -274,7 +274,10 @@
   };
 
   const resetSearchForm = () => {
-    pageParam.value.searchObject = {};
+    pageParam.value.searchObject = {
+      updateNo: '',
+      platformName: '',
+    };
   };
 </script>
 
