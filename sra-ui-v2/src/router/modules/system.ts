@@ -50,6 +50,14 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/views/system/manager/version/VersionView.vue'),
       },
+      {
+        path: 'operation_log',
+        name: 'system_operation_log',
+        meta: {
+          title: '操作日志查询',
+        },
+        component: () => import('@/views/system/manager/operation-log/OperationLogView.vue'),
+      },
     ],
   },
 ];
