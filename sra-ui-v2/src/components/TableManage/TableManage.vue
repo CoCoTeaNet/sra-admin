@@ -1,14 +1,12 @@
 <template>
   <div>
     <n-card>
-      <div class="tm-search">
-        <n-form :inline="true" label-placement="left">
-          <div style="display: flex; flex-wrap: wrap">
-            <slot name="search"></slot>
-          </div>
+      <div>
+        <n-form label-placement="left">
+          <n-space><slot name="search"></slot></n-space>
         </n-form>
       </div>
-      <div class="tm-operate">
+      <div>
         <slot name="operate"></slot>
       </div>
     </n-card>
@@ -20,8 +18,6 @@
       </n-space>
     </n-card>
 
-    <div>
-      <slot name="form"></slot>
-    </div>
+    <slot name="form"></slot>
   </div>
 </template>

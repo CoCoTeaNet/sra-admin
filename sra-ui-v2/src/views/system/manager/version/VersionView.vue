@@ -23,24 +23,20 @@
 
     <!-- 表格视图 -->
     <template #default>
-      <n-data-table
-        :data="pageVo.records"
-        :columns="columns"
-        :loading="loading"
-        :scroll-x="1800"
-      />
+      <n-data-table :data="pageVo.records" :columns="columns" :loading="loading" :scroll-x="1800" />
     </template>
 
     <!-- 分页 -->
     <template #page>
-      <n-pagination v-model:page="pageParam.pageNo"
-                    v-model:page-size="pageParam.pageSize"
-                    v-model:item-count="pageVo.total"
-                    :on-update:page="onPageChange"
-                    :on-update:page-size="onSizeChange"
-                    :page-sizes="[10, 20, 30]"
-                    show-quick-jumper
-                    show-size-picker
+      <n-pagination
+        v-model:page="pageParam.pageNo"
+        v-model:page-size="pageParam.pageSize"
+        v-model:item-count="pageVo.total"
+        :on-update:page="onPageChange"
+        :on-update:page-size="onSizeChange"
+        :page-sizes="[10, 20, 30]"
+        show-quick-jumper
+        show-size-picker
       />
     </template>
 
@@ -82,17 +78,9 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref, reactive, nextTick, h } from 'vue';
+  import { onMounted, ref, nextTick, h } from 'vue';
   import { add, deleteBatch, update, listByPage } from '@/api/system/version-api';
-  import {
-    useMessage,
-    useDialog,
-    FormInst,
-    DataTableColumns,
-    NButton,
-    PaginationProps,
-    FormRules,
-  } from 'naive-ui';
+  import { useMessage, useDialog, FormInst, DataTableColumns, NButton, FormRules } from 'naive-ui';
   import { Add } from '@vicons/ionicons5';
   import { renderIcon } from '@/utils';
 
@@ -207,7 +195,7 @@
 
   const onEdit = (row: VersionModel): void => {
     editForm.value = row;
-    console.log(editForm.value)
+    console.log(editForm.value);
     showModel.value = true;
   };
 

@@ -1,225 +1,361 @@
 <template>
   <table-manage>
     <template #search>
-      <el-form-item label="用户账号">
-        <el-input placeholder="账号" v-model="pageParam.searchObject.username"/>
-      </el-form-item>
-      <el-form-item label="用户昵称">
-        <el-input placeholder="昵称" v-model="pageParam.searchObject.nickname"/>
-      </el-form-item>
-      <el-form-item label="账号邮箱">
-        <el-input placeholder="邮箱" v-model="pageParam.searchObject.email"/>
-      </el-form-item>
-      <el-form-item label="用户性别">
-        <el-select placeholder="选择性别" v-model="pageParam.searchObject.sex">
-          <el-option v-for="i in sexList" :label="i.label" :value="i.value"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="账号状态">
-        <el-select placeholder="选择状态" v-model="pageParam.searchObject.accountStatus">
-          <el-option v-for="i in accountStatusList" :label="i.label" :value="i.value"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="loadTableData">搜索</el-button>
-        <el-button @click="onResetSearchForm">重置</el-button>
-      </el-form-item>
+      <n-form-item label="用户账号">
+        <n-input placeholder="账号" v-model:value="pageParam.searchObject.username" />
+      </n-form-item>
+      <n-form-item label="用户昵称">
+        <n-input placeholder="昵称" v-model:value="pageParam.searchObject.nickname" />
+      </n-form-item>
+      <n-form-item label="账号邮箱">
+        <n-input placeholder="邮箱" v-model:value="pageParam.searchObject.email" />
+      </n-form-item>
+      <n-form-item label="用户性别">
+        <n-select
+          style="width: 200px"
+          placeholder="选择性别"
+          v-model:value="pageParam.searchObject.sex"
+          :options="sexList"
+        />
+      </n-form-item>
+      <n-form-item label="账号状态">
+        <n-select
+          style="width: 200px"
+          placeholder="选择状态"
+          v-model:value="pageParam.searchObject.accountStatus"
+          :options="accountStatusList"
+        />
+      </n-form-item>
+      <n-form-item>
+        <n-space>
+          <n-button type="primary" @click="loadTableData">搜索</n-button>
+          <n-button @click="onResetSearchForm">重置</n-button>
+        </n-space>
+      </n-form-item>
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="onCreate">添加用户</el-button>
-      <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
+      <n-space>
+        <n-button type="primary" @click="onCreate" :render-icon="renderIcon(Add)">
+          添加用户
+        </n-button>
+        <n-button type="error" @click="onDeleteBatch" :render-icon="renderIcon(Remove)">
+          批量删除
+        </n-button>
+      </n-space>
     </template>
 
     <template #default>
-      <el-table v-loading="loading" :data="pageVo.records" style="width: 100%" @selection-change="handleSelectionChange"
-                max-height="700px">
-        <el-table-column type="selection" width="55"/>
-        <el-table-column prop="username" width="200" label="账号"/>
-        <el-table-column prop="nickname" width="200" label="昵称"/>
-        <el-table-column prop="email" width="200" label="邮箱"/>
-        <el-table-column prop="roleName" label="角色"/>
-        <el-table-column prop="sex" label="性别">
-          <template #default="scope">
-            <el-tag :type="getSex(scope.row.sex, 0)">
-              {{ getSex(scope.row.sex, 1) }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="accountStatus" label="状态">
-          <template #default="scope">
-            <el-tag :type="getAccountStatus(scope.row.accountStatus, 0)">
-              {{ getAccountStatus(scope.row.accountStatus, 1) }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="lastLoginIp" width="200" label="最后登录IP"/>
-        <el-table-column prop="lastLoginTime" width="200" label="最后登录时间"/>
-        <el-table-column fixed="right" label="操作" width="150">
-          <template #default="scope">
-            <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <n-data-table
+        :data="pageVo.records"
+        :columns="columns"
+        :loading="loading"
+        :scroll-x="1800"
+        :on-update-checked-row-keys="handleCheckKeys"
+      />
     </template>
 
     <template #page>
-      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
-                     :total="pageVo.total" :page-size="pageParam.pageSize" :page-sizes=[5,10,15]
-                     @current-change="onPageChange" @size-change="onSizeChange"/>
+      <n-pagination
+        v-model:page="pageParam.pageNo"
+        v-model:page-size="pageParam.pageSize"
+        v-model:item-count="pageVo.total"
+        :page-sizes="[15, 25, 35]"
+        :on-update:page="onPageChange"
+        :on-update:page-size="onSizeChange"
+        show-quick-jumper
+        show-size-picker
+      />
     </template>
 
     <template #form>
-      <add-user v-model:show="formShow" :user="editUser" :edit-type="editType" @onConfirm="loadTableData"/>
+      <n-modal v-model:show="formShow" preset="card" style="width: 50%">
+        <template #header>
+          <div style="font-weight: 600"> {{ editForm.id ? '编辑' : '新增' }}用户 </div>
+        </template>
+
+        <n-form
+          label-placement="left"
+          ref="sttFormRef"
+          :label-width="100"
+          :model="editForm"
+          :rules="rules"
+        >
+          <n-form-item path="username" label="账号名称">
+            <n-input v-model:value="editForm.username" />
+          </n-form-item>
+          <n-form-item path="nickname" label="用户昵称">
+            <n-input v-model:value="editForm.nickname" />
+          </n-form-item>
+          <n-form-item path="password" label="用户密码">
+            <n-input :prefix-icon="Lock" v-model:value="editForm.password" type="password" />
+          </n-form-item>
+          <n-form-item path="email" label="邮箱">
+            <n-input v-model:value="editForm.email" />
+          </n-form-item>
+          <n-form-item path="roleName" label="用户角色">
+            <n-select
+              v-model:value="editForm.roleId"
+              placeholder="选择角色"
+              :options="roleOptions"
+            />
+          </n-form-item>
+          <n-form-item path="sort" label="性别">
+            <n-radio-group v-model:value="editForm.sex">
+              <n-space>
+                <n-radio v-for="item in sexList" :key="item.value" :value="item.value">
+                  {{ item.label }}
+                </n-radio>
+              </n-space>
+            </n-radio-group>
+          </n-form-item>
+          <n-form-item path="sort" label="账号状态">
+            <n-radio-group v-model:value="editForm.accountStatus">
+              <n-space>
+                <n-radio v-for="item in accountStatusList" :key="item.value" :value="item.value">
+                  {{ item.label }}
+                </n-radio>
+              </n-space>
+            </n-radio-group>
+          </n-form-item>
+        </n-form>
+
+        <template #action>
+          <n-space justify="end">
+            <n-button @click="formShow = false">取 消</n-button>
+            <n-button type="primary" @click="onConfirm">确 认</n-button>
+          </n-space>
+        </template>
+      </n-modal>
     </template>
   </table-manage>
 </template>
 
 <script setup lang="ts">
-import {nextTick, onMounted, ref} from "vue";
-import {reqCommonFeedback} from "@/api/ApiFeedback";
-import {listByPage, deleteBatch} from "@/api/system/user-api";
-import TableManage from "@/components/container/TableManage.vue";
-import AddUser from "@/views/system/manager/user/module/AddUser.vue";
-import {ElMessage, ElMessageBox} from "element-plus";
+  import { h, nextTick, onMounted, ref } from 'vue';
+  import { listByPage, deleteBatch, add, update } from '@/api/system/user-api';
+  import TableManage from '@/components/TableManage/TableManage.vue';
+  import {
+    accountStatusList,
+    sexList,
+    getAccountStatus,
+    getSex,
+  } from '@/views/system/manager/user/user-status';
+  import { NButton, NTag, useDialog, DataTableRowKey, FormInst, FormRules } from 'naive-ui';
+  import { renderIcon } from '@/utils';
+  import { Add, Remove } from '@vicons/ionicons5';
+  import { roleApi } from '@/api/system/role-api';
 
-const formShow = ref<boolean>(false);
-const editType = ref<string>("create");
-const editUser = ref<UserModel>();
-const multipleSelection = ref<any[]>([]);
-// 分页参数
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {}});
-// api返回的分页数据
-const pageVo = ref<PageVO>({pageNo: 1, pageSize: 15, total: 0, records: []});
-// 加载进度
-const loading = ref<boolean>(true);
-const accountStatusList = ref<any>([
-  {label: '停用', value: 0},
-  {label: '正常', value: 1},
-  {label: '冻结', value: 2},
-  {label: '封禁', value: 3}
-]);
-const sexList = ref<any>([
-  {label: '不公开', value: 0},
-  {label: '男', value: 1},
-  {label: '女', value: 2}
-]);
-
-// 初始化数据
-onMounted(() => {
-  loadTableData();
-});
-
-const getAccountStatus: any = (status: number, type: number) => {
-  let obj = {color: '', text: ''};
-  switch (status) {
-    case 0:
-      obj = {color: 'warning', text: '停用'};
-      break;
-    case 1:
-      obj = {color: 'success', text: '正常'};
-      break;
-    case 2:
-      obj = {color: 'info', text: '冻结'};
-      break;
-    case 3:
-      obj = {color: 'danger', text: '封禁'};
-      break;
-  }
-  return type === 0 ? obj.color : obj.text;
-}
-
-const getSex: any = (status: number, type: number) => {
-  let obj = {color: '', text: ''};
-  switch (status) {
-    case 0:
-      obj = {color: 'info', text: '不公开'};
-      break;
-    case 1:
-      obj = {color: 'primary', text: '男'};
-      break;
-    case 2:
-      obj = {color: 'success', text: '女'};
-      break;
-  }
-  return type === 0 ? obj.color : obj.text;
-}
-
-const onEdit = (row: UserModel): void => {
-  formShow.value = true;
-  editUser.value = row;
-  editType.value = 'update';
-}
-
-const loadTableData = () => {
-  if (!loading.value) loading.value = true;
-  let param = {
-    pageNo: pageParam.value.pageNo,
-    pageSize: pageParam.value.pageSize,
-    userVO: pageParam.value.searchObject
+  const dialog = useDialog();
+  const rules: FormRules = {
+    username: { required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur' },
+    nickname: { required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur' },
+    password: { required: true, min: 6, max: 32, message: '长度限制6~32', trigger: 'blur' },
+    roleId: { required: true, message: '请选择角色', trigger: 'blur' },
   };
-  reqCommonFeedback(listByPage(param), (data: any) => {
-    pageVo.value.records = data.rows;
-    pageVo.value.total = data.recordCount;
-    loading.value = false;
+
+  const roleOptions = ref<any[]>([]);
+  const sttFormRef = ref<FormInst | null>();
+  const editForm = ref<UserModel>({});
+  const formShow = ref<boolean>(false);
+  const checkRowKeysRef = ref<DataTableRowKey[]>([]);
+  // 分页参数
+  const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 15, searchObject: {} });
+  // api返回的分页数据
+  const pageVo = ref<PageVO>({ total: 0, records: [] });
+  // 加载进度
+  const loading = ref<boolean>(true);
+  const columns = [
+    { type: 'selection' },
+    {
+      title: '用户名称',
+      key: 'username',
+      width: 200,
+    },
+    {
+      title: '昵称',
+      key: 'nickname',
+      width: 200,
+    },
+    {
+      title: '邮箱',
+      key: 'email',
+      width: 200,
+    },
+    {
+      title: '账号角色',
+      key: 'roleName',
+      width: 150,
+    },
+    {
+      title: '性别',
+      key: 'sex',
+      width: 100,
+      render(row) {
+        return h(NTag, { type: getSex(row.sex, 0) }, getSex(row.sex, 1));
+      },
+    },
+    {
+      title: '账号状态',
+      key: 'accountStatus',
+      width: 100,
+      render(row) {
+        return h(
+          NTag,
+          { type: getAccountStatus(row.accountStatus, 0) },
+          getAccountStatus(row.accountStatus, 1)
+        );
+      },
+    },
+    {
+      title: '最后登录IP',
+      key: 'lastLoginIp',
+      width: 200,
+    },
+    {
+      title: '最后登录时间',
+      key: 'lastLoginTime',
+      width: 200,
+    },
+    {
+      title: '操作',
+      key: 'actions',
+      width: 200,
+      fixed: 'right',
+      render(row) {
+        return [
+          h(
+            NButton,
+            {
+              size: 'small',
+              style: {
+                marginRight: '6px',
+              },
+              onClick: () => onEdit(row),
+            },
+            { default: () => '编辑' }
+          ),
+          h(
+            NButton,
+            {
+              size: 'small',
+              type: 'error',
+              onClick: () => onDelete(row),
+            },
+            { default: () => '删除' }
+          ),
+        ];
+      },
+    },
+  ];
+
+  // 初始化数据
+  onMounted(() => {
+    loadTableData();
+    loadRoles();
   });
-}
 
-const onPageChange = (currentPage: number) => {
-  pageParam.value.pageNo = currentPage;
-  nextTick(() => loadTableData());
-}
+  const onEdit = (row: UserModel): void => {
+    editForm.value = row;
+    formShow.value = true;
+  };
 
-const onSizeChange = (size: number) => {
-  pageParam.value.pageSize = size;
-  nextTick(() => loadTableData());
-}
-
-const onResetSearchForm = () => {
-  pageParam.value.searchObject = {};
-}
-
-const onCreate = () => {
-  formShow.value = true;
-  editType.value = 'create';
-}
-
-const onDelete = (id: string) => {
-  ElMessageBox.confirm('确认该用户?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  ).then(() => {
-    reqCommonFeedback(deleteBatch([id]), () => {
-      ElMessage({type: 'success', message: '删除成功'});
-      loadTableData();
+  const loadTableData = () => {
+    if (!loading.value) loading.value = true;
+    let param = {
+      pageNo: pageParam.value.pageNo,
+      pageSize: pageParam.value.pageSize,
+      userVO: pageParam.value.searchObject,
+    };
+    listByPage(param).then((data) => {
+      pageVo.value.records = data.rows;
+      pageVo.value.total = data.recordCount;
+      loading.value = false;
     });
-  });
-}
+  };
 
-const onDeleteBatch = () => {
-  let ids: string[] = [];
-  multipleSelection.value.map((item, index) => {
-    ids.push(item.id);
-  });
-  ElMessageBox.confirm('确认删除所选用户?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  ).then(() => {
-    reqCommonFeedback(deleteBatch(ids), () => {
-      ElMessage({type: 'success', message: '删除成功'});
-      loadTableData();
+  const onPageChange = (currentPage: number) => {
+    pageParam.value.pageNo = currentPage;
+    nextTick(() => loadTableData());
+  };
+
+  const onSizeChange = (size: number) => {
+    pageParam.value.pageSize = size;
+    nextTick(() => loadTableData());
+  };
+
+  const onResetSearchForm = () => {
+    pageParam.value.searchObject = {
+      username: '',
+      nickname: '',
+      sex: 0,
+      accountStatus: 1,
+      email: '',
+    };
+  };
+
+  const onCreate = () => {
+    formShow.value = true;
+  };
+
+  const onDelete = (id: string) => {
+    dialog.warning({
+      title: '警告',
+      content: '确认删除这行数据？',
+      positiveText: '确认',
+      negativeText: '取消',
+      onPositiveClick: () => {
+        deleteBatch([id]).then(() => {
+          loadTableData();
+        });
+      },
     });
-  });
-}
+  };
 
-const handleSelectionChange = (arr: any) => {
-  multipleSelection.value = arr;
-}
+  const onDeleteBatch = () => {
+    dialog.warning({
+      title: '警告',
+      content: '确认删除这行数据？',
+      positiveText: '确认',
+      negativeText: '取消',
+      onPositiveClick: () => {
+        deleteBatch(checkRowKeysRef.value).then(() => {
+          loadTableData();
+        });
+      },
+    });
+  };
+
+  const handleCheckKeys = (rowKeys: DataTableRowKey[]) => {
+    checkRowKeysRef.value = rowKeys;
+  };
+
+  const loadRoles = () => {
+    let param: any = { pageNo: 1, pageSize: 1000, roleVO: { roleName: '' } };
+    roleApi.listByPage(param).then((data) => {
+      let options: any = [];
+      data.rows.map((item) => {
+        options.push({ label: item.roleName, value: item.id });
+      });
+      roleOptions.value = options;
+    });
+  };
+
+  const onConfirm = () => {
+    sttFormRef.value?.validate((errors) => {
+      if (!errors) {
+        if (!editForm.value.id) {
+          add(editForm.value).then(() => {
+            loadTableData();
+          });
+        } else {
+          update(editForm.value).then(() => {
+            loadTableData();
+          });
+        }
+      }
+    });
+  };
 </script>
 
 <style scoped></style>

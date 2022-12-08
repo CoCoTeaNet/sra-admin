@@ -7,7 +7,7 @@ const post = 'POST';
  */
 export function add(params: any) {
   return http.request({
-    url: 'system/role/add',
+    url: '/system/role/add',
     method: post,
     params,
   });
@@ -18,7 +18,7 @@ export function add(params: any) {
  */
 export function deleteBatch(params: any) {
   return http.request({
-    url: 'system/role/deleteBatch',
+    url: '/system/role/deleteBatch',
     method: post,
     params,
   });
@@ -29,7 +29,7 @@ export function deleteBatch(params: any) {
  */
 export function update(params: any) {
   return http.request({
-    url: 'system/role/update',
+    url: '/system/role/update',
     method: post,
     params,
   });
@@ -40,7 +40,7 @@ export function update(params: any) {
  */
 export function listByPage(params: any) {
   return http.request({
-    url: 'system/role/listByPage',
+    url: '/system/role/listByPage',
     method: post,
     params,
   });
@@ -51,8 +51,11 @@ export function listByPage(params: any) {
  */
 export function grantPermissionsByRoleId(params: any) {
   return http.request({
-    url: 'system/role/grantPermissionsByRoleId',
+    url: '/system/role/grantPermissionsByRoleId',
     method: post,
     params,
   });
 }
+
+const roleApi = { listByPage };
+export { roleApi };
