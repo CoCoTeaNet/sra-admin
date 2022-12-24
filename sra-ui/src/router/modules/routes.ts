@@ -40,7 +40,6 @@ export const routes = [
             {path: 'dictionary-manager', meta: {title: '字典管理'}, name: 'DictionaryView', component: DictionaryView},
             {path: 'operation-log-manager', meta: {title: '日志管理'}, name: 'OperationLogView', component: OperationLogView},
             {path: 'user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView},
-            {path: 'code-generator', meta: {title: '代码生成'}, name: 'CodeGenerator', component: CodeGenerator},
             {path: 'article-list', meta: {title: '文章列表'}, name: 'ArticleListView', component: ArticleListView},
             {path: 'comment-manager', meta: {title: '评论管理'}, name: 'CommentView', component: CommentView},
             {path: 'job-manager', meta: {title: '任务管理'}, name: 'JobView', component: JobView},
