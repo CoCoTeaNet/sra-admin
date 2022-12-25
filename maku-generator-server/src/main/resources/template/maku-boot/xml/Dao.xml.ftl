@@ -1,12 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-<mapper namespace="${package}.${moduleName}.dao.${ClassName}Dao">
+    <sql id="${moduleName}_${className}_findByEntityParam">
+        <value>
+            <![CDATA[
+            select *
+            from ${tableName}
+            ]]>
+        </value>
+    </sql>
 
-    <resultMap type="${package}.${moduleName}.entity.${ClassName}Entity" id="${className}Map">
-        <#list fieldList as field>
-        <result property="${field.attrName}" column="${field.fieldName}"/>
-        </#list>
-    </resultMap>
+    <sql id="${moduleName}_${className}_findByPageParam">
+        <value>
+            <![CDATA[
+            select *
+            from ${tableName}
+            ]]>
+        </value>
+    </sql>
 
-</mapper>
+</sqltoy>

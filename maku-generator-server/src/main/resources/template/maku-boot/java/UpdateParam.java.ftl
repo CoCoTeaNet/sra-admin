@@ -12,7 +12,7 @@ import ${i!};
 * @author ${author} ${email}
 * @since ${version} ${date}
 */
-public class ${ClassName}VO implements Serializable {
+public class ${ClassName}UpdateParam implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 <#list fieldList as field>

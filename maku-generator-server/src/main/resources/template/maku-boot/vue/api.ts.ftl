@@ -1,13 +1,17 @@
-import service from '@/utils/request'
+import {request, post} from '@/utils/axios-util';
 
-export const use${FunctionName}Api = (id: number) => {
-	return service.get('/${moduleName}/${functionName}/' + id)
+export function add(data: any) {
+	return request('${moduleName}/${className}/add', data, post);
 }
 
-export const use${FunctionName}SubmitApi = (dataForm: any) => {
-	if (dataForm.id) {
-		return service.put('/${moduleName}/${functionName}', dataForm)
-	} else {
-		return service.post('/${moduleName}/${functionName}', dataForm)
-	}
+export function deleteBatch(data: any) {
+	return request('${moduleName}/${className}/deleteBatch', data, post);
+}
+
+export function update(data: any) {
+	return request('${moduleName}/${className}/update', data, post);
+}
+
+export function listByPage(data: any) {
+	return request('${moduleName}/${className}/listByPage', data, post);
 }

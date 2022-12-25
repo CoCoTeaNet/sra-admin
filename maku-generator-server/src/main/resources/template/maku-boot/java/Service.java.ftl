@@ -1,12 +1,12 @@
 package ${package}.${moduleName}.service;
 
-import ${package}.framework.common.page.PageResult;
-import ${package}.framework.common.service.BaseService;
 import ${package}.${moduleName}.vo.${ClassName}VO;
-import ${package}.${moduleName}.query.${ClassName}Query;
-import ${package}.${moduleName}.entity.${ClassName}Entity;
-
-import java.util.List;
+import ${package}.${moduleName}.param.${ClassName}AddParam;
+import ${package}.${moduleName}.param.${ClassName}PageParam;
+import ${package}.${moduleName}.param.${ClassName}UpdateParam;
+import ${package}.common.service.IBaseService;
+import ${package}.${moduleName}.vo.MenuVO;
+import org.sagacity.sqltoy.model.Page;
 
 /**
  * ${tableComment}
@@ -14,13 +14,5 @@ import java.util.List;
  * @author ${author} ${email}
  * @since ${version} ${date}
  */
-public interface ${ClassName}Service extends BaseService<${ClassName}Entity> {
-
-    PageResult<${ClassName}VO> page(${ClassName}Query query);
-
-    void save(${ClassName}VO vo);
-
-    void update(${ClassName}VO vo);
-
-    void delete(List<Long> idList);
+public interface I${ClassName}Service extends IBaseService<Page<${ClassName}VO>, ${ClassName}PageParam, ${ClassName}AddParam, ${ClassName}UpdateParam> {
 }

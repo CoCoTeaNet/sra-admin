@@ -1,21 +1,12 @@
 package ${package}.${moduleName}.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import lombok.AllArgsConstructor;
-import ${package}.framework.common.page.PageResult;
-import ${package}.framework.common.service.impl.BaseServiceImpl;
-import ${package}.${moduleName}.convert.${ClassName}Convert;
-import ${package}.${moduleName}.entity.${ClassName}Entity;
-import ${package}.${moduleName}.query.${ClassName}Query;
 import ${package}.${moduleName}.vo.${ClassName}VO;
-import ${package}.${moduleName}.dao.${ClassName}Dao;
-import ${package}.${moduleName}.service.${ClassName}Service;
+import ${package}.${moduleName}.param.${ClassName}AddParam;
+import ${package}.${moduleName}.param.${ClassName}PageParam;
+import ${package}.${moduleName}.param.${ClassName}UpdateParam;
+import ${package}.${moduleName}.service.I${ClassName}Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * ${tableComment}
@@ -24,40 +15,43 @@ import java.util.List;
  * @since ${version} ${date}
  */
 @Service
-@AllArgsConstructor
-public class ${ClassName}ServiceImpl extends BaseServiceImpl<${ClassName}Dao, ${ClassName}Entity> implements ${ClassName}Service {
+public class ${ClassName}ServiceImpl implements I${ClassName}Service {
+
+    @Resource
+    private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
-    public PageResult<${ClassName}VO> page(${ClassName}Query query) {
-        IPage<${ClassName}Entity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(${ClassName}Convert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    public boolean add(${ClassName}AddParam param) throws BusinessException {
+         ${ClassName} ${className} = Convert.convert(${ClassName}.class, param);
+         Object save = sqlToyLazyDao.save(${className});
+         return save != null;
     }
-
-    private LambdaQueryWrapper<${ClassName}Entity> getWrapper(${ClassName}Query query){
-        LambdaQueryWrapper<${ClassName}Entity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
-
-    @Override
-    public void save(${ClassName}VO vo) {
-        ${ClassName}Entity entity = ${ClassName}Convert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
-    }
-
-    @Override
-    public void update(${ClassName}VO vo) {
-        ${ClassName}Entity entity = ${ClassName}Convert.INSTANCE.convert(vo);
-
-        updateById(entity);
-    }
-
-    @Override
+    
     @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
+    @Override
+    public boolean deleteBatch(List<String> idList) throws BusinessException {
+         for (String s : idList) {
+              delete(s);
+         }
+         return !idList.isEmpty();
+    }
+    
+    @Override
+    public boolean update(${ClassName}UpdateParam param) throws BusinessException {
+         ${ClassName} ${className} = Convert.convert(${ClassName}.class, param);
+         Long count = sqlToyLazyDao.update(${className});
+         return count > 0;
+    }
+    
+    @Override
+    public Page<${ClassName}VO> listByPage(${ClassName}PageParam param) throws BusinessException { 
+         Page<${ClassName}VO> page = sqlToyLazyDao.findPageBySql(param, "system_${className}_findByPageParam", param.get${ClassName}());
+         return page;
+    }
+    
+    @Override
+    public boolean delete(String id) throws BusinessException {
+         return sqlToyLazyDao.delete(new ${ClassName}().setId(id)) > 0;
     }
 
 }

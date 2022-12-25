@@ -35,7 +35,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://106.52.139.93:3306/DB_SRA_V1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
-    password: JwssZxc123..
+    password: root
     druid:
       initial-size: 5
       min-idle: 5
