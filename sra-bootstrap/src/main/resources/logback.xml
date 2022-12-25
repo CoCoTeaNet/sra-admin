@@ -10,7 +10,7 @@
         </encoder>
         <encoder charset="UTF-8">
             <pattern>
-                %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %black(%msg%n)
+                %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %white(%msg%n)
             </pattern>
         </encoder>
     </appender>

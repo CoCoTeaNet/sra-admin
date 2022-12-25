@@ -1,15 +1,16 @@
 <template>
-  <el-menu background-color="#00000000" text-color="#333333" class="menu" :default-active="menuState.defaultActive"
-           :style="`height: 100%;padding: 0 ${!store.state.isCollapseMenu ? '10px' : '0'};`"
-           :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu">
+  <el-menu background-color="#00000000"
+           text-color="#333333"
+           :default-active="menuState.defaultActive"
+           :default-openeds="menuState.defaultOpened"
+           :collapse="store.state.isCollapseMenu">
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
-      <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
-      <h3 style="overflow: hidden;white-space: nowrap;">
-        SRA后台管理系统
-      </h3>
+      <img :src="require('@/assets/account-logo.png')" style="width: 190px;padding: 1em" alt="login-logo">
     </div>
-    <img v-else :src="require('@/assets/logo.png')" style="width: 100%;cursor: pointer" alt="logo">
+    <div v-else style="width: 100%;cursor: pointer;display: flex;justify-content: center;margin-top: 1em">
+      <img :src="require('@/assets/logo.png')" style="width: 36px" alt="logo">
+    </div>
     <!-- 顶级菜单 -->
     <template v-for="(item, index) in store.state.userInfo.menuList" :key="index">
       <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="`${index}`">
@@ -144,10 +145,8 @@ const onClickMenu = (item: any) => {
   color: rgb(55, 76, 82);
 }
 
-.menu-box {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.el-menu {
+  border-right: none !important;
 }
 
 .el-menu-item.is-active {

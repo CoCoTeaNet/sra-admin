@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import {router} from "@/router";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
-import {logout} from "@/api/system/user-api";
+import {logout} from "@/api/system/login-api";
 import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 
@@ -77,10 +77,9 @@ const doFullScreen = (event: { exitFullscreen: () => void; }) => {
 
 <style>
 .header-row {
-  height: 100%;
-  box-shadow: var(--el-box-shadow);
+  height: 63px;
   border-radius: 4px;
-  padding: 3px 1em;
+  padding: 3px 0;
 }
 
 .mouse-over {

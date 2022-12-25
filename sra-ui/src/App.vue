@@ -10,16 +10,13 @@ if (userInfo) {
 </script>
 
 <template>
-  <el-scrollbar :noresize="true">
-    <base-layout style="height: 100vh"/>
-  </el-scrollbar>
+  <base-layout/>
 </template>
 
 <style>
 html, body, #app {
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 #app {

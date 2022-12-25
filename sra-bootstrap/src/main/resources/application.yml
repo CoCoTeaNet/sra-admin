@@ -15,11 +15,10 @@ sra:
       - /test/**
       - /favicon.ico
       # 登录
-      - /user/login
-      - /file/verificationCode
+      - /system/login
+      - /system/captcha
       # 文件访问路径
-      - /upload/**
-      - /codeGenerator/**
+      - /download/**
       - /schedule/**
       # 内容管理
       - /cmsPage/**
@@ -31,7 +30,7 @@ sra:
 # Sa-Token 配置
 sa-token:
   # token名称 (同时也是cookie名称)
-  token-name: sa-token
+  token-name: Authorization
   # token有效期，单位s 默认30天, -1代表永不过期
   timeout: 86400
   # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
@@ -73,7 +72,7 @@ spring:
         min-idle: 0
   # sqltoy框架相关配置
   sqltoy:
-    unify-fields-handler: com.sraapp.bootstrap.handler.SqlToyUnifyFieldsHandler
+    unify-fields-handler: net.cocotea.admin.bootstrap.handler.SqlToyUnifyFieldsHandler
   servlet:
     multipart:
       max-file-size: 10MB

@@ -9,7 +9,7 @@ sra:
     domain: 106.52.139.93
   dev-enable:
     author: CoCoTea
-    module-package: com.sraapp.system
+    module-package: net.cocotea.admin.system
     permission-cache: true
     strong-password: srapwd
     # 文件上传地址

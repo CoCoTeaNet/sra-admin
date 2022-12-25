@@ -1,7 +1,10 @@
 <template>
   <div class="login">
     <el-card shadow="always" style="width: 366px">
-      <h2 style="text-align: center">登录后台管理系统</h2>
+      <h2 style="text-align: center">
+        <img :src="require('@/assets/account-logo.png')" style="width: 210px" alt="login-logo">
+      </h2>
+
       <el-form ref="loginFormRef" :model="loginForm" status-icon :rules="rules" size="large">
         <el-form-item prop="username">
           <el-input placeholder="账号" :prefix-icon="UserFilled" v-model="loginForm.username"
@@ -17,12 +20,12 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="verifyCode">
+        <el-form-item prop="captcha">
           <el-input style="width: 75%;" placeholder="验证码" :prefix-icon="Connection"
                     @keypress.enter="submitForm(loginFormRef)"
-                    v-model="loginForm.verifyCode">
+                    v-model="loginForm.captcha">
           </el-input>
-          <el-image @click="getVerifyCodeImage" style="width: 25%;cursor: pointer" :src="verifyCode"/>
+          <el-image @click="getVerifyCodeImage" style="width: 25%;cursor: pointer" :src="captcha"/>
         </el-form-item>
 
         <el-form-item>
@@ -43,8 +46,7 @@
 import {ref, reactive, onMounted} from "vue";
 import type {ElForm} from 'element-plus';
 import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
-import {verificationCode} from "@/api/system/file-api";
-import {login} from "@/api/system/user-api";
+import {getCaptcha,login} from "@/api/system/login-api";
 import {ElMessage} from "element-plus";
 import {setUserInfo} from "@/store";
 import {useRouter, useRoute} from "vue-router";
@@ -59,13 +61,13 @@ const loginFormRef = ref<FormInstance>();
 const loading = ref<boolean>(false);
 
 // 验证码
-const verifyCode = ref<string>('');
+const captcha = ref<string>('');
 
 // 表单对象
 const loginForm = reactive({
-  username: '',
-  password: '',
-  verifyCode: '',
+  username: 'admin',
+  password: 'srapwd',
+  captcha: '',
   rememberMe: false
 });
 
@@ -73,7 +75,7 @@ const loginForm = reactive({
 const rules = reactive({
   username: [{required: true, min: 2, max: 16, message: '长度限制2~16', trigger: 'blur'}],
   password: [{required: true, min: 6, max: 30, message: '长度限制6~30', trigger: 'blur'}],
-  verifyCode: [{required: true, message: '请输入验证码', trigger: 'blur'}],
+  captcha: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 });
 
 onMounted(() => {
@@ -84,9 +86,9 @@ onMounted(() => {
  * 获取验证码
  */
 const getVerifyCodeImage = () => {
-  verificationCode({codeType: "LOGIN"}).then((res: any) => {
+  getCaptcha({codeType: "LOGIN"}).then((res: any) => {
     if (res.code === 200) {
-      verifyCode.value = `data:image/jpeg;base64,${res.data}`;
+      captcha.value = `data:image/jpeg;base64,${res.data}`;
     }
   });
 }

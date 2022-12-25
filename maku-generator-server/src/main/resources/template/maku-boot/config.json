@@ -1,0 +1,58 @@
+{
+  "project": {
+    "packageName": "net.cocotea.admin",
+    "version": "1.2.1",
+    "backendPath": "D:\\generator\\sss-rbac-admin\\sra-${moduleName}",
+    "frontendPath": "D:\\generator\\sss-rbac-admin\\sra-ui"
+  },
+  "developer": {
+    "author": "CoCoTea",
+    "email": "572315466@qq.com"
+  },
+  "templates": [
+    {
+      "templateName": "java/Controller.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java"
+    },
+    {
+      "templateName": "java/Service.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/${ClassName}Service.java"
+    },
+    {
+      "templateName": "java/ServiceImpl.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/impl/${ClassName}ServiceImpl.java"
+    },
+    {
+      "templateName": "java/VO.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/vo/${ClassName}VO.java"
+    },
+    {
+      "templateName": "java/AddParam.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}AddParam.java"
+    },
+    {
+      "templateName": "java/PageParam.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}PageParam.java"
+    },
+    {
+      "templateName": "java/UpdateParam.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}UpdateParam.java"
+    },
+    {
+      "templateName": "xml/Dao.xml.ftl",
+      "generatorPath": "${backendPath}/src/main/resources/mapper/${moduleName}/${ClassName}Dao.xml"
+    },
+    {
+      "templateName": "vue/api.ts.ftl",
+      "generatorPath": "${frontendPath}/src/api/${moduleName}/${functionName}-api.ts"
+    },
+    {
+      "templateName": "vue/Model.ts.ftl",
+      "generatorPath": "${frontendPath}/src/model/entity/${moduleName}/${ClassName}Model.ts"
+    },
+    {
+      "templateName": "vue/View.vue.ftl",
+      "generatorPath": "${frontendPath}/src/views/system/manager/${moduleName}/${ClassName}View.vue"
+    }
+  ]
+}

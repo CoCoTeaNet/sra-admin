@@ -1,21 +1,11 @@
 <template>
-  <admin-container
-      :l-width="store.state.isCollapseMenu ? '8%' : '18%'"
-      :r-width="store.state.isCollapseMenu ? '92%' : '82%'" >
-    <template #nav>
-      <el-scrollbar>
-        <el-aside class="aside el-aside" :width="store.state.isCollapseMenu ? '64px' : '90%'">
-          <NavMenu/>
-        </el-aside>
-      </el-scrollbar>
-    </template>
+  <el-container style="height: 100vh;">
+    <el-aside width="300" style="border-right: solid 1px var(--el-menu-border-color);"><NavMenu/></el-aside>
 
-    <template #header>
-      <admin-header/>
-    </template>
+    <el-container>
+      <el-header><admin-header/></el-header>
 
-    <template #main>
-      <div class="main">
+      <el-main>
         <router-view v-slot="{Component}">
           <keep-alive>
             <transition :name="`slide-fade`" :mode="`out-in`">
@@ -23,33 +13,25 @@
             </transition>
           </keep-alive>
         </router-view>
-      </div>
-    </template>
-  </admin-container>
+      </el-main>
+
+      <el-footer>
+        <span style="color: #606266">SRA-ADMIN copyright @ CoCoTea 2022</span>
+      </el-footer>
+    </el-container>
+  </el-container>
 </template>
 
 <script setup lang="ts">
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
 import {useStore} from "@/store";
-import AdminContainer from "@/components/container/AdminContainer.vue";
 
 const store = useStore();
 </script>
 
 <!--私有样式-->
 <style scoped>
-.aside {
-  border-radius: 4px;
-  margin: 1em;
-  box-shadow: var(--el-box-shadow);
-}
-
-.main {
-  box-shadow: var(--el-box-shadow-lighter);
-  padding: 1em;
-}
-
 .el-aside {
   overflow-x: hidden;
   transition: width 200ms;

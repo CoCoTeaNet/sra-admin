@@ -5,7 +5,7 @@ import {request} from '@/utils/axios-util';
  * @param data
  */
 export function add(data: any) {
-    return request('user/add', data, 'POST');
+    return request('system/user/add', data, 'POST');
 }
 
 /**
@@ -14,7 +14,7 @@ export function add(data: any) {
  * @returns {Promise<any>}
  */
 export function deleteBatch(data: any) {
-    return request('user/deleteBatch', data, 'POST');
+    return request('system/user/deleteBatch', data, 'POST');
 }
 
 /**
@@ -23,7 +23,7 @@ export function deleteBatch(data: any) {
  * @returns {Promise<any>}
  */
 export function update(data: any) {
-    return request('user/update', data, 'POST');
+    return request('system/user/update', data, 'POST');
 }
 
 /**
@@ -32,27 +32,12 @@ export function update(data: any) {
  * @returns {Promise<any>}
  */
 export function listByPage(data: any) {
-    return request('user/listByPage', data, 'POST');
-}
-
-/**
- * 用户登录
- */
-export function login(data: any) {
-    return request('user/login', data, 'POST');
-}
-
-/**
- * 用户退出登录
- * @returns {Promise<*>}
- */
-export function logout() {
-    return request('user/logout', {}, 'POST');
+    return request('system/user/listByPage', data, 'POST');
 }
 
 /**
  * 用户获取个人详细信息
  */
 export function getDetail() {
-    return request('user/getDetail', {}, 'GET');
+    return request('system/user/getDetail', {}, 'GET');
 }

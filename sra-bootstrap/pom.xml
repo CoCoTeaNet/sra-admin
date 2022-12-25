@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.sra-app</groupId>
-        <artifactId>admin-system</artifactId>
-        <version>1.1.2</version>
+        <groupId>net.cocotea</groupId>
+        <artifactId>admin</artifactId>
+        <version>1.2.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,17 +22,17 @@
         <!-- 引入一个模块，如果引入的模块里面已经依赖了这里的其中一个模块必须删除它 -->
         <!-- 引入系统模块 -->
         <dependency>
-            <groupId>com.sra-app</groupId>
+            <groupId>net.cocotea</groupId>
             <artifactId>sra-system</artifactId>
         </dependency>
         <!-- 引入内容管理模块 -->
         <dependency>
-            <groupId>com.sra-app</groupId>
+            <groupId>net.cocotea</groupId>
             <artifactId>sra-cms</artifactId>
         </dependency>
         <!-- 引入任务调度模块 -->
         <dependency>
-            <groupId>com.sra-app</groupId>
+            <groupId>net.cocotea</groupId>
             <artifactId>sra-schedule</artifactId>
         </dependency>
     </dependencies>
@@ -43,7 +43,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                     <mainClass>com.sraapp.bootstrap.AppBoot</mainClass>　　
+                     <mainClass>net.cocotea.admin.bootstrap.AppBoot</mainClass>　　
                 </configuration>
                 <executions>
                      <execution>

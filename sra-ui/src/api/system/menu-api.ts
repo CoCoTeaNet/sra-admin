@@ -4,7 +4,7 @@ import {request, get, post} from '@/utils/axios-util';
  * 新增菜单
  */
 export function add(data: any) {
-    return request('menu/add', data, post);
+    return request('system/menu/add', data, post);
 }
 
 /**
@@ -13,7 +13,7 @@ export function add(data: any) {
  * @returns {Promise<any>}
  */
 export function update(data: any) {
-    return request('menu/update', data, post);
+    return request('system/menu/update', data, post);
 }
 
 /**
@@ -22,26 +22,30 @@ export function update(data: any) {
  * @returns {Promise<*>}
  */
 export function deleteBatch(data: any) {
-    return request('menu/deleteBatch', data, post);
+    return request('system/menu/deleteBatch', data, post);
 }
 
 /**
  * 菜单列表
  */
 export function listByPage(data: any) {
-    return request('menu/listByPage', data, post);
+    return request('system/menu/listByPage', data, post);
 }
 
 /**
  * 菜单树
  */
 export function listByTree(data: any) {
-    return request('menu/listByTree', data, post);
+    return request('system/menu/listByTree', data, post);
+}
+
+export function listByTreeAsRoleSelection(data: any) {
+    return request('system/menu/listByTreeAsRoleSelection', data, post);
 }
 
 /**
  * 通过角色获取菜单
  */
 export function listByRoleId(data: any) {
-    return request(`menu/listByRoleId/${data}`, {}, get);
+    return request(`system/menu/listByRoleId/${data}`, {}, get);
 }
