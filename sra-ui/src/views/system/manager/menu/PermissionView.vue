@@ -86,6 +86,7 @@ import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
 import {ElMessage, ElMessageBox} from "element-plus";
+import listUtil from "@/utils/list-util";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
@@ -147,6 +148,7 @@ const loadTableData = (): void => {
   if (!loading.value) loading.value = true;
   let param = {menuVO: {isMenu: 0, menuName: searchObj.value.menuName}};
   reqCommonFeedback(listByTree(param), (data: any) => {
+    listUtil.treeMap(data, (item: { disabled: boolean; menuType: number; }) => item.disabled = (item.menuType != 0));
     records.value = data;
     loading.value = false;
   });

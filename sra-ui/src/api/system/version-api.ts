@@ -5,7 +5,7 @@ import {request} from '@/utils/axios-util';
  * @param data
  */
 export function add(data: any) {
-    return request('version/add', data, 'POST');
+    return request('system/version/add', data, 'POST');
 }
 
 /**
@@ -14,7 +14,7 @@ export function add(data: any) {
  * @returns {Promise<any>}
  */
 export function deleteBatch(data: any) {
-    return request('version/deleteBatch', data, 'POST');
+    return request('system/version/deleteBatch', data, 'POST');
 }
 
 /**
@@ -23,7 +23,7 @@ export function deleteBatch(data: any) {
  * @returns {Promise<any>}
  */
 export function update(data: any) {
-    return request('version/update', data, 'POST');
+    return request('system/version/update', data, 'POST');
 }
 
 /**
@@ -32,6 +32,6 @@ export function update(data: any) {
  * @returns {Promise<any>}
  */
 export function listByPage(data: any) {
-    return request('version/listByPage', data, 'POST');
+    return request('system/version/listByPage', data, 'POST');
 }
 

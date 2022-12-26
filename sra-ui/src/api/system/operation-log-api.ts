@@ -10,7 +10,7 @@ const operationLogApi = {
  * @param data
  */
 export function listByPage (data: any) {
-    return request('operationLog/listByPage', data, 'POST');
+    return request('system/operationLog/listByPage', data, 'POST');
 }
 
 
@@ -20,7 +20,7 @@ export function listByPage (data: any) {
  * @returns {Promise<*>}
  */
 export function deleteBatch(data: any) {
-    return request('operationLog/deleteBatch', data, post);
+    return request('system/operationLog/deleteBatch', data, post);
 }
 
 export default operationLogApi;
