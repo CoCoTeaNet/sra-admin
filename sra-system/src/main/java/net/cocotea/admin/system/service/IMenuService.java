@@ -20,7 +20,7 @@ public interface IMenuService extends IBaseService<Page<MenuVO>, MenuPageParam, 
      * @param pageParam 分页参数
      * @return 分页结果集
      */
-    Collection<MenuVO> listByTree();
+    Collection<MenuVO> listByTree(MenuPageParam param);
 
     /**
      * 获取用户的所有菜单

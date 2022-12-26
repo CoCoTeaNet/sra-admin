@@ -64,12 +64,8 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public Collection<MenuVO> listByTree() {
-        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", new MenuVO());
-        menuVOList.forEach(item -> {
-            item.setLabel(item.getMenuName());
-            item.setKey(item.getId());
-        });
+    public Collection<MenuVO> listByTree(MenuPageParam param) {
+        List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", param.getMenuVO());
         GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
         return dsUtils.buildTreeDefault(menuVOList).values();
     }
@@ -137,7 +133,6 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public Collection<MenuVO> listByTreeAsRoleSelection(MenuPageParam pageParam) {
         List<MenuVO> menuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenuVO());
-        menuVOList.forEach(item -> item.setDisabled(MenuTypeEnum.DIRECTORY.getCode().equals(item.getMenuType())));
         GenerateDsUtils<MenuVO> dsUtils = new GenerateDsUtils<>();
         return dsUtils.buildTreeDefault(menuVOList).values();
     }

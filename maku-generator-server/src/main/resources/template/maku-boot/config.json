@@ -23,6 +23,10 @@
       "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/impl/${ClassName}ServiceImpl.java"
     },
     {
+      "templateName": "java/Entity.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/entity/${ClassName}.java"
+    },
+    {
       "templateName": "java/VO.java.ftl",
       "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/vo/${ClassName}VO.java"
     },

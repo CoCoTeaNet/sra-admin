@@ -1,5 +1,7 @@
 package net.cocotea.admin.system.vo;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,18 +40,10 @@ public class MenuVO implements Serializable {
 
 	private String iconPath;
 
-	/**
-	 * 适配naive ui树形组件
-	 */
-	private String label;
-	private String key;
-
 	private LocalDateTime createTime;
 	private LocalDateTime updateTime;
 
 	private List<MenuVO> children;
-
-	private Boolean disabled;
 
 	public String getId() {
 		return id;
@@ -186,54 +180,8 @@ public class MenuVO implements Serializable {
 		return this;
 	}
 
-	public Boolean getDisabled() {
-		return disabled;
-	}
-
-	public MenuVO setDisabled(Boolean disabled) {
-		this.disabled = disabled;
-		return this;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public MenuVO setLabel(String label) {
-		this.label = label;
-		return this;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public MenuVO setKey(String key) {
-		this.key = key;
-		return this;
-	}
-
 	@Override
 	public String toString() {
-		return "MenuVO{" +
-				"id='" + id + '\'' +
-				", menuName='" + menuName + '\'' +
-				", permissionCode='" + permissionCode + '\'' +
-				", routerPath='" + routerPath + '\'' +
-				", parentId='" + parentId + '\'' +
-				", menuType=" + menuType +
-				", isMenu='" + isMenu + '\'' +
-				", menuStatus=" + menuStatus +
-				", sort=" + sort +
-				", componentPath='" + componentPath + '\'' +
-				", isExternalLink=" + isExternalLink +
-				", iconPath='" + iconPath + '\'' +
-				", label='" + label + '\'' +
-				", key='" + key + '\'' +
-				", createTime=" + createTime +
-				", updateTime=" + updateTime +
-				", children=" + children +
-				", disabled=" + disabled +
-				'}';
+		return JSONObject.toJSONString(this);
 	}
 }

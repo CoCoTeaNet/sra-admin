@@ -81,8 +81,8 @@
           </el-form-item>
           <el-form-item v-if="isShowExternalLink" prop="isExternalLink" label="是否外链">
             <el-radio-group v-model="editForm.isExternalLink">
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
+              <el-radio :label="0">否</el-radio>
+              <el-radio :label="1">是</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item prop="sort" label="显示顺序">
@@ -122,7 +122,8 @@ import {listByTree, add, deleteBatch, update} from "@/api/system/menu-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
-import {ElMessage, ElMessageBox} from "element-plus";
+import {ElMessageBox} from "element-plus";
+import listUtil from "@/utils/list-util";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
@@ -161,10 +162,10 @@ const getConfirm: any = (status: number, type: number) => {
   let obj = {color: '', text: ''};
   switch (status) {
     case 0:
-      obj = {color: 'success', text: '是'};
+      obj = {color: 'info', text: '否'};
       break;
     case 1:
-      obj = {color: 'info', text: '否'};
+      obj = {color: 'success', text: '是'};
       break;
   }
   if (type === 0) {
@@ -202,7 +203,7 @@ const rules = reactive({
   isExternalLink: [{required: true, message: '请选择链接类型', trigger: 'blur'}],
 });
 // 是否显示外链选择按钮
-const isShowExternalLink = ref<boolean>(false);
+const isShowExternalLink = ref<boolean>(true);
 const dialogFormVisible = ref<boolean>(false);
 const isShowTable = ref<boolean>(true);
 
@@ -218,7 +219,7 @@ const onEdit = (row: MenuModel): void => {
 
 const onAdd = () => {
   dialogFormVisible.value = true;
-  editForm.value = {menuType: 1, menuStatus: 0};
+  editForm.value = {menuType: 1, menuStatus: 0, isExternalLink: 0};
 }
 
 const onRemove = (row: MenuModel): void => {
@@ -238,6 +239,7 @@ const loadTableData = (): void => {
   if (!loading.value) loading.value = true;
   let param = {menuVO: {isMenu: 1, menuName: searchObj.value.menuName}};
   reqCommonFeedback(listByTree(param), (data: any) => {
+    listUtil.treeMap(data, (item: { disabled: boolean; menuType: number; }) => item.disabled = (item.menuType != 0));
     records.value = data;
     loading.value = false;
   });
@@ -270,8 +272,8 @@ const handleChange = (data: any) => {
   editForm.value.parentId = data[data.length - 1] ? data[data.length - 1] : '0';
 }
 
-const menuTypeChange = (value: string) => {
-  isShowExternalLink.value = value === "1";
+const menuTypeChange = (value: number) => {
+  isShowExternalLink.value = value === 1;
 }
 
 const onExpandAll = () => {
