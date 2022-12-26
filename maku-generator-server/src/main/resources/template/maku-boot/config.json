@@ -2,7 +2,7 @@
   "project": {
     "packageName": "net.cocotea.admin",
     "version": "1.2.1",
-    "backendPath": "D:\\generator\\sss-rbac-admin\\${moduleName}",
+    "backendPath": "D:\\generator\\sss-rbac-admin\\sra-${moduleName}",
     "frontendPath": "D:\\generator\\sss-rbac-admin\\sra-ui"
   },
   "developer": {
