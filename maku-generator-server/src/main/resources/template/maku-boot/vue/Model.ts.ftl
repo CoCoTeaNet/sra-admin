@@ -7,7 +7,7 @@ interface VersionModel {
 
 <#list fieldList as field>
     <#if field.fieldComment!?length gt 0>
-        // ${field.fieldComment}
+    // ${field.fieldComment}
     </#if>
     ${field.attrName}?: string,
 </#list>

@@ -45,7 +45,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
     
     @Override
     public Page<${ClassName}VO> listByPage(${ClassName}PageParam param) throws BusinessException { 
-         Page<${ClassName}VO> page = sqlToyLazyDao.findPageBySql(param, "system_${className}_findByPageParam", param.get${ClassName}());
+         Page<${ClassName}VO> page = sqlToyLazyDao.findPageBySql(param, "${moduleName}_${className}_findByPageParam", param.get${ClassName}());
          return page;
     }
     

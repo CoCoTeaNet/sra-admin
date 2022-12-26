@@ -48,7 +48,7 @@
     },
     {
       "templateName": "vue/api.ts.ftl",
-      "generatorPath": "${frontendPath}/src/api/${moduleName}/${functionName}-api.ts"
+      "generatorPath": "${frontendPath}/src/api/${moduleName}/${className}-api.ts"
     },
     {
       "templateName": "vue/Model.ts.ftl",
