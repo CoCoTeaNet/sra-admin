@@ -2,7 +2,7 @@
   "project": {
     "packageName": "net.cocotea.admin",
     "version": "1.2.1",
-    "backendPath": "D:\\generator\\sss-rbac-admin\\sra-${moduleName}",
+    "backendPath": "D:\\generator\\sss-rbac-admin\\${moduleName}",
     "frontendPath": "D:\\generator\\sss-rbac-admin\\sra-ui"
   },
   "developer": {
@@ -48,7 +48,7 @@
     },
     {
       "templateName": "vue/api.ts.ftl",
-      "generatorPath": "${frontendPath}/src/api/${moduleName}/${functionName}-api.ts"
+      "generatorPath": "${frontendPath}/src/api/${moduleName}/${className}-api.ts"
     },
     {
       "templateName": "vue/Model.ts.ftl",

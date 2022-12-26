@@ -25,6 +25,7 @@ public class ${ClassName} implements Serializable {
 	<#if field.fieldName == "ID">
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
 	</#if>
+	@Column(name="${field.fieldName}",type=java.sql.Types.${field.fieldType?upper_case})
 	private ${field.attrType} ${field.attrName};
 
 </#list>
