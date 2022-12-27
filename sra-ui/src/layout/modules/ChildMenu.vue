@@ -39,8 +39,13 @@ const hasChildren = (m: MenuModel) => {
 }
 
 const onClickMenu = (item: any) => {
-  router.push({path: item.routerPath});
-  addTabItem({name: item.menuName, url: item.routerPath, isActive: true});
+  console.log(item)
+  if (item.isExternalLink == 1) {
+    window.open(item.routerPath, '_blank');
+  } else {
+    router.push({path: item.routerPath});
+    addTabItem({name: item.menuName, url: item.routerPath, isActive: true});
+  }
 }
 </script>
 
