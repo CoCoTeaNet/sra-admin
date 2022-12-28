@@ -30,7 +30,7 @@ public class ${ClassName}UpdateParam implements Serializable {
 		return ${field.attrName};
 	}
 
-	public ${ClassName}AddParam set${field.attrName?cap_first}(${field.attrType} ${field.attrName}) {
+	public ${ClassName}UpdateParam set${field.attrName?cap_first}(${field.attrType} ${field.attrName}) {
 		this.${field.attrName} = ${field.attrName};
 		return this;
 	}

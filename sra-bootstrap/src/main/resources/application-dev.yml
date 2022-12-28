@@ -8,10 +8,6 @@ sra:
     # 服务器IP 或 域名
     domain: 127.0.0.1
   dev-enable:
-    # 作者
-    author: CoCoTea
-    # 模块包名
-    module-package: net.cocotea.admin.cms
     # 开启缓存
     permission-cache: true
     # 强密码
