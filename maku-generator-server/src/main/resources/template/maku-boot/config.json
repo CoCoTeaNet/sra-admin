@@ -44,7 +44,7 @@
     },
     {
       "templateName": "xml/Dao.xml.ftl",
-      "generatorPath": "${backendPath}/src/main/resources/mapper/${moduleName}/${ClassName}.sql.xml"
+      "generatorPath": "${backendPath}/src/main/resources/mapper/${ClassName}.sql.xml"
     },
     {
       "templateName": "vue/api.ts.ftl",
