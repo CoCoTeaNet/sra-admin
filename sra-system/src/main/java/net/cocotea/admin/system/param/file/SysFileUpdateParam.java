@@ -78,7 +78,7 @@ public class SysFileUpdateParam implements Serializable {
 		return ID;
 	}
 
-	public SysFileAddParam setID(String ID) {
+	public SysFileUpdateParam setID(String ID) {
 		this.ID = ID;
 		return this;
 	}
@@ -86,7 +86,7 @@ public class SysFileUpdateParam implements Serializable {
 		return fileName;
 	}
 
-	public SysFileAddParam setFileName(String fileName) {
+	public SysFileUpdateParam setFileName(String fileName) {
 		this.fileName = fileName;
 		return this;
 	}
@@ -94,7 +94,7 @@ public class SysFileUpdateParam implements Serializable {
 		return fileSuffix;
 	}
 
-	public SysFileAddParam setFileSuffix(String fileSuffix) {
+	public SysFileUpdateParam setFileSuffix(String fileSuffix) {
 		this.fileSuffix = fileSuffix;
 		return this;
 	}
@@ -102,7 +102,7 @@ public class SysFileUpdateParam implements Serializable {
 		return realPath;
 	}
 
-	public SysFileAddParam setRealPath(String realPath) {
+	public SysFileUpdateParam setRealPath(String realPath) {
 		this.realPath = realPath;
 		return this;
 	}
@@ -110,7 +110,7 @@ public class SysFileUpdateParam implements Serializable {
 		return browsePath;
 	}
 
-	public SysFileAddParam setBrowsePath(String browsePath) {
+	public SysFileUpdateParam setBrowsePath(String browsePath) {
 		this.browsePath = browsePath;
 		return this;
 	}
@@ -118,7 +118,7 @@ public class SysFileUpdateParam implements Serializable {
 		return fullPath;
 	}
 
-	public SysFileAddParam setFullPath(String fullPath) {
+	public SysFileUpdateParam setFullPath(String fullPath) {
 		this.fullPath = fullPath;
 		return this;
 	}
@@ -126,7 +126,7 @@ public class SysFileUpdateParam implements Serializable {
 		return fileSize;
 	}
 
-	public SysFileAddParam setFileSize(Long fileSize) {
+	public SysFileUpdateParam setFileSize(Long fileSize) {
 		this.fileSize = fileSize;
 		return this;
 	}
@@ -134,7 +134,7 @@ public class SysFileUpdateParam implements Serializable {
 		return createBy;
 	}
 
-	public SysFileAddParam setCreateBy(String createBy) {
+	public SysFileUpdateParam setCreateBy(String createBy) {
 		this.createBy = createBy;
 		return this;
 	}
@@ -142,7 +142,7 @@ public class SysFileUpdateParam implements Serializable {
 		return createTime;
 	}
 
-	public SysFileAddParam setCreateTime(Date createTime) {
+	public SysFileUpdateParam setCreateTime(Date createTime) {
 		this.createTime = createTime;
 		return this;
 	}
@@ -150,7 +150,7 @@ public class SysFileUpdateParam implements Serializable {
 		return updateBy;
 	}
 
-	public SysFileAddParam setUpdateBy(String updateBy) {
+	public SysFileUpdateParam setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
 		return this;
 	}
@@ -158,7 +158,7 @@ public class SysFileUpdateParam implements Serializable {
 		return updateTime;
 	}
 
-	public SysFileAddParam setUpdateTime(Date updateTime) {
+	public SysFileUpdateParam setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 		return this;
 	}
@@ -166,7 +166,7 @@ public class SysFileUpdateParam implements Serializable {
 		return deleteStatus;
 	}
 
-	public SysFileAddParam setDeleteStatus(Integer deleteStatus) {
+	public SysFileUpdateParam setDeleteStatus(Integer deleteStatus) {
 		this.deleteStatus = deleteStatus;
 		return this;
 	}

@@ -2,7 +2,7 @@ package ${package}.${moduleName}.param.${functionName};
 
 import ${package}.${moduleName}.vo.${ClassName}VO;
 import org.sagacity.sqltoy.model.Page;
-
+import com.alibaba.fastjson.JSONObject;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
