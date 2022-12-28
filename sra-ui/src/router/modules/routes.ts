@@ -1,21 +1,21 @@
 import Login from "@/views/system/login/Login.vue";
 import AdminLayout from "@/layout/AdminLayout.vue";
 import Home from "@/views/system/dashboard/home/Home.vue";
-import UserView from "@/views/system/manager/user/UserView.vue";
+import UserView from "@/views/system/manager/system/user/UserView.vue";
 import MenuView from "@/views/system/manager/menu/MenuView.vue";
-import DictionaryView from "@/views/system/manager/dictionary/DictionaryView.vue";
+import DictionaryView from "@/views/system/manager/system/dictionary/DictionaryView.vue";
 import PermissionView from "@/views/system/manager/menu/PermissionView.vue";
-import RoleView from "@/views/system/manager/role/RoleView.vue";
+import RoleView from "@/views/system/manager/system/role/RoleView.vue";
 import Dashboard from "@/views/system/dashboard/Dashboard.vue";
 import NotFound from "@/views/error/NotFound.vue";
 import UserCenterView from "@/views/system/personal/UserCenterView.vue";
-import CodeGenerator from "@/views/system/sys-util/CodeGenerator.vue";
-import OperationLogView from "@/views/system/manager/operation-log/OperationLogView.vue";
+import OperationLogView from "@/views/system/manager/system/operation-log/OperationLogView.vue";
 import ArticleListView from "@/views/system/manager/cms/ArticleListView.vue";
 import CommentView from "@/views/system/manager/cms/CommentView.vue";
 import JobView from "@/views/system/manager/schedule/JobView.vue";
 import JobLogView from "@/views/system/manager/schedule/JobLogView.vue";
-import VersionView from "@/views/system/manager/version/VersionView.vue";
+import VersionView from "@/views/system/manager/system/version/VersionView.vue";
+import SysFileView from "@/views/system/manager/system/file/SysFileView.vue";
 
 export const routes = [
     {
@@ -45,6 +45,7 @@ export const routes = [
             {path: 'job-manager', meta: {title: '任务管理'}, name: 'JobView', component: JobView},
             {path: 'JobLog-manager', meta: {title: '调度记录'}, name: 'JobLogView', component: JobLogView},
             {path: 'version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
+            {path: 'sysFile-manager', meta: {title: '文件管理'}, name: 'SysFileView', component: SysFileView},
         ]
     },
     {

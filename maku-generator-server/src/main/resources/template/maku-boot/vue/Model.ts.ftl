@@ -3,7 +3,7 @@
 * @since ${version} ${date}
 * ${tableComment}
 */
-interface VersionModel {
+interface ${ClassName}Model {
 
 <#list fieldList as field>
     <#if field.fieldComment!?length gt 0>

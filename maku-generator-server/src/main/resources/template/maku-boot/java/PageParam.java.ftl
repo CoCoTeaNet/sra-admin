@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.param.${className};
+package ${package}.${moduleName}.param.${functionName};
 
 import ${package}.${moduleName}.vo.${ClassName}VO;
 import org.sagacity.sqltoy.model.Page;
@@ -19,5 +19,10 @@ public class ${ClassName}PageParam extends Page<${ClassName}VO> implements Seria
     public ${ClassName}PageParam set${ClassName}(${ClassName}VO ${className}) {
         this.${className} = ${className};
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
     }
 }

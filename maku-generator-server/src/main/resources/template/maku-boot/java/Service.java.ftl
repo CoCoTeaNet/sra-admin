@@ -1,11 +1,10 @@
 package ${package}.${moduleName}.service;
 
 import ${package}.${moduleName}.vo.${ClassName}VO;
-import ${package}.${moduleName}.param.${ClassName}AddParam;
-import ${package}.${moduleName}.param.${ClassName}PageParam;
-import ${package}.${moduleName}.param.${ClassName}UpdateParam;
+import ${package}.${moduleName}.param.${functionName}.${ClassName}AddParam;
+import ${package}.${moduleName}.param.${functionName}.${ClassName}PageParam;
+import ${package}.${moduleName}.param.${functionName}.${ClassName}UpdateParam;
 import ${package}.common.service.IBaseService;
-import ${package}.${moduleName}.vo.MenuVO;
 import org.sagacity.sqltoy.model.Page;
 
 /**

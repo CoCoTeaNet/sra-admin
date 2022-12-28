@@ -1,7 +1,7 @@
-package ${package}.${moduleName}.vo;
+package ${package}.${moduleName}.param.${functionName};
 
 import java.io.Serializable;
-import ${package}.framework.common.utils.DateUtils;
+import com.alibaba.fastjson.JSONObject;
 <#list importList as i>
 import ${i!};
 </#list>
@@ -26,14 +26,14 @@ public class ${ClassName}AddParam implements Serializable {
 </#list>
 
 <#list fieldList as field>
-	public ${field.attrType} getParentId() {
+	public ${field.attrType} get${field.attrName?cap_first}() {
 		return ${field.attrName};
 	}
 
-	public void setParentId(${field.attrType} ${field.attrName}) {
+	public ${ClassName}AddParam set${field.attrName?cap_first}(${field.attrType} ${field.attrName}) {
 		this.${field.attrName} = ${field.attrName};
+		return this;
 	}
-
 </#list>
 
 	@Override
