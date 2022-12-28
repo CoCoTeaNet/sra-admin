@@ -1,5 +1,7 @@
 package net.cocotea.admin.system.vo;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -132,16 +134,6 @@ public class VersionVO implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder columnsBuffer = new StringBuilder();
-        columnsBuffer.append("id=").append(getId()).append("\n");
-        columnsBuffer.append("updateNo=").append(getUpdateNo()).append("\n");
-        columnsBuffer.append("updateDesc=").append(getUpdateDesc()).append("\n");
-        columnsBuffer.append("platformName=").append(getPlatformName()).append("\n");
-        columnsBuffer.append("downloadUrl=").append(getDownloadUrl()).append("\n");
-        columnsBuffer.append("createBy=").append(getCreateBy()).append("\n");
-        columnsBuffer.append("createTime=").append(getCreateTime()).append("\n");
-        columnsBuffer.append("updateBy=").append(getUpdateBy()).append("\n");
-        columnsBuffer.append("updateTime=").append(getUpdateTime()).append("\n");
-        return columnsBuffer.toString();
+        return JSONObject.toJSONString(this);
     }
 }

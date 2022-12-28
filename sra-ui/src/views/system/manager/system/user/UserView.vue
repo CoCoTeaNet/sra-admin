@@ -81,7 +81,7 @@ import {nextTick, onMounted, ref} from "vue";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {listByPage, deleteBatch} from "@/api/system/user-api";
 import TableManage from "@/components/container/TableManage.vue";
-import AddUser from "@/views/system/manager/user/module/AddUser.vue";
+import AddUser from "@/views/system/manager/system/user/module/AddUser.vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const formShow = ref<boolean>(false);

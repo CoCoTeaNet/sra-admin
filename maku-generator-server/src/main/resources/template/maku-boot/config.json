@@ -1,8 +1,8 @@
 {
   "project": {
-    "packageName": "net.cocotea.admin",
+    "packageName": "net.cocotea.admin.system",
     "version": "1.2.1",
-    "backendPath": "D:\\generator\\sss-rbac-admin\\sra-${moduleName}",
+    "backendPath": "D:\\generator\\sss-rbac-admin\\sra-system",
     "frontendPath": "D:\\generator\\sss-rbac-admin\\sra-ui"
   },
   "developer": {
@@ -16,7 +16,7 @@
     },
     {
       "templateName": "java/Service.java.ftl",
-      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/${ClassName}Service.java"
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/I${ClassName}Service.java"
     },
     {
       "templateName": "java/ServiceImpl.java.ftl",
@@ -32,19 +32,19 @@
     },
     {
       "templateName": "java/AddParam.java.ftl",
-      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}AddParam.java"
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${functionName}/${ClassName}AddParam.java"
     },
     {
       "templateName": "java/PageParam.java.ftl",
-      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}PageParam.java"
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${functionName}/${ClassName}PageParam.java"
     },
     {
       "templateName": "java/UpdateParam.java.ftl",
-      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${ClassName}UpdateParam.java"
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/param/${functionName}/${ClassName}UpdateParam.java"
     },
     {
       "templateName": "xml/Dao.xml.ftl",
-      "generatorPath": "${backendPath}/src/main/resources/mapper/${moduleName}/${ClassName}Dao.xml"
+      "generatorPath": "${backendPath}/src/main/resources/mapper/${moduleName}/${ClassName}.sql.xml"
     },
     {
       "templateName": "vue/api.ts.ftl",
@@ -56,7 +56,7 @@
     },
     {
       "templateName": "vue/View.vue.ftl",
-      "generatorPath": "${frontendPath}/src/views/system/manager/${moduleName}/${ClassName}View.vue"
+      "generatorPath": "${frontendPath}/src/views/system/manager/${moduleName}/${functionName}/${ClassName}View.vue"
     }
   ]
 }

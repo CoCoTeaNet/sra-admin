@@ -2,13 +2,36 @@
     <table-manage>
         <!-- 表格操作 -->
         <template #search>
-            <#list fieldList as field>
-                <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
-            <el-form-item label="${field.fieldComment}">
-                <el-input placeholder="${field.fieldComment}" v-model:model-value="pageParam.searchObject.${field.attrName}"/>
+                        <el-form-item label="文件名称">
+                <el-input placeholder="文件名称" v-model:model-value="pageParam.searchObject.fileName"/>
             </el-form-item>
-                </#if>
-            </#list>
+            <el-form-item label="文件后缀">
+                <el-input placeholder="文件后缀" v-model:model-value="pageParam.searchObject.fileSuffix"/>
+            </el-form-item>
+            <el-form-item label="文件真实路径">
+                <el-input placeholder="文件真实路径" v-model:model-value="pageParam.searchObject.realPath"/>
+            </el-form-item>
+            <el-form-item label="浏览路径">
+                <el-input placeholder="浏览路径" v-model:model-value="pageParam.searchObject.browsePath"/>
+            </el-form-item>
+            <el-form-item label="文件访问地址">
+                <el-input placeholder="文件访问地址" v-model:model-value="pageParam.searchObject.fullPath"/>
+            </el-form-item>
+            <el-form-item label="文件大小（单位：字节）">
+                <el-input placeholder="文件大小（单位：字节）" v-model:model-value="pageParam.searchObject.fileSize"/>
+            </el-form-item>
+            <el-form-item label="创建人">
+                <el-input placeholder="创建人" v-model:model-value="pageParam.searchObject.createBy"/>
+            </el-form-item>
+            <el-form-item label="创建时间">
+                <el-input placeholder="创建时间" v-model:model-value="pageParam.searchObject.createTime"/>
+            </el-form-item>
+            <el-form-item label="更新人">
+                <el-input placeholder="更新人" v-model:model-value="pageParam.searchObject.updateBy"/>
+            </el-form-item>
+            <el-form-item label="更新时间">
+                <el-input placeholder="更新时间" v-model:model-value="pageParam.searchObject.updateTime"/>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="loadTableData">搜索</el-button>
                 <el-button @click="resetSearchForm">重置</el-button>
@@ -16,17 +39,22 @@
         </template>
 
         <template #operate>
-            <el-button type="primary" @click="onAdd">添加${tableComment}</el-button>
+            <el-button type="primary" @click="onAdd">添加系统文件表</el-button>
         </template>
 
         <!-- 表格视图 -->
         <template #default>
             <el-table stripe row-key="id" :data="pageVo.records">
-                <#list fieldList as field>
-                    <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
-                <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
-                    </#if>
-                </#list>
+                <el-table-column prop="fileName" label="文件名称" />
+                <el-table-column prop="fileSuffix" label="文件后缀" />
+                <el-table-column prop="realPath" label="文件真实路径" />
+                <el-table-column prop="browsePath" label="浏览路径" />
+                <el-table-column prop="fullPath" label="文件访问地址" />
+                <el-table-column prop="fileSize" label="文件大小（单位：字节）" />
+                <el-table-column prop="createBy" label="创建人" />
+                <el-table-column prop="createTime" label="创建时间" />
+                <el-table-column prop="updateBy" label="更新人" />
+                <el-table-column prop="updateTime" label="更新时间" />
                 <!-- 单行操作 -->
                 <el-table-column fixed="right" width="150" label="操作">
                     <template #default="scope">
@@ -47,13 +75,36 @@
         <template #form>
             <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
                 <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
-                    <#list fieldList as field>
-                        <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
-                    <el-form-item prop="${field.attrName}" label="${field.fieldComment}">
-                        <el-input v-model="editForm.${field.attrName}"></el-input>
+                    <el-form-item prop="fileName" label="文件名称">
+                        <el-input v-model="editForm.fileName"></el-input>
                     </el-form-item>
-                        </#if>
-                    </#list>
+                    <el-form-item prop="fileSuffix" label="文件后缀">
+                        <el-input v-model="editForm.fileSuffix"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="realPath" label="文件真实路径">
+                        <el-input v-model="editForm.realPath"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="browsePath" label="浏览路径">
+                        <el-input v-model="editForm.browsePath"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="fullPath" label="文件访问地址">
+                        <el-input v-model="editForm.fullPath"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="fileSize" label="文件大小（单位：字节）">
+                        <el-input v-model="editForm.fileSize"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="createBy" label="创建人">
+                        <el-input v-model="editForm.createBy"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="createTime" label="创建时间">
+                        <el-input v-model="editForm.createTime"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="updateBy" label="更新人">
+                        <el-input v-model="editForm.updateBy"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="updateTime" label="更新时间">
+                        <el-input v-model="editForm.updateTime"></el-input>
+                    </el-form-item>
                 </el-form>
                 <template #footer>
                     <span class="dialog-footer">
@@ -68,7 +119,7 @@
 
 <script setup lang="ts">
     import {onMounted, ref, reactive, nextTick} from "vue";
-    import {add, deleteBatch, update, listByPage} from "@/api/system/${className}-api";
+    import {add, deleteBatch, update, listByPage} from "@/api/system/sysFile-api";
     import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
     import TableManage from "@/components/container/TableManage.vue";
     import {ElForm} from "element-plus/es";
@@ -79,7 +130,7 @@
 
     const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
     // 表单参数
-    const editForm = ref<${ClassName}Model>({});
+    const editForm = ref<SysFileModel>({});
     // 加载进度
     const loading = ref<boolean>(true);
     // 表单校验规则
@@ -94,7 +145,7 @@
         loadTableData();
     });
 
-    const onEdit = (row: ${ClassName}Model): void => {
+    const onEdit = (row: SysFileModel): void => {
         editForm.value = row;
         dialogFormVisible.value = true;
     }
@@ -104,7 +155,7 @@
         editForm.value = {};
     }
 
-    const onRemove = (row: ${ClassName}Model): void => {
+    const onRemove = (row: SysFileModel): void => {
         ElMessageBox.confirm('确认删除改行数据?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -122,7 +173,7 @@
         let param = {
             pageNo: pageParam.value.pageNo,
             pageSize: pageParam.value.pageSize,
-            ${className}: pageParam.value.searchObject
+            sysFile: pageParam.value.searchObject
         };
         reqCommonFeedback(listByPage(param), (data: any) => {
             pageVo.value.records = data.rows;
