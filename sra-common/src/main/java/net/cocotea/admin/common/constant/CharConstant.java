@@ -44,4 +44,9 @@ public class CharConstant {
      * 逗号
      */
     public final static String COMMA = ",";
+
+    /**
+     * 点
+     */
+    public final static String POINT = ".";
 }

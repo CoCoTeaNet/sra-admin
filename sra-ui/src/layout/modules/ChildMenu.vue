@@ -1,27 +1,25 @@
-<template v-for="item in menuList" :key="item.id">
-  <div>
-    <template v-for="item in menuList" :key="item.id">
-      <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="item.id">
+<template>
+  <template v-for="item in menuList" :key="item.id">
+    <el-sub-menu v-if="hasChildren(item)" :index="item.id">
+      <template #title>
         <el-icon>
           <component :is="item.iconPath"></component>
         </el-icon>
-        <template #title>
-          <span>{{ item.menuName }}</span>
-        </template>
-      </el-menu-item>
+        <span>{{ item.menuName }}</span>
+      </template>
+      <!-- 递归渲染子菜单 -->
+      <child-menu :menu-list="item.children"/>
+    </el-sub-menu>
 
-      <el-sub-menu v-if="hasChildren(item)" :index="item.id">
-        <template #title>
-          <el-icon>
-            <component :is="item.iconPath"></component>
-          </el-icon>
-          <span>{{ item.menuName }}</span>
-        </template>
-        <!-- 递归渲染子菜单 -->
-        <child-menu :menu-list="item.children"/>
-      </el-sub-menu>
-    </template>
-  </div>
+    <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="item.id">
+      <el-icon>
+        <component :is="item.iconPath"></component>
+      </el-icon>
+      <template #title>
+        <span>{{ item.menuName }}</span>
+      </template>
+    </el-menu-item>
+  </template>
 </template>
 
 <script lang="ts" setup>
