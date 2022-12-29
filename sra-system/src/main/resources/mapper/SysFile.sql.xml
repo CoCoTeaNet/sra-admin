@@ -6,8 +6,19 @@
     <sql id="system_sysFile_findByEntityParam">
         <value>
             <![CDATA[
-            select *
+            select FILE_ID,
+                   FILE_NAME,
+                   FILE_SUFFIX,
+                   REAL_PATH,
+                   BROWSE_PATH,
+                   FULL_PATH,
+                   FILE_SIZE,
+                   CREATE_BY,
+                   CREATE_TIME,
+                   UPDATE_BY,
+                   UPDATE_TIME
             from sys_file
+            where DELETE_STATUS = 1
             ]]>
         </value>
     </sql>
@@ -15,8 +26,19 @@
     <sql id="system_sysFile_findByPageParam">
         <value>
             <![CDATA[
-            select *
-            from sys_file
+            select FILE_ID,
+                   FILE_NAME,
+                   FILE_SUFFIX,
+                   REAL_PATH,
+                   BROWSE_PATH,
+                   FULL_PATH,
+                   FILE_SIZE,
+                   (select USERNAME from sys_user su where su.ID = sf.CREATE_BY limit 1) as CREATE_BY,
+                   CREATE_TIME,
+                   (select USERNAME from sys_user su where su.ID = sf.UPDATE_BY limit 1) as UPDATE_BY,
+                   UPDATE_TIME
+            from sys_file sf
+            where DELETE_STATUS = 1
             ]]>
         </value>
     </sql>

@@ -17,7 +17,7 @@ public class SysFileVO implements Serializable {
 	/**
 	 *主键ID
 	 */
-	private String ID;
+	private String fileId;
 
 	/**
 	 *文件名称
@@ -75,14 +75,15 @@ public class SysFileVO implements Serializable {
 	private Integer deleteStatus;
 
 
-	public String getID() {
-		return ID;
+	public String getFileId() {
+		return fileId;
 	}
 
-	public SysFileVO setID(String ID) {
-		this.ID = ID;
+	public SysFileVO setFileId(String fileId) {
+		this.fileId = fileId;
 		return this;
 	}
+
 	public String getFileName() {
 		return fileName;
 	}
