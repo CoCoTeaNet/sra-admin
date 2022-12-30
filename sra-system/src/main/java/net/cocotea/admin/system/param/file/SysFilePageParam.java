@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class SysFilePageParam extends Page<SysFileVO> implements Serializable {
-    private static final long serialSysFileUID = -1L;
+    private static final long serialVersionUID = -1L;
 
     @NotNull(message = "sysFile is null")
     private SysFileVO sysFile;

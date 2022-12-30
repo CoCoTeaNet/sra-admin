@@ -8,6 +8,7 @@
             <![CDATA[
             select *
             from ${tableName}
+            where DELETE_STATUS = 1
             ]]>
         </value>
     </sql>
@@ -17,6 +18,7 @@
             <![CDATA[
             select *
             from ${tableName}
+            where DELETE_STATUS = 1
             ]]>
         </value>
     </sql>

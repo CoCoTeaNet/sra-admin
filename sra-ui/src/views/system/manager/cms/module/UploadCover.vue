@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="show" title="封面上传" width="35%" @close="onCancel">
     <div style="text-align: center">
-      <el-upload v-model:file-list="fileList" action="api/file/upload" list-type="picture-card"
+      <el-upload v-model:file-list="fileList" action="api/system/file/upload" list-type="picture-card"
                  :before-upload="onBeforeUpload"
                  :on-preview="handlePictureCardPreview"
                  :on-remove="handleRemove"

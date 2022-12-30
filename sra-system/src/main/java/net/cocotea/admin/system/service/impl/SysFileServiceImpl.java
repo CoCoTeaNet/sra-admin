@@ -1,5 +1,6 @@
 package net.cocotea.admin.system.service.impl;
 
+import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.system.vo.SysFileVO;
 import net.cocotea.admin.system.entity.SysFile;
 import net.cocotea.admin.system.param.file.SysFileAddParam;
@@ -11,6 +12,7 @@ import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 import cn.hutool.core.convert.Convert;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -28,36 +30,36 @@ public class SysFileServiceImpl implements ISysFileService {
 
     @Override
     public boolean add(SysFileAddParam param) {
-         SysFile sysFile = Convert.convert(SysFile.class, param);
-         Object save = sqlToyLazyDao.save(sysFile);
-         return save != null;
+        SysFile sysFile = Convert.convert(SysFile.class, param);
+        Object save = sqlToyLazyDao.save(sysFile);
+        return save != null;
     }
-    
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean deleteBatch(List<String> idList) {
-         for (String s : idList) {
-              delete(s);
-         }
-         return !idList.isEmpty();
+        for (String s : idList) {
+            delete(s);
+        }
+        return !idList.isEmpty();
     }
-    
+
     @Override
     public boolean update(SysFileUpdateParam param) {
-         SysFile sysFile = Convert.convert(SysFile.class, param);
-         Long count = sqlToyLazyDao.update(sysFile);
-         return count > 0;
+        SysFile sysFile = Convert.convert(SysFile.class, param);
+        Long count = sqlToyLazyDao.update(sysFile);
+        return count > 0;
     }
-    
+
     @Override
-    public Page<SysFileVO> listByPage(SysFilePageParam param) { 
-         Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_findByPageParam", param.getSysFile());
-         return page;
+    public Page<SysFileVO> listByPage(SysFilePageParam param) {
+        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_findByPageParam", param.getSysFile());
+        return page;
     }
-    
+
     @Override
     public boolean delete(String id) {
-         return sqlToyLazyDao.delete(new SysFile().setID(id)) > 0;
+        return sqlToyLazyDao.update(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())) > 0;
     }
 
 }
