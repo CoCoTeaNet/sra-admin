@@ -39,6 +39,13 @@
                    UPDATE_TIME
             from sys_file sf
             where DELETE_STATUS = 1
+            #[and sf.FILE_NAME like :fileName]
+            #[and sf.FILE_SUFFIX like :fileSuffix]
+            #[and sf.REAL_PATH like :realPath]
+            #[and sf.BROWSE_PATH like :browsePath]
+            #[and sf.FULL_PATH like :fullPath]
+            #[and sf.FILE_SIZE = :fileSize]
+            #[and sf.CREATE_TIME between :beginTime and :endTime]
             ]]>
         </value>
     </sql>

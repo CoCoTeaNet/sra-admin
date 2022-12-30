@@ -3,6 +3,7 @@ package net.cocotea.admin.system.vo;
 import java.io.Serializable;
 import com.alibaba.fastjson.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -73,6 +74,9 @@ public class SysFileVO implements Serializable {
 	 *删除状态：0删除 1未删除
 	 */
 	private Integer deleteStatus;
+
+	private LocalDateTime beginTime;
+	private LocalDateTime endTime;
 
 
 	public String getFileId() {
@@ -170,6 +174,24 @@ public class SysFileVO implements Serializable {
 
 	public SysFileVO setDeleteStatus(Integer deleteStatus) {
 		this.deleteStatus = deleteStatus;
+		return this;
+	}
+
+	public LocalDateTime getBeginTime() {
+		return beginTime;
+	}
+
+	public SysFileVO setBeginTime(LocalDateTime beginTime) {
+		this.beginTime = beginTime;
+		return this;
+	}
+
+	public LocalDateTime getEndTime() {
+		return endTime;
+	}
+
+	public SysFileVO setEndTime(LocalDateTime endTime) {
+		this.endTime = endTime;
 		return this;
 	}
 

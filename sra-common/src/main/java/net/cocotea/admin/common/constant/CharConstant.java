@@ -49,4 +49,9 @@ public class CharConstant {
      * 点
      */
     public final static String POINT = ".";
+
+    /**
+     * 波浪号
+     */
+    public final static String WAVE_SIGN = "~";
 }

@@ -20,11 +20,11 @@
       <el-form-item label="文件大小（单位：字节）">
         <el-input placeholder="文件大小（单位：字节）" v-model:model-value="pageParam.searchObject.fileSize"/>
       </el-form-item>
-      <el-form-item label="创建人">
-        <el-input placeholder="创建人" v-model:model-value="pageParam.searchObject.createBy"/>
-      </el-form-item>
       <el-form-item label="创建时间">
-        <el-input placeholder="创建时间" v-model:model-value="pageParam.searchObject.createTime"/>
+        <el-date-picker v-model="pageParam.searchObject.createTimeRange"
+                        type="daterange" range-separator="~"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="loadTableData">搜索</el-button>
@@ -141,6 +141,10 @@ const onRemove = (row: SysFileModel): void => {
 
 const loadTableData = (): void => {
   if (!loading.value) loading.value = true;
+  if (pageParam.value.searchObject.createTimeRange) {
+    pageParam.value.searchObject.beginTime = pageParam.value.searchObject.createTimeRange[0];
+    pageParam.value.searchObject.endTime = pageParam.value.searchObject.createTimeRange[1];
+  }
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
