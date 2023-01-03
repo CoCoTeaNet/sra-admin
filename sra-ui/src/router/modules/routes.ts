@@ -16,6 +16,7 @@ import JobView from "@/views/system/manager/schedule/JobView.vue";
 import JobLogView from "@/views/system/manager/schedule/JobLogView.vue";
 import VersionView from "@/views/system/manager/system/version/VersionView.vue";
 import SysFileView from "@/views/system/manager/system/file/SysFileView.vue";
+import RecycleBinView from "@/views/system/manager/system/file/RecycleBinView.vue";
 
 export const routes = [
     {
@@ -46,6 +47,7 @@ export const routes = [
             {path: 'JobLog-manager', meta: {title: '调度记录'}, name: 'JobLogView', component: JobLogView},
             {path: 'version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
             {path: 'sysFile-manager', meta: {title: '文件管理'}, name: 'SysFileView', component: SysFileView},
+            {path: 'recycleBin-manager', meta: {title: '文件回收站'}, name: 'RecycleBinView', component: RecycleBinView},
         ]
     },
     {

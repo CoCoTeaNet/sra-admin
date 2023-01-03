@@ -1,5 +1,6 @@
 package net.cocotea.admin.system.service.impl;
 
+import cn.hutool.core.io.FileUtil;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.system.vo.SysFileVO;
 import net.cocotea.admin.system.entity.SysFile;
@@ -62,4 +63,18 @@ public class SysFileServiceImpl implements ISysFileService {
         return sqlToyLazyDao.update(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())) > 0;
     }
 
+    @Override
+    public Page<SysFileVO> recycleBinPage(SysFilePageParam param) {
+        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_delete_findByPageParam", param.getSysFile());
+        return page;
+    }
+
+    @Override
+    public boolean recycleBinDeleteBatch(List<String> param) {
+        for (String id : param) {
+            SysFile sysFile = sqlToyLazyDao.load(new SysFile().setFileId(id));
+            FileUtil.del(sysFile.getRealPath());
+        }
+        return sqlToyLazyDao.deleteByIds(SysFile.class, param) > 0;
+    }
 }

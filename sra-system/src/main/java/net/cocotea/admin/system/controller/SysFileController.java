@@ -96,4 +96,17 @@ public class SysFileController {
         return ApiResult.ok(r);
     }
 
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @PostMapping("/recycleBinPage")
+    public ApiResult<?> recycleBinPage(@Valid @RequestBody SysFilePageParam param) throws BusinessException {
+        Page<SysFileVO> r = sysFileService.recycleBinPage(param);
+        return ApiResult.ok(r);
+    }
+
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @PostMapping("/recycleBin/deleteBatch")
+    public ApiResult<?> recycleBinDeleteBatch(@Valid @RequestBody List<String> param) throws BusinessException {
+        return ApiResult.flag(sysFileService.recycleBinDeleteBatch(param));
+    }
+
 }
