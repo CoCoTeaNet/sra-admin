@@ -39,7 +39,12 @@
 
     <!-- 表格视图 -->
     <template #default>
-      <el-table stripe row-key="fileId" :data="pageVo.records" v-loading="loading">
+      <el-table stripe
+                row-key="fileId"
+                :data="pageVo.records"
+                v-loading="loading"
+                @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" />
         <el-table-column width="200" prop="fileName" label="文件名称"/>
         <el-table-column prop="fileSuffix" label="文件后缀"/>
         <el-table-column width="300" prop="realPath" label="文件真实路径"/>
@@ -107,7 +112,7 @@ const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
 const editForm = ref<SysFileModel>({});
 // 加载进度
 const loading = ref<boolean>(true);
-
+const multipleSelection = ref<SysFileModel[]>();
 const dialogFormVisible = ref<boolean>(false);
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
 
@@ -115,11 +120,6 @@ const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
 onMounted(() => {
   loadTableData();
 });
-
-const onEdit = (row: SysFileModel): void => {
-  editForm.value = row;
-  dialogFormVisible.value = true;
-}
 
 const onAdd = () => {
   dialogFormVisible.value = true;
@@ -173,7 +173,22 @@ const resetSearchForm = () => {
 }
 
 const onRemoveBatch = () => {
-  //   todo 批量删除文件
+  const ids:string[] = [];
+  multipleSelection.value?.forEach(item => {
+    if (item.fileId) {
+      ids.push(item.fileId);
+    }
+  });
+  ElMessageBox.confirm('确认删除这些文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
+      loadTableData();
+    });
+  });
 }
 
 const fileList = ref<UploadUserFile[]>([]);
@@ -205,6 +220,10 @@ const onDownload = (row: SysFileModel) => {
   } else {
     ElMessage.info("文件不存在");
   }
+}
+
+const handleSelectionChange = (row: SysFileModel[]) => {
+  multipleSelection.value = row;
 }
 </script>
 

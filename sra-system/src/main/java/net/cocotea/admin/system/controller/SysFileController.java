@@ -109,4 +109,10 @@ public class SysFileController {
         return ApiResult.flag(sysFileService.recycleBinDeleteBatch(param));
     }
 
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @PostMapping("/recycleBin/recoveryBatch")
+    public ApiResult<?> recoveryBatch(@Valid @RequestBody List<String> param) throws BusinessException {
+        return ApiResult.flag(sysFileService.recoveryBatch(param));
+    }
+
 }

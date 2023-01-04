@@ -31,4 +31,12 @@ public interface ISysFileService extends IBaseService<Page<SysFileVO>, SysFilePa
      * @return 成功返回TRUE
      */
     boolean recycleBinDeleteBatch(List<String> param);
+
+    /**
+     * 恢复已删除的文件
+     *
+     * @param param 主键ID集合
+     * @return 成功返回TRUE
+     */
+    boolean recoveryBatch(List<String> param);
 }

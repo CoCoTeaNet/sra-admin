@@ -23,3 +23,11 @@ export function recycleBinPage(data: any) {
 export function recycleBinDeleteBatch(data: any) {
 	return request('system/file/recycleBin/deleteBatch', data, post);
 }
+
+/**
+ * 批量恢复文件接口
+ * @param data
+ */
+export function recoveryBatch(data: any) {
+	return request('system/file/recycleBin/recoveryBatch', data, post);
+}

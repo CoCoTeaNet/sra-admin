@@ -33,12 +33,18 @@
     </template>
 
     <template #operate>
+      <el-button type="success" :icon="RefreshLeft" @click="onRecoveryBatch">批量恢复</el-button>
       <el-button type="danger" :icon="DeleteFilled" @click="onRemoveBatch">批量删除</el-button>
     </template>
 
     <!-- 表格视图 -->
     <template #default>
-      <el-table stripe row-key="fileId" :data="pageVo.records" v-loading="loading">
+      <el-table stripe
+                row-key="fileId"
+                :data="pageVo.records"
+                v-loading="loading"
+                @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" />
         <el-table-column width="200" prop="fileName" label="文件名称"/>
         <el-table-column prop="fileSuffix" label="文件后缀"/>
         <el-table-column width="300" prop="realPath" label="文件真实路径"/>
@@ -54,10 +60,15 @@
         <el-table-column prop="updateBy" label="更新人"/>
         <el-table-column width="200" prop="updateTime" label="更新时间"/>
         <!-- 单行操作 -->
-        <el-table-column fixed="right" width="200" label="操作">
+        <el-table-column fixed="right" width="250" label="操作">
           <template #default="scope">
             <el-button size="small" :icon="Download" @click="onDownload(scope.row)">下载</el-button>
-            <el-button size="small" :icon="DeleteFilled" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
+            <el-button size="small" type="success" plain :icon="RefreshLeft" @click="onRecovery(scope.row)">
+              恢复
+            </el-button>
+            <el-button size="small" type="danger" plain :icon="DeleteFilled" @click="onRemove(scope.row)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -73,18 +84,17 @@
 
 <script setup lang="ts">
 import {onMounted, ref, nextTick} from "vue";
-import {recycleBinDeleteBatch, recycleBinPage} from "@/api/system/sysFile-api";
+import {recycleBinDeleteBatch, recycleBinPage, recoveryBatch} from "@/api/system/sysFile-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
-import {ElMessageBox, UploadProps, ElMessage, UploadUserFile} from "element-plus";
-import {DeleteFilled, Download, Plus, Search, RefreshRight} from "@element-plus/icons-vue";
+import {ElMessageBox, ElMessage} from "element-plus";
+import {DeleteFilled, Download, RefreshLeft, Search, RefreshRight} from "@element-plus/icons-vue";
 import unitUtil from "@/utils/unit-util";
 
 const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
 // 加载进度
 const loading = ref<boolean>(true);
-
-const dialogFormVisible = ref<boolean>(false);
+const multipleSelection = ref<SysFileModel[]>();
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
 
 // 初始化数据
@@ -93,7 +103,7 @@ onMounted(() => {
 });
 
 const onRemove = (row: SysFileModel): void => {
-  ElMessageBox.confirm('确认删除文件?', '提示', {
+  ElMessageBox.confirm('确认彻底删除文件?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -139,30 +149,22 @@ const resetSearchForm = () => {
 }
 
 const onRemoveBatch = () => {
-  //   todo 批量删除文件
-}
-
-const fileList = ref<UploadUserFile[]>([]);
-
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
-}
-
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
-}
-
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
-  return ElMessageBox.confirm(
-      `取消上传文件[${uploadFile.name}] ?`
-  ).then(
-      () => true,
-      () => false
-  )
-}
-
-const onCloseDialog = () => {
-  loadTableData();
+  const ids:string[] = [];
+  multipleSelection.value?.forEach(item => {
+    if (item.fileId) {
+      ids.push(item.fileId);
+    }
+  });
+  ElMessageBox.confirm('确认彻底删除这些文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(recycleBinDeleteBatch(ids), '删除成功', () => {
+      loadTableData();
+    });
+  });
 }
 
 const onDownload = (row: SysFileModel) => {
@@ -171,6 +173,42 @@ const onDownload = (row: SysFileModel) => {
   } else {
     ElMessage.info("文件不存在");
   }
+}
+
+const handleSelectionChange = (row: SysFileModel[]) => {
+  multipleSelection.value = row;
+}
+
+const onRecovery = (row: SysFileModel) => {
+  ElMessageBox.confirm('确认恢复此文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(recoveryBatch([row.fileId]), '已恢复', () => {
+      loadTableData();
+    });
+  });
+}
+
+const onRecoveryBatch = () => {
+  const ids:string[] = [];
+  multipleSelection.value?.forEach(item => {
+    if (item.fileId) {
+      ids.push(item.fileId);
+    }
+  });
+  ElMessageBox.confirm('确认恢复这些文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(recoveryBatch(ids), '已恢复', () => {
+      loadTableData();
+    });
+  });
 }
 </script>
 
