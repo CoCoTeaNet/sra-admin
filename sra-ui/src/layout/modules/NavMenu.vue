@@ -76,8 +76,4 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
   align-items: center;
   color: rgb(55, 76, 82);
 }
-
-.el-menu {
-  border-right: none !important;
-}
 </style>

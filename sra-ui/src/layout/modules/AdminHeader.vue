@@ -36,12 +36,14 @@
 
 <script setup lang="ts">
 import {router} from "@/router";
+import {useRoute} from "vue-router";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {logout} from "@/api/system/login-api";
 import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 
 const store = useStore();
+const route = useRoute();
 
 const url = store.state.userInfo.avatar ? store.state.userInfo.avatar : require('@/assets/svg-source/default-avatar.svg');
 
@@ -58,7 +60,7 @@ const clickToGo = (url: string) => {
 const doLogout = () => {
   reqCommonFeedback(logout(), () => {
     setUserInfo({id: '', username: '', nickname: ''});
-    router.push({path: '/login', query: {redirect: encodeURIComponent(window.location.pathname)}});
+    router.push({path: '/login', query: {redirect: encodeURIComponent(route.path)}});
   });
 }
 
