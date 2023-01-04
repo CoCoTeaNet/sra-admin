@@ -37,7 +37,6 @@ const hasChildren = (m: MenuModel) => {
 }
 
 const onClickMenu = (item: any) => {
-  console.log(item)
   if (item.isExternalLink == 1) {
     window.open(item.routerPath, '_blank');
   } else {

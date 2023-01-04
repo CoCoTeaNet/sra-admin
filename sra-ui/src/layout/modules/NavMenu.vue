@@ -38,6 +38,9 @@ let menuState = computed(() => {
       let r = routes[i];
       let len = stack.length;
       dfs(r, path, stack);
+      if (!routes[i].id) {
+        console.error('路由配置错误，请检查菜单路径');
+      }
       if (len < stack.length) {
         // 默认打开的页面
         state.defaultOpened = [routes[i].id + ''];
@@ -75,9 +78,5 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
   justify-content: center;
   align-items: center;
   color: rgb(55, 76, 82);
-}
-
-.el-menu {
-  border-right: none !important;
 }
 </style>

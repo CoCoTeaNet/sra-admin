@@ -33,7 +33,7 @@
     </template>
 
     <template #operate>
-      <el-button type="primary" :icon="Plus" @click="onAdd">上传文件</el-button>
+      <el-button type="success" :icon="RefreshLeft" @click="onRecoveryBatch">批量恢复</el-button>
       <el-button type="danger" :icon="DeleteFilled" @click="onRemoveBatch">批量删除</el-button>
     </template>
 
@@ -60,10 +60,15 @@
         <el-table-column prop="updateBy" label="更新人"/>
         <el-table-column width="200" prop="updateTime" label="更新时间"/>
         <!-- 单行操作 -->
-        <el-table-column fixed="right" width="200" label="操作">
+        <el-table-column fixed="right" width="250" label="操作">
           <template #default="scope">
             <el-button size="small" :icon="Download" @click="onDownload(scope.row)">下载</el-button>
-            <el-button size="small" :icon="DeleteFilled" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
+            <el-button size="small" type="success" plain :icon="RefreshLeft" @click="onRecovery(scope.row)">
+              恢复
+            </el-button>
+            <el-button size="small" type="danger" plain :icon="DeleteFilled" @click="onRemove(scope.row)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,46 +79,22 @@
                      :total="pageVo.total" :page-size="pageVo.pageSize" :page-sizes=[5,10,15]
                      @current-change="onPageChange" @size-change="onSizeChange"/>
     </template>
-
-    <!-- 编辑对话框 -->
-    <template #form>
-      <el-dialog v-model="dialogFormVisible" title="上传文件" @close="onCloseDialog">
-        <el-upload
-            v-model:file-list="fileList"
-            action="api/system/file/upload?isSave=1"
-            multiple
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-        >
-          <el-button type="primary">点击上传</el-button>
-          <template #tip>
-            <div class="el-upload__tip">
-              文件大小不能超过500MB
-            </div>
-          </template>
-        </el-upload>
-      </el-dialog>
-    </template>
   </table-manage>
 </template>
 
 <script setup lang="ts">
 import {onMounted, ref, nextTick} from "vue";
-import {deleteBatch, listByPage} from "@/api/system/sysFile-api";
+import {recycleBinDeleteBatch, recycleBinPage, recoveryBatch} from "@/api/system/sysFile-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
-import {ElMessageBox, UploadProps, ElMessage, UploadUserFile} from "element-plus";
-import {DeleteFilled, Download, Plus, Search, RefreshRight} from "@element-plus/icons-vue";
+import {ElMessageBox, ElMessage} from "element-plus";
+import {DeleteFilled, Download, RefreshLeft, Search, RefreshRight} from "@element-plus/icons-vue";
 import unitUtil from "@/utils/unit-util";
 
 const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
-// 表单参数
-const editForm = ref<SysFileModel>({});
 // 加载进度
 const loading = ref<boolean>(true);
 const multipleSelection = ref<SysFileModel[]>();
-const dialogFormVisible = ref<boolean>(false);
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
 
 // 初始化数据
@@ -121,19 +102,14 @@ onMounted(() => {
   loadTableData();
 });
 
-const onAdd = () => {
-  dialogFormVisible.value = true;
-  editForm.value = {};
-}
-
 const onRemove = (row: SysFileModel): void => {
-  ElMessageBox.confirm('确认删除文件?', '提示', {
+  ElMessageBox.confirm('确认彻底删除文件?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }
   ).then(() => {
-    reqSuccessFeedback(deleteBatch([row.fileId]), '删除成功', () => {
+    reqSuccessFeedback(recycleBinDeleteBatch([row.fileId]), '删除成功', () => {
       loadTableData();
     });
   });
@@ -150,7 +126,7 @@ const loadTableData = (): void => {
     pageSize: pageParam.value.pageSize,
     sysFile: pageParam.value.searchObject
   };
-  reqCommonFeedback(listByPage(param), (data: any) => {
+  reqCommonFeedback(recycleBinPage(param), (data: any) => {
     pageVo.value.records = data.rows;
     pageVo.value.total = data.recordCount;
     pageVo.value.pageSize = data.pageSize;
@@ -179,39 +155,16 @@ const onRemoveBatch = () => {
       ids.push(item.fileId);
     }
   });
-  ElMessageBox.confirm('确认删除这些文件?', '提示', {
+  ElMessageBox.confirm('确认彻底删除这些文件?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }
   ).then(() => {
-    reqSuccessFeedback(deleteBatch(ids), '删除成功', () => {
+    reqSuccessFeedback(recycleBinDeleteBatch(ids), '删除成功', () => {
       loadTableData();
     });
   });
-}
-
-const fileList = ref<UploadUserFile[]>([]);
-
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
-}
-
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
-}
-
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
-  return ElMessageBox.confirm(
-      `取消上传文件[${uploadFile.name}] ?`
-  ).then(
-      () => true,
-      () => false
-  )
-}
-
-const onCloseDialog = () => {
-  loadTableData();
 }
 
 const onDownload = (row: SysFileModel) => {
@@ -224,6 +177,38 @@ const onDownload = (row: SysFileModel) => {
 
 const handleSelectionChange = (row: SysFileModel[]) => {
   multipleSelection.value = row;
+}
+
+const onRecovery = (row: SysFileModel) => {
+  ElMessageBox.confirm('确认恢复此文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(recoveryBatch([row.fileId]), '已恢复', () => {
+      loadTableData();
+    });
+  });
+}
+
+const onRecoveryBatch = () => {
+  const ids:string[] = [];
+  multipleSelection.value?.forEach(item => {
+    if (item.fileId) {
+      ids.push(item.fileId);
+    }
+  });
+  ElMessageBox.confirm('确认恢复这些文件?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  ).then(() => {
+    reqSuccessFeedback(recoveryBatch(ids), '已恢复', () => {
+      loadTableData();
+    });
+  });
 }
 </script>
 

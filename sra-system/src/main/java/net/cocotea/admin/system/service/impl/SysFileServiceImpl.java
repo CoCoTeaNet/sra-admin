@@ -1,6 +1,8 @@
 package net.cocotea.admin.system.service.impl;
 
+import cn.hutool.core.io.FileUtil;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
+import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.system.vo.SysFileVO;
 import net.cocotea.admin.system.entity.SysFile;
 import net.cocotea.admin.system.param.file.SysFileAddParam;
@@ -14,6 +16,7 @@ import cn.hutool.core.convert.Convert;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,11 +40,12 @@ public class SysFileServiceImpl implements ISysFileService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean deleteBatch(List<String> idList) {
-        for (String s : idList) {
-            delete(s);
+    public boolean deleteBatch(List<String> param) {
+        List<SysFile> sysFileList = new ArrayList<>(param.size());
+        for (String id : param) {
+            sysFileList.add(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode()));
         }
-        return !idList.isEmpty();
+        return sqlToyLazyDao.updateAll(sysFileList) > 0;
     }
 
     @Override
@@ -62,4 +66,32 @@ public class SysFileServiceImpl implements ISysFileService {
         return sqlToyLazyDao.update(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())) > 0;
     }
 
+    @Override
+    public Page<SysFileVO> recycleBinPage(SysFilePageParam param) {
+        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_delete_findByPageParam", param.getSysFile());
+        return page;
+    }
+
+    @Transactional(rollbackFor = BusinessException.class)
+    @Override
+    public boolean recycleBinDeleteBatch(List<String> param) {
+        List<SysFile> sysFileList = new ArrayList<>(param.size());
+        for (String id : param) {
+            SysFile sysFile = sqlToyLazyDao.load(new SysFile().setFileId(id));
+            if (sysFile != null) {
+                FileUtil.del(sysFile.getRealPath());
+            }
+            sysFileList.add(new SysFile().setFileId(id));
+        }
+        return sqlToyLazyDao.deleteAll(sysFileList) > 0;
+    }
+
+    @Override
+    public boolean recoveryBatch(List<String> param) {
+        List<SysFile> sysFileList = new ArrayList<>(param.size());
+        for (String id : param) {
+            sysFileList.add(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.NOT_DELETE.getCode()));
+        }
+        return sqlToyLazyDao.updateAll(sysFileList) > 0;
+    }
 }
