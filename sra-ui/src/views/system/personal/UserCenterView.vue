@@ -138,7 +138,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ucvFormRef)">提交保存</el-button>
+          <el-button @click="handleUploadAvatar">上传头像</el-button>
+          <el-button type="primary" @click="submitForm(ucvFormRef)">保存信息</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -244,7 +245,6 @@ const handleAvatarSuccess = (resp: any) => {
  * 头像上传前校验
  */
 const beforeAvatarUpload = (rawFile: UploadRawFile) => {
-  console.log(rawFile.type)
   if (rawFile.type === 'image/jpeg' || rawFile.type === 'image/png' || rawFile.type === 'image/jpg') {
     return true;
   } else {
@@ -258,6 +258,10 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   upload.value!.handleStart(file);
+}
+
+const handleUploadAvatar = () => {
+  upload.value!.submit();
 }
 </script>
 
