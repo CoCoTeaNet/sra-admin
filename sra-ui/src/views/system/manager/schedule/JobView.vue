@@ -87,7 +87,7 @@ import TableManage from "@/components/container/TableManage.vue";
 import {nextTick, onMounted, ref} from "vue";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {deleteBatch, listByPage, execute, queryProgress} from "@/api/schedule/job-api";
-import {ElMessage, ElMessageBox} from "element-plus/es";
+import {ElMessage, ElMessageBox, ElNotification} from "element-plus/es";
 import AddJob from "@/views/system/manager/schedule/modules/AddJob.vue";
 
 const loading = ref<boolean>(true);
@@ -187,10 +187,10 @@ const onEdit = (row: JobModel) => {
 
 const onExecute = (row: JobModel) => {
   reqCommonFeedback(execute({id: row.id}), (data: any) => {
-    ElMessage({type: 'success', message: '开始执行任务'});
+    ElNotification({type: 'info', message: `${row.name} | 开始执行...`});
     const timer = setInterval(() => {
       reqCommonFeedback(queryProgress({id: data}), () => {
-        ElMessage({type: 'success', message: '任务执行成功'});
+        ElNotification({type: 'success', message: `${row.name} | 执行成功!`});
         clearInterval(timer);
       })
     }, 1000)

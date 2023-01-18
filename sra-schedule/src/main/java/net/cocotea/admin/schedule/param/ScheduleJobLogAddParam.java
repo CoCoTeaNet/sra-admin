@@ -8,6 +8,7 @@ import java.util.Date;
  * @date 2022/8/29
  */
 public class ScheduleJobLogAddParam implements Serializable {
+    private static final long serialVersionUID = -1166568456984487894L;
 
     private String jobId;
     private String triggerBy;
@@ -15,6 +16,8 @@ public class ScheduleJobLogAddParam implements Serializable {
     private Date finishTime;
     private long spendTimeMillis;
     private Integer exeResult;
+    private String createBy;
+    private String updateBy;
 
 
     public String getJobId() {
@@ -71,15 +74,35 @@ public class ScheduleJobLogAddParam implements Serializable {
         return this;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public ScheduleJobLogAddParam setCreateBy(String createBy) {
+        this.createBy = createBy;
+        return this;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public ScheduleJobLogAddParam setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+        return this;
+    }
+
     @Override
     public String toString() {
-        StringBuilder columnsBuffer = new StringBuilder();
-        columnsBuffer.append("jobId=").append(getJobId()).append("\n");
-        columnsBuffer.append("triggerTime=").append(getTriggerTime()).append("\n");
-        columnsBuffer.append("finishTime=").append(getFinishTime()).append("\n");
-        columnsBuffer.append("triggerBy=").append(getTriggerBy()).append("\n");
-        columnsBuffer.append("exeResult=").append(getExeResult()).append("\n");
-        columnsBuffer.append("spendTimeMillis=").append(getSpendTimeMillis()).append("\n");
-        return columnsBuffer.toString();
+        return "ScheduleJobLogAddParam{" +
+                "jobId='" + jobId + '\'' +
+                ", triggerBy='" + triggerBy + '\'' +
+                ", triggerTime=" + triggerTime +
+                ", finishTime=" + finishTime +
+                ", spendTimeMillis=" + spendTimeMillis +
+                ", exeResult=" + exeResult +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                '}';
     }
 }
