@@ -21,7 +21,7 @@
 
         <!-- 表格视图 -->
         <template #default>
-            <el-table stripe row-key="${functionName}Id" :data="pageVo.records" v-loading="loading">
+            <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
                 <#list fieldList as field>
                     <#if field.primaryPk && field.attrName != 'deleteStatus'>
                 <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
@@ -112,7 +112,7 @@
                 type: 'warning',
             }
         ).then(() => {
-            reqSuccessFeedback(deleteBatch([row.${functionName}Id]), '删除成功', () => {
+            reqSuccessFeedback(deleteBatch([row.id]), '删除成功', () => {
                 loadTableData();
             });
         });

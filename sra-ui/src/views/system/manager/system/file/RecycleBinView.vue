@@ -40,7 +40,7 @@
     <!-- 表格视图 -->
     <template #default>
       <el-table stripe
-                row-key="fileId"
+                row-key="id"
                 :data="pageVo.records"
                 v-loading="loading"
                 @selection-change="handleSelectionChange">
@@ -109,7 +109,7 @@ const onRemove = (row: SysFileModel): void => {
         type: 'warning',
       }
   ).then(() => {
-    reqSuccessFeedback(recycleBinDeleteBatch([row.fileId]), '删除成功', () => {
+    reqSuccessFeedback(recycleBinDeleteBatch([row.id]), '删除成功', () => {
       loadTableData();
     });
   });
@@ -151,8 +151,8 @@ const resetSearchForm = () => {
 const onRemoveBatch = () => {
   const ids:string[] = [];
   multipleSelection.value?.forEach(item => {
-    if (item.fileId) {
-      ids.push(item.fileId);
+    if (item.id) {
+      ids.push(item.id);
     }
   });
   ElMessageBox.confirm('确认彻底删除这些文件?', '提示', {
@@ -186,7 +186,7 @@ const onRecovery = (row: SysFileModel) => {
         type: 'warning',
       }
   ).then(() => {
-    reqSuccessFeedback(recoveryBatch([row.fileId]), '已恢复', () => {
+    reqSuccessFeedback(recoveryBatch([row.id]), '已恢复', () => {
       loadTableData();
     });
   });
@@ -195,8 +195,8 @@ const onRecovery = (row: SysFileModel) => {
 const onRecoveryBatch = () => {
   const ids:string[] = [];
   multipleSelection.value?.forEach(item => {
-    if (item.fileId) {
-      ids.push(item.fileId);
+    if (item.id) {
+      ids.push(item.id);
     }
   });
   ElMessageBox.confirm('确认恢复这些文件?', '提示', {

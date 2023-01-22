@@ -1,6 +1,6 @@
 create table sys_file
 (
-    FILE_ID       varchar(32)      not null comment '主键ID'
+    ID            varchar(32)      not null comment '主键ID'
         primary key,
     FILE_NAME     varchar(200)     not null comment '文件名称',
     FILE_SUFFIX   varchar(20)      null comment '文件后缀',

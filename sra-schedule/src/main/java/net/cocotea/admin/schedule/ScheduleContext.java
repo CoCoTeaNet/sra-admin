@@ -55,7 +55,9 @@ public class ScheduleContext {
                 .setTriggerBy(operator)
                 .setTriggerTime(triggerTime)
                 .setFinishTime(new Date())
-                .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis());
+                .setSpendTimeMillis(stopWatch.getLastTaskTimeMillis())
+                .setCreateBy(operator)
+                .setUpdateBy(operator);
         scheduleJobRegistryService.finish(key, param);
     }
 }

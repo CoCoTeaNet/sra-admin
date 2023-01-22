@@ -21,6 +21,11 @@ public class ScheduleJobLogVO implements Serializable {
     private String jobId;
 
     /**
+     * 任务名称
+     */
+    private String jobName;
+
+    /**
      * 任务触发时间
      */
     private LocalDateTime triggerTime;
@@ -147,6 +152,15 @@ public class ScheduleJobLogVO implements Serializable {
 
     public ScheduleJobLogVO setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+        return this;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public ScheduleJobLogVO setJobName(String jobName) {
+        this.jobName = jobName;
         return this;
     }
 }

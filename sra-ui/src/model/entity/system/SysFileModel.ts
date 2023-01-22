@@ -6,7 +6,7 @@
 interface SysFileModel {
 
     // 主键ID
-    fileId?: string,
+    id?: string,
     // 文件名称
     fileName?: string,
     // 文件后缀

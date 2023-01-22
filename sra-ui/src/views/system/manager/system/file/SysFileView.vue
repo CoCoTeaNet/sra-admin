@@ -40,7 +40,7 @@
     <!-- 表格视图 -->
     <template #default>
       <el-table stripe
-                row-key="fileId"
+                row-key="id"
                 :data="pageVo.records"
                 v-loading="loading"
                 @selection-change="handleSelectionChange">
@@ -133,7 +133,7 @@ const onRemove = (row: SysFileModel): void => {
         type: 'warning',
       }
   ).then(() => {
-    reqSuccessFeedback(deleteBatch([row.fileId]), '删除成功', () => {
+    reqSuccessFeedback(deleteBatch([row.id]), '删除成功', () => {
       loadTableData();
     });
   });
@@ -175,8 +175,8 @@ const resetSearchForm = () => {
 const onRemoveBatch = () => {
   const ids:string[] = [];
   multipleSelection.value?.forEach(item => {
-    if (item.fileId) {
-      ids.push(item.fileId);
+    if (item.id) {
+      ids.push(item.id);
     }
   });
   ElMessageBox.confirm('确认删除这些文件?', '提示', {

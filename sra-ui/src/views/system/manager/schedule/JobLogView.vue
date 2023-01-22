@@ -24,6 +24,7 @@
       <el-table v-loading="loading" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange"
                 max-height="700px">
         <el-table-column type="selection" width="55"/>
+        <el-table-column prop="jobName" label="任务名称" width="220"/>
         <el-table-column prop="triggerBy" label="任务触发人"/>
         <el-table-column prop="triggerTime" label="触发时间" width="200"/>
         <el-table-column prop="spendTimeMillis" label="执行耗时(ms)" width="200"/>
