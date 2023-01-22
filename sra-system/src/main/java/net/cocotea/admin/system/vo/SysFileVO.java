@@ -18,7 +18,7 @@ public class SysFileVO implements Serializable {
 	/**
 	 *主键ID
 	 */
-	private String fileId;
+	private String id;
 
 	/**
 	 *文件名称
@@ -79,13 +79,12 @@ public class SysFileVO implements Serializable {
 	private LocalDateTime endTime;
 
 
-	public String getFileId() {
-		return fileId;
+	public String getId() {
+		return id;
 	}
 
-	public SysFileVO setFileId(String fileId) {
-		this.fileId = fileId;
-		return this;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFileName() {

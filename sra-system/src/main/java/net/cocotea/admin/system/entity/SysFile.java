@@ -22,8 +22,8 @@ public class SysFile implements Serializable {
 	 *主键ID
 	 */
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
-	@Column(name="FILE_ID",type=java.sql.Types.VARCHAR)
-	private String fileId;
+	@Column(name="ID",type=java.sql.Types.VARCHAR)
+	private String id;
 	/**
 	 *文件名称
 	 */
@@ -80,12 +80,12 @@ public class SysFile implements Serializable {
 	@Column(name="DELETE_STATUS",type=java.sql.Types.TINYINT)
 	private Integer deleteStatus;
 
-	public String getFileId() {
-		return fileId;
+	public String getId() {
+		return id;
 	}
 
-	public SysFile setFileId(String fileId) {
-		this.fileId = fileId;
+	public SysFile setId(String id) {
+		this.id = id;
 		return this;
 	}
 

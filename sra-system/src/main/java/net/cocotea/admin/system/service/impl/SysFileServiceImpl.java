@@ -43,7 +43,7 @@ public class SysFileServiceImpl implements ISysFileService {
     public boolean deleteBatch(List<String> param) {
         List<SysFile> sysFileList = new ArrayList<>(param.size());
         for (String id : param) {
-            sysFileList.add(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode()));
+            sysFileList.add(new SysFile().setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode()));
         }
         return sqlToyLazyDao.updateAll(sysFileList) > 0;
     }
@@ -63,7 +63,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     @Override
     public boolean delete(String id) {
-        return sqlToyLazyDao.update(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())) > 0;
+        return sqlToyLazyDao.update(new SysFile().setId(id).setDeleteStatus(DeleteStatusEnum.DELETE.getCode())) > 0;
     }
 
     @Override
@@ -77,11 +77,11 @@ public class SysFileServiceImpl implements ISysFileService {
     public boolean recycleBinDeleteBatch(List<String> param) {
         List<SysFile> sysFileList = new ArrayList<>(param.size());
         for (String id : param) {
-            SysFile sysFile = sqlToyLazyDao.load(new SysFile().setFileId(id));
+            SysFile sysFile = sqlToyLazyDao.load(new SysFile().setId(id));
             if (sysFile != null) {
                 FileUtil.del(sysFile.getRealPath());
             }
-            sysFileList.add(new SysFile().setFileId(id));
+            sysFileList.add(new SysFile().setId(id));
         }
         return sqlToyLazyDao.deleteAll(sysFileList) > 0;
     }
@@ -90,7 +90,7 @@ public class SysFileServiceImpl implements ISysFileService {
     public boolean recoveryBatch(List<String> param) {
         List<SysFile> sysFileList = new ArrayList<>(param.size());
         for (String id : param) {
-            sysFileList.add(new SysFile().setFileId(id).setDeleteStatus(DeleteStatusEnum.NOT_DELETE.getCode()));
+            sysFileList.add(new SysFile().setId(id).setDeleteStatus(DeleteStatusEnum.NOT_DELETE.getCode()));
         }
         return sqlToyLazyDao.updateAll(sysFileList) > 0;
     }
