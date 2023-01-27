@@ -109,3 +109,8 @@ $ npm run build || yarn build       #生产环境
 
 - [贡献指南](https://gitee.com/gitee-community/opensource-guide/blob/master/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97.md)
 - 如有更好的想法，欢迎提[issue](https://gitee.com/momoljw/sss-rbac-admin/issues)
+
+
+#### SRA交流群
+
+QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq) 
