@@ -10,6 +10,7 @@ interface UserModel {
     accountStatus?: number,
     avatar?: string,
     roleId?: string,
+    roleIds?: string[],
     roleName?: string,
     password?: string,
     token?: string,

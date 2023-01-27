@@ -15,13 +15,14 @@ public class UserPageParam extends Page<UserVO> implements Serializable{
 
 	private static final long serialVersionUID = 5565588370362046172L;
 
-	private UserVO userVO;
+	private UserVO user;
 
-	public UserVO getUserVO() {
-		return userVO;
+	public UserVO getUser() {
+		return user;
 	}
 
-	public void setUserVO(UserVO userVO) {
-		this.userVO = userVO;
+	public UserPageParam setUser(UserVO user) {
+		this.user = user;
+		return this;
 	}
 }

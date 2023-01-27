@@ -9,13 +9,13 @@
         <el-input placeholder="平台名称" v-model:model-value="pageParam.searchObject.platformName"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="loadTableData">搜索</el-button>
-        <el-button @click="resetSearchForm">重置</el-button>
+        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
       </el-form-item>
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="onAdd">添加版本</el-button>
+      <el-button :icon="Plus" type="primary" @click="onAdd">添加版本</el-button>
     </template>
 
     <!-- 表格视图 -->
@@ -30,10 +30,12 @@
         <el-table-column prop="updateBy" label="更新人" width="150" />
         <el-table-column prop="updateTime" label="更新时间" width="200" />
         <!-- 单行操作 -->
-        <el-table-column fixed="right" width="150" label="操作">
+        <el-table-column fixed="right" width="180" label="操作">
           <template #default="scope">
-            <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button size="small" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
+            <el-button :icon="Edit" size="small" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button :icon="DeleteFilled" size="small" plain type="danger" @click="onRemove(scope.row)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -80,6 +82,7 @@ import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
 import {ElMessageBox} from "element-plus";
+import {DeleteFilled, Plus, Search, RefreshRight, Edit} from "@element-plus/icons-vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();

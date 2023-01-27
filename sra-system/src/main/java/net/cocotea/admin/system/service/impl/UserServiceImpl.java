@@ -79,11 +79,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean update(UserUpdateParam param) {
         User user = sqlToyLazyDao.convertType(param, User.class);
-        // 更新用户角色
-        if (!StringUtils.isEmpty(param.getRoleId())) {
+        if (!(param.getRoleIds() == null || param.getRoleIds().isEmpty())) {
             sqlToyLazyDao.deleteByQuery(UserRole.class, EntityQuery.create().where("USER_ID=:userId").names("userId").values(param.getId()));
-            UserRole userRole = new UserRole().setUserId(param.getId()).setRoleId(param.getRoleId());
-            sqlToyLazyDao.save(userRole);
+            // 删除用户角色再新增
+            sqlToyLazyDao.deleteByQuery(
+                    UserRole.class,
+                    EntityQuery.create().where("USER_ID = :userId").names("userId").values(param.getId())
+            );
+            for (String roleId : param.getRoleIds()) {
+                UserRole userRole = new UserRole().setUserId(param.getId()).setRoleId(roleId);
+                sqlToyLazyDao.save(userRole);
+            }
         }
         // 更新密码
         if (StringUtil.isNotBlank(param.getPassword())) {
@@ -114,7 +120,11 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Page<UserVO> listByPage(UserPageParam param) {
-        Page<UserVO> page = sqlToyLazyDao.findPageBySql(param, "system_user_findByPageParam", param.getUserVO());
+        Page<UserVO> page = sqlToyLazyDao.findPageBySql(
+                param,
+                "system_user_findByPageParam",
+                param.getUser()
+        );
         return page;
     }
 

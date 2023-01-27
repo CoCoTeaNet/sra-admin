@@ -53,9 +53,11 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        RoleVO roleVO = roleService.loadByUserId((String) loginId);
-        List<String> list = new ArrayList<>(1);
-        list.add(roleVO.getRoleKey());
-        return list;
+        List<RoleVO> roles = roleService.loadByUserId((String) loginId);
+        List<String> roleKeys = new ArrayList<>(roles.size());
+        for (RoleVO role : roles) {
+            roleKeys.add(role.getRoleKey());
+        }
+        return roleKeys;
     }
 }

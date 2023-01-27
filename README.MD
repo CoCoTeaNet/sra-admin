@@ -1,4 +1,4 @@
-﻿### 当前版本V1.2.2
+﻿### 当前版本V1.2.3
 
 #### 介绍
 SRA-ADMIN基于SpringBoot，后端核心技术采用Sqltoy与数据库通信以及Sa-Token鉴权，前端Vue3+TS+Element-plus。

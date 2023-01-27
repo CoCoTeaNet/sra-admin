@@ -2,6 +2,7 @@ package net.cocotea.admin.system.param.user;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author jwss
@@ -36,7 +37,7 @@ public class UserUpdateParam implements Serializable {
 
 	private String accountStatus;
 
-	private String roleId;
+	private List<String> roleIds;
 
 	public String getId() {
 		return id;
@@ -44,14 +45,6 @@ public class UserUpdateParam implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
 	}
 
 	public String getMobilePhone() {
@@ -128,5 +121,14 @@ public class UserUpdateParam implements Serializable {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public List<String> getRoleIds() {
+		return roleIds;
+	}
+
+	public UserUpdateParam setRoleIds(List<String> roleIds) {
+		this.roleIds = roleIds;
+		return this;
 	}
 }

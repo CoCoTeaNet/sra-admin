@@ -1,20 +1,23 @@
 <template>
-  <el-dialog v-model="show" title="新增用户" width="50%" @close="onCancel">
+  <el-dialog v-model="show"
+             :title="editType === 'update' ? '更新用户' : '新增用户'"
+             width="50%"
+             @close="onCancel">
     <el-form :model="dataForm" ref="sstFormRef" label-width="100px" :rules="rules" style="max-height: 600px">
       <el-form-item prop="username" label="账号名">
-        <el-input v-model="dataForm.username"></el-input>
+        <el-input placeholder="请输入账号名" v-model="dataForm.username"></el-input>
       </el-form-item>
       <el-form-item prop="nickname" label="用户昵称">
-        <el-input v-model="dataForm.nickname"></el-input>
+        <el-input placeholder="请输入账号昵称" v-model="dataForm.nickname"></el-input>
       </el-form-item>
       <el-form-item prop="password" label="用户密码">
-        <el-input :prefix-icon="Lock" v-model="dataForm.password" type="password"></el-input>
+        <el-input placeholder="密码长度6~30" :prefix-icon="Lock" v-model="dataForm.password" type="password"></el-input>
       </el-form-item>
       <el-form-item prop="email" label="邮箱">
-        <el-input v-model="dataForm.email"></el-input>
+        <el-input placeholder="example@xx.com" v-model="dataForm.email"></el-input>
       </el-form-item>
-      <el-form-item prop="roleName" label="角色">
-        <el-select v-model="dataForm.roleId" placeholder="选择角色">
+      <el-form-item prop="roleIds" label="角色">
+        <el-select v-model="dataForm.roleIds" placeholder="选择角色" :multiple="true">
           <el-option v-for="item in roleOptions" :key="item.id" :label="item.roleName" :value="item.id">
           </el-option>
         </el-select>
@@ -67,8 +70,7 @@ const roleOptions = ref<RoleModel[]>([]);
 const rules = reactive({
   username: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
   nickname: [{required: true, min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  password: [{required: true, min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
-  roleId: [{required: true, message: '请选择角色', trigger: 'blur'}]
+  roleIds: [{required: true, message: '请选择角色', trigger: 'blur'}]
 });
 
 watch(() => props.show, (b: boolean) => {
