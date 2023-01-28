@@ -6,7 +6,7 @@
 interface SysFileModel {
 
     // 主键ID
-    ID?: string,
+    id?: string,
     // 文件名称
     fileName?: string,
     // 文件后缀
@@ -18,7 +18,7 @@ interface SysFileModel {
     // 文件访问地址
     fullPath?: string,
     // 文件大小（单位：字节）
-    fileSize?: string,
+    fileSize?: number,
     // 创建人
     createBy?: string,
     // 创建时间

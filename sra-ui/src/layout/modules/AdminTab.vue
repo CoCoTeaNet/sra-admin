@@ -1,28 +1,29 @@
 <template>
-  <el-scrollbar>
-    <div class="scrollbar-flex-content">
-      <p v-for="item in store.state.tabItems" :key="item" :class="`scrollbar-tab-item ${item.isActive?'active':''}`">
-        <span @click="onClick(item)">{{ item.name }}</span>
-        <el-icon class="tab-icon" @click="removeTabItem(item.id)">
-          <close/>
-        </el-icon>
-      </p>
-
-      <el-dropdown>
+  <div style="display: flex">
+    <el-scrollbar>
+      <div class="scrollbar-flex-content">
+        <p v-for="item in store.state.tabItems" :key="item" :class="`scrollbar-tab-item ${item.isActive?'active':''}`">
+          <span @click="onClick(item)">{{ item.name }}</span>
+          <el-icon class="tab-icon" @click="removeTabItem(item.id)">
+            <close/>
+          </el-icon>
+        </p>
+      </div>
+    </el-scrollbar>
+    <el-dropdown>
         <span class="el-dropdown-link">
           <el-icon class="el-icon--right">
             <arrow-down/>
           </el-icon>
         </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="refresh">刷新页面</el-dropdown-item>
-            <el-dropdown-item @click="onCloseAll">关闭所有</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
-  </el-scrollbar>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item @click="refresh">刷新页面</el-dropdown-item>
+          <el-dropdown-item @click="onCloseAll">关闭所有</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -82,9 +83,9 @@ const refresh = () => {
   margin: 3px;
   padding: 0 3px;
   text-align: center;
-  border-radius: 1px;
   background: var(--el-color-white);
-  border: 1px solid var(--el-border-color-dark);
+  box-shadow: var(--el-box-shadow-lighter);
+  border-radius: 2px;
   color: var(--el-text-color-regular);
 }
 

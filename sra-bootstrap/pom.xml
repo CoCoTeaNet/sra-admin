@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.cocotea</groupId>
         <artifactId>admin</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -42,6 +42,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.4</version>
                 <configuration>
                      <mainClass>net.cocotea.admin.bootstrap.AppBoot</mainClass>　　
                 </configuration>

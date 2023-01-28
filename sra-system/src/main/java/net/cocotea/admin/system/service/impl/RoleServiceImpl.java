@@ -82,10 +82,10 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public RoleVO loadByUserId(String userId) {
+    public List<RoleVO> loadByUserId(String userId) {
         Map<String, Object> map = new HashMap<>(1);
         map.put("userId", userId);
-        return sqlToyLazyDao.loadBySql("system_role_loadByUserId", map, RoleVO.class);
+        return sqlToyLazyDao.findBySql("system_role_loadByUserId", map, RoleVO.class);
     }
 
     @Transactional(rollbackFor = Exception.class)

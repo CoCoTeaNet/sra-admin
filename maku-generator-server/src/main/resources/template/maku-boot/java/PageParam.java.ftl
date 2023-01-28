@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class ${ClassName}PageParam extends Page<${ClassName}VO> implements Serializable {
-    private static final long serial${ClassName}UID = -1L;
+    private static final long serialVersionUID = -1L;
 
     @NotNull(message = "${className} is null")
     private ${ClassName}VO ${className};

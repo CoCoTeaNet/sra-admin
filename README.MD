@@ -1,12 +1,15 @@
-﻿### 当前版本V1.2.1
+﻿### 当前版本V1.2.3
 
-#### 🍬 介绍
-出于对国内框架的热情追捧，以及在工作中接触到satoken和sqltoy并且前端方面了解到vue2到vue3热论，已经越来越对国内开源技术的看好，不仅框架的文档简洁易用，而且中文文档国人使用非常友好（英文太烂o(╥﹏╥)o），  
-所以就有了这个sra-admin。对于开发web服务的同志们完全可以用它来学习，不过有些地方可能设计得不太好也欢迎来提出，当然，因为是MIT开源协议，你也可以用于商业项目。
-* 核心：基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。是一款前后端分离、开箱即用的后台权限管理系统。
-* 目标：致力于打造一款不用生成冗赘代码的后台管理系统
+#### 介绍
+SRA-ADMIN基于SpringBoot，后端核心技术采用Sqltoy与数据库通信以及Sa-Token鉴权，前端Vue3+TS+Element-plus。
+内置代码生成插件 ，是一款前后端分离、开箱即用的后台权限管理系统。
 
-#### 🏞️ 图片演示
+#### 应用场景
+- XXX网站 | 博客网站
+- 编程学习 | 毕业设计
+- XXX管理系统
+
+#### 图片演示
 
 <table>
     <tr>
@@ -19,10 +22,10 @@
     </tr>
 </table>
 
-#### 🧬 软件架构
+#### 软件架构
 [![image.png](https://i.postimg.cc/Bn7TLCXv/image.png)](https://i.postimg.cc/Bn7TLCXv/image.png)
 
-#### ☘️ 启动说明
+#### 启动说明
 
 * 步骤
 
@@ -59,12 +62,13 @@ $ npm run build || yarn build       #生产环境
 #### 代码生成器
 访问路径：http://localhost:8088/maku-generator/index.html  
 
-#### 🪐 项目结构
+#### 项目结构
 
 ```
 ├─doc  -------------------------文档  
-│  └─bin  ----------------------运行脚本  
-│  └─sql  ----------------------数据库脚本  
+│  ├─bin  ----------------------项目运行脚本  
+│  ├─maku-sql  -----------------代码生成器数据库脚本  
+│  └─sra-admin-sql  ------------ADMIN数据库脚本  
 ├─maku-generator-server  -------代码生成器服务  
 ├─sra-bootstrap  ---------------启动模块  
 ├─sra-common  ------------------常用模块   
@@ -75,7 +79,7 @@ $ npm run build || yarn build       #生产环境
 └─sra-ui  ----------------------前端项目  
 ```
 
-#### 📡 核心技术栈
+#### 核心技术栈
 
 ##### 后端
 
@@ -90,13 +94,13 @@ $ npm run build || yarn build       #生产环境
 - [Element Plus](https://element-plus.gitee.io/zh-CN/) ：基于 Vue 3，面向设计师和开发者的组件库，简洁、美观、稳定、易用。
 - [Apache ECharts](https://echarts.apache.org/handbook/zh/get-started/) ：一个基于 JavaScript 的开源可视化图表库，功能非常强大。
 
-#### 🖥️ 软件版本要求
+#### 软件版本要求
 
 - MySQL：8.0+
 - JDK：1.8+
 - Nodejs：14.0+
 
-#### 🍫 参与贡献
+#### 参与贡献
 
 1. Fork 本仓库
 2. 新建 Feat_xxx 分支
@@ -105,3 +109,8 @@ $ npm run build || yarn build       #生产环境
 
 - [贡献指南](https://gitee.com/gitee-community/opensource-guide/blob/master/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97.md)
 - 如有更好的想法，欢迎提[issue](https://gitee.com/momoljw/sss-rbac-admin/issues)
+
+
+#### SRA交流群
+
+QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq) 

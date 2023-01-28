@@ -3,35 +3,35 @@
         <!-- 表格操作 -->
         <template #search>
             <#list fieldList as field>
-                <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
+                <#if field.primaryPk && field.attrName != 'deleteStatus'>
             <el-form-item label="${field.fieldComment}">
                 <el-input placeholder="${field.fieldComment}" v-model:model-value="pageParam.searchObject.${field.attrName}"/>
             </el-form-item>
                 </#if>
             </#list>
             <el-form-item>
-                <el-button type="primary" @click="loadTableData">搜索</el-button>
-                <el-button @click="resetSearchForm">重置</el-button>
+                <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+                <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
             </el-form-item>
         </template>
 
         <template #operate>
-            <el-button type="primary" @click="onAdd">添加${tableComment}</el-button>
+            <el-button type="primary" :icon="Plus" @click="onAdd">添加${tableComment}</el-button>
         </template>
 
         <!-- 表格视图 -->
         <template #default>
-            <el-table stripe row-key="id" :data="pageVo.records">
+            <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
                 <#list fieldList as field>
-                    <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
+                    <#if field.primaryPk && field.attrName != 'deleteStatus'>
                 <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
                     </#if>
                 </#list>
                 <!-- 单行操作 -->
                 <el-table-column fixed="right" width="150" label="操作">
                     <template #default="scope">
-                        <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
-                        <el-button size="small" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
+                        <el-button size="small" :icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
+                        <el-button size="small" plain type="danger" :icon="DeleteFilled" @click="onRemove(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -48,7 +48,7 @@
             <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
                 <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
                     <#list fieldList as field>
-                        <#if field.attrName != 'ID' && field.attrName != 'deleteStatus'>
+                        <#if field.primaryPk && field.attrName != 'deleteStatus'>
                     <el-form-item prop="${field.attrName}" label="${field.fieldComment}">
                         <el-input v-model="editForm.${field.attrName}"></el-input>
                     </el-form-item>
@@ -73,6 +73,7 @@
     import TableManage from "@/components/container/TableManage.vue";
     import {ElForm} from "element-plus/es";
     import {ElMessageBox} from "element-plus";
+    import {DeleteFilled, Edit, Plus, Search, RefreshRight} from "@element-plus/icons-vue";
 
     type FormInstance = InstanceType<typeof ElForm>
     const sttFormRef = ref<FormInstance>();
@@ -111,7 +112,7 @@
                 type: 'warning',
             }
         ).then(() => {
-            reqSuccessFeedback(deleteBatch([row.ID]), '删除成功', () => {
+            reqSuccessFeedback(deleteBatch([row.id]), '删除成功', () => {
                 loadTableData();
             });
         });
@@ -145,7 +146,7 @@
     const doUpdate = (formEl: any): void => {
         formEl.validate((valid: any) => {
             if (valid) {
-                if (!editForm.value.ID) {
+                if (!editForm.value.${functionName}Id) {
                     reqSuccessFeedback(add(editForm.value), '新增成功', () => {
                         loadTableData();
                         dialogFormVisible.value = false;

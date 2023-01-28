@@ -1,12 +1,15 @@
 package net.cocotea.admin.system.vo;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @project sss-rbac-admin
- * @version 1.0.0
+ * @version 1.2.3
  * @description sys_user,系统用户表  
  */
 public class UserVO implements Serializable {
@@ -42,12 +45,7 @@ public class UserVO implements Serializable {
 	 * 更新时间
 	 */
 	private LocalDateTime updateTime;
-	
-	/**
-	 * 删除状态;0删除 1未删除
-	 */
-	private Integer deleteStatus;
-	
+
 	/**
 	 * 用户账号
 	 */
@@ -59,15 +57,15 @@ public class UserVO implements Serializable {
 	private String nickname;
 	
 	/**
-	 * 角色名称
+	 * 角色名称列表
 	 */
 	private String roleName;
 
 	/**
-	 * 角色id
+	 * 角色ID列表
 	 */
 	private String roleId;
-	
+
 	/**
 	 * 用户性别;0未知 1男 2女
 	 */
@@ -229,14 +227,6 @@ public class UserVO implements Serializable {
 	    return this.nickname;
 	}
 
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
 	/**
 	 *@param email the email to set
 	 */
@@ -327,23 +317,6 @@ public class UserVO implements Serializable {
 	    return this.lastLoginTime;
 	}
 
-	public String getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
-
-	public Integer getDeleteStatus() {
-		return deleteStatus;
-	}
-
-	public UserVO setDeleteStatus(Integer deleteStatus) {
-		this.deleteStatus = deleteStatus;
-		return this;
-	}
-
 	public Integer getSex() {
 		return sex;
 	}
@@ -362,28 +335,26 @@ public class UserVO implements Serializable {
 		return this;
 	}
 
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public UserVO setRoleName(String roleName) {
+		this.roleName = roleName;
+		return this;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public UserVO setRoleId(String roleId) {
+		this.roleId = roleId;
+		return this;
+	}
+
 	@Override
 	public String toString() {
-		return "UserVO{" +
-				"id='" + id + '\'' +
-				", revision=" + revision +
-				", createBy='" + createBy + '\'' +
-				", createTime=" + createTime +
-				", updateBy='" + updateBy + '\'' +
-				", updateTime=" + updateTime +
-				", deleteStatus='" + deleteStatus + '\'' +
-				", username='" + username + '\'' +
-				", nickname='" + nickname + '\'' +
-				", roleName='" + roleName + '\'' +
-				", roleId='" + roleId + '\'' +
-				", sex='" + sex + '\'' +
-				", email='" + email + '\'' +
-				", mobilePhone='" + mobilePhone + '\'' +
-				", departmentId='" + departmentId + '\'' +
-				", accountStatus='" + accountStatus + '\'' +
-				", avatar='" + avatar + '\'' +
-				", lastLoginIp='" + lastLoginIp + '\'' +
-				", lastLoginTime=" + lastLoginTime +
-				'}';
+		return JSONObject.toJSONString(this);
 	}
 }

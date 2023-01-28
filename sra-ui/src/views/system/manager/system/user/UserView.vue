@@ -21,14 +21,14 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="loadTableData">搜索</el-button>
-        <el-button @click="onResetSearchForm">重置</el-button>
+        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button :icon="RefreshRight" @click="onResetSearchForm">重置</el-button>
       </el-form-item>
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="onCreate">添加用户</el-button>
-      <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
+      <el-button :icon="Plus" type="primary" @click="onCreate">添加用户</el-button>
+      <el-button :icon="DeleteFilled" plain type="danger" @click="onDeleteBatch">批量删除</el-button>
     </template>
 
     <template #default>
@@ -37,8 +37,7 @@
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="username" width="200" label="账号"/>
         <el-table-column prop="nickname" width="200" label="昵称"/>
-        <el-table-column prop="email" width="200" label="邮箱"/>
-        <el-table-column prop="roleName" label="角色"/>
+        <el-table-column prop="roleName" width="220" label="角色"/>
         <el-table-column prop="sex" label="性别">
           <template #default="scope">
             <el-tag :type="getSex(scope.row.sex, 0)">
@@ -53,12 +52,15 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column prop="email" width="200" label="邮箱"/>
         <el-table-column prop="lastLoginIp" width="200" label="最后登录IP"/>
         <el-table-column prop="lastLoginTime" width="200" label="最后登录时间"/>
-        <el-table-column fixed="right" label="操作" width="150">
+        <el-table-column fixed="right" label="操作" width="180">
           <template #default="scope">
-            <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
+            <el-button :icon="Edit" size="small" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button :icon="DeleteFilled" size="small" type="danger" plain @click="onDelete(scope.row.id)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -83,6 +85,7 @@ import {listByPage, deleteBatch} from "@/api/system/user-api";
 import TableManage from "@/components/container/TableManage.vue";
 import AddUser from "@/views/system/manager/system/user/module/AddUser.vue";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {DeleteFilled, Plus, Search, RefreshRight, Edit} from "@element-plus/icons-vue";
 
 const formShow = ref<boolean>(false);
 const editType = ref<string>("create");
@@ -148,6 +151,7 @@ const getSex: any = (status: number, type: number) => {
 
 const onEdit = (row: UserModel): void => {
   formShow.value = true;
+  row.roleIds = row.roleId?.split(",");
   editUser.value = row;
   editType.value = 'update';
 }
@@ -157,7 +161,7 @@ const loadTableData = () => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    userVO: pageParam.value.searchObject
+    user: pageParam.value.searchObject
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;

@@ -16,7 +16,7 @@ sra:
   file-upload:
     # 禁止上传的文件
     not-support-file-type: js,html,htm,shtml,php,css,java,sh,bat,xml
-    local-url: F:/server/file/
+    local-url: D:/server/file/
     browser-url: /download/
 
 spring:

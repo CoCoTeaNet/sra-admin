@@ -30,5 +30,5 @@ public interface IRoleService extends IBaseService<Page<RoleVO>, RolePageParam, 
      * @param userId 用户id
      * @return 角色
      */
-    RoleVO loadByUserId(String userId);
+    List<RoleVO> loadByUserId(String userId);
 }

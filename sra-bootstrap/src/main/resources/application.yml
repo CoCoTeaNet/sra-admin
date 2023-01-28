@@ -75,7 +75,8 @@ spring:
     unify-fields-handler: net.cocotea.admin.bootstrap.handler.SqlToyUnifyFieldsHandler
   servlet:
     multipart:
-      max-file-size: 10MB
+      max-file-size: 500MB
+      max-request-size: 500MB
   freemarker:
     suffix: .ftl
     settings:

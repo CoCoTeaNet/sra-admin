@@ -16,7 +16,7 @@ public class SysFileUpdateParam implements Serializable {
 	/**
 	 *主键ID
 	 */
-	private String ID;
+	private String id;
 
 	/**
 	 *文件名称
@@ -74,14 +74,14 @@ public class SysFileUpdateParam implements Serializable {
 	private Integer deleteStatus;
 
 
-	public String getID() {
-		return ID;
+	public String getId() {
+		return id;
 	}
 
-	public SysFileUpdateParam setID(String ID) {
-		this.ID = ID;
-		return this;
+	public void setId(String id) {
+		this.id = id;
 	}
+
 	public String getFileName() {
 		return fileName;
 	}

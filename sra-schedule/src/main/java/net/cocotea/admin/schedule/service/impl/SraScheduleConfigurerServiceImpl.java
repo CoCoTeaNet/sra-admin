@@ -165,7 +165,7 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
     @Override
     public void finish(String key, ScheduleJobLogAddParam param) {
         Future<?> future = RUNNING_JOB.get(key);
-        if (future.isDone() || future.isCancelled()) {
+        if (future == null || future.isDone() || future.isCancelled()) {
             RUNNING_JOB.remove(key);
         }
         try {

@@ -102,20 +102,18 @@
       </template>
 
       <el-form ref="ucvFormRef" label-width="120px" label-position="right" :rules="rules" :model="editForm">
-
         <el-form-item prop="avatar" label="用户头像" :auto-upload="false" list-type="picture-card">
-          <el-upload action="/api/file/upload" list-type="picture-card" :limit="1" :on-success="handleAvatarSuccess"
+          <el-upload ref="upload"
+                     action="/api/system/file/upload"
+                     list-type="picture-card"
+                     :limit="1"
+                     :file-list="fileList"
+                     :on-exceed="handleExceed"
+                     :on-success="handleAvatarSuccess"
                      :before-upload="beforeAvatarUpload">
             <el-icon>
               <Plus/>
             </el-icon>
-
-            <template #file="{ file }">
-              <div>
-                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="url"/>
-                <span class="el-upload-list__item-actions"></span>
-              </div>
-            </template>
           </el-upload>
         </el-form-item>
 
@@ -140,7 +138,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ucvFormRef)">提交保存</el-button>
+          <el-button @click="handleUploadAvatar">上传头像</el-button>
+          <el-button type="primary" @click="submitForm(ucvFormRef)">保存信息</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -149,13 +148,17 @@
 
 <script setup lang="ts">
 import {onMounted, reactive, ref} from "vue";
-import type {FormInstance, UploadRawFile} from 'element-plus';
+import type {FormInstance, UploadRawFile, UploadUserFile, UploadInstance, UploadProps} from 'element-plus';
+import { genFileId } from 'element-plus';
 import {Lock} from "@element-plus/icons-vue";
 import {getDetail, update} from "@/api/system/user-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {RULE_MOBILE, RULE_EMAIL} from "@/utils/rules-util";
 import {updateUserInfo} from "@/store";
 import {ElMessage} from "element-plus";
+
+const upload = ref<UploadInstance>();
+const fileList = ref<UploadUserFile[]>([]);
 
 const validatePhone = (rule: any, value: any, callback: any) => {
   if (!RULE_MOBILE.test(value)) {
@@ -186,9 +189,12 @@ const rules = reactive({
 });
 const getSex = (sex: number) => {
   switch (sex) {
-    case 0: return '不公开';
-    case 1: return '男';
-    case 2: return '女';
+    case 0:
+      return '不公开';
+    case 1:
+      return '男';
+    case 2:
+      return '女';
   }
 }
 
@@ -204,6 +210,13 @@ const initUserDetail = () => {
     editForm.value = data;
     detailUser.value = Object.assign(detailUser.value, data);
     updateUserInfo(detailUser.value);
+    if (data) {
+      let arr = data.avatar.split('/');
+      fileList.value.push({
+        name: arr[arr.length - 1],
+        url: data.avatar
+      });
+    }
   });
 }
 
@@ -232,13 +245,23 @@ const handleAvatarSuccess = (resp: any) => {
  * 头像上传前校验
  */
 const beforeAvatarUpload = (rawFile: UploadRawFile) => {
-  console.log(rawFile.type)
   if (rawFile.type === 'image/jpeg' || rawFile.type === 'image/png' || rawFile.type === 'image/jpg') {
     return true;
   } else {
     ElMessage.error('不支持的图片类型');
     return false;
   }
+}
+
+const handleExceed: UploadProps['onExceed'] = (files) => {
+  upload.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  upload.value!.handleStart(file);
+}
+
+const handleUploadAvatar = () => {
+  upload.value!.submit();
 }
 </script>
 

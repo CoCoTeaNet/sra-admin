@@ -1,9 +1,11 @@
 <template>
   <el-container style="height: 100vh;">
-    <el-aside width="300" style="border-right: solid 1px var(--el-menu-border-color);"><NavMenu/></el-aside>
+    <el-aside width="300" style="border-right: solid 1px var(--el-menu-border-color);" class="layout-box-shadow">
+      <NavMenu/>
+    </el-aside>
 
     <el-container>
-      <el-header><admin-header/></el-header>
+      <el-header class="layout-box-shadow"><admin-header/></el-header>
 
       <el-main>
         <router-view v-slot="{Component}">
@@ -15,8 +17,8 @@
         </router-view>
       </el-main>
 
-      <el-footer>
-        <span style="color: #606266">SRA-ADMIN copyright @ CoCoTea 2022</span>
+      <el-footer class="layout-box-shadow">
+        <p style="color: #606266">SRA-ADMIN copyright @ CoCoTea 2022</p>
       </el-footer>
     </el-container>
   </el-container>
@@ -50,5 +52,11 @@ const store = useStore();
 .slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
+}
+</style>
+
+<style>
+.layout-box-shadow {
+  box-shadow: var(--el-box-shadow-lighter);
 }
 </style>

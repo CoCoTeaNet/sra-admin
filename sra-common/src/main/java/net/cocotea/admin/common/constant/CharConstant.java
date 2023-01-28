@@ -44,4 +44,14 @@ public class CharConstant {
      * 逗号
      */
     public final static String COMMA = ",";
+
+    /**
+     * 点
+     */
+    public final static String POINT = ".";
+
+    /**
+     * 波浪号
+     */
+    public final static String WAVE_SIGN = "~";
 }

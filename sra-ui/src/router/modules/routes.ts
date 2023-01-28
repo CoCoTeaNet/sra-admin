@@ -1,21 +1,22 @@
-import Login from "@/views/system/login/Login.vue";
-import AdminLayout from "@/layout/AdminLayout.vue";
-import Home from "@/views/system/dashboard/home/Home.vue";
-import UserView from "@/views/system/manager/system/user/UserView.vue";
-import MenuView from "@/views/system/manager/menu/MenuView.vue";
-import DictionaryView from "@/views/system/manager/system/dictionary/DictionaryView.vue";
-import PermissionView from "@/views/system/manager/menu/PermissionView.vue";
-import RoleView from "@/views/system/manager/system/role/RoleView.vue";
-import Dashboard from "@/views/system/dashboard/Dashboard.vue";
-import NotFound from "@/views/error/NotFound.vue";
-import UserCenterView from "@/views/system/personal/UserCenterView.vue";
-import OperationLogView from "@/views/system/manager/system/operation-log/OperationLogView.vue";
-import ArticleListView from "@/views/system/manager/cms/ArticleListView.vue";
-import CommentView from "@/views/system/manager/cms/CommentView.vue";
-import JobView from "@/views/system/manager/schedule/JobView.vue";
-import JobLogView from "@/views/system/manager/schedule/JobLogView.vue";
-import VersionView from "@/views/system/manager/system/version/VersionView.vue";
-import SysFileView from "@/views/system/manager/system/file/SysFileView.vue";
+const AdminLayout = () => import("@/layout/AdminLayout.vue");
+const Home = () => import("@/views/system/dashboard/home/Home.vue");
+const UserView = () => import("@/views/system/manager/system/user/UserView.vue");
+const MenuView = () => import("@/views/system/manager/system/menu/MenuView.vue");
+const DictionaryView = () => import("@/views/system/manager/system/dictionary/DictionaryView.vue");
+const PermissionView = () => import("@/views/system/manager/system/menu/PermissionView.vue");
+const RoleView = () => import("@/views/system/manager/system/role/RoleView.vue");
+const Dashboard = () => import("@/views/system/dashboard/Dashboard.vue");
+const NotFound = () => import("@/views/error/NotFound.vue");
+const UserCenterView = () => import("@/views/system/personal/UserCenterView.vue");
+const OperationLogView = () => import("@/views/system/manager/system/log/OperationLogView.vue");
+const ArticleListView = () => import("@/views/system/manager/cms/ArticleListView.vue");
+const CommentView = () => import("@/views/system/manager/cms/CommentView.vue");
+const JobView = () => import("@/views/system/manager/schedule/JobView.vue");
+const JobLogView = () => import("@/views/system/manager/schedule/JobLogView.vue");
+const VersionView = () => import("@/views/system/manager/system/version/VersionView.vue");
+const SysFileView = () => import("@/views/system/manager/system/file/SysFileView.vue");
+const RecycleBinView = () => import("@/views/system/manager/system/file/RecycleBinView.vue");
+const Login = () => import("@/views/system/login/Login.vue");
 
 export const routes = [
     {
@@ -46,6 +47,7 @@ export const routes = [
             {path: 'JobLog-manager', meta: {title: '调度记录'}, name: 'JobLogView', component: JobLogView},
             {path: 'version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
             {path: 'sysFile-manager', meta: {title: '文件管理'}, name: 'SysFileView', component: SysFileView},
+            {path: 'recycleBin-manager', meta: {title: '文件回收站'}, name: 'RecycleBinView', component: RecycleBinView},
         ]
     },
     {
