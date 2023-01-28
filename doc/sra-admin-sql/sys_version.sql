@@ -32,7 +32,20 @@ INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DO
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('503e3cc107fd4e2991d8cf1423bbd4e6', 'v1.1.2', '1. 修复文件上传XSS安全漏洞.
 2. 增加图片上传格式限制.
 3. 升级springboot到2.7.4版本
-4. 升级mysql连接器到8.0.30版本', 'web', null, '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:10:07', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:10:07');
+4. 升级mysql连接器到8.0.30版本', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:10:07', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-12-06 14:08:37');
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('6ee72c610c7d4d47bc1db567cebbaeac', 'v1.0.1', '基于SpringBoot，后端核心技术采用Sqltoy操作数据库以及Sa-Token鉴权，前端使用Vue3+TS+Element-plus。                   是一款前后端分离、开箱即用的后台权限管理系统。', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-29 23:06:36', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:03:27');
+INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('9b2e3509d0af41989f84acfe03b81ee0', 'v1.2.1', '1.优化UI界面
+2.新增文件管理功能
+3.新增代码生成器插件
+4.更改代码结构', 'web', null, '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-04 05:47:07', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-04 05:47:07');
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('d4b60c17d49248748d27a8332d9d02d5', 'v1.0.3', '1. 修复已知BUG.
 2. 新增CMS模块.', 'web', '', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:03:17', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:07:54');
+INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('db5b460ed2f2467996933506867fb5f4', 'v1.2.3', '1.优化系统角色(增加多角色)
+2.优化更改用户密码为非必填项
+3.修复编辑用户title显示异常问题
+4.优化用户管理页UI
+5.优化前端项目打包策略', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-27 08:57:01', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-28 14:55:18');
+INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('fe090de822264705850ea99faf05c831', 'v1.2.2', '1. 修复maku-generator-boot-starter打包异常;
+2. 优化头像上传;
+3. 修复手动执行任务日志丢失BUG;
+4. 优化任务管理页面;', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-18 15:28:31', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-18 15:28:31');
