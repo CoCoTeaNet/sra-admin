@@ -18,7 +18,7 @@
       </el-main>
 
       <el-footer class="layout-box-shadow">
-        <p style="color: #606266">SRA-ADMIN copyright @ CoCoTea 2022</p>
+        <p style="color: #606266;font-size: 14px">SRA-ADMIN copyright @ CoCoTea 2022</p>
       </el-footer>
     </el-container>
   </el-container>
@@ -42,11 +42,11 @@ const store = useStore();
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all .6s ease;
 }
 
 .slide-fade-leave-active {
-  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all .3s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 .slide-fade-enter, .slide-fade-leave-to {
