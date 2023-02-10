@@ -28,7 +28,7 @@
         <sqltoy.version>5.1.23</sqltoy.version>
         <mysql-connector.version>8.0.30</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
-        <satoken.version>1.31.0</satoken.version>
+        <satoken.version>1.33.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
