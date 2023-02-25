@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-box">
+  <div>
     <el-form class="tm-header">
       <div class="tm-search">
         <slot name="search"></slot>
@@ -27,10 +27,6 @@
 </script>
 
 <style scoped>
-.tm-box {
-  background-color: white;
-}
-
 .tm-header {
   display: flex;
   justify-content: space-between;

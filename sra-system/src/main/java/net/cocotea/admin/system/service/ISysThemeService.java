@@ -1,6 +1,7 @@
 package net.cocotea.admin.system.service;
 
 import net.cocotea.admin.system.param.theme.SysThemeUpdateParam;
+import net.cocotea.admin.system.vo.SysThemeVO;
 
 /**
  * 系统主题表
@@ -10,4 +11,6 @@ import net.cocotea.admin.system.param.theme.SysThemeUpdateParam;
  */
 public interface ISysThemeService {
     boolean updateByUser(SysThemeUpdateParam param);
+
+    SysThemeVO loadByUser();
 }

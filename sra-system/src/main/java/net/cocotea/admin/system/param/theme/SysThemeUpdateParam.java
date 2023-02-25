@@ -18,7 +18,7 @@ public class SysThemeUpdateParam implements Serializable {
 	 *系统主题ID
 	 */
 	@NotBlank(message = "系统主题ID不能为空")
-	private String ID;
+	private String id;
 
 	/**
 	 *布局模式：0默认
@@ -51,14 +51,15 @@ public class SysThemeUpdateParam implements Serializable {
 	private Integer isDark;
 
 
-	public String getID() {
-		return ID;
+	public String getId() {
+		return id;
 	}
 
-	public SysThemeUpdateParam setID(String ID) {
-		this.ID = ID;
+	public SysThemeUpdateParam setId(String id) {
+		this.id = id;
 		return this;
 	}
+
 	public Integer getLayoutMode() {
 		return layoutMode;
 	}

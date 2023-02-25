@@ -15,7 +15,9 @@
     <el-col :span="4">
       <el-row :gutter="10" justify="end" align="middle">
         <el-icon class="mouse-over" :size="iconSize-2" @click="themeDrawer = !themeDrawer">
-          <el-icon><Brush /></el-icon>
+          <el-icon>
+            <Brush/>
+          </el-icon>
         </el-icon>
         <el-icon class="mouse-over" :size="iconSize-2" @click="doFullScreen">
           <full-screen/>
@@ -36,16 +38,31 @@
     </el-col>
 
     <!-- 主题抽屉 -->
-    <el-drawer v-model="themeDrawer" :with-header="false">
-      <el-divider content-position="left">更改主题颜色</el-divider>
-      <div class="demo-color-block">
-        <span class="demonstration">选择颜色</span>
-        <el-color-picker v-model="colorTheme" />
+    <el-drawer v-model="themeDrawer" :with-header="false" :size="300">
+      <el-divider content-position="left">开启暗黑模式</el-divider>
+      <div>
+        <span class="demonstration">启用开关：</span>
+        <el-switch v-model="isDark"/>
       </div>
+      <el-divider content-position="left">更改主题颜色</el-divider>
+      <form>
+        <el-form-item label="主要颜色：">
+          <el-color-picker v-model="colorTheme"/>
+        </el-form-item>
+        <el-form-item label="第二颜色：">
+          <el-color-picker v-model="colorTheme2"/>
+        </el-form-item>
+        <el-form-item label="第三颜色：">
+          <el-color-picker v-model="colorTheme3"/>
+        </el-form-item>
+        <el-form-item label="第四颜色：">
+          <el-color-picker v-model="colorTheme4"/>
+        </el-form-item>
+      </form>
       <el-divider content-position="left">操作</el-divider>
       <div>
         <el-button>保存配置</el-button>
-        <el-button type="primary" @click="switchTheme">保存生效</el-button>
+        <el-button type="primary" @click="saveTheme">保存生效</el-button>
       </div>
     </el-drawer>
   </el-row>
@@ -59,8 +76,10 @@ import {logout} from "@/api/system/login-api";
 import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 import {Brush, Expand, Fold, FullScreen, House} from "@element-plus/icons-vue";
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {ElMessage} from 'element-plus';
+import {useDark, useToggle} from '@vueuse/core'
+import sysThemeApi from "@/api/system/sysTheme-api";
 
 const themeDrawer = ref(false);
 const store = useStore();
@@ -70,6 +89,21 @@ const url = store.state.userInfo.avatar ? store.state.userInfo.avatar : require(
 
 const iconSize = ref<number>(24);
 const colorTheme = ref<string>('#409EFF');
+const colorTheme2 = ref<string>('#a0cfff');
+const colorTheme3 = ref<string>('#337ecc');
+const colorTheme4 = ref<string>('#ecf5ff');
+const isDark = ref<boolean>(false);
+
+onMounted(() => {
+  reqCommonFeedback(sysThemeApi.loadByUser(), (data: any) => {
+    colorTheme.value = data.primaryColor;
+    colorTheme2.value = data.color2;
+    colorTheme3.value = data.color3;
+    colorTheme4.value = data.color4;
+    isDark.value = data.isDark === 1;
+    switchTheme();
+  });
+});
 
 /**
  * 点击跳转
@@ -101,17 +135,56 @@ const doFullScreen = (event: { exitFullscreen: () => void; }) => {
 }
 
 
+const saveTheme = () => {
+  switchTheme();
+  updateTheme();
+}
+
 const switchTheme = () => {
   // document.documentElement 是全局变量时
   const el = document.documentElement;
-  // 获取 css 变量
+
   getComputedStyle(el).getPropertyValue(`--el-color-primary`);
-  // 设置 css 变量
   el.style.setProperty('--el-color-primary', colorTheme.value);
-  ElMessage({
-    message: '主题设置成功!',
-    type: 'success',
+
+  getComputedStyle(el).getPropertyValue(`--el-color-primary-light-3`);
+  el.style.setProperty('--el-color-primary-light-3', colorTheme2.value);
+
+  getComputedStyle(el).getPropertyValue(`--el-color-primary-dark-2`);
+  el.style.setProperty('--el-color-primary-dark-2', colorTheme3.value);
+
+  getComputedStyle(el).getPropertyValue(`--el-color-primary-light-9`);
+  el.style.setProperty('--el-color-primary-light-9', colorTheme4.value);
+
+  getComputedStyle(el).getPropertyValue(`--el-menu-hover-bg-color`);
+  // 暗黑
+  if (isDark.value) {
+    el.style.setProperty('--el-menu-hover-bg-color', '#010101');
+  } else {
+    el.style.setProperty('--el-menu-hover-bg-color', '#ecf5ff');
+  }
+  const isUseDark = useDark({
+    selector: 'html',
+    attribute: 'class',
+    valueDark: 'dark',
+    valueLight: isDark.value ? 'dark' : 'light',
   });
+  useToggle(isUseDark);
+}
+
+const updateTheme = () => {
+  reqCommonFeedback(sysThemeApi.updateByUser({
+    primaryColor: colorTheme.value,
+    color2: colorTheme2.value,
+    color3: colorTheme3.value,
+    color4: colorTheme4.value,
+    isDark: isDark.value,
+  }), () => {
+    ElMessage({
+      message: '主题设置成功!',
+      type: 'success',
+    });
+  })
 }
 
 </script>

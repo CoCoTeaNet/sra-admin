@@ -58,5 +58,6 @@ const store = useStore();
 <style>
 .layout-box-shadow {
   box-shadow: var(--el-box-shadow-lighter);
+  background-color: var(--el-menu-bg-color);
 }
 </style>
