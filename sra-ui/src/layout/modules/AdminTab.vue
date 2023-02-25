@@ -86,7 +86,7 @@ const refresh = () => {
   background: var(--el-color-white);
   box-shadow: var(--el-box-shadow-lighter);
   border-radius: 2px;
-  color: var(--el-text-color-regular);
+  color: var(--el-color-primary);
 }
 
 .scrollbar-tab-item:hover {

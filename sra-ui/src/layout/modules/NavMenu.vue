@@ -1,7 +1,5 @@
 <template>
-  <el-menu background-color="#00000000"
-           text-color="#333333"
-           :default-active="menuState.defaultActive"
+  <el-menu :default-active="menuState.defaultActive"
            :default-openeds="menuState.defaultOpened"
            :collapse="store.state.isCollapseMenu">
     <!-- LOGO -->

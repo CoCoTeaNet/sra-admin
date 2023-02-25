@@ -1,6 +1,6 @@
 {
   "name": "sra-ui",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,12 +9,13 @@
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.7",
     "@types/node": "^17.0.19",
+    "@vueuse/core": "^9.13.0",
     "@wangeditor/editor": "^5.1.14",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
     "echarts": "^5.3.0",
-    "element-plus": "^2.2.1",
+    "element-plus": "^2.2.13",
     "js-md5": "^0.7.3",
     "vue": "^3.2.32",
     "vue-axios": "^3.4.1",

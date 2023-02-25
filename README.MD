@@ -1,4 +1,4 @@
-﻿### 当前版本V1.2.3
+﻿### 当前版本V1.2.4
 
 #### 介绍
 SRA-ADMIN基于SpringBoot，后端核心技术采用Sqltoy与数据库通信以及Sa-Token鉴权，前端Vue3+TS+Element-plus。
@@ -96,13 +96,13 @@ $ npm run build || yarn build       #生产环境
 
 #### 软件版本要求
 
-- MySQL：8.0+
 - JDK：1.8+
 - Nodejs：14.0+
+- MySQL：8.0+
 
 #### 参与贡献
 
-1. Fork 本仓库
+1. 选择dev分支，然后Fork 本仓库
 2. 新建 Feat_xxx 分支
 3. 提交代码
 4. 新建 Pull Request
