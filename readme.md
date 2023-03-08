@@ -113,4 +113,8 @@ $ npm run build || yarn build       #生产环境
 
 #### SRA交流群
 
-QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq) 
+QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq)
+
+#### 感谢支持
+[JetBrain Idea](https://jb.gg/OpenSourceSupport)
+![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
