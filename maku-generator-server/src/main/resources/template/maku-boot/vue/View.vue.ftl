@@ -23,7 +23,7 @@
         <template #default>
             <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
                 <#list fieldList as field>
-                    <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
+                <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
                 </#list>
                 <!-- 单行操作 -->
                 <el-table-column fixed="right" width="150" label="操作">
@@ -46,7 +46,7 @@
             <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
                 <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
                     <#list fieldList as field>
-                        <#if field.primaryPk && field.attrName != 'deleteStatus'>
+                        <#if !field.primaryPk>
                     <el-form-item prop="${field.attrName}" label="${field.fieldComment}">
                         <el-input v-model="editForm.${field.attrName}"></el-input>
                     </el-form-item>
