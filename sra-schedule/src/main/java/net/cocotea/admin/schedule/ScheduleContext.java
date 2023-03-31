@@ -5,8 +5,10 @@ import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
 import net.cocotea.admin.schedule.service.IScheduleJobRegistryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.StopWatch;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 /**
@@ -19,14 +21,16 @@ public class ScheduleContext {
     private static final int EXEC_RESULT_SUCCESS = 1;
     private static final int EXEC_RESULT_FAILURE = 0;
     private final IScheduleJobRegistryService scheduleJobRegistryService;
+    private final ApplicationContext applicationContext;
     private StopWatch stopWatch;
     private Date triggerTime;
     private ScheduleJob job;
     private String operator;
     private String key;
 
-    public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, ScheduleJob job, String operator, String key) {
+    public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, ApplicationContext applicationContext, ScheduleJob job, String operator, String key) {
         this.scheduleJobRegistryService = scheduleJobRegistryService;
+        this.applicationContext = applicationContext;
         this.job = job;
         this.operator = operator;
         this.key = key;
@@ -44,6 +48,18 @@ public class ScheduleContext {
 
     public void failure(Exception e) {
         log(EXEC_RESULT_FAILURE);
+    }
+
+    public Object getJobInstance(Class<?> clazz) {
+        try {
+            return applicationContext.getBean(clazz);
+        } catch (Exception ignore) {
+        }
+        try {
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception ignore) {
+        }
+        return null;
     }
 
     private void log(int result) {

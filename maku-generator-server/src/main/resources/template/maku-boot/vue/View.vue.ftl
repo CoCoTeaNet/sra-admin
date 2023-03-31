@@ -23,9 +23,7 @@
         <template #default>
             <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
                 <#list fieldList as field>
-                    <#if field.primaryPk && field.attrName != 'deleteStatus'>
                 <el-table-column prop="${field.attrName}" label="${field.fieldComment}" />
-                    </#if>
                 </#list>
                 <!-- 单行操作 -->
                 <el-table-column fixed="right" width="150" label="操作">
@@ -48,7 +46,7 @@
             <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
                 <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
                     <#list fieldList as field>
-                        <#if field.primaryPk && field.attrName != 'deleteStatus'>
+                        <#if !field.primaryPk>
                     <el-form-item prop="${field.attrName}" label="${field.fieldComment}">
                         <el-input v-model="editForm.${field.attrName}"></el-input>
                     </el-form-item>
@@ -68,7 +66,7 @@
 
 <script setup lang="ts">
     import {onMounted, ref, reactive, nextTick} from "vue";
-    import {add, deleteBatch, update, listByPage} from "@/api/system/${className}-api";
+    import {add, deleteBatch, update, listByPage} from "@/api/${moduleName}/${className}-api";
     import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
     import TableManage from "@/components/container/TableManage.vue";
     import {ElForm} from "element-plus/es";
@@ -146,7 +144,7 @@
     const doUpdate = (formEl: any): void => {
         formEl.validate((valid: any) => {
             if (valid) {
-                if (!editForm.value.${functionName}Id) {
+                if (!editForm.value.ID) {
                     reqSuccessFeedback(add(editForm.value), '新增成功', () => {
                         loadTableData();
                         dialogFormVisible.value = false;

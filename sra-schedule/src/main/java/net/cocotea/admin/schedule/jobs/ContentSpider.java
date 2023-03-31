@@ -25,5 +25,6 @@ public class ContentSpider implements IBaseJob {
 
     public void test(JSONObject param) {
         logger.info("exec test.param={}", param);
+        logger.info("sqlToyLazyDao inject = {}", sqlToyLazyDao);
     }
 }

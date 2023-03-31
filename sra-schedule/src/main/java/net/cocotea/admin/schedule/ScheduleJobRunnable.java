@@ -1,5 +1,6 @@
 package net.cocotea.admin.schedule;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -87,7 +88,10 @@ public class ScheduleJobRunnable implements Runnable {
                 method = methods.get(0);
             }
         }
-        instance = jobClass.getDeclaredConstructor().newInstance();
+        instance = context.getJobInstance(jobClass);
+        if (ObjectUtil.isNull(instance)) {
+            logger.error("实例创建失败，请检查注册的任务[ {} ]是否存在!", jobClass);
+        }
         this.initialized = !functionMode || this.method != null;
     }
 

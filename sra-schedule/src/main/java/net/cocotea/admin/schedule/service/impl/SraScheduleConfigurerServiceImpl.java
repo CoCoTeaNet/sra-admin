@@ -13,6 +13,9 @@ import net.cocotea.admin.schedule.service.IScheduleJobService;
 import net.cocotea.admin.common.model.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -36,11 +39,12 @@ import java.util.concurrent.*;
  */
 @Service
 @EnableScheduling
-public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, IScheduleJobRegistryService {
+public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware, SchedulingConfigurer, IScheduleJobRegistryService {
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Set<String>> RUNNING_MAP = new ConcurrentHashMap<>();
+    private ApplicationContext applicationContext;
     @Resource
     private IScheduleJobService scheduleJobService;
     @Resource
@@ -194,11 +198,17 @@ public class SraScheduleConfigurerServiceImpl implements SchedulingConfigurer, I
                 }
             } catch (Exception ignore) {
             }
-            ScheduleContext context = new ScheduleContext(this, scheduleJob, loginId, key);
+
+            ScheduleContext context = new ScheduleContext(this, applicationContext, scheduleJob, loginId, key);
             return new ScheduleJobRunnable(context, scheduleJob);
         } catch (Exception e) {
             logger.error("加载任务时出现异常", e);
             return null;
         }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }
