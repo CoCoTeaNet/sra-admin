@@ -1,4 +1,4 @@
-﻿### 当前版本V1.2.4
+﻿### 当前版本V1.2.5
 
 #### 介绍
 SRA-ADMIN基于SpringBoot，后端核心技术采用Sqltoy与数据库通信以及Sa-Token鉴权，前端Vue3+TS+Element-plus。
@@ -116,5 +116,5 @@ $ npm run build || yarn build       #生产环境
 QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq)
 
 #### 感谢支持
-[JetBrain Idea](https://jb.gg/OpenSourceSupport)
-![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+- [JetBrain Idea](https://jb.gg/OpenSourceSupport)  
+![jetbrains](./doc/imgs/jb_beam.svg)
