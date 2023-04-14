@@ -8,14 +8,14 @@
         <el-input placeholder="角色标识" v-model="pageParam.searchObject.roleKey"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="loadTableData">搜索</el-button>
-        <el-button @click="onResetSearchForm">重置</el-button>
+        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button :icon="RefreshRight" @click="onResetSearchForm">重置</el-button>
       </el-form-item>
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="onCreate">添加角色</el-button>
-      <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
+      <el-button :icon="Plus" type="primary" @click="onCreate">添加角色</el-button>
+      <el-button :icon="DeleteFilled" plain type="danger" @click="onDeleteBatch">批量删除</el-button>
     </template>
 
     <template #default>
@@ -90,6 +90,7 @@ import roleApi, {grantPermissionsByRoleId} from "@/api/system/role-api";
 import {listByTreeAsRoleSelection, listByRoleId} from "@/api/system/menu-api";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
+import {DeleteFilled, Plus, RefreshRight, Search} from "@element-plus/icons-vue";
 
 // 树形选择框配置
 const defaultProps = {

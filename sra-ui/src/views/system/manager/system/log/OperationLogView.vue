@@ -8,13 +8,13 @@
         <el-input placeholder="操作人员" v-model="pageParam.searchObject.operatorName"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="loadTableData">搜索</el-button>
-        <el-button @click="onReset">重置</el-button>
+        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button :icon="RefreshRight" @click="onReset">重置</el-button>
       </el-form-item>
     </template>
 
     <template #operate>
-      <el-button type="danger" @click="onBatchDelete">批量删除</el-button>
+      <el-button :icon="DeleteFilled" type="danger" @click="onBatchDelete">批量删除</el-button>
     </template>
 
     <template #default>
@@ -35,10 +35,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="operationTime" label="操作时间" width="200"/>
-        <el-button size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
         <el-table-column fixed="right" label="操作" width="80">
           <template #default="scope">
-            <el-button size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
+            <el-button :icon="DeleteFilled" size="small" type="danger" plain @click="onDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,6 +59,7 @@ import operationLogApi from "@/api/system/operation-log-api";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {deleteBatch} from "@/api/system/user-api";
+import {DeleteFilled, RefreshRight, Search} from "@element-plus/icons-vue";
 
 // 分页参数
 const pageParam = ref<PageParam>({pageNo: 1, pageSize: 15, searchObject: {}});

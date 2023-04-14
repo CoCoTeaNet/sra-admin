@@ -7,8 +7,8 @@
           <el-input placeholder="菜单名称" v-model:model-value="searchObj.menuName"/>
         </el-form-item>
       </el-form>
-      <el-button type="primary" @click="loadTableData">搜索</el-button>
-      <el-button @click="resetSearchForm">重置</el-button>
+      <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+      <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
       <el-button @click="onExpandAll">
         <el-icon>
           <arrow-right-bold v-if="!isExpandAll"/>
@@ -19,7 +19,7 @@
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="onAdd">添加菜单</el-button>
+      <el-button :icon="Plus" type="primary" @click="onAdd">添加菜单</el-button>
     </template>
 
     <!-- 表格视图 -->
@@ -53,10 +53,10 @@
         <el-table-column prop="createTime" width="200" label="创建时间"/>
         <el-table-column prop="updateTime" width="200" label="更新时间"/>
         <!-- 单行操作 -->
-        <el-table-column fixed="right" width="150" label="操作">
+        <el-table-column fixed="right" width="180" label="操作">
           <template #default="scope">
-            <el-button size="small" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button size="small" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
+            <el-button :icon="Edit" size="small" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button :icon="DeleteFilled" size="small" plain type="danger" @click="onRemove(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -124,6 +124,7 @@ import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
 import {ElMessageBox} from "element-plus";
 import listUtil from "@/utils/list-util";
+import {DeleteFilled, Edit, Plus, RefreshRight, Search} from "@element-plus/icons-vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
