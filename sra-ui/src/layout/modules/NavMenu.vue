@@ -33,10 +33,10 @@ let menuState = computed(() => {
   if (routes) {
     let stack: Array<string> = [];
     for (let i in routes) {
-      let r = routes[i];
+      let route = routes[i];
       let len = stack.length;
-      dfs(r, path, stack);
-      if (!routes[i].id) {
+      dfs(route, path, stack);
+      if (!route.id) {
         console.error('路由配置错误，请检查菜单路径');
       }
       if (len < stack.length) {
@@ -66,6 +66,8 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
         return;
       }
     }
+  } else if (root) {
+      stack.push(root.id + '');
   }
 }
 </script>
