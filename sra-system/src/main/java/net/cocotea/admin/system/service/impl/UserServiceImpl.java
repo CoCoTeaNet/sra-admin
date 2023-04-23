@@ -70,9 +70,13 @@ public class UserServiceImpl implements IUserService {
         }
         Object userId = sqlToyLazyDao.save(user);
         // 授予用户角色
-        UserRole userRole = new UserRole().setUserId((String) userId).setRoleId(param.getRoleId());
-        Object roleId = sqlToyLazyDao.save(userRole);
-        return userId != null && roleId != null;
+        if (!(param.getRoleIds().isEmpty())) {
+            for (String roleId : param.getRoleIds()) {
+                UserRole userRole = new UserRole().setUserId(String.valueOf(userId)).setRoleId(roleId);
+                sqlToyLazyDao.save(userRole);
+            }
+        }
+        return userId != null;
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -15,6 +15,13 @@ export const router = createRouter({
 router.beforeEach((to: any, from: any, next: any) => {
     let userInfo = JSON.parse(`${localStorage.getItem("userInfo")}`);
     let isAuthenticated: boolean = userInfo ? userInfo.loginStatus : false;
+
+    // 如果用户没有该菜单就自动跳到首页
+    let hasMenu: boolean = findMenu(userInfo.menuList, to.path);
+    if (!hasMenu) {
+        next({path: "/admin/home"});
+    }
+
     // 如果认证了直接跳转admin首页
     if ('/' == to.path && isAuthenticated) {
         next({path: "/admin/home"});
@@ -37,3 +44,28 @@ router.afterEach(function (to: any, from: any) {
         document.title = title;
     }
 })
+
+function findMenu(root: MenuModel[], target:string) {
+    // 如果根节点为空，则返回false
+    if (!root) {
+        return false;
+    }
+
+    for (let index: number = 0; index < root.length; index++) {
+        let element: MenuModel = root[index];
+        let flag: boolean = element.routerPath === target;
+        if (flag) {
+            return true;
+        } else {
+            // 递归地搜索
+            if (element.children) {
+                const find: boolean = findMenu(element.children, target);
+                if (find) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}

@@ -1,7 +1,9 @@
 package net.cocotea.admin.system.param.user;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author jwss
@@ -26,8 +28,8 @@ public class UserAddParam implements Serializable {
 
 	private String accountStatus;
 
-	@NotBlank(message = "角色ID为空")
-	private String roleId;
+	@NotNull(message = "角色ID为空")
+	private List<String> roleIds;
 
 	public String getNickname() {
 		return nickname;
@@ -61,12 +63,13 @@ public class UserAddParam implements Serializable {
 		this.accountStatus = accountStatus;
 	}
 
-	public String getRoleId() {
-		return roleId;
+	public List<String> getRoleIds() {
+		return roleIds;
 	}
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public UserAddParam setRoleIds(List<String> roleIds) {
+		this.roleIds = roleIds;
+		return this;
 	}
 
 	/**

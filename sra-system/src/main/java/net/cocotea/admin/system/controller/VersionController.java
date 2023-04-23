@@ -1,5 +1,6 @@
 package net.cocotea.admin.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import net.cocotea.admin.system.service.IVersionService;
@@ -48,7 +49,7 @@ public class VersionController {
         return ApiResult.flag(b);
     }
 
-    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @SaCheckLogin
     @PostMapping("/listByPage")
     public ApiResult<?> listByPage(@Valid @RequestBody VersionPageParam param) throws BusinessException {
         Page<VersionVO> r = versionService.listByPage(param);
