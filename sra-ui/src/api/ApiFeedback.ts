@@ -54,6 +54,8 @@ export function reqFeedback(apiFn: any, successMsg: string, errorMsg: string, su
                 message: res.message,
                 type: 'warning',
             }));
+            // 清除本地用户信息
+            localStorage.removeItem("userInfo");
         } else {
             if (errorMsg) {
                 ElMessage.error(errorMsg);

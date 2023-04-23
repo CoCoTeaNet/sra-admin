@@ -44,6 +44,9 @@ let menuState = computed(() => {
         state.defaultOpened = [routes[i].id + ''];
         break;
       }
+      if (path === route.routerPath) {
+        stack.push(route.id + '');
+      }
     }
     if (stack.length > 0) {
       state.defaultActive = stack[0];
@@ -66,8 +69,6 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
         return;
       }
     }
-  } else if (root) {
-      stack.push(root.id + '');
   }
 }
 </script>
