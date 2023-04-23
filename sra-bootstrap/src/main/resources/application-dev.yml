@@ -29,7 +29,7 @@ spring:
     name: dataSource
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://106.52.139.93:3306/DB_SRA_V1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/DB_SRA_V1?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false
     username: root
     password: root
     druid:
