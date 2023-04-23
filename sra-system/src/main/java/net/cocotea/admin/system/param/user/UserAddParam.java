@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @project sss-rbac-admin
- * @version 1.0.0
+ * @version 1.2.6
  * @description sys_user,系统用户表  
  */
 public class UserAddParam implements Serializable {
