@@ -4,9 +4,10 @@ package net.cocotea.admin.common.enums;
  * 常用枚举之是否枚举
  *
  * @date 2022-1-26 10:51:23
- * @author jwss
+ * @version v1.2.6
+ * @author CoCoTea
  */
-public enum IsSomethingEnum {
+public enum IsEnum {
     /**
      * 是
      */
@@ -19,7 +20,7 @@ public enum IsSomethingEnum {
     final Integer code;
     final String desc;
 
-    IsSomethingEnum(Integer code, String desc) {
+    IsEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

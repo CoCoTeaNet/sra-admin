@@ -1,9 +1,8 @@
 package net.cocotea.admin.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.alibaba.druid.util.StringUtils;
 import net.cocotea.admin.system.properties.DefaultProperties;
-import net.cocotea.admin.common.enums.IsSomethingEnum;
+import net.cocotea.admin.common.enums.IsEnum;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.util.GenerateDsUtils;
 import net.cocotea.admin.common.util.SecurityUtils;
@@ -186,7 +185,7 @@ public class UserServiceImpl implements IUserService {
     private LoginUserVO setLoginUser(User user) {
         LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setMenuList(new ArrayList<>(
-                dsUtils.buildTreeDefault(menuService.listByUserId(IsSomethingEnum.Y.getCode())).values()
+                dsUtils.buildTreeDefault(menuService.listByUserId(IsEnum.Y.getCode())).values()
         ));
         loginUserVO.setUsername(user.getUsername());
         loginUserVO.setAvatar(user.getAvatar());

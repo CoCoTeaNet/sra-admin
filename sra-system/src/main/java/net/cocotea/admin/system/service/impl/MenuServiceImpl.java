@@ -3,8 +3,7 @@ package net.cocotea.admin.system.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
-import net.cocotea.admin.common.enums.IsSomethingEnum;
-import net.cocotea.admin.common.enums.MenuTypeEnum;
+import net.cocotea.admin.common.enums.IsEnum;
 import net.cocotea.admin.common.util.GenerateDsUtils;
 import net.cocotea.admin.common.constant.CharConstant;
 import net.cocotea.admin.framework.constant.RedisKey;
@@ -118,7 +117,7 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public List<MenuVO> cachePermission(String userId) {
         // 缓存权限
-        List<MenuVO> permissions = listByUserId(IsSomethingEnum.N.getCode());
+        List<MenuVO> permissions = listByUserId(IsEnum.N.getCode());
         redisService.save(String.format(RedisKey.USER_PERMISSION, userId), JSONUtil.toJsonStr(permissions), 3600 * 24L);
         return permissions;
     }

@@ -6,7 +6,7 @@ import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
-import net.cocotea.admin.common.enums.IsSomethingEnum;
+import net.cocotea.admin.common.enums.IsEnum;
 import net.cocotea.admin.common.constant.CharConstant;
 import net.cocotea.admin.framework.constant.GlobalValue;
 import net.cocotea.admin.framework.constant.RedisKey;
@@ -48,7 +48,7 @@ public class DashboardServiceImpl implements IDashboardService {
         hashMap.put("count", countUser);
         mapList.add(hashMap);
 
-        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + IsSomethingEnum.Y.getCode();
+        String menuSql = String.format(tempSql, "sys_menu") + "and IS_MENU = " + IsEnum.Y.getCode();
         Long countMenu = sqlToyLazyDao.getCount(menuSql, null);
         hashMap=new HashMap<>(2);
         hashMap.put("title", "菜单数量");
