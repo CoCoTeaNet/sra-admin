@@ -15,12 +15,12 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 
 <table>
     <tr>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-1.jpg"/></td>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-2.jpg"/></td>
+        <td><img src="./doc/imgs/ys_1.jpg" alt="ys_1"/></td>
+        <td><img src="./doc/imgs/ys_2.jpg" alt="ys_2"/></td>
     </tr>
     <tr>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-3.jpg"/></td>
-        <td><img src="https://vjwss-1257389675.cos.ap-chengdu.myqcloud.com/upload/sra-demo-4.jpg"/></td>
+        <td><img src="./doc/imgs/ys_3.jpg" alt="ys_3"/></td>
+        <td><img src="./doc/imgs/ys_4.png" alt="ys_4"/></td>
     </tr>
 </table>
 
@@ -56,10 +56,6 @@ $ npm run build || yarn build       #生产环境
 
 1. 测试后端接口：http://localhost:9000/test/index
 2. 前端登录地址：http://localhost:8080/#/login
-
-* 备注
-
-1. 必须安装Redis；
 
 #### 项目结构
 
