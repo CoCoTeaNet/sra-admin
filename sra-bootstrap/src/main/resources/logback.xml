@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration  scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>logback</contextName>
+    <contextName>sra_log</contextName>
     <property name="log.path" value="logs" />
 
     <!--输出到控制台-->

@@ -1,8 +1,10 @@
-﻿### 当前版本V1.2.6
+﻿### 当前版本V1.2.7
 
 #### 介绍
-SRA-ADMIN基于SpringBoot，后端核心技术采用Sqltoy与数据库通信以及Sa-Token鉴权，前端Vue3+TS+Element-plus。
-内置代码生成插件 ，是一款前后端分离、开箱即用的后台权限管理系统。
+SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常用的工具包以及核心框架，实现了用户、字典、角色、权限等常见功能，
+能够快速搭建一个web项目。  
+后端技术栈：springboot+sqltoy+satoken+hutool  
+前端技术栈：vue3+vue-router+typescript+elementui
 
 #### 应用场景
 - XXX网站 | 博客网站
@@ -59,24 +61,19 @@ $ npm run build || yarn build       #生产环境
 
 1. 必须安装Redis；
 
-#### 代码生成器
-访问路径：http://localhost:8088/maku-generator/index.html  
-
 #### 项目结构
 
 ```
 ├─doc  -------------------------文档  
 │  ├─bin  ----------------------项目运行脚本  
-│  ├─maku-sql  -----------------代码生成器数据库脚本  
 │  └─sra-admin-sql  ------------ADMIN数据库脚本  
-├─maku-generator-server  -------代码生成器服务  
 ├─sra-bootstrap  ---------------启动模块  
 ├─sra-common  ------------------常用模块   
 ├─sra-framework  ---------------框架模块  
 ├─sra-system  ------------------系统模块  
 ├─sra-cms     ------------------内容模块  
 ├─sra-schedule  ----------------任务模块  
-└─sra-ui  ----------------------前端项目  
+└─sra-ui  ----------------------前端VUE3项目  
 ```
 
 #### 核心技术栈
@@ -91,8 +88,8 @@ $ npm run build || yarn build       #生产环境
 ##### 前端
 
 - [Vue3开发文档](https://v3.cn.vuejs.org/) ：Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。
+- [typescript](https://www.tslang.cn/index.html) ：TypeScript是JavaScript类型的超集，让你写出来的js也可以很优雅。
 - [Element Plus](https://element-plus.gitee.io/zh-CN/) ：基于 Vue 3，面向设计师和开发者的组件库，简洁、美观、稳定、易用。
-- [Apache ECharts](https://echarts.apache.org/handbook/zh/get-started/) ：一个基于 JavaScript 的开源可视化图表库，功能非常强大。
 
 #### 软件版本要求
 
@@ -102,7 +99,7 @@ $ npm run build || yarn build       #生产环境
 
 #### 参与贡献
 
-1. 选择dev分支，然后Fork 本仓库
+1. Fork 本仓库
 2. 新建 Feat_xxx 分支
 3. 提交代码
 4. 新建 Pull Request
