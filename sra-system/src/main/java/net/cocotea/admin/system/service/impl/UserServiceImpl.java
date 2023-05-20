@@ -1,5 +1,6 @@
 package net.cocotea.admin.system.service.impl;
 
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import net.cocotea.admin.system.properties.DefaultProperties;
 import net.cocotea.admin.common.enums.IsEnum;
@@ -152,7 +153,14 @@ public class UserServiceImpl implements IUserService {
             user = sqlToyLazyDao.loadBySql("system_user_findByEntityParam", new User().setUsername(param.getUsername()));
         }
         // 记住我模式
-        StpUtil.login(user.getId(), param.getRememberMe());
+        if (param.getRememberMe()) {
+            StpUtil.login(
+                    user.getId(),
+                    new SaLoginModel().setTimeout(3600 * 24 * 31)
+            );
+        } else {
+            StpUtil.login(user.getId());
+        }
         // 更新用户登录时间和ip
         User loginUser = new User();
         loginUser.setId(user.getId());
