@@ -35,8 +35,7 @@
     </template>
 
     <template #default>
-      <el-table v-loading="loading" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange"
-                max-height="700px">
+      <el-table v-loading="loading" :data="tableData" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="name" label="任务名称" width="200"/>
         <el-table-column prop="className" label="任务对应类名" width="200"/>

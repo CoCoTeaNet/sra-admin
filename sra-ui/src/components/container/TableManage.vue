@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tm-outbox">
     <el-form class="tm-header">
       <div class="tm-search">
         <slot name="search"></slot>
@@ -9,15 +9,12 @@
       </div>
     </el-form>
 
-    <div style="width: 100%;margin-top: 1em">
+    <div class="tm-body">
       <slot name="default"></slot>
     </div>
 
-    <div style="margin-top: 3px">
+    <div class="tm-footer">
       <slot name="page"></slot>
-    </div>
-
-    <div>
       <slot name="form"></slot>
     </div>
   </div>
@@ -27,6 +24,14 @@
 </script>
 
 <style scoped>
+.tm-outbox {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .tm-header {
   display: flex;
   justify-content: space-between;
@@ -38,12 +43,27 @@
   flex-wrap: wrap;
 }
 
-::v-deep(.el-form-item) {
-  margin-right: 1em;
-}
-
 .tm-operate {
   display: flex;
   justify-content: end;
+}
+
+.tm-body {
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow: auto;
+}
+
+.tm-footer {
+  padding-top: 1em;
+  background-color: var(--el-fill-color-blank);
+}
+
+:deep(.el-form-item) {
+  margin-right: 1em;
+}
+
+:deep(.el-table) {
+  height: 100%;
 }
 </style>

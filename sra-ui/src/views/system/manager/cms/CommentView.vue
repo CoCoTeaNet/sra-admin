@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <table-manage>
       <template v-slot:search>
         <el-form-item label="时间">
@@ -26,8 +26,7 @@
         <el-button plain type="danger" @click="onDeleteBatch">批量删除</el-button>
       </template>
       <template v-slot:default>
-        <el-table v-loading="loading" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange"
-                  max-height="700px">
+        <el-table v-loading="loading" :data="tableData" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"/>
           <el-table-column prop="createBy" label="评论用户" width="200"/>
           <el-table-column prop="content" label="评论内容" width="400"/>

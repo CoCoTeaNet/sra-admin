@@ -32,8 +32,7 @@
     </template>
 
     <template #default>
-      <el-table v-loading="loading" :data="pageVo.records" style="width: 100%" @selection-change="handleSelectionChange"
-                max-height="700px">
+      <el-table v-loading="loading" :data="pageVo.records" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="username" width="200" label="账号"/>
         <el-table-column prop="nickname" width="200" label="昵称"/>

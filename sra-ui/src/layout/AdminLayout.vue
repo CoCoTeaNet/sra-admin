@@ -17,9 +17,6 @@
         </router-view>
       </el-main>
 
-      <el-footer class="layout-box-shadow">
-        <p style="color: #606266;font-size: 14px">SRA-ADMIN copyright @ CoCoTea 2022</p>
-      </el-footer>
     </el-container>
   </el-container>
 </template>
