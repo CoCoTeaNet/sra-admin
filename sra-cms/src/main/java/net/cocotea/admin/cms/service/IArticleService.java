@@ -1,8 +1,8 @@
 package net.cocotea.admin.cms.service;
 
-import net.cocotea.admin.cms.vo.ArchiveVo;
-import net.cocotea.admin.cms.vo.ArticleVo;
-import net.cocotea.admin.cms.vo.TagVo;
+import net.cocotea.admin.cms.vo.ArchiveVO;
+import net.cocotea.admin.cms.vo.ArticleVO;
+import net.cocotea.admin.cms.vo.TagVO;
 import net.cocotea.admin.cms.param.article.ArticleAddParam;
 import net.cocotea.admin.cms.param.article.ArticlePageParam;
 import net.cocotea.admin.cms.param.article.ArticleUpdateParam;
@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * @author CoCoTea
  */
-public interface IArticleService extends IBaseService<Page<ArticleVo>, ArticlePageParam, ArticleAddParam, ArticleUpdateParam> {
-    ArticleVo detail(String id);
+public interface IArticleService extends IBaseService<Page<ArticleVO>, ArticlePageParam, ArticleAddParam, ArticleUpdateParam> {
+    ArticleVO detail(String id);
 
-    List<TagVo> findTags(List<ArticleVo> articleVoList);
+    List<TagVO> findTags(List<ArticleVO> articleVOList);
 
-    List<ArticleVo> findByTimeDesc();
+    List<ArticleVO> findByTimeDesc();
 
-    List<ArchiveVo> findByArchiveList();
+    List<ArchiveVO> findByArchiveList();
 }

@@ -10,9 +10,9 @@ import net.cocotea.admin.cms.param.article.ArticleAddParam;
 import net.cocotea.admin.cms.param.article.ArticlePageParam;
 import net.cocotea.admin.cms.param.article.ArticleUpdateParam;
 import net.cocotea.admin.cms.service.IArticleService;
-import net.cocotea.admin.cms.vo.ArchiveVo;
-import net.cocotea.admin.cms.vo.ArticleVo;
-import net.cocotea.admin.cms.vo.TagVo;
+import net.cocotea.admin.cms.vo.ArchiveVO;
+import net.cocotea.admin.cms.vo.ArticleVO;
+import net.cocotea.admin.cms.vo.TagVO;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.common.enums.PublishStatusEnum;
 import net.cocotea.admin.common.model.BusinessException;
@@ -64,8 +64,8 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public Page<ArticleVo> listByPage(ArticlePageParam param) throws BusinessException {
-        Page<ArticleVo> page = sqlToyLazyDao.findPageBySql(param, "cms_article_findByPageParam", param.getArticleVo());
+    public Page<ArticleVO> listByPage(ArticlePageParam param) throws BusinessException {
+        Page<ArticleVO> page = sqlToyLazyDao.findPageBySql(param, "cms_article_findByPageParam", param.getArticleVo());
         page.getRows().forEach(articleVo -> {
             JSONArray parseArray = JSONUtil.parseArray(articleVo.getTags());
             articleVo.setTagList(parseArray.toList(String.class));
@@ -83,31 +83,31 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public ArticleVo detail(String id) {
-        ArticleVo articleVo = sqlToyLazyDao.loadBySql("cms_article_findByEntityParam", new ArticleVo().setId(id));
+    public ArticleVO detail(String id) {
+        ArticleVO articleVo = sqlToyLazyDao.loadBySql("cms_article_findByEntityParam", new ArticleVO().setId(id));
         JSONArray parseArray = JSONUtil.parseArray(articleVo.getTags());
         articleVo.setTagList(parseArray.toList(String.class));
         return articleVo;
     }
 
     @Override
-    public List<TagVo> findTags(List<ArticleVo> articleVoList) {
+    public List<TagVO> findTags(List<ArticleVO> articleVOList) {
         List<String> tags = new ArrayList<>();
         final String[] colors = {"bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning text-dark", "bg-info text-dark", "bg-light text-dark", "bg-dark"};
-        if (articleVoList == null) articleVoList = findByTimeDesc();
-        articleVoList.forEach(item -> {
+        if (articleVOList == null) articleVOList = findByTimeDesc();
+        articleVOList.forEach(item -> {
             JSONArray array = JSONUtil.parseArray(item.getTags());
             tags.addAll(array.toList(String.class));
         });
-        List<TagVo> vos = new ArrayList<>();
-        tags.stream().distinct().forEach(tag -> vos.add(new TagVo().setTagName(tag).setColor(colors[RandomUtil.randomInt(colors.length - 1)])));
+        List<TagVO> vos = new ArrayList<>();
+        tags.stream().distinct().forEach(tag -> vos.add(new TagVO().setTagName(tag).setColor(colors[RandomUtil.randomInt(colors.length - 1)])));
         return vos;
     }
 
     @Override
-    public List<ArticleVo> findByTimeDesc() {
+    public List<ArticleVO> findByTimeDesc() {
         String sql = "select ID, TITLE, TAGS, COVER, SUMMARY, CREATE_TIME from cms_article where DELETE_STATUS = 1 order by CREATE_TIME desc, UPDATE_TIME desc limit 15";
-        List<ArticleVo> list = sqlToyLazyDao.findBySql(sql, new ArticleVo());
+        List<ArticleVO> list = sqlToyLazyDao.findBySql(sql, new ArticleVO());
         list.forEach(articleVo -> {
             if (StrUtil.isBlank(articleVo.getCover())) {
                 articleVo.setCover("/default/default-cover.jpg");
@@ -117,8 +117,8 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public List<ArchiveVo> findByArchiveList() {
-        List<ArchiveVo> archiveVos = sqlToyLazyDao.findBySql("cms_article_findByArchiveList", new ArchiveVo());
-        return archiveVos;
+    public List<ArchiveVO> findByArchiveList() {
+        List<ArchiveVO> archiveVOs = sqlToyLazyDao.findBySql("cms_article_findByArchiveList", new ArchiveVO());
+        return archiveVOs;
     }
 }

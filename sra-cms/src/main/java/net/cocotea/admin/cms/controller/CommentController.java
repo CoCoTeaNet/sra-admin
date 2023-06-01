@@ -3,7 +3,7 @@ package net.cocotea.admin.cms.controller;
 import net.cocotea.admin.cms.param.comment.CommentAddParam;
 import net.cocotea.admin.cms.param.comment.CommentPageParam;
 import net.cocotea.admin.cms.service.ICommentService;
-import net.cocotea.admin.cms.vo.CommentVo;
+import net.cocotea.admin.cms.vo.CommentVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import org.sagacity.sqltoy.model.Page;
@@ -36,7 +36,7 @@ public class CommentController {
 
     @PostMapping("listByPage")
     ApiResult<?> listByPage(@Valid @RequestBody CommentPageParam param) throws BusinessException {
-        Page<CommentVo> list = commentService.listByPage(param);
+        Page<CommentVO> list = commentService.listByPage(param);
         return ApiResult.ok(list);
     }
 

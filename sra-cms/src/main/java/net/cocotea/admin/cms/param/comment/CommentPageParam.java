@@ -1,18 +1,18 @@
 package net.cocotea.admin.cms.param.comment;
 
-import net.cocotea.admin.cms.vo.CommentVo;
+import net.cocotea.admin.cms.vo.CommentVO;
 import org.sagacity.sqltoy.model.Page;
 
-public class CommentPageParam extends Page<CommentVo> {
+public class CommentPageParam extends Page<CommentVO> {
     private static final long serialVersionUID = -1346427578243868811L;
 
-    private CommentVo commentVo;
+    private CommentVO commentVo;
 
-    public CommentVo getCommentVo() {
+    public CommentVO getCommentVo() {
         return commentVo;
     }
 
-    public CommentPageParam setCommentVo(CommentVo commentVo) {
+    public CommentPageParam setCommentVo(CommentVO commentVo) {
         this.commentVo = commentVo;
         return this;
     }

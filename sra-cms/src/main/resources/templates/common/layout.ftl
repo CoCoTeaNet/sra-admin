@@ -62,7 +62,7 @@
                 <div style="padding-top: 1.33em;">
                     <ul class="list-group">
 
-                        <#list archiveVoList as item>
+                        <#list archiveVOList as item>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a class="nav-link" style="padding: 0" href="#">${item.day}</a>
                                 <span class="badge bg-primary rounded-pill">${item.total}</span>

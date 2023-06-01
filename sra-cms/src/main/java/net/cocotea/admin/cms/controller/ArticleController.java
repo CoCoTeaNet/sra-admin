@@ -3,7 +3,7 @@ package net.cocotea.admin.cms.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import net.cocotea.admin.cms.service.IArticleService;
-import net.cocotea.admin.cms.vo.ArticleVo;
+import net.cocotea.admin.cms.vo.ArticleVO;
 import net.cocotea.admin.cms.param.article.ArticleAddParam;
 import net.cocotea.admin.cms.param.article.ArticlePageParam;
 import net.cocotea.admin.cms.param.article.ArticleUpdateParam;
@@ -51,14 +51,14 @@ public class ArticleController {
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/listByPage")
     public ApiResult<?> listByPage(@RequestBody ArticlePageParam param) throws BusinessException {
-        Page<ArticleVo> list = articleService.listByPage(param);
+        Page<ArticleVO> list = articleService.listByPage(param);
         return ApiResult.ok(list);
     }
 
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @GetMapping("/detail/{articleId}")
     public ApiResult<?> detail(@PathVariable("articleId") String articleId) {
-        ArticleVo article = articleService.detail(articleId);
+        ArticleVO article = articleService.detail(articleId);
         return ApiResult.ok(article);
     }
 }

@@ -2,9 +2,9 @@ package net.cocotea.admin.cms.controller;
 
 import net.cocotea.admin.cms.service.IArticleService;
 import net.cocotea.admin.cms.service.ICommentService;
-import net.cocotea.admin.cms.vo.ArchiveVo;
-import net.cocotea.admin.cms.vo.ArticleVo;
-import net.cocotea.admin.cms.vo.TagVo;
+import net.cocotea.admin.cms.vo.ArchiveVO;
+import net.cocotea.admin.cms.vo.ArticleVO;
+import net.cocotea.admin.cms.vo.TagVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +28,13 @@ public class PageController {
     @GetMapping("/index")
     public String index(ModelMap modelMap) {
         // 获取文章列表（时间倒叙、评论数最多）
-        List<ArticleVo> articleServiceByTimeDesc = articleService.findByTimeDesc();
+        List<ArticleVO> articleServiceByTimeDesc = articleService.findByTimeDesc();
         // 归档列表
-        List<ArchiveVo> archiveVoList = articleService.findByArchiveList();
+        List<ArchiveVO> archiveVOList = articleService.findByArchiveList();
         // 获取标签列表
-        List<TagVo> tags = articleService.findTags(articleServiceByTimeDesc);
+        List<TagVO> tags = articleService.findTags(articleServiceByTimeDesc);
         modelMap.addAttribute("articleServiceByTimeDesc", articleServiceByTimeDesc);
-        modelMap.addAttribute("archiveVoList", archiveVoList);
+        modelMap.addAttribute("archiveVoList", archiveVOList);
         modelMap.addAttribute("tags", tags);
         modelMap.addAttribute("title", "首页");
         return "index";
@@ -42,7 +42,7 @@ public class PageController {
 
     @GetMapping("/p/{articleId}")
     public String detail(@PathVariable("articleId") String articleId, ModelMap modelMap) {
-        ArticleVo article = articleService.detail(articleId);
+        ArticleVO article = articleService.detail(articleId);
         modelMap.addAttribute("article", article);
         modelMap.addAttribute("archiveVoList", articleService.findByArchiveList());
         modelMap.addAttribute("tags", articleService.findTags(null));

@@ -5,7 +5,7 @@ import net.cocotea.admin.cms.param.comment.CommentAddParam;
 import net.cocotea.admin.cms.param.comment.CommentPageParam;
 import net.cocotea.admin.cms.param.comment.CommentUpdateParam;
 import net.cocotea.admin.cms.service.ICommentService;
-import net.cocotea.admin.cms.vo.CommentVo;
+import net.cocotea.admin.cms.vo.CommentVO;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.common.enums.ReplyTypeEnum;
 import net.cocotea.admin.common.model.BusinessException;
@@ -50,8 +50,8 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public Page<CommentVo> listByPage(CommentPageParam param) throws BusinessException {
-        Page<CommentVo> page = sqlToyLazyDao.findPageBySql(param, "cms_comment_findByPageParam", param.getCommentVo());
+    public Page<CommentVO> listByPage(CommentPageParam param) throws BusinessException {
+        Page<CommentVO> page = sqlToyLazyDao.findPageBySql(param, "cms_comment_findByPageParam", param.getCommentVo());
         return page;
     }
 
@@ -61,8 +61,8 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public List<CommentVo> listByArticleId(String articleId) {
-        List<CommentVo> list = sqlToyLazyDao.findBySql("cms_comment_findByEntityParam", new CommentVo().setArticleId(articleId));
+    public List<CommentVO> listByArticleId(String articleId) {
+        List<CommentVO> list = sqlToyLazyDao.findBySql("cms_comment_findByEntityParam", new CommentVO().setArticleId(articleId));
         return list;
     }
 }

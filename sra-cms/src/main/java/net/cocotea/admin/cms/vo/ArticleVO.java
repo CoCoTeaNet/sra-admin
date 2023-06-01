@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ArticleVo implements Serializable {
+public class ArticleVO implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 主键id
@@ -57,7 +57,7 @@ public class ArticleVo implements Serializable {
         return cover;
     }
 
-    public ArticleVo setCover(String cover) {
+    public ArticleVO setCover(String cover) {
         this.cover = cover;
         return this;
     }
@@ -66,7 +66,7 @@ public class ArticleVo implements Serializable {
         return endTime;
     }
 
-    public ArticleVo setEndTime(LocalDateTime endTime) {
+    public ArticleVO setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -75,7 +75,7 @@ public class ArticleVo implements Serializable {
         return beginTime;
     }
 
-    public ArticleVo setBeginTime(LocalDateTime beginTime) {
+    public ArticleVO setBeginTime(LocalDateTime beginTime) {
         this.beginTime = beginTime;
         return this;
     }
@@ -84,7 +84,7 @@ public class ArticleVo implements Serializable {
         return tagList;
     }
 
-    public ArticleVo setTagList(List<String> tagList) {
+    public ArticleVO setTagList(List<String> tagList) {
         this.tagList = tagList;
         return this;
     }
@@ -93,7 +93,7 @@ public class ArticleVo implements Serializable {
         return id;
     }
 
-    public ArticleVo setId(String id) {
+    public ArticleVO setId(String id) {
         this.id = id;
         return this;
     }
@@ -102,7 +102,7 @@ public class ArticleVo implements Serializable {
         return title;
     }
 
-    public ArticleVo setTitle(String title) {
+    public ArticleVO setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -111,7 +111,7 @@ public class ArticleVo implements Serializable {
         return content;
     }
 
-    public ArticleVo setContent(String content) {
+    public ArticleVO setContent(String content) {
         this.content = content;
         return this;
     }
@@ -120,7 +120,7 @@ public class ArticleVo implements Serializable {
         return summary;
     }
 
-    public ArticleVo setSummary(String summary) {
+    public ArticleVO setSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -129,7 +129,7 @@ public class ArticleVo implements Serializable {
         return publishStatus;
     }
 
-    public ArticleVo setPublishStatus(Integer publishStatus) {
+    public ArticleVO setPublishStatus(Integer publishStatus) {
         this.publishStatus = publishStatus;
         return this;
     }
@@ -138,7 +138,7 @@ public class ArticleVo implements Serializable {
         return tags;
     }
 
-    public ArticleVo setTags(String tags) {
+    public ArticleVO setTags(String tags) {
         this.tags = tags;
         return this;
     }
@@ -147,7 +147,7 @@ public class ArticleVo implements Serializable {
         return createBy;
     }
 
-    public ArticleVo setCreateBy(String createBy) {
+    public ArticleVO setCreateBy(String createBy) {
         this.createBy = createBy;
         return this;
     }
@@ -156,7 +156,7 @@ public class ArticleVo implements Serializable {
         return createTime;
     }
 
-    public ArticleVo setCreateTime(LocalDateTime createTime) {
+    public ArticleVO setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
         return this;
     }
