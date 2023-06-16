@@ -111,6 +111,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
           getVerifyCodeImage();
         }
         loading.value = false;
+      }).catch(e => {
+        ElMessage.warning({message: "服务未启动或者升级中", duration: 2000});
+        console.log('api异常：' + e);
       });
     } else {
       console.log('error submit!');
