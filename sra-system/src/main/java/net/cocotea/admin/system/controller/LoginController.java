@@ -39,13 +39,14 @@ public class LoginController {
         return ApiResult.ok(r);
     }
 
-    @SaCheckLogin
     @PostMapping("/logout")
     public ApiResult<String> logout() {
-        // 删除权限缓存
-        redisService.delete(String.format(RedisKey.USER_PERMISSION, StpUtil.getLoginId()));
-        redisService.delete(String.format(RedisKey.ONLINE_USER, StpUtil.getLoginId()));
-        StpUtil.logout();
+        if ( StpUtil.isLogin() ) {
+            // 删除权限缓存
+            redisService.delete(String.format(RedisKey.USER_PERMISSION, StpUtil.getLoginId()));
+            redisService.delete(String.format(RedisKey.ONLINE_USER, StpUtil.getLoginId()));
+            StpUtil.logout();
+        }
         return ApiResult.ok();
     }
 
