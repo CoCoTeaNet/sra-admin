@@ -29,9 +29,9 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized):b
         return {path: "/admin/home"};
     }
 
-    // 如果用户没有该菜单就自动跳到首页
     if (userInfo && userInfo.menuList) {
         let hasMenu: boolean = findMenu(userInfo.menuList, to.path);
+        // 没有这个菜单，跳转首页
         if (!hasMenu) {
             return {path: "/admin/home"};
         }

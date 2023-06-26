@@ -31,7 +31,7 @@ import {Close} from "@element-plus/icons-vue";
 import {router} from "@/router";
 import {useRoute} from "vue-router";
 import {useStore, addTabItem} from "@/store";
-import {removeTabItem,initTabItems} from "@/store";
+import {removeTabItem, initTabItems} from "@/store";
 import {onMounted} from "vue";
 
 const store = useStore();

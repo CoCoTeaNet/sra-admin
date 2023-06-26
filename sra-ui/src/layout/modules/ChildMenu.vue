@@ -1,24 +1,28 @@
 <template>
   <template v-for="item in menuList" :key="item.id">
-    <el-sub-menu v-if="hasChildren(item)" :index="item.id">
-      <template #title>
+
+    <template v-if="item.menuType === 1 || item.menuType === 0">
+      <el-sub-menu v-if="hasChildren(item)" :index="item.id">
+        <template #title>
+          <el-icon>
+            <component :is="item.iconPath"></component>
+          </el-icon>
+          <span>{{ item.menuName }}</span>
+        </template>
+        <!-- 递归渲染子菜单 -->
+        <child-menu :menu-list="item.children"/>
+      </el-sub-menu>
+
+      <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="item.id">
         <el-icon>
           <component :is="item.iconPath"></component>
         </el-icon>
-        <span>{{ item.menuName }}</span>
-      </template>
-      <!-- 递归渲染子菜单 -->
-      <child-menu :menu-list="item.children"/>
-    </el-sub-menu>
+        <template #title>
+          <span>{{ item.menuName }}</span>
+        </template>
+      </el-menu-item>
+    </template>
 
-    <el-menu-item v-if="!hasChildren(item)" @click="onClickMenu(item)" :index="item.id">
-      <el-icon>
-        <component :is="item.iconPath"></component>
-      </el-icon>
-      <template #title>
-        <span>{{ item.menuName }}</span>
-      </template>
-    </el-menu-item>
   </template>
 </template>
 

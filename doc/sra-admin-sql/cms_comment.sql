@@ -14,7 +14,7 @@ create table cms_comment
     REVISION      int          null comment '乐观锁',
     ARTICLE_ID    varchar(32)  not null comment '文章ID'
 )
-    comment '评论主表';
+    comment '评论主表' engine = InnoDB;
 
 INSERT INTO DB_SRA_V1.cms_comment (ID, PARENT_ID, REPLY_USER_ID, CONTENT, REPLY_TYPE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, DELETE_STATUS, REVISION, ARTICLE_ID) VALUES ('06dab667a7ac405fb74720b5695f3d4c', '0', null, '使先干包别原局强油准标府见解四可给。', '0', 's.smtdlz@byjdtbopnq.sj', '2022-08-21 12:49:10', null, null, '1', null, '4999e9c233074f93a9b4a221f92a6d05');
 INSERT INTO DB_SRA_V1.cms_comment (ID, PARENT_ID, REPLY_USER_ID, CONTENT, REPLY_TYPE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, DELETE_STATUS, REVISION, ARTICLE_ID) VALUES ('1931c32c7e0a4fc9945484a2969d131e', '0', null, '深直济白选之程主压层维放争。', '0', 'g.avyr@erpwjgu.ph', '2022-08-21 12:46:59', null, null, '1', null, 'f2aff0fc21d44b5eab0ef3db5687a35a');
