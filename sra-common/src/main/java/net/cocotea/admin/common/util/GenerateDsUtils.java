@@ -94,9 +94,11 @@ public class GenerateDsUtils<T> {
      * @throws NoSuchMethodException 抛出异常
      */
     private void addToSet(String childrenName, T v1, T v2) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        List<T> children = (List<T>) v2.getClass().getMethod("get" + childrenName).invoke(v2);
-        if (children != null) {
-            children.add(v1);
+        Object object = v2.getClass().getMethod("get" + childrenName).invoke(v2);
+        if (object != null) {
+            if (object instanceof List) {
+                object.getClass().getMethod("add").invoke(v1);
+            }
         } else {
             ArrayList<T> list = new ArrayList<>();
             list.add(v1);
