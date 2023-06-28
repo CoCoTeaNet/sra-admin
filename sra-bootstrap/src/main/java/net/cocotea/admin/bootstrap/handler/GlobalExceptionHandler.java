@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ApiResult<?> handlerException(Exception e) {
-        logger.error("全局异常捕获，异常消息:" + e.getMessage());
+        e.printStackTrace();
         saveLog();
         return ApiResult.error("系统异常，请联系管理员~");
     }
