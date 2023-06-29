@@ -70,6 +70,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotLogException.class)
     public ApiResult<?> handlerNotLogException(NotLogException e) {
+        logger.error("系统异常: " + e.getMessage());
         return ApiResult.error(e.getErrorCode(), e.getErrorMsg());
     }
 
