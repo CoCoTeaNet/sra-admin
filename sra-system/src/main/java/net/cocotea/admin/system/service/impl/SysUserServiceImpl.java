@@ -36,7 +36,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jwss
@@ -53,11 +55,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
     @Resource
-    private SysMenuService menuService;
+    private SysMenuService sysMenuService;
     @Resource
     private IRedisService redisService;
     @Resource
-    private SysOperationLogService operationLogService;
+    private SysOperationLogService sysOperationLogService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -168,9 +170,9 @@ public class SysUserServiceImpl implements SysUserService {
         loginSysUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginSysUser);
         // 缓存权限
-        menuService.cachePermission(sysUser.getId());
+        sysMenuService.cachePermission(sysUser.getId());
         // 保存登录日志
-        operationLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
+        sysOperationLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
         return setLoginUser(sysUser);
     }
 
@@ -192,9 +194,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     private SysLoginUserVO setLoginUser(SysUser sysUser) {
         SysLoginUserVO sysLoginUserVO = new SysLoginUserVO();
-        sysLoginUserVO.setMenuList(new ArrayList<>(
-                dsUtils.buildTreeDefault(menuService.listByUserId(IsEnum.Y.getCode())).values()
-        ));
+        List<SysMenuVO> menuList = sysMenuService.listByUserId(IsEnum.Y.getCode());
+        Map<String, SysMenuVO> menuMap = dsUtils.buildTreeDefault(menuList);
+        sysLoginUserVO.setMenuList(new ArrayList<>(menuMap.values()));
         sysLoginUserVO.setUsername(sysUser.getUsername());
         sysLoginUserVO.setAvatar(sysUser.getAvatar());
         sysLoginUserVO.setId(sysUser.getId());

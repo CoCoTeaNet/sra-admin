@@ -23,24 +23,24 @@ import java.util.List;
 @Component
 public class StpInterfaceImpl implements StpInterface {
     @Resource
-    private SysMenuService menuService;
+    private SysMenuService sysMenuService;
     @Resource
-    private SysRoleService roleService;
+    private SysRoleService sysRoleService;
     @Resource
     private DevEnableProperties devEnableProperties;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        List<SysMenuVO> cachePermissionList = menuService.getCachePermission((String) loginId);
+        List<SysMenuVO> cachePermissionList = sysMenuService.getCachePermission((String) loginId);
         List<String> list;
         // 1关闭了缓存 2缓存失效了 3有缓存
         if (!devEnableProperties.getPermissionCache()) {
-            List<SysMenuVO> menuList = menuService.listByUserId(IsEnum.N.getCode());
+            List<SysMenuVO> menuList = sysMenuService.listByUserId(IsEnum.N.getCode());
             list = new ArrayList<>(menuList.size());
             menuList.forEach(item -> list.add(item.getPermissionCode()));
         } else if (cachePermissionList == null) {
-            List<SysMenuVO> permission = menuService.cachePermission((String) loginId);
+            List<SysMenuVO> permission = sysMenuService.cachePermission((String) loginId);
             list = new ArrayList<>(permission.size());
             permission.forEach(i -> list.add(i.getPermissionCode()));
         } else {
@@ -53,7 +53,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        List<SysRoleVO> roles = roleService.loadByUserId((String) loginId);
+        List<SysRoleVO> roles = sysRoleService.loadByUserId((String) loginId);
         List<String> roleKeys = new ArrayList<>(roles.size());
         for (SysRoleVO role : roles) {
             roleKeys.add(role.getRoleKey());

@@ -30,7 +30,7 @@ public class LogAspect {
     private final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     @Resource
-    private SysOperationLogService operationLogService;
+    private SysOperationLogService sysOperationLogService;
 
     @Pointcut("execution(public * net.cocotea.admin.*.controller.*.*(..))")
     public void requestAspect() {
@@ -51,7 +51,7 @@ public class LogAspect {
             logger.info("=============== 请求内容-END ===============");
             // 保存登录日志与操作日志,如果没有登录不去保存
             if (StpUtil.isLogin()) {
-                operationLogService.saveByLogType(LogTypeEnum.OPERATION.getCode(), request);
+                sysOperationLogService.saveByLogType(LogTypeEnum.OPERATION.getCode(), request);
             }
         }
     }

@@ -97,7 +97,8 @@ public class GenerateDsUtils<T> {
         Object object = v2.getClass().getMethod("get" + childrenName).invoke(v2);
         if (object != null) {
             if (object instanceof List) {
-                object.getClass().getMethod("add").invoke(v1);
+                List<T> ls = (List<T>) object;
+                ls.add(v1);
             }
         } else {
             ArrayList<T> list = new ArrayList<>();

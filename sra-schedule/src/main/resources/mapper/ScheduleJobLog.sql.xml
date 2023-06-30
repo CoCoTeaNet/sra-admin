@@ -20,7 +20,7 @@
                 where DELETE_STATUS = 1
                 #[and JOB_ID = :jobId]
                 #[and TRIGGER_TIME between :beginTime and :endTime]
-                #[and EXE_RESULT = exeResult]
+                #[and EXE_RESULT = :exeResult]
                 order by CREATE_TIME desc
 			]]>
         </value>

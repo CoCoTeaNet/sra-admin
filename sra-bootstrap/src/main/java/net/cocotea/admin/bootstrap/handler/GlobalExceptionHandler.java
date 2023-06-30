@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Resource
-    private SysOperationLogService operationLogService;
+    private SysOperationLogService sysOperationLogService;
 
     @ExceptionHandler(Exception.class)
     public ApiResult<?> handlerException(Exception e) {
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
             logger.info("请求方式：" + request.getMethod());
             logger.info("=============== 请求内容-END ===============");
             // 保存登录日志与操作日志,如果没有登录不去保存
-            operationLogService.saveErrorLog(request);
+            sysOperationLogService.saveErrorLog(request);
         }
     }
 }
