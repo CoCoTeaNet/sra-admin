@@ -6,8 +6,8 @@ import net.cocotea.admin.schedule.entity.ScheduleJob;
 import net.cocotea.admin.schedule.param.ScheduleJobAddParam;
 import net.cocotea.admin.schedule.param.ScheduleJobPageParam;
 import net.cocotea.admin.schedule.param.ScheduleJobUpdateParam;
-import net.cocotea.admin.schedule.service.IScheduleJobRegistryService;
-import net.cocotea.admin.schedule.service.IScheduleJobService;
+import net.cocotea.admin.schedule.service.ScheduleJobRegistryService;
+import net.cocotea.admin.schedule.service.ScheduleJobService;
 import net.cocotea.admin.schedule.vo.ScheduleJobVO;
 import net.cocotea.admin.common.enums.ActiveEnum;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
@@ -28,12 +28,12 @@ import java.util.List;
  * @date 2022/8/9
  */
 @Service
-public class ScheduleJobServiceImpl implements IScheduleJobService {
+public class ScheduleJobServiceImpl implements ScheduleJobService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Resource
-    private IScheduleJobRegistryService scheduleJobRegistryService;
+    private ScheduleJobRegistryService scheduleJobRegistryService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -80,7 +80,7 @@ public class ScheduleJobServiceImpl implements IScheduleJobService {
 
     @Override
     public Page<ScheduleJobVO> listByPage(ScheduleJobPageParam param) throws BusinessException {
-        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJob_findByPageParam", param.getScheduleJobVO());
+        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJob_findByPageParam", param.getJob());
     }
 
     @Override

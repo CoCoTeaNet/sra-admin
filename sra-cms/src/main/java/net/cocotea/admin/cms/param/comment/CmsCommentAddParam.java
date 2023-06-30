@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class CommentAddParam {
+public class CmsCommentAddParam {
     @NotBlank(message = "文章id为空")
     private String articleId;
     @NotBlank(message = "回复内容为空")
@@ -21,7 +21,7 @@ public class CommentAddParam {
         return articleId;
     }
 
-    public CommentAddParam setArticleId(String articleId) {
+    public CmsCommentAddParam setArticleId(String articleId) {
         this.articleId = articleId;
         return this;
     }
@@ -30,7 +30,7 @@ public class CommentAddParam {
         return email;
     }
 
-    public CommentAddParam setEmail(String email) {
+    public CmsCommentAddParam setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -39,7 +39,7 @@ public class CommentAddParam {
         return content;
     }
 
-    public CommentAddParam setContent(String content) {
+    public CmsCommentAddParam setContent(String content) {
         this.content = content;
         return this;
     }
@@ -48,7 +48,7 @@ public class CommentAddParam {
         return replyType;
     }
 
-    public CommentAddParam setReplyType(Integer replyType) {
+    public CmsCommentAddParam setReplyType(Integer replyType) {
         this.replyType = replyType;
         return this;
     }

@@ -1,9 +1,9 @@
 package net.cocotea.admin.cms.controller;
 
-import net.cocotea.admin.cms.param.comment.CommentAddParam;
-import net.cocotea.admin.cms.param.comment.CommentPageParam;
-import net.cocotea.admin.cms.service.ICommentService;
-import net.cocotea.admin.cms.vo.CommentVO;
+import net.cocotea.admin.cms.param.comment.CmsCommentAddParam;
+import net.cocotea.admin.cms.param.comment.CmsCommentPageParam;
+import net.cocotea.admin.cms.service.CmsCommentService;
+import net.cocotea.admin.cms.vo.CmsCommentVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import org.sagacity.sqltoy.model.Page;
@@ -24,25 +24,25 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/cms/comment")
-public class CommentController {
+public class CmsCommentController {
     @Resource
-    private ICommentService commentService;
+    private CmsCommentService cmsCommentService;
 
     @PostMapping("/add")
-    ApiResult<?> add(@Valid @RequestBody CommentAddParam param) throws BusinessException {
-        boolean add = commentService.add(param);
+    ApiResult<?> add(@Valid @RequestBody CmsCommentAddParam param) throws BusinessException {
+        boolean add = cmsCommentService.add(param);
         return ApiResult.flag(add);
     }
 
     @PostMapping("listByPage")
-    ApiResult<?> listByPage(@Valid @RequestBody CommentPageParam param) throws BusinessException {
-        Page<CommentVO> list = commentService.listByPage(param);
+    ApiResult<?> listByPage(@Valid @RequestBody CmsCommentPageParam param) throws BusinessException {
+        Page<CmsCommentVO> list = cmsCommentService.listByPage(param);
         return ApiResult.ok(list);
     }
 
     @PostMapping("deleteBatch")
     ApiResult<?> listByPage(@Valid @RequestBody List<String> idList) throws BusinessException {
-        boolean b = commentService.deleteBatch(idList);
+        boolean b = cmsCommentService.deleteBatch(idList);
         return ApiResult.flag(b);
     }
 }

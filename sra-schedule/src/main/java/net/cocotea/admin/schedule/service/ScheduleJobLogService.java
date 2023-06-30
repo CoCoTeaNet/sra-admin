@@ -11,5 +11,5 @@ import org.sagacity.sqltoy.model.Page;
  * @author Guo wentao
  * @date 2022/9/1
  */
-public interface IScheduleJobLogService extends IBaseService<Page<ScheduleJobLogVO>, ScheduleJobLogPageParam, ScheduleJobLogAddParam, ScheduleJobLogUpdateParam> {
+public interface ScheduleJobLogService extends IBaseService<Page<ScheduleJobLogVO>, ScheduleJobLogPageParam, ScheduleJobLogAddParam, ScheduleJobLogUpdateParam> {
 }

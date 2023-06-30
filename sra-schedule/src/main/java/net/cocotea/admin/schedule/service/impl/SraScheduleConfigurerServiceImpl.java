@@ -7,9 +7,9 @@ import net.cocotea.admin.schedule.ScheduleContext;
 import net.cocotea.admin.schedule.ScheduleJobRunnable;
 import net.cocotea.admin.schedule.entity.ScheduleJob;
 import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.service.IScheduleJobLogService;
-import net.cocotea.admin.schedule.service.IScheduleJobRegistryService;
-import net.cocotea.admin.schedule.service.IScheduleJobService;
+import net.cocotea.admin.schedule.service.ScheduleJobLogService;
+import net.cocotea.admin.schedule.service.ScheduleJobRegistryService;
+import net.cocotea.admin.schedule.service.ScheduleJobService;
 import net.cocotea.admin.common.model.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,16 +39,16 @@ import java.util.concurrent.*;
  */
 @Service
 @EnableScheduling
-public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware, SchedulingConfigurer, IScheduleJobRegistryService {
+public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware, SchedulingConfigurer, ScheduleJobRegistryService {
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Set<String>> RUNNING_MAP = new ConcurrentHashMap<>();
     private ApplicationContext applicationContext;
     @Resource
-    private IScheduleJobService scheduleJobService;
+    private ScheduleJobService scheduleJobService;
     @Resource
-    private IScheduleJobLogService scheduleJobLogService;
+    private ScheduleJobLogService scheduleJobLogService;
     private ThreadPoolExecutor executor;
     private volatile ScheduledTaskRegistrar registrar;
     private static final ThreadFactory THREAD_FACTORY = runnable -> {

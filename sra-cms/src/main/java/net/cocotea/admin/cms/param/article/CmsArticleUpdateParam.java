@@ -10,7 +10,7 @@ import java.util.List;
  * @author CoCoTea
  * @date 2022-7-24 16:01:22
  */
-public class ArticleUpdateParam implements Serializable {
+public class CmsArticleUpdateParam implements Serializable {
 
     private static final long serialVersionUID = -8951611583471320888L;
 
@@ -33,7 +33,7 @@ public class ArticleUpdateParam implements Serializable {
         return cover;
     }
 
-    public ArticleUpdateParam setCover(String cover) {
+    public CmsArticleUpdateParam setCover(String cover) {
         this.cover = cover;
         return this;
     }
@@ -42,7 +42,7 @@ public class ArticleUpdateParam implements Serializable {
         return id;
     }
 
-    public ArticleUpdateParam setId(String id) {
+    public CmsArticleUpdateParam setId(String id) {
         this.id = id;
         return this;
     }
@@ -51,7 +51,7 @@ public class ArticleUpdateParam implements Serializable {
         return summary;
     }
 
-    public ArticleUpdateParam setSummary(String summary) {
+    public CmsArticleUpdateParam setSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -60,7 +60,7 @@ public class ArticleUpdateParam implements Serializable {
         return title;
     }
 
-    public ArticleUpdateParam setTitle(String title) {
+    public CmsArticleUpdateParam setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -69,7 +69,7 @@ public class ArticleUpdateParam implements Serializable {
         return content;
     }
 
-    public ArticleUpdateParam setContent(String content) {
+    public CmsArticleUpdateParam setContent(String content) {
         this.content = content;
         return this;
     }
@@ -78,7 +78,7 @@ public class ArticleUpdateParam implements Serializable {
         return tags;
     }
 
-    public ArticleUpdateParam setTags(List<String> tags) {
+    public CmsArticleUpdateParam setTags(List<String> tags) {
         this.tags = tags;
         return this;
     }

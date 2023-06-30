@@ -2,13 +2,12 @@ package net.cocotea.admin.schedule;
 
 import net.cocotea.admin.schedule.entity.ScheduleJob;
 import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.service.IScheduleJobRegistryService;
+import net.cocotea.admin.schedule.service.ScheduleJobRegistryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StopWatch;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 /**
@@ -20,7 +19,7 @@ public class ScheduleContext {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleContext.class);
     private static final int EXEC_RESULT_SUCCESS = 1;
     private static final int EXEC_RESULT_FAILURE = 0;
-    private final IScheduleJobRegistryService scheduleJobRegistryService;
+    private final ScheduleJobRegistryService scheduleJobRegistryService;
     private final ApplicationContext applicationContext;
     private StopWatch stopWatch;
     private Date triggerTime;
@@ -28,7 +27,7 @@ public class ScheduleContext {
     private String operator;
     private String key;
 
-    public ScheduleContext(IScheduleJobRegistryService scheduleJobRegistryService, ApplicationContext applicationContext, ScheduleJob job, String operator, String key) {
+    public ScheduleContext(ScheduleJobRegistryService scheduleJobRegistryService, ApplicationContext applicationContext, ScheduleJob job, String operator, String key) {
         this.scheduleJobRegistryService = scheduleJobRegistryService;
         this.applicationContext = applicationContext;
         this.job = job;

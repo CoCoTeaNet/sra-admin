@@ -3,7 +3,7 @@ package net.cocotea.admin.cms.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class CommentVO implements Serializable {
+public class CmsCommentVO implements Serializable {
 
     private static final long serialVersionUID = 261866700727263560L;
     /**
@@ -57,7 +57,7 @@ public class CommentVO implements Serializable {
         return beginTime;
     }
 
-    public CommentVO setBeginTime(LocalDateTime beginTime) {
+    public CmsCommentVO setBeginTime(LocalDateTime beginTime) {
         this.beginTime = beginTime;
         return this;
     }
@@ -66,7 +66,7 @@ public class CommentVO implements Serializable {
         return endTime;
     }
 
-    public CommentVO setEndTime(LocalDateTime endTime) {
+    public CmsCommentVO setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -75,7 +75,7 @@ public class CommentVO implements Serializable {
         return id;
     }
 
-    public CommentVO setId(String id) {
+    public CmsCommentVO setId(String id) {
         this.id = id;
         return this;
     }
@@ -84,7 +84,7 @@ public class CommentVO implements Serializable {
         return parentId;
     }
 
-    public CommentVO setParentId(String parentId) {
+    public CmsCommentVO setParentId(String parentId) {
         this.parentId = parentId;
         return this;
     }
@@ -93,7 +93,7 @@ public class CommentVO implements Serializable {
         return replyUserId;
     }
 
-    public CommentVO setReplyUserId(String replyUserId) {
+    public CmsCommentVO setReplyUserId(String replyUserId) {
         this.replyUserId = replyUserId;
         return this;
     }
@@ -102,7 +102,7 @@ public class CommentVO implements Serializable {
         return content;
     }
 
-    public CommentVO setContent(String content) {
+    public CmsCommentVO setContent(String content) {
         this.content = content;
         return this;
     }
@@ -111,7 +111,7 @@ public class CommentVO implements Serializable {
         return replyType;
     }
 
-    public CommentVO setReplyType(Integer replyType) {
+    public CmsCommentVO setReplyType(Integer replyType) {
         this.replyType = replyType;
         return this;
     }
@@ -120,7 +120,7 @@ public class CommentVO implements Serializable {
         return createBy;
     }
 
-    public CommentVO setCreateBy(String createBy) {
+    public CmsCommentVO setCreateBy(String createBy) {
         this.createBy = createBy;
         return this;
     }
@@ -129,7 +129,7 @@ public class CommentVO implements Serializable {
         return createTime;
     }
 
-    public CommentVO setCreateTime(LocalDateTime createTime) {
+    public CmsCommentVO setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -138,7 +138,7 @@ public class CommentVO implements Serializable {
         return articleId;
     }
 
-    public CommentVO setArticleId(String articleId) {
+    public CmsCommentVO setArticleId(String articleId) {
         this.articleId = articleId;
         return this;
     }
@@ -147,7 +147,7 @@ public class CommentVO implements Serializable {
         return commentType;
     }
 
-    public CommentVO setCommentType(Integer commentType) {
+    public CmsCommentVO setCommentType(Integer commentType) {
         this.commentType = commentType;
         return this;
     }

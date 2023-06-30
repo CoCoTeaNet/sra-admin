@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @date 2022-8-17 22:10:43
  * @author CoCoTea
  */
-public class ArchiveVO implements Serializable {
+public class CmsArchiveVO implements Serializable {
     private static final long serialVersionUID = 3146995875144267718L;
 
     private String day;
@@ -16,7 +16,7 @@ public class ArchiveVO implements Serializable {
         return day;
     }
 
-    public ArchiveVO setDay(String day) {
+    public CmsArchiveVO setDay(String day) {
         this.day = day;
         return this;
     }
@@ -25,7 +25,7 @@ public class ArchiveVO implements Serializable {
         return total;
     }
 
-    public ArchiveVO setTotal(Integer total) {
+    public CmsArchiveVO setTotal(Integer total) {
         this.total = total;
         return this;
     }

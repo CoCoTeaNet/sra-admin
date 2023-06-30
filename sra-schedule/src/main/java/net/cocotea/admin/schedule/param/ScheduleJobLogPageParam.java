@@ -14,7 +14,7 @@ import java.util.List;
 public class ScheduleJobLogPageParam extends Page<ScheduleJobLogVO> implements Serializable {
 
     private static final long serialVersionUID = -206977374259097534L;
-    private ScheduleJobLogVO scheduleJobLogVO;
+    private ScheduleJobLogVO jobLog;
     private List<LocalDateTime> triggerTimeRange;
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
@@ -46,12 +46,12 @@ public class ScheduleJobLogPageParam extends Page<ScheduleJobLogVO> implements S
         return this;
     }
 
-    public ScheduleJobLogVO getScheduleJobLogVO() {
-        return scheduleJobLogVO;
+    public ScheduleJobLogVO getJobLog() {
+        return jobLog;
     }
 
-    public ScheduleJobLogPageParam setScheduleJobLogVO(ScheduleJobLogVO scheduleJobLogVO) {
-        this.scheduleJobLogVO = scheduleJobLogVO;
+    public ScheduleJobLogPageParam setJobLog(ScheduleJobLogVO jobLog) {
+        this.jobLog = jobLog;
         return this;
     }
 }

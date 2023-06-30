@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @date 2022-8-17 22:10:43
  * @author CoCoTea
  */
-public class TagVO implements Serializable {
+public class CmsTagVO implements Serializable {
     private static final long serialVersionUID = 1761282241292722215L;
 
     private String tagName;
@@ -16,7 +16,7 @@ public class TagVO implements Serializable {
         return tagName;
     }
 
-    public TagVO setTagName(String tagName) {
+    public CmsTagVO setTagName(String tagName) {
         this.tagName = tagName;
         return this;
     }
@@ -25,7 +25,7 @@ public class TagVO implements Serializable {
         return color;
     }
 
-    public TagVO setColor(String color) {
+    public CmsTagVO setColor(String color) {
         this.color = color;
         return this;
     }

@@ -1,11 +1,11 @@
 package net.cocotea.admin.cms.service.impl;
 
 import net.cocotea.admin.cms.entity.CmsComment;
-import net.cocotea.admin.cms.param.comment.CommentAddParam;
-import net.cocotea.admin.cms.param.comment.CommentPageParam;
-import net.cocotea.admin.cms.param.comment.CommentUpdateParam;
-import net.cocotea.admin.cms.service.ICommentService;
-import net.cocotea.admin.cms.vo.CommentVO;
+import net.cocotea.admin.cms.param.comment.CmsCommentAddParam;
+import net.cocotea.admin.cms.param.comment.CmsCommentPageParam;
+import net.cocotea.admin.cms.param.comment.CmsCommentUpdateParam;
+import net.cocotea.admin.cms.service.CmsCommentService;
+import net.cocotea.admin.cms.vo.CmsCommentVO;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.common.enums.ReplyTypeEnum;
 import net.cocotea.admin.common.model.BusinessException;
@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CommentServiceImpl implements ICommentService {
+public class CmsCommentServiceImpl implements CmsCommentService {
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
 
     @Override
-    public boolean add(CommentAddParam param) throws BusinessException {
+    public boolean add(CmsCommentAddParam param) throws BusinessException {
         CmsComment comment = new CmsComment();
         comment.setParentId(String.valueOf(0))
                 .setArticleId(param.getArticleId())
@@ -45,13 +45,13 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public boolean update(CommentUpdateParam param) throws BusinessException {
+    public boolean update(CmsCommentUpdateParam param) throws BusinessException {
         return false;
     }
 
     @Override
-    public Page<CommentVO> listByPage(CommentPageParam param) throws BusinessException {
-        Page<CommentVO> page = sqlToyLazyDao.findPageBySql(param, "cms_comment_findByPageParam", param.getCommentVo());
+    public Page<CmsCommentVO> listByPage(CmsCommentPageParam param) throws BusinessException {
+        Page<CmsCommentVO> page = sqlToyLazyDao.findPageBySql(param, "cms_comment_findByPageParam", param.getComment());
         return page;
     }
 
@@ -61,8 +61,8 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public List<CommentVO> listByArticleId(String articleId) {
-        List<CommentVO> list = sqlToyLazyDao.findBySql("cms_comment_findByEntityParam", new CommentVO().setArticleId(articleId));
+    public List<CmsCommentVO> listByArticleId(String articleId) {
+        List<CmsCommentVO> list = sqlToyLazyDao.findBySql("cms_comment_findByEntityParam", new CmsCommentVO().setArticleId(articleId));
         return list;
     }
 }

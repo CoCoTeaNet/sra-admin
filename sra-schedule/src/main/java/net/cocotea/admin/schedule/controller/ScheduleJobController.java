@@ -8,7 +8,7 @@ import net.cocotea.admin.schedule.vo.ScheduleJobVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.schedule.param.ScheduleJobUpdateParam;
-import net.cocotea.admin.schedule.service.IScheduleJobService;
+import net.cocotea.admin.schedule.service.ScheduleJobService;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class ScheduleJobController {
     @Resource
-    private IScheduleJobService scheduleJobService;
+    private ScheduleJobService scheduleJobService;
 
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")

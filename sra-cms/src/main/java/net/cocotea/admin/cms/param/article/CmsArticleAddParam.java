@@ -10,7 +10,7 @@ import java.util.List;
  * @author CoCoTea
  * @date 2022-7-24 16:01:22
  */
-public class ArticleAddParam implements Serializable {
+public class CmsArticleAddParam implements Serializable {
     private static final long serialVersionUID = 1113969990552647916L;
 
     @NotBlank(message = "标题为空")
@@ -51,7 +51,7 @@ public class ArticleAddParam implements Serializable {
         return summary;
     }
 
-    public ArticleAddParam setSummary(String summary) {
+    public CmsArticleAddParam setSummary(String summary) {
         this.summary = summary;
         return this;
     }

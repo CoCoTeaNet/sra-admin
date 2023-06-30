@@ -1,7 +1,7 @@
 package net.cocotea.admin.schedule.controller;
 
 import net.cocotea.admin.schedule.param.ScheduleJobLogPageParam;
-import net.cocotea.admin.schedule.service.IScheduleJobLogService;
+import net.cocotea.admin.schedule.service.ScheduleJobLogService;
 import net.cocotea.admin.schedule.vo.ScheduleJobLogVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class ScheduleJobLogController {
     @Resource
-    private IScheduleJobLogService scheduleJobLogService;
+    private ScheduleJobLogService scheduleJobLogService;
 
 
     @PostMapping("/deleteBatch")

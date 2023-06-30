@@ -9,7 +9,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/9/1
  */
-public interface IScheduleJobRegistryService {
+public interface ScheduleJobRegistryService {
 
     /**
      * 刷新全部计划任务，如果当前存在运行中计划任务，不强制中断

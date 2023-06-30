@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ArticleVO implements Serializable {
+public class CmsArticleVO implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 主键id
@@ -57,7 +57,7 @@ public class ArticleVO implements Serializable {
         return cover;
     }
 
-    public ArticleVO setCover(String cover) {
+    public CmsArticleVO setCover(String cover) {
         this.cover = cover;
         return this;
     }
@@ -66,7 +66,7 @@ public class ArticleVO implements Serializable {
         return endTime;
     }
 
-    public ArticleVO setEndTime(LocalDateTime endTime) {
+    public CmsArticleVO setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -75,7 +75,7 @@ public class ArticleVO implements Serializable {
         return beginTime;
     }
 
-    public ArticleVO setBeginTime(LocalDateTime beginTime) {
+    public CmsArticleVO setBeginTime(LocalDateTime beginTime) {
         this.beginTime = beginTime;
         return this;
     }
@@ -84,7 +84,7 @@ public class ArticleVO implements Serializable {
         return tagList;
     }
 
-    public ArticleVO setTagList(List<String> tagList) {
+    public CmsArticleVO setTagList(List<String> tagList) {
         this.tagList = tagList;
         return this;
     }
@@ -93,7 +93,7 @@ public class ArticleVO implements Serializable {
         return id;
     }
 
-    public ArticleVO setId(String id) {
+    public CmsArticleVO setId(String id) {
         this.id = id;
         return this;
     }
@@ -102,7 +102,7 @@ public class ArticleVO implements Serializable {
         return title;
     }
 
-    public ArticleVO setTitle(String title) {
+    public CmsArticleVO setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -111,7 +111,7 @@ public class ArticleVO implements Serializable {
         return content;
     }
 
-    public ArticleVO setContent(String content) {
+    public CmsArticleVO setContent(String content) {
         this.content = content;
         return this;
     }
@@ -120,7 +120,7 @@ public class ArticleVO implements Serializable {
         return summary;
     }
 
-    public ArticleVO setSummary(String summary) {
+    public CmsArticleVO setSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -129,7 +129,7 @@ public class ArticleVO implements Serializable {
         return publishStatus;
     }
 
-    public ArticleVO setPublishStatus(Integer publishStatus) {
+    public CmsArticleVO setPublishStatus(Integer publishStatus) {
         this.publishStatus = publishStatus;
         return this;
     }
@@ -138,7 +138,7 @@ public class ArticleVO implements Serializable {
         return tags;
     }
 
-    public ArticleVO setTags(String tags) {
+    public CmsArticleVO setTags(String tags) {
         this.tags = tags;
         return this;
     }
@@ -147,7 +147,7 @@ public class ArticleVO implements Serializable {
         return createBy;
     }
 
-    public ArticleVO setCreateBy(String createBy) {
+    public CmsArticleVO setCreateBy(String createBy) {
         this.createBy = createBy;
         return this;
     }
@@ -156,7 +156,7 @@ public class ArticleVO implements Serializable {
         return createTime;
     }
 
-    public ArticleVO setCreateTime(LocalDateTime createTime) {
+    public CmsArticleVO setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
         return this;
     }

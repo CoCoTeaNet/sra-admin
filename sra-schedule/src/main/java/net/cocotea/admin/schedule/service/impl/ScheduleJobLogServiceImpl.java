@@ -4,7 +4,7 @@ import net.cocotea.admin.schedule.entity.ScheduleJobLog;
 import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
 import net.cocotea.admin.schedule.param.ScheduleJobLogPageParam;
 import net.cocotea.admin.schedule.param.ScheduleJobLogUpdateParam;
-import net.cocotea.admin.schedule.service.IScheduleJobLogService;
+import net.cocotea.admin.schedule.service.ScheduleJobLogService;
 import net.cocotea.admin.schedule.vo.ScheduleJobLogVO;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import cn.hutool.core.convert.Convert;
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2022-09-03 11:42:37
  */
 @Service
-public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
+public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
@@ -55,7 +55,7 @@ public class ScheduleJobLogServiceImpl implements IScheduleJobLogService {
         if (param.getTriggerTimeRange() != null && !param.getTriggerTimeRange().isEmpty()) {
             param.setBeginTime(param.getTriggerTimeRange().get(0)).setEndTime(param.getTriggerTimeRange().get(1));
         }
-        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJobLog_findByPageParam", param.getScheduleJobLogVO());
+        return sqlToyLazyDao.findPageBySql(param, "schedule_scheduleJobLog_findByPageParam", param.getJobLog());
     }
 
     @Override

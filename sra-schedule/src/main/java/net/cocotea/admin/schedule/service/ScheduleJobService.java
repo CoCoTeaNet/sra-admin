@@ -15,7 +15,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/8/8
  */
-public interface IScheduleJobService extends IBaseService<Page<ScheduleJobVO>, ScheduleJobPageParam, ScheduleJobAddParam, ScheduleJobUpdateParam> {
+public interface ScheduleJobService extends IBaseService<Page<ScheduleJobVO>, ScheduleJobPageParam, ScheduleJobAddParam, ScheduleJobUpdateParam> {
 
     /**
      * 查询所有已启用的计划任务
