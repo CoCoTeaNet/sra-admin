@@ -3,13 +3,11 @@ package net.cocotea.admin.system.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.util.StrUtil;
-import net.cocotea.admin.common.constant.CharConstant;
 import net.cocotea.admin.common.model.FileInfo;
 import net.cocotea.admin.framework.constant.GlobalValue;
-import net.cocotea.admin.system.entity.SysFile;
 import net.cocotea.admin.system.param.file.SysFileAddParam;
 import net.cocotea.admin.system.properties.FileUploadProperties;
-import net.cocotea.admin.system.service.ISysFileService;
+import net.cocotea.admin.system.service.SysFileService;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.system.param.file.SysFilePageParam;
@@ -26,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Validated
 @RequestMapping("/system/file")
@@ -38,7 +35,7 @@ public class SysFileController {
     private FileUploadProperties fileUploadProperties;
 
     @Resource
-    private ISysFileService sysFileService;
+    private SysFileService sysFileService;
 
     @PostMapping("/upload")
     public ApiResult<String> upload(@RequestParam("file") MultipartFile multipartFile,

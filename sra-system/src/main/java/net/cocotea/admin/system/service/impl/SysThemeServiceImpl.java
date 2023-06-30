@@ -4,11 +4,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import net.cocotea.admin.system.entity.SysTheme;
 import net.cocotea.admin.system.param.theme.SysThemeUpdateParam;
-import net.cocotea.admin.system.service.ISysThemeService;
+import net.cocotea.admin.system.service.SysThemeService;
 import net.cocotea.admin.system.vo.SysThemeVO;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.EntityQuery;
-import org.sagacity.sqltoy.model.QueryExecutor;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
  * @since 1.2.4 2023-02-25
  */
 @Service
-public class SysThemeServiceImpl implements ISysThemeService {
+public class SysThemeServiceImpl implements SysThemeService {
 
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;

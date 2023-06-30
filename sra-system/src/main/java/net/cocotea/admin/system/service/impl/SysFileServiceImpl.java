@@ -8,7 +8,7 @@ import net.cocotea.admin.system.entity.SysFile;
 import net.cocotea.admin.system.param.file.SysFileAddParam;
 import net.cocotea.admin.system.param.file.SysFilePageParam;
 import net.cocotea.admin.system.param.file.SysFileUpdateParam;
-import net.cocotea.admin.system.service.ISysFileService;
+import net.cocotea.admin.system.service.SysFileService;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import java.util.List;
  * @since 1.2.1 2022-12-28
  */
 @Service
-public class SysFileServiceImpl implements ISysFileService {
+public class SysFileServiceImpl implements SysFileService {
 
     @Resource
     private SqlToyLazyDao sqlToyLazyDao;
@@ -57,7 +57,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     @Override
     public Page<SysFileVO> listByPage(SysFilePageParam param) {
-        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_findByPageParam", param.getSysFile());
+        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_findByPageParam", param.getFile());
         return page;
     }
 
@@ -68,7 +68,7 @@ public class SysFileServiceImpl implements ISysFileService {
 
     @Override
     public Page<SysFileVO> recycleBinPage(SysFilePageParam param) {
-        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_delete_findByPageParam", param.getSysFile());
+        Page<SysFileVO> page = sqlToyLazyDao.findPageBySql(param, "system_sysFile_delete_findByPageParam", param.getFile());
         return page;
     }
 

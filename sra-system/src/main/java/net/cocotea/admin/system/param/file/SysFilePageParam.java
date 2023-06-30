@@ -10,14 +10,14 @@ public class SysFilePageParam extends Page<SysFileVO> implements Serializable {
     private static final long serialVersionUID = -1L;
 
     @NotNull(message = "sysFile is null")
-    private SysFileVO sysFile;
+    private SysFileVO file;
 
-    public SysFileVO getSysFile() {
-        return sysFile;
+    public SysFileVO getFile() {
+        return file;
     }
 
-    public SysFilePageParam setSysFile(SysFileVO sysFile) {
-        this.sysFile = sysFile;
+    public SysFilePageParam setFile(SysFileVO file) {
+        this.file = file;
         return this;
     }
 

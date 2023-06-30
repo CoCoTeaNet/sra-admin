@@ -3,11 +3,11 @@ package net.cocotea.admin.system.satoken;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import net.cocotea.admin.system.properties.DevEnableProperties;
-import net.cocotea.admin.system.service.IMenuService;
-import net.cocotea.admin.system.service.IRoleService;
+import net.cocotea.admin.system.service.SysMenuService;
+import net.cocotea.admin.system.service.SysRoleService;
 import net.cocotea.admin.common.enums.IsEnum;
-import net.cocotea.admin.system.vo.MenuVO;
-import net.cocotea.admin.system.vo.RoleVO;
+import net.cocotea.admin.system.vo.SysMenuVO;
+import net.cocotea.admin.system.vo.SysRoleVO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,24 +23,24 @@ import java.util.List;
 @Component
 public class StpInterfaceImpl implements StpInterface {
     @Resource
-    private IMenuService menuService;
+    private SysMenuService menuService;
     @Resource
-    private IRoleService roleService;
+    private SysRoleService roleService;
     @Resource
     private DevEnableProperties devEnableProperties;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        List<MenuVO> cachePermissionList = menuService.getCachePermission((String) loginId);
+        List<SysMenuVO> cachePermissionList = menuService.getCachePermission((String) loginId);
         List<String> list;
         // 1关闭了缓存 2缓存失效了 3有缓存
         if (!devEnableProperties.getPermissionCache()) {
-            List<MenuVO> menuList = menuService.listByUserId(IsEnum.N.getCode());
+            List<SysMenuVO> menuList = menuService.listByUserId(IsEnum.N.getCode());
             list = new ArrayList<>(menuList.size());
             menuList.forEach(item -> list.add(item.getPermissionCode()));
         } else if (cachePermissionList == null) {
-            List<MenuVO> permission = menuService.cachePermission((String) loginId);
+            List<SysMenuVO> permission = menuService.cachePermission((String) loginId);
             list = new ArrayList<>(permission.size());
             permission.forEach(i -> list.add(i.getPermissionCode()));
         } else {
@@ -53,9 +53,9 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        List<RoleVO> roles = roleService.loadByUserId((String) loginId);
+        List<SysRoleVO> roles = roleService.loadByUserId((String) loginId);
         List<String> roleKeys = new ArrayList<>(roles.size());
-        for (RoleVO role : roles) {
+        for (SysRoleVO role : roles) {
             roleKeys.add(role.getRoleKey());
         }
         return roleKeys;

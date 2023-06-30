@@ -7,7 +7,7 @@ import net.cocotea.admin.common.enums.ApiResultEnum;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.model.NotLogException;
-import net.cocotea.admin.system.service.IOperationLogService;
+import net.cocotea.admin.system.service.SysOperationLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Resource
-    private IOperationLogService operationLogService;
+    private SysOperationLogService operationLogService;
 
     @ExceptionHandler(Exception.class)
     public ApiResult<?> handlerException(Exception e) {

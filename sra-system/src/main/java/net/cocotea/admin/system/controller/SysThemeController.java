@@ -3,7 +3,7 @@ package net.cocotea.admin.system.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.system.param.theme.SysThemeUpdateParam;
-import net.cocotea.admin.system.service.ISysThemeService;
+import net.cocotea.admin.system.service.SysThemeService;
 import net.cocotea.admin.system.vo.SysThemeVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 @RestController
 public class SysThemeController {
     @Resource
-    private ISysThemeService sysThemeService;
+    private SysThemeService sysThemeService;
 
     @SaCheckLogin
     @PostMapping("/updateByUser")

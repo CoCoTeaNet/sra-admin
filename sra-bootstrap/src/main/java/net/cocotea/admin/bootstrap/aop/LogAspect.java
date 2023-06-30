@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import net.cocotea.admin.common.enums.LogTypeEnum;
 import net.cocotea.admin.common.model.BusinessException;
-import net.cocotea.admin.system.service.IOperationLogService;
+import net.cocotea.admin.system.service.SysOperationLogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -30,7 +30,7 @@ public class LogAspect {
     private final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     @Resource
-    private IOperationLogService operationLogService;
+    private SysOperationLogService operationLogService;
 
     @Pointcut("execution(public * net.cocotea.admin.*.controller.*.*(..))")
     public void requestAspect() {
