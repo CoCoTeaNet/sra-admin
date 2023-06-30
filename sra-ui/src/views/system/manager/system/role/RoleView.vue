@@ -135,7 +135,7 @@ const loadTableData = () => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    roleVO: {roleName: pageParam.value.searchObject.roleName, roleKey: pageParam.value.searchObject.roleKey}
+    role: {roleName: pageParam.value.searchObject.roleName, roleKey: pageParam.value.searchObject.roleKey}
   };
   reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;
@@ -198,7 +198,7 @@ const getMenus = (t: number, callback: Function) => {
   let param: any = {
     pageNo: 1,
     pageSize: 1000,
-    menuVO: {menuName: '', isMenu: t}
+    menu: {menuName: '', isMenu: t}
   }
   reqCommonFeedback(listByTreeAsRoleSelection(param), (data: any) => {
     menuOptions.value = data;

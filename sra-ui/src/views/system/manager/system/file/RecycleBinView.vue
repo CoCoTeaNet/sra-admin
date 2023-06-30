@@ -124,7 +124,7 @@ const loadTableData = (): void => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    sysFile: pageParam.value.searchObject
+    file: pageParam.value.searchObject
   };
   reqCommonFeedback(recycleBinPage(param), (data: any) => {
     pageVo.value.records = data.rows;

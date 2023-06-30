@@ -156,7 +156,7 @@ const onSizeChange = (size: number) => {
 
 const loadTableData = () => {
   if (!loading.value) loading.value = true;
-  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, scheduleJobVO: page.value.searchObject};
+  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, job: page.value.searchObject};
   reqCommonFeedback(listByPage(param), (data: any) => {
     tableData.value = data.rows;
     total.value = data.recordCount;

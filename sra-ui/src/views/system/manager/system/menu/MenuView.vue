@@ -238,7 +238,7 @@ const onRemove = (row: MenuModel): void => {
 
 const loadTableData = (): void => {
   if (!loading.value) loading.value = true;
-  let param = {menuVO: {isMenu: 1, menuName: searchObj.value.menuName}};
+  let param = {menu: {isMenu: 1, menuName: searchObj.value.menuName}};
   reqCommonFeedback(listByTree(param), (data: any) => {
     listUtil.treeMap(data, (item: { disabled: boolean; menuType: number; }) => item.disabled = (item.menuType != 0));
     records.value = data;

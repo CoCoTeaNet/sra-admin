@@ -121,7 +121,7 @@ const loadTableData = () => {
   let param = {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
-    operationLogVO: pageParam.value.searchObject
+    operationLog: pageParam.value.searchObject
   };
   reqCommonFeedback(operationLogApi.listByPage(param), (data: any) => {
     pageVo.value.records = data.rows;

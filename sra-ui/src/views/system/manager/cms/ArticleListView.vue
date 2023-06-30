@@ -159,7 +159,7 @@ const loadTableData = () => {
     searchForm.beginTime = searchForm.createTimeRange[0];
     searchForm.endTime = searchForm.createTimeRange[1];
   }
-  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, articleVo: searchForm};
+  let param = {pageNo: page.value.pageNo, pageSize: page.value.pageSize, article: searchForm};
   reqCommonFeedback(listByPage(param), (data: any) => {
     tableData.value = data.rows;
     total.value = data.recordCount;

@@ -84,7 +84,7 @@ onMounted(() => {
 const emit = defineEmits(['update:show', 'onConfirm']);
 
 const loadRoles = () => {
-  let param: any = {pageNo: 1, pageSize: 1000, roleVO: {roleName: ''}}
+  let param: any = {pageNo: 1, pageSize: 1000, role: {roleName: ''}}
   reqCommonFeedback(roleApi.listByPage(param), (data: any) => {
     roleOptions.value = data.rows;
   });

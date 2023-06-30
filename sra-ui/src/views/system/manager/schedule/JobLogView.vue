@@ -105,7 +105,7 @@ const loadTableData = () => {
   let param = {
     pageNo: page.value.pageNo,
     pageSize: page.value.pageSize,
-    scheduleJobLogVO: page.value.searchObject,
+    jobLog: page.value.searchObject,
     triggerTimeRange: page.value.searchObject.triggerTimeRange
   };
   reqCommonFeedback(listByPage(param), (data: any) => {
