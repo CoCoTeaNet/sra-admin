@@ -62,7 +62,7 @@
       </form>
       <el-divider content-position="left">操作</el-divider>
       <div>
-        <el-button>保存配置</el-button>
+        <el-button @click="switchTheme">保存配置</el-button>
         <el-button type="primary" @click="saveTheme">保存生效</el-button>
         <el-divider content-position="left"></el-divider>
         <el-button @click="resetTheme">恢复原色</el-button>
@@ -126,7 +126,14 @@ const clickToGo = (url: string, name: string) => {
  */
 const doLogout = () => {
   reqCommonFeedback(logout(), () => {
+    // 清空用户信息
     setUserInfo({id: '', username: '', nickname: ''});
+    // 清空用户主题配置
+    const el = document.documentElement;
+    isDark.value = false;
+    resetTheme();
+    setDarkTheme(el);
+    // 跳转登录页面
     router.push({path: '/login', query: {redirect: encodeURIComponent(route.path)}});
   });
 }
@@ -167,18 +174,7 @@ const switchTheme = () => {
 
   getComputedStyle(el).getPropertyValue(`--el-menu-hover-bg-color`);
   // 暗黑
-  if (isDark.value) {
-    el.style.setProperty('--el-menu-hover-bg-color', '#010101');
-  } else {
-    el.style.setProperty('--el-menu-hover-bg-color', '#ecf5ff');
-  }
-  const isUseDark = useDark({
-    selector: 'html',
-    attribute: 'class',
-    valueDark: 'dark',
-    valueLight: isDark.value ? 'dark' : 'light',
-  });
-  useToggle(isUseDark);
+  setDarkTheme(el);
 }
 
 const updateTheme = () => {
@@ -194,6 +190,21 @@ const updateTheme = () => {
       type: 'success',
     });
   })
+}
+
+const setDarkTheme = (el: HTMLElement) => {
+  if (isDark.value) {
+    el.style.setProperty('--el-menu-hover-bg-color', '#010101');
+  } else {
+    el.style.setProperty('--el-menu-hover-bg-color', '#ecf5ff');
+  }
+  const isUseDark = useDark({
+    selector: 'html',
+    attribute: 'class',
+    valueDark: 'dark',
+    valueLight: isDark.value ? 'dark' : 'light',
+  });
+  useToggle(isUseDark);
 }
 
 const resetTheme = () => {
