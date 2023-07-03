@@ -15,21 +15,26 @@ import java.util.Map;
 
 /**
  * @date 2022-1-14 23:08:02
- * @author jwss
+ * @author CoCoTea
  */
 public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
     private final Logger logger = LoggerFactory.getLogger(SqlToyUnifyFieldsHandler.class);
 
-    @Override
-    public Map<String, Object> createUnifyFields() {
-        LocalDateTime nowTime = DateUtil.getDateTime();
+    private String getLoginId() {
         String loginId;
         try {
             loginId  = (String) StpUtil.getLoginId();
         } catch (Exception e) {
-            logger.info("warning!func[createUnifyFields],add this item not login.");
+            logger.info("warning!func[getLoginId],add this item not login.");
             loginId = "";
         }
+        return loginId;
+    }
+
+    @Override
+    public Map<String, Object> createUnifyFields() {
+        LocalDateTime nowTime = DateUtil.getDateTime();
+        String loginId = getLoginId();
         Map<String, Object> map = new HashMap<>(Character.OTHER_LETTER);
         map.put("createBy", loginId);
         map.put("createTime", nowTime);
@@ -43,7 +48,7 @@ public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
     @Override
     public Map<String, Object> updateUnifyFields() {
         LocalDateTime nowTime = DateUtil.getDateTime();
-        String loginId = (String) StpUtil.getLoginId();
+        String loginId = getLoginId();
         Map<String, Object> map = new HashMap<>(Character.TITLECASE_LETTER);
         map.put("updateBy", loginId);
         map.put("updateTime", nowTime);
