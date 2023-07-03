@@ -1,5 +1,6 @@
 package net.cocotea.admin.bootstrap;
 
+import com.sagframe.sagacity.sqltoy.plus.EnableSqlToyPlus;
 import net.cocotea.admin.system.properties.DefaultProperties;
 import net.cocotea.admin.system.properties.DevEnableProperties;
 import net.cocotea.admin.framework.constant.GlobalValue;
@@ -15,11 +16,12 @@ import org.springframework.core.env.Environment;
 import java.util.Objects;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @date 2022-1-12 14:12:24
  */
 @ComponentScan(basePackages = "net.cocotea.admin")
 @SpringBootApplication
+@EnableSqlToyPlus
 public class AppBoot {
     private static final Logger logger = LoggerFactory.getLogger(AppBoot.class);
 

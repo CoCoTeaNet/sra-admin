@@ -34,4 +34,12 @@ public interface SysUserService extends IBaseService<Page<SysUserVO>, SysUserPag
     SysUserVO getDetail();
 
     SysLoginUserVO loginUser();
+
+    /**
+     * 修改个人账号密码
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 成功TRUE
+     */
+    boolean doModifyPassword(String oldPassword, String newPassword) throws BusinessException;
 }

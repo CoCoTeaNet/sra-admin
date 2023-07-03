@@ -101,11 +101,14 @@
         </div>
       </template>
 
+      <!--基本信息-->
+      <el-divider>基本信息</el-divider>
       <el-form ref="ucvFormRef" label-width="120px" label-position="right" :rules="rules" :model="editForm">
-        <el-form-item prop="avatar" label="用户头像" :auto-upload="false" list-type="picture-card">
+        <el-form-item prop="avatar" label="修改头像" :auto-upload="false" list-type="picture-card">
           <el-upload ref="upload"
                      action="/api/system/file/upload"
                      list-type="picture-card"
+                     drag
                      :limit="1"
                      :file-list="fileList"
                      :on-exceed="handleExceed"
@@ -119,10 +122,6 @@
 
         <el-form-item prop="nickname" label="用户昵称">
           <el-input v-model="editForm.nickname"></el-input>
-        </el-form-item>
-        <el-form-item prop="password" label="用户密码">
-          <el-input :prefix-icon="Lock" v-model="editForm.password" type="password"
-                    autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="email" label="电子邮箱">
           <el-input v-model="editForm.email"></el-input>
@@ -139,9 +138,30 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="handleUploadAvatar">上传头像</el-button>
-          <el-button type="primary" @click="submitForm(ucvFormRef)">保存信息</el-button>
+          <el-button type="primary" @click="submitForm(ucvFormRef)">更新信息</el-button>
         </el-form-item>
       </el-form>
+
+      <!--修改密码-->
+      <el-divider>修改密码</el-divider>
+      <el-form ref="mpFormRef" label-width="120px" label-position="right" :rules="mpRules" :model="mpFormObj">
+        <el-form-item prop="oldPassword" label="原密码">
+          <el-input :prefix-icon="Lock" v-model="mpFormObj.oldPassword" type="password"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword" label="新密码">
+          <el-input :prefix-icon="Lock" v-model="mpFormObj.newPassword" type="password"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="newPasswordSecond" label="重复新密码">
+          <el-input :prefix-icon="Lock" v-model="mpFormObj.newPasswordSecond" type="password"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onModifyPassword(mpFormRef)">修改密码</el-button>
+        </el-form-item>
+      </el-form>
+
     </el-card>
   </el-space>
 </template>
@@ -149,13 +169,14 @@
 <script setup lang="ts">
 import {onMounted, reactive, ref} from "vue";
 import type {FormInstance, UploadRawFile, UploadUserFile, UploadInstance, UploadProps} from 'element-plus';
-import { genFileId } from 'element-plus';
+import {genFileId} from 'element-plus';
 import {Lock} from "@element-plus/icons-vue";
-import {getDetail, update} from "@/api/system/user-api";
+import {getDetail, update, doModifyPassword} from "@/api/system/user-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {RULE_MOBILE, RULE_EMAIL} from "@/utils/rules-util";
 import {updateUserInfo} from "@/store";
 import {ElMessage} from "element-plus";
+import {logout} from "@/api/system/login-api";
 
 const upload = ref<UploadInstance>();
 const fileList = ref<UploadUserFile[]>([]);
@@ -177,15 +198,22 @@ const validateEmail = (rule: any, value: any, callback: any) => {
 }
 
 const ucvFormRef = ref<FormInstance>();
+const mpFormRef = ref<FormInstance>();
 const editForm = ref<any>({});
+const mpFormObj = ref<any>({});
 const detailUser = ref<any>({});
 // 表单校验规则
 const rules = reactive({
   username: [{min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
   mobilePhone: [{validator: validatePhone, trigger: 'blur'}],
   email: [{validator: validateEmail, trigger: 'blur'}],
-  nickname: [{min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}],
-  password: [{min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}]
+  nickname: [{min: 2, max: 30, message: '长度限制2~30', trigger: 'blur'}]
+});
+// 密码修改校验规则
+const mpRules = reactive({
+  oldPassword: [{min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
+  newPassword: [{min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}],
+  newPasswordSecond: [{min: 6, max: 32, message: '长度限制6~32', trigger: 'blur'}]
 });
 const getSex = (sex: number) => {
   switch (sex) {
@@ -221,7 +249,7 @@ const initUserDetail = () => {
 }
 
 /**
- * 表单提交
+ * 基本信息表单提交
  * @param ucvFormRef
  */
 const submitForm = (ucvFormRef: any) => {
@@ -229,6 +257,30 @@ const submitForm = (ucvFormRef: any) => {
     if (valid) {
       reqSuccessFeedback(update(editForm.value), '修改成功', () => {
         initUserDetail();
+      });
+    }
+  });
+}
+
+/**
+ * 修改密码表单提交
+ * @param mpFormRef
+ */
+const onModifyPassword = (mpFormRef: any) => {
+  mpFormRef.validate((valid: any) => {
+    if (valid) {
+      if (mpFormObj.value.newPassword !== mpFormObj.value.newPasswordSecond) {
+        ElMessage.warning("两次密码不一致");
+        return;
+      }
+      let param = {
+        oldPassword: mpFormObj.value.oldPassword,
+        newPassword: mpFormObj.value.newPassword
+      };
+      reqSuccessFeedback(doModifyPassword(param), '更新成功，即将重新登录', () => {
+        logout().then(res => {
+          window.location.reload();
+        });
       });
     }
   });

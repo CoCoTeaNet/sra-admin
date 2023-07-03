@@ -2,6 +2,7 @@ package net.cocotea.admin.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.alibaba.fastjson.JSONObject;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.system.service.SysUserService;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @author jwss
+ * @author CoCoTea
  */
 @Validated
 @RequestMapping("/system/user")
@@ -68,4 +69,11 @@ public class SysUserController {
         SysUserVO vo = sysUserService.getDetail();
         return ApiResult.ok(vo);
     }
+
+    @PostMapping("/doModifyPassword")
+    public ApiResult<?> doModifyPassword(@RequestBody JSONObject obj) throws BusinessException {
+        boolean r = sysUserService.doModifyPassword(obj.getString("oldPassword"), obj.getString("newPassword"));
+        return ApiResult.ok(r);
+    }
+
 }

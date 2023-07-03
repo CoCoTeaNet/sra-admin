@@ -25,7 +25,7 @@
         <sra.version>1.2.7</sra.version>
         <!-- 外部框架版本 -->
         <spring-boot-starter.version>2.7.4</spring-boot-starter.version>
-        <sqltoy.version>5.1.23</sqltoy.version>
+        <sqltoy.version>5.2.54</sqltoy.version>
         <mysql-connector.version>8.0.30</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.33.0</satoken.version>
@@ -100,6 +100,11 @@
             <dependency>
                 <groupId>com.sagframe</groupId>
                 <artifactId>sagacity-sqltoy-starter</artifactId>
+                <version>${sqltoy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sagframe</groupId>
+                <artifactId>sqltoy-plus-core</artifactId>
                 <version>${sqltoy.version}</version>
             </dependency>
             <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
