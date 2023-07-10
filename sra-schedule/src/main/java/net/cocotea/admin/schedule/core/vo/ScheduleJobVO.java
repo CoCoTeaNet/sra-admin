@@ -18,6 +18,7 @@ public class ScheduleJobVO implements Serializable {
     private String className;
     private String cornExpression;
     private String description;
+    private Integer concurrentExec;
     private Integer active;
     private Integer sort;
     private LocalDateTime nextExeTime;
@@ -92,6 +93,14 @@ public class ScheduleJobVO implements Serializable {
     public ScheduleJobVO setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public Integer getConcurrentExec() {
+        return concurrentExec;
+    }
+
+    public void setConcurrentExec(Integer concurrentExec) {
+        this.concurrentExec = concurrentExec;
     }
 
     public Integer getActive() {

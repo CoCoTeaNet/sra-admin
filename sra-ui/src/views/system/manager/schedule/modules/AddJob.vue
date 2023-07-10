@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="show" title="新增用户" width="50%" @close="onCancel">
-    <el-form :model="dataForm" ref="sstFormRef" label-width="120px" :rules="rules" style="max-height: 600px">
+    <el-form :model="dataForm" ref="sstFormRef" label-width="130px" :rules="rules" style="max-height: 600px">
       <el-form-item prop="name" label="任务名称">
         <el-input v-model="dataForm.name"></el-input>
       </el-form-item>
