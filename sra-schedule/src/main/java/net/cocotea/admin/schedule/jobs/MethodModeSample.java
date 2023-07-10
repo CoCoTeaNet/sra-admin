@@ -14,9 +14,27 @@ public class MethodModeSample {
 
     private final Logger logger = LoggerFactory.getLogger(MethodModeSample.class);
 
-    public void run(Map<String, Object> param) {
-        logger.info("任务入参, {}", param);
+    public void run(TsParam param, Map<String, Object> secParam) {
+        logger.info("任务入参, {}, {}", param, secParam);
         logger.info("任务执行,time={}", System.currentTimeMillis());
     }
 
+    public static class TsParam {
+        private String number;
+
+        public String getNumber() {
+            return number;
+        }
+
+        public void setNumber(String number) {
+            this.number = number;
+        }
+
+        @Override
+        public String toString() {
+            return "TsParam{" +
+                    "number='" + number + '\'' +
+                    '}';
+        }
+    }
 }

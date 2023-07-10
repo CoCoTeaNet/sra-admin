@@ -1,4 +1,4 @@
-package net.cocotea.admin.schedule;
+package net.cocotea.admin.schedule.core;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package net.cocotea.admin.schedule.service;
+package net.cocotea.admin.schedule.core.service;
 
-import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.entity.ScheduleJob;
+import net.cocotea.admin.schedule.core.entity.ScheduleJob;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogAddParam;
 
 import java.util.List;
 

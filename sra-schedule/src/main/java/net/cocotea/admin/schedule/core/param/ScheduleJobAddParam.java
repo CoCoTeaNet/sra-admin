@@ -1,4 +1,4 @@
-package net.cocotea.admin.schedule.param;
+package net.cocotea.admin.schedule.core.param;
 
 import java.io.Serializable;
 
@@ -32,6 +32,11 @@ public class ScheduleJobAddParam implements Serializable {
      * 任务描述
      */
     private String description;
+
+    /**
+     * 是否允许并发执行;0禁止 1允许
+     */
+    private Integer concurrentExec;
 
     /**
      * 是否启用;0未启用 1启用
@@ -102,6 +107,14 @@ public class ScheduleJobAddParam implements Serializable {
     public ScheduleJobAddParam setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public Integer getConcurrentExec() {
+        return concurrentExec;
+    }
+
+    public void setConcurrentExec(Integer concurrentExec) {
+        this.concurrentExec = concurrentExec;
     }
 
     public Integer getActive() {

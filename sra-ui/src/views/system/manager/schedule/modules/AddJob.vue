@@ -8,7 +8,7 @@
         <el-input v-model="dataForm.className"></el-input>
       </el-form-item>
       <el-form-item prop="methodName" label="方法名">
-        <el-input v-model="dataForm.methodName"></el-input>
+        <el-input v-model="dataForm.methodName" :disabled="dataForm.type == 0"></el-input>
       </el-form-item>
       <el-form-item prop="parameters" label="参数JSON对象">
         <el-input v-model="dataForm.parameters"></el-input>
@@ -19,20 +19,26 @@
       <el-form-item prop="description" label="任务描述">
         <el-input v-model="dataForm.description"></el-input>
       </el-form-item>
-      <el-form-item prop="sort" label="配置类型">
-        <el-radio-group v-model="dataForm.type">
+      <el-form-item prop="type" label="配置类型">
+        <el-radio-group v-model="dataForm.type" @change="onTypeChange">
           <el-radio :label="0">类模式</el-radio>
           <el-radio :label="1">函数模式</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item prop="sort" label="是否启用">
+      <el-form-item prop="concurrentExec" label="是否允许并发执行">
+        <el-radio-group v-model="dataForm.concurrentExec">
+          <el-radio :label="0">禁止</el-radio>
+          <el-radio :label="1">允许</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="active" label="是否启用">
         <el-radio-group v-model="dataForm.active">
           <el-radio :label="0">未启用</el-radio>
           <el-radio :label="1">启用</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="排序">
-        <el-input placeholder="排序" type="number" v-model="dataForm.sort"/>
+        <el-input placeholder="排序" type="number" v-model="dataForm.sort" />
       </el-form-item>
     </el-form>
 
@@ -46,10 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref, watch} from 'vue';
-import {ElInput, FormInstance} from 'element-plus';
-import {add, update} from '@/api/schedule/job-api';
-import {reqSuccessFeedback} from "@/api/ApiFeedback";
+import { reactive, ref, watch } from 'vue';
+import { ElInput, FormInstance, ElMessage } from 'element-plus';
+import { add, update } from '@/api/schedule/job-api';
+import { reqSuccessFeedback } from "@/api/ApiFeedback";
 
 const props = withDefaults(defineProps<{
   show?: boolean,
@@ -59,21 +65,21 @@ const props = withDefaults(defineProps<{
   show: false
 });
 
-const dataForm = ref<JobModel>();
+const dataForm = ref<JobModel>({});
 const sstFormRef = ref<FormInstance>();
 const rules = reactive({
-  name: [{required: true, min: 2, max: 90, message: '长度限制2~90', trigger: 'blur'}],
-  className: [{required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur'}],
-  methodName: [{required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur'}],
-  parameters: [{required: true, min: 0, max: 900, message: '长度限制0~900', trigger: 'blur'}],
-  cornExpression: [{required: true, min: 2, max: 50, message: '长度限制2~50', trigger: 'blur'}],
-  description: [{required: true, min: 2, max: 900, message: '长度限制6~900', trigger: 'blur'}],
-  type: [{required: true, message: '配置类型为空', trigger: 'blur'}],
-  active: [{required: true, message: '启用状态为空', trigger: 'blur'}]
+  name: [{ required: true, min: 2, max: 90, message: '长度限制2~90', trigger: 'blur' }],
+  className: [{ required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur' }],
+  methodName: [{ required: true, min: 2, max: 100, message: '长度限制2~100', trigger: 'blur' }],
+  parameters: [{ required: true, min: 0, max: 900, message: '长度限制0~900', trigger: 'blur' }],
+  cornExpression: [{ required: true, min: 2, max: 50, message: '长度限制2~50', trigger: 'blur' }],
+  description: [{ required: true, min: 2, max: 900, message: '长度限制6~900', trigger: 'blur' }],
+  type: [{ required: true, message: '配置类型为空', trigger: 'blur' }],
+  active: [{ required: true, message: '启用状态为空', trigger: 'blur' }]
 });
 
 watch(() => props.show, (b: boolean) => {
-  if (b) dataForm.value = props.editType === 'update' ? props.job : {active: 0, type: 0, sort: 1};
+  if (b) dataForm.value = props.editType === 'update' ? props.job : { active: 0, type: 0, sort: 1 };
 });
 
 const emit = defineEmits(['update:show', 'onConfirm']);
@@ -87,20 +93,24 @@ const onConfirm = (formEl: FormInstance) => {
         let parameters = eval(`(${dataForm.value.parameters})`);
         dataForm.value.parameters = JSON.stringify(parameters);
         if (props.editType === 'create') {
-          reqSuccessFeedback(add(dataForm.value), "添加成功",() => {
+          reqSuccessFeedback(add(dataForm.value), "添加成功", () => {
             emit('update:show', false);
             emit('onConfirm');
           });
         } else if (props.editType === 'update') {
-          reqSuccessFeedback(update(dataForm.value), "修改成功",() => {
+          reqSuccessFeedback(update(dataForm.value), "修改成功", () => {
             emit('update:show', false);
             emit('onConfirm');
           });
         }
-      } catch(e) {
-        ElMessage({type: 'error', message: '参数为非JSON格式，请检查'});
+      } catch (e) {
+        ElMessage({ type: 'error', message: '参数为非JSON格式，请检查' });
       }
     }
   });
+}
+
+const onTypeChange = (value: number) => {
+  dataForm.value.methodName = value === 0 ? "execute" : ""
 }
 </script>

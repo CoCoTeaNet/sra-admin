@@ -1,15 +1,15 @@
-package net.cocotea.admin.schedule.service.impl;
+package net.cocotea.admin.schedule.core.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import net.cocotea.admin.schedule.ScheduleContext;
-import net.cocotea.admin.schedule.ScheduleJobRunnable;
-import net.cocotea.admin.schedule.entity.ScheduleJob;
-import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.service.ScheduleJobLogService;
-import net.cocotea.admin.schedule.service.ScheduleJobRegistryService;
-import net.cocotea.admin.schedule.service.ScheduleJobService;
+import net.cocotea.admin.schedule.core.JobExecutor;
+import net.cocotea.admin.schedule.core.entity.ScheduleJob;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogAddParam;
+import net.cocotea.admin.schedule.core.service.ScheduleJobLogService;
+import net.cocotea.admin.schedule.core.service.ScheduleJobRegistryService;
+import net.cocotea.admin.schedule.core.service.ScheduleJobService;
+import net.cocotea.admin.schedule.core.ScheduleContext;
 import net.cocotea.admin.common.model.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,6 @@ public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware
     private static final Logger logger = LoggerFactory.getLogger(SraScheduleConfigurerServiceImpl.class);
     private static final ConcurrentHashMap<String, ScheduledTask> SCHEDULED_TASK_REGISTRY = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Future<?>> RUNNING_JOB = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, Set<String>> RUNNING_MAP = new ConcurrentHashMap<>();
     private ApplicationContext applicationContext;
     @Resource
     private ScheduleJobService scheduleJobService;
@@ -118,7 +117,7 @@ public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware
 
     @Override
     public boolean start(String key, ScheduleJob scheduleJob) throws Exception {
-        ScheduleJobRunnable runnable = wrapRunnableJob(scheduleJob);
+        JobExecutor runnable = wrapRunnableJob(scheduleJob);
         if (runnable != null && (!isRunning(key) || !runnable.isDisabledConcurrentExecute())) {
             Future<?> future = this.executor.submit(runnable);
             RUNNING_JOB.put(key, future);
@@ -185,11 +184,11 @@ public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware
         this.registrar.destroy();
     }
 
-    private ScheduleJobRunnable wrapRunnableJob(ScheduleJob scheduleJob) {
+    private JobExecutor wrapRunnableJob(ScheduleJob scheduleJob) {
         return wrapRunnableJob(scheduleJob, scheduleJob.getId());
     }
 
-    private ScheduleJobRunnable wrapRunnableJob(ScheduleJob scheduleJob, String key) {
+    private JobExecutor wrapRunnableJob(ScheduleJob scheduleJob, String key) {
         try {
             String loginId = "";
             try {
@@ -200,7 +199,7 @@ public class SraScheduleConfigurerServiceImpl implements ApplicationContextAware
             }
 
             ScheduleContext context = new ScheduleContext(this, applicationContext, scheduleJob, loginId, key);
-            return new ScheduleJobRunnable(context, scheduleJob);
+            return JobExecutor.create(context);
         } catch (Exception e) {
             logger.error("加载任务时出现异常", e);
             return null;

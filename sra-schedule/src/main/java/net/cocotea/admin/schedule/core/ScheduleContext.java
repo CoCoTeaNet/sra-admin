@@ -1,8 +1,8 @@
-package net.cocotea.admin.schedule;
+package net.cocotea.admin.schedule.core;
 
-import net.cocotea.admin.schedule.entity.ScheduleJob;
-import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.service.ScheduleJobRegistryService;
+import net.cocotea.admin.schedule.core.entity.ScheduleJob;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogAddParam;
+import net.cocotea.admin.schedule.core.service.ScheduleJobRegistryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -23,9 +23,13 @@ public class ScheduleContext {
     private final ApplicationContext applicationContext;
     private StopWatch stopWatch;
     private Date triggerTime;
-    private ScheduleJob job;
-    private String operator;
-    private String key;
+    private final ScheduleJob job;
+    private final String operator;
+    private final String key;
+
+    public ScheduleJob getJob() {
+        return job;
+    }
 
     public ScheduleContext(ScheduleJobRegistryService scheduleJobRegistryService, ApplicationContext applicationContext, ScheduleJob job, String operator, String key) {
         this.scheduleJobRegistryService = scheduleJobRegistryService;

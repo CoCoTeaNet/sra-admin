@@ -6,6 +6,7 @@ interface JobModel {
     parameters?: string,
     cronExpression?: string,
     description?: string,
+    concurrentExec?: number
     active?: number,
     type?: number,
     nextExeTime?: string,

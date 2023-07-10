@@ -1,5 +1,5 @@
 
-package net.cocotea.admin.schedule.vo;
+package net.cocotea.admin.schedule.core.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

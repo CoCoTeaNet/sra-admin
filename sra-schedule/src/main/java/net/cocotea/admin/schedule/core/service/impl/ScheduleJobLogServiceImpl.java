@@ -1,11 +1,11 @@
-package net.cocotea.admin.schedule.service.impl;
+package net.cocotea.admin.schedule.core.service.impl;
 
-import net.cocotea.admin.schedule.entity.ScheduleJobLog;
-import net.cocotea.admin.schedule.param.ScheduleJobLogAddParam;
-import net.cocotea.admin.schedule.param.ScheduleJobLogPageParam;
-import net.cocotea.admin.schedule.param.ScheduleJobLogUpdateParam;
-import net.cocotea.admin.schedule.service.ScheduleJobLogService;
-import net.cocotea.admin.schedule.vo.ScheduleJobLogVO;
+import net.cocotea.admin.schedule.core.entity.ScheduleJobLog;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogAddParam;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogPageParam;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogUpdateParam;
+import net.cocotea.admin.schedule.core.service.ScheduleJobLogService;
+import net.cocotea.admin.schedule.core.vo.ScheduleJobLogVO;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import cn.hutool.core.convert.Convert;
 import net.cocotea.admin.common.model.BusinessException;
