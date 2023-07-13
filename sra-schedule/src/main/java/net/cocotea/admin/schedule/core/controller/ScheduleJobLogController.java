@@ -1,8 +1,8 @@
-package net.cocotea.admin.schedule.controller;
+package net.cocotea.admin.schedule.core.controller;
 
-import net.cocotea.admin.schedule.param.ScheduleJobLogPageParam;
-import net.cocotea.admin.schedule.service.ScheduleJobLogService;
-import net.cocotea.admin.schedule.vo.ScheduleJobLogVO;
+import net.cocotea.admin.schedule.core.param.ScheduleJobLogPageParam;
+import net.cocotea.admin.schedule.core.service.ScheduleJobLogService;
+import net.cocotea.admin.schedule.core.vo.ScheduleJobLogVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import org.sagacity.sqltoy.model.Page;

@@ -1,6 +1,6 @@
-package net.cocotea.admin.schedule.param;
+package net.cocotea.admin.schedule.core.param;
 
-import net.cocotea.admin.schedule.vo.ScheduleJobLogVO;
+import net.cocotea.admin.schedule.core.vo.ScheduleJobLogVO;
 import org.sagacity.sqltoy.model.Page;
 
 import java.io.Serializable;

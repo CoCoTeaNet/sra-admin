@@ -1,7 +1,7 @@
 package net.cocotea.admin.schedule.jobs;
 
 import com.alibaba.fastjson.JSONObject;
-import net.cocotea.admin.schedule.IBaseJob;
+import net.cocotea.admin.schedule.core.IBaseJob;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

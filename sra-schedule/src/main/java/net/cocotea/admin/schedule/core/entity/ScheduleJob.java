@@ -1,11 +1,11 @@
-package net.cocotea.admin.schedule.entity;
+package net.cocotea.admin.schedule.core.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
+import org.sagacity.sqltoy.config.annotation.Column;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author CoCoTea
@@ -18,104 +18,110 @@ public class ScheduleJob implements Serializable {
     /**
      * 主键id
      */
-    @Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
-    @Column(name="ID",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+    @Id(strategy = "generator", generator = "org.sagacity.sqltoy.plugins.id.impl.UUIDGenerator")
+    @Column(name = "ID", length = 32L, type = java.sql.Types.VARCHAR, nullable = false)
     private String id;
 
     /**
      * 任务名称
      */
-    @Column(name="NAME",length=90L,type=java.sql.Types.VARCHAR,nullable=false)
+    @Column(name = "NAME", length = 90L, type = java.sql.Types.VARCHAR, nullable = false)
     private String name;
 
     /**
      * 配置类型;0类模式 1函数模式
      */
-    @Column(name="TYPE",type=java.sql.Types.INTEGER,nullable=false)
+    @Column(name = "TYPE", type = java.sql.Types.INTEGER, nullable = false)
     private Integer type;
 
     /**
      * 任务对应类名
      */
-    @Column(name="CLASS_NAME",length=500L,type=java.sql.Types.VARCHAR)
+    @Column(name = "CLASS_NAME", length = 500L, type = java.sql.Types.VARCHAR)
     private String className;
 
     /**
      * 方法名
      */
-    @Column(name="METHOD_NAME",length=200L,type=java.sql.Types.VARCHAR)
+    @Column(name = "METHOD_NAME", length = 200L, type = java.sql.Types.VARCHAR)
     private String methodName;
 
     /**
      * 参数JSON对象
      */
-    @Column(name="PARAMETERS",length=900L,type=java.sql.Types.VARCHAR)
+    @Column(name = "PARAMETERS", length = 900L, type = java.sql.Types.VARCHAR)
     private String parameters;
 
     /**
      * Cron表达式
      */
-    @Column(name="CORN_EXPRESSION",length=64L,type=java.sql.Types.VARCHAR,nullable=false)
+    @Column(name = "CORN_EXPRESSION", length = 64L, type = java.sql.Types.VARCHAR, nullable = false)
     private String cornExpression;
 
     /**
      * 任务描述
      */
-    @Column(name="DESCRIPTION",length=900L,type=java.sql.Types.VARCHAR)
+    @Column(name = "DESCRIPTION", length = 900L, type = java.sql.Types.VARCHAR)
     private String description;
+
+    /**
+     * 是否允许并发执行;0禁止 1允许
+     */
+    @Column(name = "CONCURRENT_EXEC", type = java.sql.Types.INTEGER, nullable = false)
+    private Integer concurrentExec;
 
     /**
      * 是否启用;0未启用 1启用
      */
-    @Column(name="ACTIVE",type=java.sql.Types.INTEGER,nullable=false)
+    @Column(name = "ACTIVE", type = java.sql.Types.INTEGER, nullable = false)
     private Integer active;
 
     /**
      * 下一次执行时间
      */
-    @Column(name="NEXT_EXE_TIME",type=java.sql.Types.DATE)
+    @Column(name = "NEXT_EXE_TIME", type = java.sql.Types.DATE)
     private LocalDateTime nextExeTime;
 
     /**
      * 创建时间
      */
-    @Column(name="CREATE_TIME",type=java.sql.Types.DATE,nullable=false)
+    @Column(name = "CREATE_TIME", type = java.sql.Types.DATE, nullable = false)
     private LocalDateTime createTime;
 
     /**
      * 创建人
      */
-    @Column(name="CREATE_BY",length=32L,type=java.sql.Types.VARCHAR,nullable=false)
+    @Column(name = "CREATE_BY", length = 32L, type = java.sql.Types.VARCHAR, nullable = false)
     private String createBy;
 
     /**
      * 更新时间
      */
-    @Column(name="UPDATE_TIME",type=java.sql.Types.DATE)
+    @Column(name = "UPDATE_TIME", type = java.sql.Types.DATE)
     private LocalDateTime updateTime;
 
     /**
      * 更新人
      */
-    @Column(name="UPDATE_BY",length=32L,type=java.sql.Types.VARCHAR)
+    @Column(name = "UPDATE_BY", length = 32L, type = java.sql.Types.VARCHAR)
     private String updateBy;
 
     /**
      * 删除状态;0删除 1未删除
      */
-    @Column(name="DELETE_STATUS",type=java.sql.Types.INTEGER,nullable=false)
+    @Column(name = "DELETE_STATUS", type = java.sql.Types.INTEGER, nullable = false)
     private Integer deleteStatus;
 
     /**
      * 乐观锁
      */
-    @Column(name="REVISION",type=java.sql.Types.INTEGER)
+    @Column(name = "REVISION", type = java.sql.Types.INTEGER)
     private Integer revision;
 
     /**
      * 排序
      */
-    @Column(name="SORT",type=java.sql.Types.INTEGER)
+    @Column(name = "SORT", type = java.sql.Types.INTEGER)
     private Integer sort;
 
     public String getId() {
@@ -188,6 +194,14 @@ public class ScheduleJob implements Serializable {
     public ScheduleJob setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public Integer getConcurrentExec() {
+        return concurrentExec;
+    }
+
+    public void setConcurrentExec(Integer concurrentExec) {
+        this.concurrentExec = concurrentExec;
     }
 
     public Integer getActive() {

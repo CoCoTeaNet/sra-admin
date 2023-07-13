@@ -1,4 +1,4 @@
-package net.cocotea.admin.schedule.param;
+package net.cocotea.admin.schedule.core.param;
 
 import java.io.Serializable;
 import java.util.Date;

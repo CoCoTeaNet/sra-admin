@@ -1,14 +1,14 @@
-package net.cocotea.admin.schedule.controller;
+package net.cocotea.admin.schedule.core.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
-import net.cocotea.admin.schedule.param.ScheduleJobAddParam;
-import net.cocotea.admin.schedule.param.ScheduleJobPageParam;
-import net.cocotea.admin.schedule.vo.ScheduleJobVO;
+import net.cocotea.admin.schedule.core.param.ScheduleJobAddParam;
+import net.cocotea.admin.schedule.core.param.ScheduleJobPageParam;
+import net.cocotea.admin.schedule.core.param.ScheduleJobUpdateParam;
+import net.cocotea.admin.schedule.core.service.ScheduleJobService;
+import net.cocotea.admin.schedule.core.vo.ScheduleJobVO;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
-import net.cocotea.admin.schedule.param.ScheduleJobUpdateParam;
-import net.cocotea.admin.schedule.service.ScheduleJobService;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.web.bind.annotation.*;
 

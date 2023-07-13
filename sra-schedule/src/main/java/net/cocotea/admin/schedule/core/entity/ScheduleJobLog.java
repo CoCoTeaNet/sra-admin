@@ -1,4 +1,4 @@
-package net.cocotea.admin.schedule.entity;
+package net.cocotea.admin.schedule.core.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
