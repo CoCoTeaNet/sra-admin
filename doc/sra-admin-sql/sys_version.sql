@@ -55,6 +55,21 @@ INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DO
 2.新增文件管理功能
 3.新增代码生成器插件
 4.更改代码结构', 'web', null, '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-04 05:47:07', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-01-04 05:47:07');
+INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('a011cceb21ba4c1ba47e8ffcd769509a', 'v1.2.8', '1.修复用户中心菜单跳转失效问题
+2.修复日志打印意外错误异常堆栈信息
+3.移除DataBaseTypeConstant和JavaTypeConstant
+4.指定打包编码，解决maven打包出现的警告
+5.各个模块命名统一规范
+6.修复任务调度执行结果查询无效
+7.修复退出登录时主题未回复初始状态
+8.全局更新数据配置未登录策略判断
+9.优化用户密码修改
+10.maven依赖升级sqltoy到5.2.54
+11.添加依赖sqltoy-plus
+12.调度任务添加和更新时加入Cron表达式校验
+13.移除注解控制任务是否并发执行，使用字段控制并发执行
+14.优化任务初始化与执行流程 (1) 任务参数将在初始化时被解析 (2) 类模式与函数模式分类封装 (3) 任务参数支持以数组类型JSON来映射方法内的参数
+15.修复任务调度添加/更新时查询任务信息未带出是否允许并发执行字段问题', 'web-pc', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-07-13 09:41:40', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-07-13 09:41:40');
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('a12bda5f1d344770babb79c35262ccd7', 'v1.2.6', '1.修复菜单根菜单无法激活bug；
 2.指定tinyInt1isBit=false避免返回的tinyint(1)是Boolean类型；
 3.修复新增用户时角色ID参数拦截异常；
