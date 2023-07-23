@@ -1,7 +1,8 @@
 <template>
   <el-menu :default-active="menuState.defaultActive"
            :default-openeds="menuState.defaultOpened"
-           :collapse="store.state.isCollapseMenu">
+           :collapse="store.state.isCollapseMenu"
+           :unique-opened="true">
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
       <img :src="require('@/assets/account-logo.png')" style="width: 190px;padding: 1em" alt="login-logo">

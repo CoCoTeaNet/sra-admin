@@ -2,6 +2,8 @@ package net.cocotea.admin.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import com.alibaba.fastjson.JSONObject;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
@@ -28,7 +30,7 @@ public class SysUserController {
     @Resource
     private SysUserService sysUserService;
 
-    @SaCheckPermission("system:user:add")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")
     public ApiResult<String> add(@Valid @RequestBody SysUserAddParam param) throws BusinessException {
         boolean b = sysUserService.add(param);
@@ -42,21 +44,21 @@ public class SysUserController {
         return ApiResult.flag(b);
     }
 
-    @SaCheckPermission("system:user:delete")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
     public ApiResult<String> delete(@PathVariable String id) throws BusinessException {
         boolean b = sysUserService.delete(id);
         return ApiResult.flag(b);
     }
 
-    @SaCheckPermission("system:user:delete")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
     public ApiResult<String> deleteBatch(@RequestBody List<String> idList) throws BusinessException {
         boolean b = sysUserService.deleteBatch(idList);
         return ApiResult.flag(b);
     }
 
-    @SaCheckPermission("system:user:listByPage")
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/listByPage")
     public ApiResult<Page<SysUserVO>> listByPage(@Valid @RequestBody SysUserPageParam param) throws BusinessException {
         Page<SysUserVO> list = sysUserService.listByPage(param);
