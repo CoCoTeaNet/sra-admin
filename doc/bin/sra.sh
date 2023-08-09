@@ -1,6 +1,6 @@
 #!/bin/bash
 #这里可替换为你自己的执行程序，其他代码无需更改
-APP_NAME=sra-bootstrap-1.2.8.jar
+APP_NAME=sra-bootstrap-1.2.9.jar
 
 #使用说明，用来提示输入参数
 usage() {

@@ -11,7 +11,7 @@ create table sys_version
     UPDATE_BY     varchar(32)  not null comment '更新人',
     UPDATE_TIME   datetime     not null comment '更新时间'
 )
-    comment '系统版本更新记录表' engine = InnoDB;
+    comment '系统版本更新记录表';
 
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('1fc2b2e8b759487eb5d24a18da766724', 'v1.0.2', '1. 修复已知BUG & 优化UI.
 2. 新增字典表维护.
@@ -81,6 +81,8 @@ INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DO
 9.删除命名转换工具类；', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-05-11 06:11:45', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-05-11 06:11:45');
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('d4b60c17d49248748d27a8332d9d02d5', 'v1.0.3', '1. 修复已知BUG.
 2. 新增CMS模块.', 'web', '', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:03:17', '7d7f2f72dd0e4b6080373a3cc1469a15', '2022-10-30 03:07:54');
+INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('d6e2a7b01c84499d9fc47802b1cd206e', 'v1.2.9', '1、只保持一个子菜单的展开；
+2、用户接口权限优化；', 'web', 'https://gitee.com/momoljw/sss-rbac-admin', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-08-09 06:54:20', '7d7f2f72dd0e4b6080373a3cc1469a15', '2023-08-09 06:54:20');
 INSERT INTO DB_SRA_V1.sys_version (ID, UPDATE_NO, UPDATE_DESC, PLATFORM_NAME, DOWNLOAD_URL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME) VALUES ('db5b460ed2f2467996933506867fb5f4', 'v1.2.3', '1.优化系统角色(增加多角色)
 2.优化更改用户密码为非必填项
 3.修复编辑用户title显示异常问题
