@@ -9,7 +9,7 @@ import net.cocotea.admin.system.entity.SysUser;
 import net.cocotea.admin.system.properties.DefaultProperties;
 import net.cocotea.admin.common.enums.IsEnum;
 import net.cocotea.admin.common.model.BusinessException;
-import net.cocotea.admin.common.util.GenerateDsUtils;
+import net.cocotea.admin.common.util.TreeBuilder;
 import net.cocotea.admin.common.util.SecurityUtils;
 import net.cocotea.admin.framework.constant.RedisKey;
 import net.cocotea.admin.framework.service.IRedisService;
@@ -48,7 +48,7 @@ import java.util.Map;
  */
 @Service
 public class SysUserServiceImpl implements SysUserService {
-    private final GenerateDsUtils<SysMenuVO> dsUtils = new GenerateDsUtils<>();
+    private final TreeBuilder<SysMenuVO> dsUtils = new TreeBuilder<>();
 
     @Resource
     private DevEnableProperties devEnableProperties;
@@ -232,7 +232,7 @@ public class SysUserServiceImpl implements SysUserService {
     private SysLoginUserVO setLoginUser(SysUser sysUser) {
         SysLoginUserVO sysLoginUserVO = new SysLoginUserVO();
         List<SysMenuVO> menuList = sysMenuService.listByUserId(IsEnum.Y.getCode());
-        Map<String, SysMenuVO> menuMap = dsUtils.buildTreeDefault(menuList);
+        Map<String, SysMenuVO> menuMap = new TreeBuilder<SysMenuVO>().build(menuList);
         sysLoginUserVO.setMenuList(new ArrayList<>(menuMap.values()));
         sysLoginUserVO.setUsername(sysUser.getUsername());
         sysLoginUserVO.setAvatar(sysUser.getAvatar());

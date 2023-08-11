@@ -1,7 +1,7 @@
 package net.cocotea.admin.system.service.impl;
 
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
-import net.cocotea.admin.common.util.GenerateDsUtils;
+import net.cocotea.admin.common.util.TreeBuilder;
 import net.cocotea.admin.common.constant.CharConstant;
 import net.cocotea.admin.system.entity.SysDictionary;
 import net.cocotea.admin.system.param.dictionary.SysDictionaryAddParam;
@@ -58,8 +58,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public Collection<SysDictionaryVO> listByTree(SysDictionaryPageParam param) {
         List<SysDictionaryVO> list = sqlToyLazyDao.findBySql("system_dictionary_findByPageParam", param.getDictionary());
-        GenerateDsUtils<SysDictionaryVO> dsUtils = new GenerateDsUtils<>();
-        return dsUtils.buildTreeDefault(list).values();
+        return new TreeBuilder<SysDictionaryVO>().build(list).values();
     }
 
     @Override

@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import net.cocotea.admin.common.enums.DeleteStatusEnum;
 import net.cocotea.admin.common.enums.IsEnum;
-import net.cocotea.admin.common.util.GenerateDsUtils;
+import net.cocotea.admin.common.util.TreeBuilder;
 import net.cocotea.admin.common.constant.CharConstant;
 import net.cocotea.admin.framework.constant.RedisKey;
 import net.cocotea.admin.framework.service.IRedisService;
@@ -64,9 +64,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public Collection<SysMenuVO> listByTree(SysMenuPageParam param) {
-        List<SysMenuVO> sysMenuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", param.getMenu());
-        GenerateDsUtils<SysMenuVO> dsUtils = new GenerateDsUtils<>();
-        return dsUtils.buildTreeDefault(sysMenuVOList).values();
+        List<SysMenuVO> list = sqlToyLazyDao.findBySql("system_menu_findByPageParam", param.getMenu());
+        return new TreeBuilder<SysMenuVO>().build(list).values();
     }
 
     @Override
@@ -131,9 +130,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public Collection<SysMenuVO> listByTreeAsRoleSelection(SysMenuPageParam pageParam) {
-        List<SysMenuVO> sysMenuVOList = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenu());
-        GenerateDsUtils<SysMenuVO> dsUtils = new GenerateDsUtils<>();
-        return dsUtils.buildTreeDefault(sysMenuVOList).values();
+        List<SysMenuVO> list = sqlToyLazyDao.findBySql("system_menu_findByPageParam", pageParam.getMenu());
+        return new TreeBuilder<SysMenuVO>().build(list).values();
     }
 
 }
