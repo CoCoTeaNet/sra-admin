@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="show" :title="'标题：' + dataForm.title" width="75%" @close="onCancel">
+  <el-dialog :model-value="show" :title="'标题：' + dataForm.title" width="75%" @close="onCancel">
     <template #default>
       <div style="max-height: 600px;overflow: auto;background-color: gainsboro;padding: 3px">
         <pre v-html="dataForm.content" style="overflow: auto;white-space: pre-wrap;word-wrap: break-word"></pre>

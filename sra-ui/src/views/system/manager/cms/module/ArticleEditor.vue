@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="show" title="新增文章" width="75%" @close="onCancel">
+  <el-dialog :model-value="show" title="新增文章" width="75%" @close="onCancel">
     <el-form style="max-height: 600px">
       <el-row gutter="10" align="bottom">
         <el-col :span="12">
