@@ -235,6 +235,7 @@ public class SysUserServiceImpl implements SysUserService {
         Map<String, SysMenuVO> menuMap = new TreeBuilder<SysMenuVO>().build(menuList);
         sysLoginUserVO.setMenuList(new ArrayList<>(menuMap.values()));
         sysLoginUserVO.setUsername(sysUser.getUsername());
+        sysLoginUserVO.setNickname(sysUser.getNickname());
         sysLoginUserVO.setAvatar(sysUser.getAvatar());
         sysLoginUserVO.setId(sysUser.getId());
         sysLoginUserVO.setLoginStatus(true);
