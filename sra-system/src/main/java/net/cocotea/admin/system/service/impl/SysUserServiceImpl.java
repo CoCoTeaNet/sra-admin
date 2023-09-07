@@ -144,6 +144,7 @@ public class SysUserServiceImpl implements SysUserService {
         return page;
     }
 
+    @Transactional(rollbackFor = BusinessException.class)
     @Override
     public SysLoginUserVO login(SysLoginParam param, HttpServletRequest request) throws BusinessException {
         SysUser sysUser;
