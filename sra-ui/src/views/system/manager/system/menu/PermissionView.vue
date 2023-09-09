@@ -46,13 +46,13 @@
     <template #form>
       <el-dialog v-model="dialogFormVisible" :title="`${editForm.id? '编辑' : '添加'}权限`">
         <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
-          <el-form-item prop="menuName" label="菜单名称">
+          <el-form-item prop="menuName" label="权限名称">
             <el-input v-model="editForm.menuName"></el-input>
           </el-form-item>
           <el-form-item prop="permissionCode" label="权限编号">
             <el-input v-model="editForm.permissionCode"></el-input>
           </el-form-item>
-          <el-form-item prop="menuType" label="菜单类型">
+          <el-form-item prop="menuType" label="权限类型">
             <el-radio-group v-model="editForm.menuType">
               <el-radio :label="0">目录</el-radio>
               <el-radio :label="1">权限</el-radio>
@@ -61,7 +61,7 @@
           <el-form-item prop="sort" label="显示顺序">
             <el-input v-model="editForm.sort" type="number"></el-input>
           </el-form-item>
-          <el-form-item label="上级菜单">
+          <el-form-item label="上级权限">
             <el-cascader clearable v-model="editForm.parentId" placeholder="选择节点"
                          :props="defaultProps" :options="records" :show-all-levels="false"
                          @change="handleChange">
