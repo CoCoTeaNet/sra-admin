@@ -7,7 +7,7 @@
     <groupId>net.cocotea</groupId>
     <artifactId>admin</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.9</version>
+    <version>1.3.0</version>
 
     <modules>
         <module>sra-bootstrap</module>
@@ -22,7 +22,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 内部模块版本 -->
-        <sra.version>1.2.9</sra.version>
+        <sra.version>1.3.0</sra.version>
         <!-- 外部框架版本 -->
         <spring-boot-starter.version>2.7.4</spring-boot-starter.version>
         <sqltoy.version>5.2.54</sqltoy.version>
