@@ -23,14 +23,14 @@
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
         <spring-boot-starter.version>3.2.1</spring-boot-starter.version>
-        <sqltoy.version>5.2.63</sqltoy.version>
+        <sqltoy.version>5.3.0</sqltoy.version>
+        <sqltoy-plus.version>5.2.67</sqltoy-plus.version>
         <mysql-connector.version>8.0.33</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.37.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
-        <hutool.version>5.8.20</hutool.version>
+        <hutool.version>5.8.25</hutool.version>
         <hutool-oshi.version>5.6.1</hutool-oshi.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <bouncycastle.version>1.69</bouncycastle.version>
@@ -74,18 +74,18 @@
             <dependency>
                 <groupId>com.sagframe</groupId>
                 <artifactId>sqltoy-plus-core</artifactId>
-                <version>${sqltoy.version}</version>
+                <version>${sqltoy-plus.version}</version>
             </dependency>
             <!-- Sa-Token 权限认证-->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis</artifactId>
+                <artifactId>sa-token-redis</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <!-- mysql连接器 -->
