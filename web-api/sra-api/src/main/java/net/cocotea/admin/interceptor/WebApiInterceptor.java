@@ -13,7 +13,6 @@ import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.service.RedisService;
 import net.cocotea.admin.common.util.IpUtils;
 import net.cocotea.admin.properties.DefaultProp;
-import org.sagacity.sqltoy.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -43,7 +42,7 @@ public class WebApiInterceptor implements HandlerInterceptor {
         }
         // 在线用户续期
         if (StpUtil.isLogin()) {
-            if (StringUtil.isBlank(redisService.get(RedisKeyConst.ONLINE_USER))) {
+            if (StrUtil.isBlank(redisService.get(RedisKeyConst.ONLINE_USER))) {
                 String loginId = String.valueOf(StpUtil.getLoginId());
                 redisService.save(String.format(RedisKeyConst.ONLINE_USER, loginId), loginId, 30L);
             }
