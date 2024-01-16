@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 
 /**
+ * 系统登录相关接口
+ *
  * @author CoCoTea
  */
 @Validated
@@ -32,12 +35,24 @@ public class SysLoginController {
     @Resource
     private RedisService redisService;
 
+    /**
+     * 后台系统用户登录
+     *
+     * @param dto     {@link SysLoginDTO}
+     * @param request {@link HttpServletRequest}
+     * @return {@link ApiResult}
+     */
     @PostMapping("/login")
     public ApiResult<?> login(@Valid @RequestBody SysLoginDTO dto, HttpServletRequest request) throws BusinessException {
         userService.login(dto, request);
         return ApiResult.ok();
     }
 
+    /**
+     * 后台系统用户退出登录
+     *
+     * @return {@link ApiResult}
+     */
     @PostMapping("/logout")
     public ApiResult<?> logout() {
         // 删除权限缓存
@@ -47,12 +62,24 @@ public class SysLoginController {
         return ApiResult.ok();
     }
 
+    /**
+     * 获取用户登录信息
+     *
+     * @return {@link SysLoginUserVO}
+     */
     @GetMapping("/loginInfo")
-    public ApiResult<?> loginInfo() {
+    public ApiResult<SysLoginUserVO> loginInfo() {
         SysLoginUserVO r = userService.loginUser();
         return ApiResult.ok(r);
     }
 
+    /**
+     * 获取后台登录验证码
+     *
+     * @param captchaDTO {@link SysCaptchaDTO}
+     * @param request    {@link HttpServletRequest}
+     * @return Base64格式验证码
+     */
     @PostMapping("/captcha")
     public ApiResult<String> captcha(@Valid @RequestBody SysCaptchaDTO captchaDTO, HttpServletRequest request) {
         // 生成圆圈干扰的验证码
