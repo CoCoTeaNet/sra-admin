@@ -1,5 +1,6 @@
 package net.cocotea.admin.api.system.service;
 
+import net.cocotea.admin.api.system.model.vo.SysOverviewVO;
 import net.cocotea.admin.api.system.model.vo.SystemInfoVO;
 
 import java.net.UnknownHostException;
@@ -16,7 +17,7 @@ public interface SysDashboardService {
      * 获取系统统计数量
      * @return 数量集合
      */
-    List<Map<String, Object>> getCount();
+    List<SysOverviewVO> getCount();
 
     /**
      * 获取系统信息
