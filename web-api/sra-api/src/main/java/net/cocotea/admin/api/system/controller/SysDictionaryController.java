@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
+
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
 /**
+ * 系统字典管理接口
+ *
  * @author CoCoTea
- * @date 2022-3-22
+ * @version 2.0.0
  */
 @Validated
 @RestController
@@ -31,31 +34,58 @@ public class SysDictionaryController {
     @Resource
     private SysDictionaryService sysDictionaryService;
 
+    /**
+     * 新增字典
+     *
+     * @param dictionaryAddDTO {@link SysDictionaryAddDTO}
+     * @return 成功返回true
+     * @throws BusinessException 业务异常
+     */
     @PostMapping("/add")
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    public ApiResult<?> add(@Valid @RequestBody SysDictionaryAddDTO param) throws BusinessException {
-        boolean b = sysDictionaryService.add(param);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> add(@Valid @RequestBody SysDictionaryAddDTO dictionaryAddDTO) throws BusinessException {
+        boolean b = sysDictionaryService.add(dictionaryAddDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 批量删除
+     *
+     * @param list 字典主键ID集合
+     * @return 成功返回true
+     * @throws BusinessException 业务异常
+     */
     @PostMapping("/deleteBatch")
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    public ApiResult<?> deleteBatch(@Valid @RequestBody List<BigInteger> list) throws BusinessException {
+    public ApiResult<Boolean> deleteBatch(@Valid @RequestBody List<BigInteger> list) throws BusinessException {
         boolean b = sysDictionaryService.deleteBatch(list);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 更新字典信息
+     *
+     * @param param {@link SysDictionaryUpdateDTO}
+     * @return 成功返回true
+     * @throws BusinessException 业务异常
+     */
     @PostMapping("/update")
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    public ApiResult<?> update(@Valid @RequestBody SysDictionaryUpdateDTO param) throws BusinessException {
+    public ApiResult<Boolean> update(@Valid @RequestBody SysDictionaryUpdateDTO param) throws BusinessException {
         boolean b = sysDictionaryService.update(param);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 分页获取字典树形列表
+     *
+     * @param dictionaryPageDTO {@link SysDictionaryPageDTO}
+     * @return {@link SysDictionaryVO}
+     */
     @PostMapping("/listByTree")
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    public ApiResult<?> listByTree(@Valid @RequestBody SysDictionaryPageDTO dto) {
-        List<SysDictionaryVO> list = sysDictionaryService.listByTree(dto);
+    public ApiResult<List<SysDictionaryVO>> listByTree(@Valid @RequestBody SysDictionaryPageDTO dictionaryPageDTO) {
+        List<SysDictionaryVO> list = sysDictionaryService.listByTree(dictionaryPageDTO);
         return ApiResult.ok(list);
     }
 }

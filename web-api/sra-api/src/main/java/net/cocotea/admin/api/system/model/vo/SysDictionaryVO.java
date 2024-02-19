@@ -15,15 +15,49 @@ import java.util.List;
 @Accessors(chain = true)
 public class SysDictionaryVO {
 
+    /**
+     * 字典ID
+     */
     private BigInteger id;
+
+    /**
+     * 父节点ID
+     */
     private BigInteger parentId;
+
+    /**
+     * 字典名称
+     */
     private String dictionaryName;
+
+    /**
+     * 备注
+     */
     private String remark;
+
+    /**
+     * 排序序号
+     */
     private Integer sort;
+
+    /**
+     * 启用状态;0关闭 1启用
+     */
     private Integer enableStatus;
+
+    /**
+     * 创建人
+     */
     private String createBy;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 子项
+     */
     private List<SysDictionaryVO> children;
 
 }

@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.cocotea.admin.api.system.model.vo.SysDictionaryVO;
 import org.sagacity.sqltoy.model.Page;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -17,6 +18,11 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class SysDictionaryPageDTO extends Page<SysDictionaryVO> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8818887425379309640L;
+
+    /**
+     *
+     */
     private SysDictionaryVO sysDictionary;
 }
