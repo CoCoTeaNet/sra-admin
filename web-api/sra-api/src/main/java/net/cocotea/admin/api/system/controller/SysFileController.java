@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * 系统文件管理接口
+ *
+ * @author CoCoTea
+ * @version 2.0.0
+ */
 @Validated
 @RequestMapping("/system/file")
 @RestController
@@ -55,8 +62,14 @@ public class SysFileController {
     @Resource
     private SysUserService sysUserService;
 
+    /**
+     * 系统文件上传
+     *
+     * @param multipartFile {@link MultipartFile}
+     * @return true表示成功
+     */
     @PostMapping("/upload")
-    public ApiResult<?> upload(@RequestParam("file") MultipartFile multipartFile) throws BusinessException {
+    public ApiResult<Boolean> upload(@RequestParam("file") MultipartFile multipartFile) throws BusinessException {
         // 过滤js，html，css等语言文件
         filter(multipartFile);
         FileInfo fileInfo = FileUploadUtils.saveMultipartFile(multipartFile, fileProp.getDefaultSavePath());
@@ -67,52 +80,102 @@ public class SysFileController {
                 .setRealPath(fileInfo.getFileBasePath());
         sysFileService.add(fileAddDTO);
         logger.debug("文件保存信息: {}", fileInfo);
-        return ApiResult.ok();
+        return ApiResult.ok(true);
     }
 
+    /**
+     * 系统文件下载
+     *
+     * @param fileId 文件ID
+     * @return {@link ResponseEntity}
+     */
     @GetMapping("/download/{fileId}")
     public ResponseEntity<StreamingResponseBody> download(@PathVariable("fileId") BigInteger fileId) throws BusinessException, IOException {
         SysFileVO sysFileVO = sysFileService.getUserFile(fileId);
         return getResponseEntity(sysFileVO.getRealPath(), sysFileVO.getFileName());
     }
 
+    /**
+     * 系统文件批量删除
+     *
+     * @param param 文件ID列表
+     * @return true表示成功
+     */
     @PostMapping("/deleteBatch")
-    public ApiResult<?> deleteBatch(@RequestBody List<BigInteger> param) throws BusinessException {
+    public ApiResult<Boolean> deleteBatch(@RequestBody List<BigInteger> param) throws BusinessException {
         boolean b = sysFileService.deleteBatch(param);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 系统文件信息更新
+     *
+     * @param sysFileUpdateDTO {@link SysFileUpdateDTO}
+     * @return true表示成功
+     */
     @PostMapping("/update")
-    public ApiResult<?> update(@Valid @RequestBody SysFileUpdateDTO sysFileUpdateDTO) throws BusinessException {
+    public ApiResult<Boolean> update(@Valid @RequestBody SysFileUpdateDTO sysFileUpdateDTO) throws BusinessException {
         boolean b = sysFileService.update(sysFileUpdateDTO);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 系统文件分页列表
+     *
+     * @param dto {@link SysFilePageDTO}
+     * @return {@link ApiPage<SysFileVO>}
+     */
     @PostMapping("/listByPage")
-    public ApiResult<?> listByPage(@Valid @RequestBody SysFilePageDTO dto) throws BusinessException {
+    public ApiResult<ApiPage<SysFileVO>> listByPage(@Valid @RequestBody SysFilePageDTO dto) throws BusinessException {
         dto.setIsDeleted(IsEnum.N.getCode());
         ApiPage<SysFileVO> r = sysFileService.listByPage(dto);
         return ApiResult.ok(r);
     }
 
+    /**
+     * 系统回收站文件分页列表
+     *
+     * @param sysFilePageDTO {@link SysFilePageDTO}
+     * @return {@link ApiPage<SysFileVO>}
+     */
     @PostMapping("/recycleBinPage")
-    public ApiResult<?> recycleBinPage(@Valid @RequestBody SysFilePageDTO param) {
-        ApiPage<SysFileVO> r = sysFileService.recycleBinPage(param);
+    public ApiResult<ApiPage<SysFileVO>> recycleBinPage(@Valid @RequestBody SysFilePageDTO sysFilePageDTO) {
+        ApiPage<SysFileVO> r = sysFileService.recycleBinPage(sysFilePageDTO);
         return ApiResult.ok(r);
     }
 
+    /**
+     * 系统回收站文件批量删除
+     *
+     * @param ids 文件ID集合
+     * @return 成功返回true
+     */
     @PostMapping("/recycleBin/deleteBatch")
-    public ApiResult<?> recycleBinDeleteBatch(@Valid @RequestBody List<BigInteger> param) {
-        return ApiResult.flag(sysFileService.recycleBinDeleteBatch(param));
+    public ApiResult<Boolean> recycleBinDeleteBatch(@Valid @RequestBody List<BigInteger> ids) {
+        boolean recycled = sysFileService.recycleBinDeleteBatch(ids);
+        return ApiResult.ok(recycled);
     }
 
+    /**
+     * 系统回收站文件批量恢复
+     *
+     * @param ids 文件ID集合
+     * @return 成功返回true
+     */
     @PostMapping("/recycleBin/recoveryBatch")
-    public ApiResult<?> recoveryBatch(@Valid @RequestBody List<BigInteger> param) {
-        return ApiResult.flag(sysFileService.recoveryBatch(param));
+    public ApiResult<Boolean> recoveryBatch(@Valid @RequestBody List<BigInteger> ids) {
+        boolean recoveryBatch = sysFileService.recoveryBatch(ids);
+        return ApiResult.ok(recoveryBatch);
     }
 
+    /**
+     * 系统用户头像上传
+     *
+     * @param multipartFile {@link MultipartFile}
+     * @return 成功返回true
+     */
     @PostMapping("/avatar/upload")
-    public ApiResult<?> uploadAvatar(@RequestParam("file") MultipartFile multipartFile) throws BusinessException, IOException {
+    public ApiResult<Boolean> uploadAvatar(@RequestParam("file") MultipartFile multipartFile) throws BusinessException, IOException {
         if (StrUtil.isBlank(fileProp.getAvatarPath())) {
             throw new BusinessException("未配置相关信息");
         }
@@ -125,9 +188,15 @@ public class SysFileController {
         }
         multipartFile.transferTo(file);
         sysUserService.doModifyAvatar(saveName);
-        return ApiResult.ok();
+        return ApiResult.ok(true);
     }
 
+    /**
+     * 系统用户头像文件获取
+     *
+     * @param avatar   头像文件名称
+     * @param response {@link HttpServletResponse}
+     */
     @GetMapping("/getAvatar")
     public void getAvatar(@RequestParam("avatar") String avatar, HttpServletResponse response) throws BusinessException, IOException {
         String fullPath = fileProp.getAvatarPath() + avatar;

@@ -3,6 +3,7 @@ package net.cocotea.admin.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -16,6 +17,9 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 public class SysFileVO implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = 8804619777318495362L;
 
 	/**
 	 *主键ID
@@ -77,7 +81,14 @@ public class SysFileVO implements Serializable {
 	 */
 	private Integer isShare;
 
+	/**
+	 * 开始时间
+	 */
 	private LocalDateTime beginTime;
+
+	/**
+	 * 结束时间
+	 */
 	private LocalDateTime endTime;
 
 }
