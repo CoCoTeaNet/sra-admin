@@ -8,6 +8,7 @@ import net.cocotea.admin.api.system.model.vo.SysLogVO;
 import org.sagacity.sqltoy.model.Page;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -20,8 +21,12 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class SysLogPageDTO extends Page<SysLog> implements Serializable {
+    @Serial
     private static final long serialVersionUID = -2889574415371661414L;
 
+    /**
+     * 查询参数
+     */
     @NotNull(message = "查询参数为空")
     private SysLogVO sysLog;
 }

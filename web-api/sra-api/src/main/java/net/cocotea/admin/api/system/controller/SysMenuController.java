@@ -18,8 +18,10 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @date 2022-1-16 15:37:26
+ * 系统菜单管理接口
+ *
  * @author CoCoTea
+ * @version v2.0.0
  */
 @RestController
 @RequestMapping("/system/menu")
