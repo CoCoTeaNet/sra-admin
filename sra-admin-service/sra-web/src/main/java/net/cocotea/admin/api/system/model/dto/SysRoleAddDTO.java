@@ -4,18 +4,20 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * @author CoCoTea
  * @project sss-rbac-admin
- * @version 1.0.0
+ * @version 2.0.0
  * @description sys_role,系统角色表  
  */
 @Data
 @Accessors(chain = true)
 public class SysRoleAddDTO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -6663565327923196565L;
 
 	/**

@@ -8,6 +8,7 @@ import net.cocotea.admin.api.system.model.vo.SysRoleVO;
 import org.sagacity.sqltoy.model.Page;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -19,6 +20,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysRolePageDTO extends Page<SysMenuVO> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -8722226920902960302L;
 
 	@NotNull(message = "查询参数为空")

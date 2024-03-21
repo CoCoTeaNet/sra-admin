@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * 返回数据模型
  *
  * @author CoCoTea
- * @version 2.0.4
+ * @version 2.0.0
  */
 @Data
 @Accessors(chain = true)
@@ -20,9 +20,24 @@ public class ApiResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = -4073679724104914374L;
 
+    /**
+     * 接口响应编号：{@link ApiResultEnum}
+     */
     private Integer code;
+
+    /**
+     * 接口返回数据
+     */
     private T data;
+
+    /**
+     * 接口提示信息
+     */
     private String message;
+
+    /**
+     * 接口返回时间
+     */
     private LocalDateTime time;
 
     public ApiResult(Integer code, T data, String message) {

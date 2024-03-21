@@ -9,6 +9,7 @@ import net.cocotea.admin.api.system.model.vo.SysMenuVO;
 import org.sagacity.sqltoy.model.Page;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -20,8 +21,12 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysMenuPageDTO extends Page<SysMenuVO> implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -772057092053351688L;
 
+    /**
+     * 详细查询条件
+     */
     @NotNull(message = "查询参数为空")
     private SysMenuVO sysMenu;
 

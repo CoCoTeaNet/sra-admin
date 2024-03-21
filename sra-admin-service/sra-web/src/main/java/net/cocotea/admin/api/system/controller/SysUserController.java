@@ -15,65 +15,119 @@ import net.cocotea.admin.common.model.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * 系统用户管理接口
+ *
+ * @author CoCoTea
+ * @version 2.0.0
+ */
 @RequestMapping("/system/user")
 @RestController
 public class SysUserController {
     @Resource
     private SysUserService userService;
 
+    /**
+     * 新增用户
+     *
+     * @param addDTO {@link SysUserAddDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")
-    public ApiResult<?> add(@Valid @RequestBody SysUserAddDTO dto) throws BusinessException {
-        boolean b = userService.add(dto);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> add(@Valid @RequestBody SysUserAddDTO addDTO) throws BusinessException {
+        boolean b = userService.add(addDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param updateDTO {@link SysUserUpdateDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/update")
-    public ApiResult<?> update(@Valid @RequestBody SysUserUpdateDTO param) throws BusinessException {
-        boolean b = userService.update(param);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> update(@Valid @RequestBody SysUserUpdateDTO updateDTO) throws BusinessException {
+        boolean b = userService.update(updateDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param id 用户ID
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
-    public ApiResult<?> delete(@PathVariable BigInteger id) throws BusinessException {
+    public ApiResult<Boolean> delete(@PathVariable BigInteger id) throws BusinessException {
         boolean b = userService.delete(id);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 批量删除用户
+     *
+     * @param idList 用户ID集合
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
-    public ApiResult<?> deleteBatch(@RequestBody List<BigInteger> idList) throws BusinessException {
+    public ApiResult<Boolean> deleteBatch(@RequestBody List<BigInteger> idList) throws BusinessException {
         boolean b = userService.deleteBatch(idList);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 分页查询用户
+     *
+     * @param pageDTO {@link SysUserPageDTO}
+     * @return {@link ApiPage<SysUserVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/listByPage")
-    public ApiResult<?> listByPage(@Valid @RequestBody SysUserPageDTO param) throws BusinessException {
-        ApiPage<SysUserVO> list = userService.listByPage(param);
+    public ApiResult<ApiPage<SysUserVO>> listByPage(@Valid @RequestBody SysUserPageDTO pageDTO) throws BusinessException {
+        ApiPage<SysUserVO> list = userService.listByPage(pageDTO);
         return ApiResult.ok(list);
     }
 
+    /**
+     * 获取用户详细
+     *
+     * @return {@link SysUserVO}
+     */
     @GetMapping("/getDetail")
-    public ApiResult<?> getDetail() {
+    public ApiResult<SysUserVO> getDetail() {
         SysUserVO vo = userService.getDetail();
         return ApiResult.ok(vo);
     }
 
+    /**
+     * 更新登录用户信息
+     *
+     * @param updateDTO {@link SysLoginUserUpdateDTO}
+     * @return 成功返回TRUE
+     */
     @PostMapping("/updateByUser")
-    public ApiResult<?> updateByUser(@Valid @RequestBody SysLoginUserUpdateDTO param) {
-        boolean b = userService.updateByUser(param);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> updateByUser(@Valid @RequestBody SysLoginUserUpdateDTO updateDTO) {
+        boolean b = userService.updateByUser(updateDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 修稿用户密码
+     *
+     * @param obj oldPassword:旧密码，newPassword:新密码
+     * @return 成功返回TRUE
+     */
     @PostMapping("/doModifyPassword")
-    public ApiResult<?> doModifyPassword(@RequestBody JSONObject obj) throws BusinessException {
+    public ApiResult<Boolean> doModifyPassword(@RequestBody JSONObject obj) throws BusinessException {
         boolean r = userService.doModifyPassword(obj.getString("oldPassword"), obj.getString("newPassword"));
         return ApiResult.ok(r);
     }

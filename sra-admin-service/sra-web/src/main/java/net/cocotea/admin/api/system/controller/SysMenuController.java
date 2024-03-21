@@ -13,12 +13,13 @@ import net.cocotea.admin.common.model.BusinessException;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
+
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
 /**
- * 系统菜单管理接口
+ * 系统菜单或权限管理接口
  *
  * @author CoCoTea
  * @version v2.0.0
@@ -29,51 +30,93 @@ public class SysMenuController {
     @Resource
     private SysMenuService sysMenuService;
 
+    /**
+     * 新增菜单或权限
+     *
+     * @param addDTO {@link SysMenuAddDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("add")
-    public ApiResult<?> add(@Valid @RequestBody SysMenuAddDTO param) throws BusinessException {
-        boolean b = sysMenuService.add(param);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> add(@Valid @RequestBody SysMenuAddDTO addDTO) throws BusinessException {
+        boolean b = sysMenuService.add(addDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 批量删除菜单或权限
+     *
+     * @param idList ID集合
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("deleteBatch")
-    public ApiResult<?> deleteBatch(@Valid @RequestBody List<BigInteger> idList) throws BusinessException {
+    public ApiResult<Boolean> deleteBatch(@Valid @RequestBody List<BigInteger> idList) throws BusinessException {
         boolean b = sysMenuService.deleteBatch(idList);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 更新菜单或权限信息
+     *
+     * @param updateDTO {@link SysMenuUpdateDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("update")
-    public ApiResult<?> update(@Valid @RequestBody SysMenuUpdateDTO param) throws BusinessException {
-        boolean b = sysMenuService.update(param);
-        return ApiResult.flag(b);
+    public ApiResult<Boolean> update(@Valid @RequestBody SysMenuUpdateDTO updateDTO) throws BusinessException {
+        boolean b = sysMenuService.update(updateDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 分页查询菜单或权限
+     *
+     * @param pageDTO {@link SysMenuPageDTO}
+     * @return {@link ApiPage<SysMenuVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByPage")
-    public ApiResult<?> listByPage(@Valid @RequestBody SysMenuPageDTO pageParam) throws BusinessException {
-        ApiPage<SysMenuVO> menus = sysMenuService.listByPage(pageParam);
+    public ApiResult<ApiPage<SysMenuVO>> listByPage(@Valid @RequestBody SysMenuPageDTO pageDTO) throws BusinessException {
+        ApiPage<SysMenuVO> menus = sysMenuService.listByPage(pageDTO);
         return ApiResult.ok(menus);
     }
 
+    /**
+     * 查询菜单或权限树形数据
+     *
+     * @param pageDTO {@link SysMenuPageDTO}
+     * @return {@link List<SysMenuVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTree")
-    public ApiResult<?> listByTree(@Valid @RequestBody SysMenuPageDTO param) {
-        List<SysMenuVO> menus = sysMenuService.listByTree(param);
+    public ApiResult<List<SysMenuVO>> listByTree(@Valid @RequestBody SysMenuPageDTO pageDTO) {
+        List<SysMenuVO> menus = sysMenuService.listByTree(pageDTO);
         return ApiResult.ok(menus);
     }
 
+    /**
+     * 通关角色获取菜单或权限
+     *
+     * @param pageDTO {@link SysMenuPageDTO}
+     * @return {@link List<SysMenuVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTreeAsRoleSelection")
-    public ApiResult<?> listByTreeAsRoleSelection(@Valid @RequestBody SysMenuPageDTO pageParam) {
-        List<SysMenuVO> menus = sysMenuService.listByTreeAsRoleSelection(pageParam);
+    public ApiResult<List<SysMenuVO>> listByTreeAsRoleSelection(@Valid @RequestBody SysMenuPageDTO pageDTO) {
+        List<SysMenuVO> menus = sysMenuService.listByTreeAsRoleSelection(pageDTO);
         return ApiResult.ok(menus);
     }
 
+    /**
+     * 通关角色获取请所有菜单
+     *
+     * @param roleId 角色ID
+     * @return {@link List<SysMenuVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @GetMapping("listByRoleId/{roleId}")
-    public ApiResult<?> listByRoleId(@PathVariable String roleId) {
+    public ApiResult<List<SysMenuVO>> listByRoleId(@PathVariable String roleId) {
         List<SysMenuVO> menus = sysMenuService.listByRoleId(roleId);
         return ApiResult.ok(menus);
     }

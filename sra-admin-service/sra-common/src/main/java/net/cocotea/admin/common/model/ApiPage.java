@@ -17,9 +17,24 @@ public class ApiPage<T> {
     private ApiPage() {
     }
 
+    /**
+     * 页码
+     */
     private Long pageNo;
+
+    /**
+     * 页大小
+     */
     private Long pageSize;
+
+    /**
+     * 列表数据
+     */
     private List<T> records;
+
+    /**
+     * 总数
+     */
     private Long total;
 
     private ApiPage(Page<T> sourcePage, Class<T> elementType) {

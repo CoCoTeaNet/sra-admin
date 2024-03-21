@@ -3,6 +3,7 @@ package net.cocotea.admin.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysRoleMenuVO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 5632526424183418214L;
 	
 	/**
