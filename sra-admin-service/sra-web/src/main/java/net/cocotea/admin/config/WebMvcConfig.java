@@ -54,7 +54,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 解决长整型精度丢失的问题
         SerializeConfig serializeConfig = SerializeConfig.globalInstance;
         serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
-        serializeConfig.put(Long.class, ToStringSerializer.instance);
         fastJsonConfig.setSerializeConfig(serializeConfig);
         // 处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<>();
