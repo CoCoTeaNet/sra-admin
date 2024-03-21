@@ -2,6 +2,7 @@ package net.cocotea.admin.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.text.CharPool;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,21 @@ public class WebApiInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestURL = request.getRequestURL().toString();
+        // 是否静态路径
+        boolean staticApi = isStaticApi(requestURL);
+        // 打印请求内容
+        logger.info(
+                "### 请求IP：{}，请求地址：{}，请求方式，{}，请求方法：{}，是否静态地址：{}",
+                request.getRemoteAddr(),
+                requestURL,
+                request.getMethod(),
+                request.getRequestURI(),
+                staticApi
+        );
+        if (staticApi) {
+            return true;
+        }
         // 接口访问限制
         boolean limitFlag = apiLimitAccessTimes();
         if (limitFlag) {
@@ -47,14 +63,6 @@ public class WebApiInterceptor implements HandlerInterceptor {
                 redisService.save(String.format(RedisKeyConst.ONLINE_USER, loginId), loginId, 30L);
             }
         }
-        // 打印请求内容
-        logger.info(
-                "### 请求IP：{}，请求地址：{}，请求方式，{}，请求方法：{}",
-                request.getRemoteAddr(),
-                request.getRequestURL().toString(),
-                request.getMethod(),
-                request.getRequestURI()
-        );
         // 保存登录日志与操作日志,如果没有登录不去保存
         if (StpUtil.isLogin()) {
             sysLogService.saveByLogType(LogTypeEnum.OPERATION.getCode(), request);
@@ -85,4 +93,14 @@ public class WebApiInterceptor implements HandlerInterceptor {
         return flag;
     }
 
+    /**
+     * 是否静态地址，比如/doc.html
+     *
+     * @param url 地址
+     * @return 是返回TRUE
+     */
+    private boolean isStaticApi(String url) {
+        String regex = "^https?://[^/]+(:\\d+)?(/[^?#]*\\.)(html|css|js|jpg|jpeg|gif|png|svg|woff|woff2|ttf|eot)$";
+        return ReUtil.isMatch(regex, url);
+    }
 }
