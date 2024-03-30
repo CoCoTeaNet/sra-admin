@@ -8,7 +8,7 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 前端技术栈：vue3+vue-router+typescript+elementui
 
 
-#### 前端仓库地址
+#### 其它仓库地址
 - sra-admin-vue（基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
 - sra-admin-v1：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 
@@ -52,9 +52,8 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 3. 项目启动类：sra-admin-service/sra-web/src/main/java/net/cocotea/admin/Launcher.java
 ```
 
-* 访问地址
-1. 测试后端接口：http://localhost:9000/test/index
-2. 前端登录地址：http://localhost:8080/#/login
+##### 访问地址
+测试后端接口：http://localhost:9000/test/index
 
 
 #### 项目结构
