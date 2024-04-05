@@ -176,7 +176,8 @@ public class SysUserServiceImpl implements SysUserService {
                 throw new BusinessException("验证码错误");
             }
             // 校验密码
-            userWrapper.eq(SysUser::getPassword, securityUtils.getPwd(param.getPassword()));
+            String pwd = securityUtils.getPwd(param.getPassword());
+            userWrapper.eq(SysUser::getPassword, pwd);
             sysUser = sqlToyHelperDao.findOne(userWrapper);
             if (sysUser == null) {
                 throw new BusinessException("登录失败，用户名或密码错误");

@@ -15,3 +15,4 @@ create table sys_log
 
 create index sys_log_request_way_index
     on sys_log (request_way);
+
