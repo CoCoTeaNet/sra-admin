@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysRoleUpdateDTO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -551717904814153800L;
 
 	@NotBlank(message = "主键ID不能为空")
