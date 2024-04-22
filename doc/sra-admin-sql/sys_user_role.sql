@@ -9,4 +9,5 @@ create table sys_user_role
                              collate = utf8_unicode_ci
                              row_format = DYNAMIC;
 
-INSERT INTO db_sra_v2.sys_user_role (id, user_id, role_id) VALUES (1699771910151151617, 100, 100);
+INSERT INTO db_sra_v2.sys_user_role (id, user_id, role_id) VALUES (1699771910151151617, 1699771308310499328, 1699771910151151616);
+INSERT INTO db_sra_v2.sys_user_role (id, user_id, role_id) VALUES (1150237677435502592, 1699771308310499328, 1150175648716701696);

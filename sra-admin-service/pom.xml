@@ -22,14 +22,13 @@
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
-        <spring-boot-starter.version>3.2.1</spring-boot-starter.version>
+        <spring-boot-starter.version>3.2.5</spring-boot-starter.version>
         <logback-classic.version>1.4.12</logback-classic.version>
         <sqltoy.version>5.6.0</sqltoy.version>
         <mysql-connector.version>8.0.33</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.37.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
         <hutool.version>5.8.25</hutool.version>
         <hutool-oshi.version>5.6.1</hutool-oshi.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
@@ -63,6 +62,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-starter.version}</version>
+            </dependency>
+            <!-- 字段传参校验框架 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${spring-boot-starter.version}</version>
             </dependency>
             <dependency>
@@ -111,12 +116,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
-            </dependency>
-            <!-- 字段传参校验框架 -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-valid.version}</version>
             </dependency>
             <!-- hutool工具 -->
             <dependency>

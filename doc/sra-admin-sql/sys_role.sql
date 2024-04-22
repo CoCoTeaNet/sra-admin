@@ -17,5 +17,5 @@ create table sys_role
                          collate = utf8_unicode_ci
                          row_format = DYNAMIC;
 
-INSERT INTO db_sra_v2.sys_role (id, role_name, role_key, remark, sort, create_by, create_time, update_by, update_time, is_deleted, revision) VALUES (100, '超级管理员', 'role:super:admin', null, null, 1699771308310499328, '2023-09-07 21:10:17', null, null, 0, null);
+INSERT INTO db_sra_v2.sys_role (id, role_name, role_key, remark, sort, create_by, create_time, update_by, update_time, is_deleted, revision) VALUES (1699771910151151616, '超级管理员', 'role:super:admin', null, null, 1699771308310499328, '2023-09-07 21:10:17', null, null, 0, null);
 INSERT INTO db_sra_v2.sys_role (id, role_name, role_key, remark, sort, create_by, create_time, update_by, update_time, is_deleted, revision) VALUES (1150175648716701696, '普通用户', 'simple:user', null, 1, 1699771308310499328, '2023-09-09 21:07:24', 1699771308310499328, '2023-09-09 21:07:24', 0, null);
