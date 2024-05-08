@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 系统主题接口

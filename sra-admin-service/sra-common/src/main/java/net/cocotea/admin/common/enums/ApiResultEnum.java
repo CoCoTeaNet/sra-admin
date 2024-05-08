@@ -29,6 +29,10 @@ public enum ApiResultEnum {
      */
     REFUSE(401, "拒绝请求"),
     /**
+     * 请求方式不正确
+     */
+    REQUEST_ERROR(403, "请求方式不正确"),
+    /**
      * 未登录
      */
     NOT_LOGIN(4001, "未登录"),

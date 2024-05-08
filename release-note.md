@@ -1,6 +1,13 @@
 ### 更新日志
 
 
+#### v2.0.1
+1. 修复validation引入异常问题
+2. 优化异常日志打印
+3. 路由放行测试接口
+4. 增加MethodArgumentNotValidException异常拦截
+
+
 #### v2.0.0
 1. SpringBoot升到3.x并且相关核心框架保持兼容
 2. 整体架构重新优化

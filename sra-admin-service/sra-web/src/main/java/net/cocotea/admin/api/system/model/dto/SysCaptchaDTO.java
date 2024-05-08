@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import net.cocotea.admin.common.constant.CommonConst;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 

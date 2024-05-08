@@ -4,7 +4,6 @@ import net.cocotea.admin.api.system.model.vo.SysOverviewVO;
 import net.cocotea.admin.api.system.model.vo.SystemInfoVO;
 import net.cocotea.admin.api.system.service.SysDashboardService;
 import net.cocotea.admin.common.model.ApiResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,6 @@ import java.util.List;
  * @author CoCoTea
  * @version 2.0.0
  */
-@Validated
 @RestController
 @RequestMapping("/system/dashboard")
 public class SysDashboardController {

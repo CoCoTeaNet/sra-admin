@@ -7,7 +7,7 @@ import net.cocotea.admin.api.system.model.vo.SysMenuVO;
 import net.cocotea.admin.api.system.model.vo.SysRoleVO;
 import org.sagacity.sqltoy.model.Page;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 
