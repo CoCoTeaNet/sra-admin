@@ -141,4 +141,7 @@ public class ApiResult<T> implements Serializable {
         return new ApiResult<>(errorCode, data, ApiResultEnum.SUCCESS.getDesc());
     }
 
+    public static ApiResult<?> error(ApiResultEnum resultEnum) {
+        return error(resultEnum.getCode(), resultEnum.getDesc());
+    }
 }

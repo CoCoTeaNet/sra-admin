@@ -2,6 +2,7 @@ package net.cocotea.admin.api.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import jakarta.validation.Valid;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryPageDTO;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryUpdateDTO;
@@ -9,7 +10,6 @@ import net.cocotea.admin.api.system.model.vo.SysDictionaryVO;
 import net.cocotea.admin.api.system.service.SysDictionaryService;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import java.util.List;
  * @author CoCoTea
  * @version 2.0.0
  */
-@Validated
 @RestController
 @RequestMapping("/system/dictionary")
 public class SysDictionaryController {

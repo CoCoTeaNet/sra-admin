@@ -18,7 +18,7 @@ sra-admin:
   # 1秒内访问服务器接口频率
   once-visits: 30
   # 路由放行（用逗号分割）
-  excludes: /system/login,/system/captcha,/,/doc/**
+  excludes: /system/dashboard/index,/system/login,/system/captcha,/,/doc/**
   # 文件存放配置
   file:
     # 默认文件存放位置

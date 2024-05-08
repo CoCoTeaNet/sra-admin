@@ -1,9 +1,9 @@
 package net.cocotea.admin.api.system.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;

@@ -2,6 +2,7 @@ package net.cocotea.admin.api.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import jakarta.validation.Valid;
 import net.cocotea.admin.api.system.model.dto.SysLogPageDTO;
 import net.cocotea.admin.api.system.model.vo.SysLogVO;
 import net.cocotea.admin.api.system.service.SysLogService;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 

@@ -12,20 +12,18 @@ import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.service.RedisService;
 import net.cocotea.admin.common.util.IpUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 系统登录相关接口
  *
  * @author CoCoTea
  */
-@Validated
 @RestController
 @RequestMapping("/system")
 public class SysLoginController {

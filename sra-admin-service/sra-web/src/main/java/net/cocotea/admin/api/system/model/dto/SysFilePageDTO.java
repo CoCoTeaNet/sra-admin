@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import net.cocotea.admin.api.system.model.vo.SysFileVO;
 import org.sagacity.sqltoy.model.Page;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 

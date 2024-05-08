@@ -4,8 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.text.CharPool;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.validation.Valid;
 import net.cocotea.admin.api.system.model.dto.SysFileAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysFilePageDTO;
 import net.cocotea.admin.api.system.model.dto.SysFileUpdateDTO;
@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -32,7 +31,6 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +45,6 @@ import java.util.List;
  * @author CoCoTea
  * @version 2.0.0
  */
-@Validated
 @RequestMapping("/system/file")
 @RestController
 public class SysFileController {
