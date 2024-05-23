@@ -9,8 +9,8 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 
 
 #### 其它仓库地址
-- sra-admin-vue（基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
-- sra-admin-v1：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
+- sra-admin-vue（前端项目，基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
+- sra-admin-v1（第一版）：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 
 
 #### 应用场景
