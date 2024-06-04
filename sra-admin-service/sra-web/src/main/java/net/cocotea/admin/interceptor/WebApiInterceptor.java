@@ -52,9 +52,11 @@ public class WebApiInterceptor implements HandlerInterceptor {
             return true;
         }
         // 接口访问限制
-        boolean limitFlag = apiLimitAccessTimes();
-        if (limitFlag) {
-            throw new BusinessException("操作过快，请稍后再试！");
+        if (defaultProp.getOnceVisits() != null && defaultProp.getOnceVisits() > 0) {
+            boolean limitFlag = apiLimitAccessTimes();
+            if (limitFlag) {
+                throw new BusinessException("操作过快，请稍后再试！");
+            }
         }
         // 在线用户续期
         if (StpUtil.isLogin()) {
