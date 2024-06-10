@@ -66,7 +66,7 @@ public class SysUserController {
      */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
-    public ApiResult<Boolean> delete(@PathVariable BigInteger id) throws BusinessException {
+    public ApiResult<Boolean> delete(@PathVariable("id") BigInteger id) throws BusinessException {
         boolean b = userService.delete(id);
         return ApiResult.ok(b);
     }

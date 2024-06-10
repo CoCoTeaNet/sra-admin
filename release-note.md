@@ -3,6 +3,7 @@
 
 #### v2.0.2
 1. 优化：接口访问限制如果不配置或者小于零表示不开启
+2. 修复：使用@PathVariable增加别名，避免[Name for argument of type]异常
 
 
 #### v2.0.1
