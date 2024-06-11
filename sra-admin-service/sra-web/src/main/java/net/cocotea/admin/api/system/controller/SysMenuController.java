@@ -116,7 +116,7 @@ public class SysMenuController {
      */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @GetMapping("listByRoleId/{roleId}")
-    public ApiResult<List<SysMenuVO>> listByRoleId(@PathVariable String roleId) {
+    public ApiResult<List<SysMenuVO>> listByRoleId(@PathVariable("roleId") String roleId) {
         List<SysMenuVO> menus = sysMenuService.listByRoleId(roleId);
         return ApiResult.ok(menus);
     }
