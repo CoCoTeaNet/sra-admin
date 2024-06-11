@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class SysLogVO {
 
-    private BigInteger id;
+    private String id;
     private String ipAddress;
     private String operator;
     private String username;

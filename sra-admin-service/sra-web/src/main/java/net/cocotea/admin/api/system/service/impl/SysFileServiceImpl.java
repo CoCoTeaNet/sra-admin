@@ -1,5 +1,6 @@
 package net.cocotea.admin.api.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统文件表
@@ -72,23 +74,9 @@ public class SysFileServiceImpl implements SysFileService {
 
     @Override
     public ApiPage<SysFileVO> listByPage(SysFilePageDTO pageDTO) {
-        MultiWrapper multiWrapper = Wrappers.lambdaMultiWrapper(SysFile.class)
-                .select(
-                        LambdaColumn.of(SysFile::getId), LambdaColumn.of(SysFile::getFileName),
-                        LambdaColumn.of(SysFile::getFileSuffix), LambdaColumn.of(SysFile::getFileSize),
-                        LambdaColumn.of(SysFile::getCreateTime), LambdaColumn.of(SysFile::getUpdateTime),
-                        LambdaColumn.of(SysFile::getIsShare),
-                        LambdaColumn.of(SysUser::getUsername), LambdaColumn.of(SysUser::getNickname)
-                )
-                .from(SysFile.class)
-                .leftJoin(SysUser.class).on().eq(SysFile::getCreateBy, SysUser::getId)
-                .where()
-                .eq(SysFile::getIsDeleted, pageDTO.getIsDeleted())
-                .eq(SysFile::getFileSuffix, pageDTO.getSysFile().getFileSuffix())
-                .eq(SysFile::getCreateBy, LoginUtils.loginId())
-                .between(SysFile::getCreateTime, pageDTO.getSysFile().getBeginTime(), pageDTO.getSysFile().getEndTime())
-                .orderByDesc(SysFile::getId);
-        Page<SysLogVO> page = sqlToyHelperDao.findPage(multiWrapper, new Page<>(pageDTO.getPageSize(), pageDTO.getPageNo()));
+        Map<String, Object> sysFileMap = BeanUtil.beanToMap(pageDTO.getSysFile());
+        sysFileMap.put("userId", LoginUtils.loginId());
+        Page<SysFileVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_file_JOIN_findList", sysFileMap, SysFileVO.class);
         return ApiPage.rest(page, SysFileVO.class);
     }
 
