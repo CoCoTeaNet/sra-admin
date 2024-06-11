@@ -1,10 +1,8 @@
 package net.cocotea.admin.api.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
-import com.sagframe.sagacity.sqltoy.plus.multi.MultiWrapper;
-import com.sagframe.sagacity.sqltoy.plus.multi.model.LambdaColumn;
 import net.cocotea.admin.api.system.model.dto.SysVersionAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysVersionPageDTO;
 import net.cocotea.admin.api.system.model.dto.SysVersionUpdateDTO;
@@ -20,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.annotation.Resource;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysVersionServiceImpl implements SysVersionService {
@@ -51,19 +50,8 @@ public class SysVersionServiceImpl implements SysVersionService {
 
     @Override
     public ApiPage<SysVersionVO> listByPage(SysVersionPageDTO pageDTO) throws BusinessException {
-        MultiWrapper multiWrapper = Wrappers.lambdaMultiWrapper(SysVersion.class)
-                .select(
-                        LambdaColumn.of(SysVersion::getId), LambdaColumn.of(SysVersion::getUpdateNo),
-                        LambdaColumn.of(SysVersion::getPlatformName),
-                        LambdaColumn.of(SysVersion::getUpdateDesc), LambdaColumn.of(SysVersion::getDownloadUrl),
-                        LambdaColumn.of(SysVersion::getCreateTime), LambdaColumn.of(SysVersion::getUpdateTime)
-                )
-                .from(SysVersion.class)
-                .where()
-                .eq(SysVersion::getPlatformName, pageDTO.getSysVersion().getPlatformName())
-                .eq(SysVersion::getUpdateNo, pageDTO.getSysVersion().getUpdateNo())
-                .orderByDesc(SysVersion::getId);
-        Page<SysVersionVO> page = sqlToyHelperDao.findPage(multiWrapper, new Page<>(pageDTO.getPageSize(), pageDTO.getPageNo()));
+        Map<String, Object> map = BeanUtil.beanToMap(pageDTO.getSysVersion());
+        Page<SysVersionVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_version_findList", map, SysVersionVO.class);
         return ApiPage.rest(page, SysVersionVO.class);
     }
 

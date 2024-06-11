@@ -1,6 +1,14 @@
 ### 更新日志
 
 
+#### v2.0.2
+1. 优化：接口访问限制如果不配置或者小于零表示不开启
+2. 修复：使用@PathVariable增加别名，避免“Name for argument of type”异常
+3. sqltoy-orm和sqltoy-plus升级到5.6.9
+4. 删除MultiWrapper写法
+5. 修复系统日志列表“日志编号”查询条件类型转换异常问题
+
+
 #### v2.0.1
 1. 修复validation引入异常问题
 2. 优化异常日志打印

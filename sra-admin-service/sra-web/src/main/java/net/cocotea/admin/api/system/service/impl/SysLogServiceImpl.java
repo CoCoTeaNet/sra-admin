@@ -1,16 +1,13 @@
 package net.cocotea.admin.api.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
-import com.sagframe.sagacity.sqltoy.plus.multi.MultiWrapper;
-import com.sagframe.sagacity.sqltoy.plus.multi.model.LambdaColumn;
 import net.cocotea.admin.api.system.model.dto.SysLogAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysLogPageDTO;
 import net.cocotea.admin.api.system.model.dto.SysLogUpdateDTO;
 import net.cocotea.admin.api.system.model.po.SysLog;
-import net.cocotea.admin.api.system.model.po.SysUser;
 import net.cocotea.admin.api.system.model.vo.SysLogVO;
 import net.cocotea.admin.api.system.service.SysLogService;
 import net.cocotea.admin.common.enums.LogStatusEnum;
@@ -28,6 +25,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysLogServiceImpl implements SysLogService {
@@ -62,20 +60,10 @@ public class SysLogServiceImpl implements SysLogService {
 
     @Override
     public ApiPage<SysLogVO> listByPage(SysLogPageDTO pageDTO) throws BusinessException {
-        MultiWrapper multiWrapper = Wrappers.lambdaMultiWrapper(SysLogVO.class)
-                .select(
-                        LambdaColumn.of(SysLog::getId), LambdaColumn.of(SysLog::getIpAddress),
-                        LambdaColumn.of(SysLog::getRequestWay), LambdaColumn.of(SysLog::getLogStatus),
-                        LambdaColumn.of(SysLog::getLogType), LambdaColumn.of(SysLog::getCreateTime),
-                        LambdaColumn.of(SysUser::getUsername), LambdaColumn.of(SysUser::getNickname)
-                )
-                .from(SysLog.class)
-                .leftJoin(SysUser.class).on().eq(SysLog::getOperator, SysUser::getId)
-                .where()
-                .eq(SysLog::getId, pageDTO.getSysLog().getId())
-                .like(SysUser::getUsername, pageDTO.getSysLog().getOperator())
-                .like(SysUser::getNickname, pageDTO.getSysLog().getOperator());
-        Page<SysLogVO> page = sqlToyHelperDao.findPage(multiWrapper, new Page<>(pageDTO.getPageSize(), pageDTO.getPageNo()));
+        String operator = pageDTO.getSysLog().getOperator();
+        Map<String, Object> sysLogMap = BeanUtil.beanToMap(pageDTO.getSysLog());
+        sysLogMap.put("operator", operator);
+        Page<SysLogVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_log_JOIN_findList", sysLogMap, SysLogVO.class);
         return ApiPage.rest(page, SysLogVO.class);
     }
 

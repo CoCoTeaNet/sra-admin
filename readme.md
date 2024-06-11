@@ -1,4 +1,4 @@
-﻿### 当前版本V2.0.1
+﻿### 当前版本V2.0.2
 
 
 #### 介绍
@@ -9,8 +9,8 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 
 
 #### 其它仓库地址
-- sra-admin-vue（基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
-- sra-admin-v1：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
+- sra-admin-vue（前端项目，基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
+- sra-admin-v1（第一版）：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 
 
 #### 应用场景
@@ -22,12 +22,12 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 #### 图片演示
 <table>
     <tr>
-        <td><img src="./doc/imgs/ys_1.jpg" alt="ys_1"/></td>
-        <td><img src="./doc/imgs/ys_2.jpg" alt="ys_2"/></td>
+        <td><img src="./doc/imgs/ys_21.jpg" alt="ys_1"/></td>
+        <td><img src="./doc/imgs/ys_22.png" alt="ys_2"/></td>
     </tr>
     <tr>
-        <td><img src="./doc/imgs/ys_3.jpg" alt="ys_3"/></td>
-        <td><img src="./doc/imgs/ys_4.png" alt="ys_4"/></td>
+        <td><img src="./doc/imgs/ys_23.jpg" alt="ys_3"/></td>
+        <td><img src="./doc/imgs/ys_24.jpg" alt="ys_4"/></td>
     </tr>
 </table>
 
