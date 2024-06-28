@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import jakarta.validation.constraints.NotBlank;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysLoginDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -75070990767806255L;
 
     /**
@@ -35,6 +38,18 @@ public class SysLoginDTO implements Serializable {
      */
     @NotBlank(message = "验证码不能为空")
     private String captcha;
+
+    /**
+     * 验证码ID
+     */
+    @NotBlank(message = "验证码ID不能为空")
+    private String captchaId;
+
+    /**
+     * 公钥
+     */
+    @NotBlank(message = "公钥不能为空")
+    private String publicKey;
 
     /**
      * 是否记住我

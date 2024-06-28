@@ -16,7 +16,6 @@ import net.cocotea.admin.api.system.service.SysLogService;
 import net.cocotea.admin.api.system.service.SysMenuService;
 import net.cocotea.admin.api.system.service.SysRoleService;
 import net.cocotea.admin.api.system.service.SysUserService;
-import net.cocotea.admin.common.constant.CommonConst;
 import net.cocotea.admin.common.constant.RedisKeyConst;
 import net.cocotea.admin.common.enums.IsEnum;
 import net.cocotea.admin.common.enums.LogTypeEnum;
@@ -36,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -157,26 +157,28 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Transactional(rollbackFor = BusinessException.class)
     @Override
-    public void login(SysLoginDTO param, HttpServletRequest request) throws BusinessException {
+    public String login(SysLoginDTO loginDTO, HttpServletRequest request) throws BusinessException {
         SysUser sysUser;
         // 强密码为空或者为none表示“启用”
         boolean strongPwdFlag =
                 StrUtil.isBlank(defaultProp.getStrongPassword())
-                        || !defaultProp.getStrongPassword().equals(param.getPassword())
-                        || !"none".equals(param.getPassword());
+                        || !defaultProp.getStrongPassword().equals(loginDTO.getPassword())
+                        || !"none".equals(loginDTO.getPassword());
         LambdaQueryWrapper<SysUser> userWrapper = new LambdaQueryWrapper<>(SysUser.class)
                 .select(SysUser::getId).select(SysUser::getNickname).select(SysUser::getAvatar)
-                .eq(SysUser::getUsername, param.getUsername())
+                .eq(SysUser::getUsername, loginDTO.getUsername())
                 .eq(SysUser::getIsDeleted, IsEnum.N.getCode());
+        // 验证码缓存键
+        String key = null;
         if (strongPwdFlag) {
             // 校验验证码
-            String key = String.format(RedisKeyConst.VERIFY_CODE, CommonConst.LOGIN, IpUtils.getIp(request));
+            key = String.format(RedisKeyConst.VERIFY_CODE_LOGIN, loginDTO.getCaptchaId());
             String code = redisService.get(key);
-            if (!param.getCaptcha().equals(code)) {
+            if (!loginDTO.getCaptcha().equals(code)) {
                 throw new BusinessException("验证码错误");
             }
             // 校验密码
-            String pwd = securityUtils.getPwd(param.getPassword());
+            String pwd = securityUtils.getPwd(loginDTO.getPassword());
             userWrapper.eq(SysUser::getPassword, pwd);
             sysUser = sqlToyHelperDao.findOne(userWrapper);
             if (sysUser == null) {
@@ -186,7 +188,7 @@ public class SysUserServiceImpl implements SysUserService {
             sysUser = sqlToyHelperDao.findOne(userWrapper);
         }
         // 记住我模式
-        if (param.getRememberMe()) {
+        if (loginDTO.getRememberMe()) {
             StpUtil.login(sysUser.getId(), new SaLoginModel().setTimeout(3600 * 24 * 365));
         } else {
             StpUtil.login(sysUser.getId());
@@ -199,6 +201,11 @@ public class SysUserServiceImpl implements SysUserService {
         sqlToyLazyDao.update(loginSysUser);
         // 保存登录日志
         sysLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
+        // 删除缓存
+        if (StrUtil.isNotBlank(key)) {
+            redisService.delete(key);
+        }
+        return StpUtil.getTokenValue();
     }
 
     @Override

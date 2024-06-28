@@ -14,12 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -87,6 +87,12 @@ public class GlobalExceptionInterceptor {
         logger.error(">>>>> 角色未知异常: {}", e.getMessage());
         saveLog();
         return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ApiResult<?> handlerMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+        logger.error(">>>>> 参数缺失异常: {}", ex.getMessage());
+        return ApiResult.error(ApiResultEnum.MISSING_REQUEST_PARAMETER.getCode(), ApiResultEnum.MISSING_REQUEST_PARAMETER.getDesc());
     }
 
     private void saveLog() {
