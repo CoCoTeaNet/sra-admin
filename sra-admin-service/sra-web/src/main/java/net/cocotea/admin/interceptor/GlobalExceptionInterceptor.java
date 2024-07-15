@@ -99,12 +99,12 @@ public class GlobalExceptionInterceptor {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
             HttpServletRequest request = requestAttributes.getRequest();
-            logger.info(">>>>>>>>>>>>>>>>>>> 异常日志打印");
+            logger.info("saveLog >>>>> 异常日志打印");
             logger.info("请求IP：{}, 请求地址：{}, 请求方式：{}", request.getRemoteAddr(), request.getRequestURL().toString(), request.getMethod());
             // 保存登录日志与操作日志,如果没有登录不去保存
             sysLogService.saveErrorLog(request);
         } else {
-            logger.error(">>>>> ServletRequestAttributes is null");
+            logger.error("saveLog >>>>> ServletRequestAttributes is null");
         }
     }
 }
