@@ -48,7 +48,7 @@ import java.util.List;
 @RequestMapping("/system/file")
 @RestController
 public class SysFileController {
-    private final Logger logger = LoggerFactory.getLogger(SysFileController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysFileController.class);
 
     @Resource
     private FileProp fileProp;
