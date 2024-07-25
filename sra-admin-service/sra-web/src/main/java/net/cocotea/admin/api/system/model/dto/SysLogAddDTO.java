@@ -42,6 +42,11 @@ public class SysLogAddDTO {
     private Integer logType;
 
     /**
+     *  接口路径
+     */
+    private String apiPath;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

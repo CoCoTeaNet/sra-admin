@@ -36,8 +36,8 @@ public class SysLogServiceImpl implements SysLogService {
     private DefaultProp defaultProp;
 
     @Override
-    public boolean add(SysLogAddDTO param) throws BusinessException {
-        SysLog sysOperationLog = Convert.convert(SysLog.class, param);
+    public boolean add(SysLogAddDTO sysLogAddDTO) throws BusinessException {
+        SysLog sysOperationLog = BeanUtil.toBean(sysLogAddDTO, SysLog.class);
         Object save = sqlToyHelperDao.save(sysOperationLog);
         return save != null;
     }
@@ -71,12 +71,13 @@ public class SysLogServiceImpl implements SysLogService {
     @Override
     public void saveByLogType(Integer logType, HttpServletRequest request) throws BusinessException {
         if (defaultProp.getSaveLog()) {
-            SysLogAddDTO sysLogAddDTO = new SysLogAddDTO();
-            sysLogAddDTO.setIpAddress(IpUtils.getIp(request));
-            sysLogAddDTO.setLogType(logType);
-            sysLogAddDTO.setRequestWay(request.getMethod());
-            sysLogAddDTO.setOperator(LoginUtils.loginId());
-            sysLogAddDTO.setLogStatus(LogStatusEnum.SUCCESS.getCode());
+            SysLogAddDTO sysLogAddDTO = new SysLogAddDTO()
+                    .setApiPath(request.getRequestURI())
+                    .setIpAddress(IpUtils.getIp(request))
+                    .setLogType(logType)
+                    .setRequestWay(request.getMethod())
+                    .setOperator(LoginUtils.loginId())
+                    .setLogStatus(LogStatusEnum.SUCCESS.getCode());
             add(sysLogAddDTO);
         }
     }
@@ -84,12 +85,13 @@ public class SysLogServiceImpl implements SysLogService {
     @Override
     public void saveErrorLog(HttpServletRequest request) {
         if (StpUtil.isLogin() && defaultProp.getSaveLog()) {
-            SysLogAddDTO sysLogAddDTO = new SysLogAddDTO();
-            sysLogAddDTO.setIpAddress(IpUtils.getIp(request));
-            sysLogAddDTO.setLogType(LogTypeEnum.OPERATION.getCode());
-            sysLogAddDTO.setRequestWay(request.getMethod());
-            sysLogAddDTO.setOperator(LoginUtils.loginId());
-            sysLogAddDTO.setLogStatus(LogStatusEnum.ERROR.getCode());
+            SysLogAddDTO sysLogAddDTO = new SysLogAddDTO()
+                    .setApiPath(request.getRequestURI())
+                    .setIpAddress(IpUtils.getIp(request))
+                    .setRequestWay(request.getMethod())
+                    .setOperator(LoginUtils.loginId())
+                    .setLogType(LogTypeEnum.OPERATION.getCode())
+                    .setLogStatus(LogStatusEnum.ERROR.getCode());
             try {
                 add(sysLogAddDTO);
             } catch (BusinessException e) {

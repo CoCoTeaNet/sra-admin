@@ -9,6 +9,7 @@ import org.sagacity.sqltoy.config.annotation.Column;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class SysLog implements Serializable {
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1755081321604283045L;
 /*---begin-auto-generate-don't-update-this-area--*/	
 
@@ -47,6 +49,9 @@ public class SysLog implements Serializable {
 
 	@Column(name="log_type",comment="日志类型：1登录 2操作 ",length=3L,type=java.sql.Types.TINYINT,nullable=true)
 	private Integer logType;
+
+	@Column(name="api_path",comment="接口请求路径",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String apiPath;
 
 	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime createTime;

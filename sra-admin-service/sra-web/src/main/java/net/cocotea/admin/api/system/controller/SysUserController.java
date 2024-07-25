@@ -9,6 +9,7 @@ import net.cocotea.admin.api.system.model.dto.SysUserPageDTO;
 import net.cocotea.admin.api.system.model.dto.SysUserUpdateDTO;
 import net.cocotea.admin.api.system.model.vo.SysUserVO;
 import net.cocotea.admin.api.system.service.SysUserService;
+import net.cocotea.admin.common.annotation.LogPersistence;
 import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
@@ -38,6 +39,7 @@ public class SysUserController {
      * @param addDTO {@link SysUserAddDTO}
      * @return 成功返回TRUE
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")
     public ApiResult<Boolean> add(@Valid @RequestBody SysUserAddDTO addDTO) throws BusinessException {
@@ -64,6 +66,7 @@ public class SysUserController {
      * @param id 用户ID
      * @return 成功返回TRUE
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
     public ApiResult<Boolean> delete(@PathVariable("id") BigInteger id) throws BusinessException {

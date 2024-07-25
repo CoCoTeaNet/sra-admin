@@ -2,28 +2,36 @@ package net.cocotea.admin.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.text.CharPool;
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.cocotea.admin.api.system.model.dto.SysLogAddDTO;
 import net.cocotea.admin.api.system.service.SysLogService;
+import net.cocotea.admin.common.annotation.LogPersistence;
 import net.cocotea.admin.common.constant.RedisKeyConst;
+import net.cocotea.admin.common.enums.LogStatusEnum;
 import net.cocotea.admin.common.enums.LogTypeEnum;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.service.RedisService;
 import net.cocotea.admin.common.util.IpUtils;
 import net.cocotea.admin.properties.DefaultProp;
+import net.cocotea.admin.util.LoginUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.math.BigInteger;
 
 @Component
 public class WebApiInterceptor implements HandlerInterceptor {
-    private final Logger logger = LoggerFactory.getLogger(WebApiInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebApiInterceptor.class);
 
     @Resource
     private RedisService redisService;
@@ -66,9 +74,7 @@ public class WebApiInterceptor implements HandlerInterceptor {
             }
         }
         // 保存登录日志与操作日志,如果没有登录不去保存
-        if (StpUtil.isLogin()) {
-            sysLogService.saveByLogType(LogTypeEnum.OPERATION.getCode(), request);
-        }
+        saveSystemLog(request, handler);
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
@@ -93,6 +99,45 @@ public class WebApiInterceptor implements HandlerInterceptor {
             }
         }
         return flag;
+    }
+
+    /**
+     * 保存用户请求日志
+     *
+     * @param request {@link HttpServletRequest}
+     * @param handler {@link HandlerMethod}
+     */
+    private void saveSystemLog(HttpServletRequest request, Object handler) throws BusinessException {
+        if (!defaultProp.getSaveLog()) {
+            logger.warn("saveSystemLog >>>>> saveLog is not enable, sra-admin.save-log: false");
+            return;
+        }
+        if (!(handler instanceof HandlerMethod method)) {
+            logger.warn("saveSystemLog >>>>> is not HandlerMethod");
+            return;
+        }
+        LogPersistence logPersistence = method.getMethodAnnotation(LogPersistence.class);
+        if (logPersistence == null) {
+            logger.debug("saveSystemLog >>>>> LogPersistence is null");
+            return;
+        }
+        if (logPersistence.logType() != LogTypeEnum.OPERATION.getCode()) {
+            logger.warn("saveSystemLog >>>>> is not LogTypeEnum.OPERATION");
+            return;
+        }
+        BigInteger loginId = LoginUtils.loginId();
+        if (loginId == null) {
+            logger.warn("saveSystemLog >>>>> is not login");
+            return;
+        }
+        SysLogAddDTO sysLogAddDTO = new SysLogAddDTO()
+                .setIpAddress(IpUtils.getIp(request))
+                .setRequestWay(request.getMethod())
+                .setApiPath(request.getRequestURI())
+                .setLogType(logPersistence.logType())
+                .setOperator(loginId)
+                .setLogStatus(LogStatusEnum.SUCCESS.getCode());
+        ThreadUtil.execAsync(() -> sysLogService.add(sysLogAddDTO));
     }
 
     /**
