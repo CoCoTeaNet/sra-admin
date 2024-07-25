@@ -6,6 +6,7 @@
 - 新增：系统日志添加@LogPersistence注解拦截存储
 - 优化：系统日志查询列表默认根据id倒叙
 - 优化：创建Logger实例增加static关键词
+- 变更：初始化脚本变成ddl+data两个文件（PS：table_ddl.sql是表结构）
 
 
 #### v2.0.4

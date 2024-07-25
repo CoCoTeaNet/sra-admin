@@ -1,7 +1,7 @@
 ﻿## 介绍
 SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常用的工具包以及核心框架，实现了用户、字典、角色、权限等常见功能，
 能够快速搭建一个web项目。  
-后端技术栈：springboot+sqltoy+satoken+hutool  
+后端技术栈：springboot3+sqltoy+satoken+hutool  
 前端技术栈：vue3+vue-router+typescript+elementui
 
 
@@ -11,8 +11,8 @@ SRA-ADMIN 是一个前后端分离的后台管理系统，引入了市面上常�
 
 ## 附加仓库
 - sra-admin-vue（前端项目，基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
-- sra-admin-v1（第一版）：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 - sra-admin-solon：https://gitee.com/momoljw/sra-admin-solon
+- sra-admin-v1（第一版）：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 
 
 ## 应用场景
