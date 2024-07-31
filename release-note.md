@@ -7,6 +7,7 @@
 - 新增：添加全局HttpRequestMethodNotSupportedException异常拦截
 - 优化：系统操作日志列表接口-屏蔽多余参数
 - 优化：补充系统操作日志列表接口VO字段注释
+- 优化：减少在线用户续期IO
 
 
 #### v2.0.5
