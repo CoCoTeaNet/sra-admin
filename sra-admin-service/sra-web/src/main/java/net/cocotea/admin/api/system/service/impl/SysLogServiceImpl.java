@@ -72,7 +72,7 @@ public class SysLogServiceImpl implements SysLogService {
         Page<SysLogVO> logVOPage = ApiPage.create(pageDTO);
         Page<SysLogVO> page = lightDao.findPage(logVOPage, "sys_log_JOIN_findList", sysLogMap, SysLogVO.class);
 
-        return ApiPage.rest(page, SysLogVO.class);
+        return ApiPage.rest(page);
     }
 
     @Async
