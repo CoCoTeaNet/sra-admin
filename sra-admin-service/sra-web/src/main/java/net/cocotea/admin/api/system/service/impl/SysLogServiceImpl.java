@@ -17,6 +17,7 @@ import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.util.IpUtils;
 import net.cocotea.admin.properties.DefaultProp;
 import net.cocotea.admin.util.LoginUtils;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ import java.util.Map;
 public class SysLogServiceImpl implements SysLogService {
     @Resource
     private SqlToyHelperDao sqlToyHelperDao;
+
+    @Resource
+    private LightDao lightDao;
 
     @Resource
     private DefaultProp defaultProp;
@@ -61,9 +65,13 @@ public class SysLogServiceImpl implements SysLogService {
     @Override
     public ApiPage<SysLogVO> listByPage(SysLogPageDTO pageDTO) throws BusinessException {
         String operator = pageDTO.getSysLog().getOperator();
+
         Map<String, Object> sysLogMap = BeanUtil.beanToMap(pageDTO.getSysLog());
         sysLogMap.put("operator", operator);
-        Page<SysLogVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_log_JOIN_findList", sysLogMap, SysLogVO.class);
+
+        Page<SysLogVO> logVOPage = ApiPage.create(pageDTO);
+        Page<SysLogVO> page = lightDao.findPage(logVOPage, "sys_log_JOIN_findList", sysLogMap, SysLogVO.class);
+
         return ApiPage.rest(page, SysLogVO.class);
     }
 

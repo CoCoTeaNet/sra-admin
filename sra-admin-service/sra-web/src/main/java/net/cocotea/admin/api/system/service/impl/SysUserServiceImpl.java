@@ -27,6 +27,7 @@ import net.cocotea.admin.common.util.TreeBuilder;
 import net.cocotea.admin.properties.DefaultProp;
 import net.cocotea.admin.util.LoginUtils;
 import net.cocotea.admin.util.SecurityUtils;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.utils.StringUtil;

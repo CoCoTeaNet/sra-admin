@@ -14,6 +14,8 @@
                      left join sys_user b on (a.operator = b.id)
             where 1=1
             #[and a.id = :id]
+            #[and a.request_way = :requestWay]
+            #[and a.api_path = :apiPath]
             #[and b.username like :operator]
             #[and b.nickname like :operator]
             order by a.id desc

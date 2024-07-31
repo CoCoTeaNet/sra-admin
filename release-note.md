@@ -1,6 +1,14 @@
 ## 更新日志
 
 
+#### v2.0.6
+- 新增：ApiPage模型增加create方法创建Sqltoy的Page对象
+- 新增：ApiPageDTO基础分页模型
+- 新增：添加全局HttpRequestMethodNotSupportedException异常拦截
+- 优化：系统操作日志列表接口-屏蔽多余参数
+- 优化：补充系统操作日志列表接口VO字段注释
+
+
 #### v2.0.5
 - 新增：系统日志添加‘接口路径’保存字段
 - 新增：系统日志添加@LogPersistence注解拦截存储
