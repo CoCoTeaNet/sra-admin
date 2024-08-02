@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import jakarta.validation.Valid;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryAddDTO;
-import net.cocotea.admin.api.system.model.dto.SysDictionaryPageDTO;
+import net.cocotea.admin.api.system.model.dto.SysDictionaryTreeDTO;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryUpdateDTO;
 import net.cocotea.admin.api.system.model.vo.SysDictionaryVO;
 import net.cocotea.admin.api.system.service.SysDictionaryService;
@@ -75,15 +75,15 @@ public class SysDictionaryController {
     }
 
     /**
-     * 分页获取字典树形列表
+     * 获取字典树形列表
      *
-     * @param dictionaryPageDTO {@link SysDictionaryPageDTO}
+     * @param sysDictionaryTreeDTO {@link SysDictionaryTreeDTO}
      * @return {@link SysDictionaryVO}
      */
     @PostMapping("/listByTree")
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    public ApiResult<List<SysDictionaryVO>> listByTree(@Valid @RequestBody SysDictionaryPageDTO dictionaryPageDTO) {
-        List<SysDictionaryVO> list = sysDictionaryService.listByTree(dictionaryPageDTO);
+    public ApiResult<List<SysDictionaryVO>> listByTree(@Valid @RequestBody SysDictionaryTreeDTO sysDictionaryTreeDTO) {
+        List<SysDictionaryVO> list = sysDictionaryService.listByTree(sysDictionaryTreeDTO);
         return ApiResult.ok(list);
     }
 }

@@ -2,6 +2,7 @@ package net.cocotea.admin.api.system.service;
 
 import net.cocotea.admin.api.system.model.dto.SysDictionaryAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryPageDTO;
+import net.cocotea.admin.api.system.model.dto.SysDictionaryTreeDTO;
 import net.cocotea.admin.api.system.model.dto.SysDictionaryUpdateDTO;
 import net.cocotea.admin.api.system.model.vo.SysDictionaryVO;
 import net.cocotea.admin.common.model.ApiPage;
@@ -21,5 +22,5 @@ public interface SysDictionaryService extends BaseService<ApiPage<SysDictionaryV
      * @param param 分页参数
      * @return 分页对象
      */
-    List<SysDictionaryVO> listByTree(SysDictionaryPageDTO param);
+    List<SysDictionaryVO> listByTree(SysDictionaryTreeDTO param);
 }
