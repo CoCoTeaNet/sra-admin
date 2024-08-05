@@ -81,14 +81,4 @@ public class SysFileVO implements Serializable {
 	 */
 	private Integer isShare;
 
-	/**
-	 * 开始时间
-	 */
-	private LocalDateTime beginTime;
-
-	/**
-	 * 结束时间
-	 */
-	private LocalDateTime endTime;
-
 }
