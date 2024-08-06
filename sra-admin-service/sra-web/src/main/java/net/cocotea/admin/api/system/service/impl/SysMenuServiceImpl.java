@@ -1,12 +1,15 @@
 package net.cocotea.admin.api.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.text.CharPool;
 import cn.hutool.json.JSONUtil;
+import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
 import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
 import net.cocotea.admin.api.system.model.dto.SysMenuAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuPageDTO;
+import net.cocotea.admin.api.system.model.dto.SysMenuTreeDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuUpdateDTO;
 import net.cocotea.admin.api.system.model.po.SysMenu;
 import net.cocotea.admin.api.system.model.po.SysRoleMenu;
@@ -19,6 +22,7 @@ import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.service.RedisService;
 import net.cocotea.admin.common.util.TreeBuilder;
 import net.cocotea.admin.util.LoginUtils;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.utils.StringUtil;
 import org.slf4j.Logger;
@@ -29,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.annotation.Resource;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +46,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Resource
     private SqlToyHelperDao sqlToyHelperDao;
+
+    @Resource
+    private LightDao lightDao;
 
     @Resource
     private RedisService redisService;
@@ -68,14 +76,16 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public ApiPage<SysMenuVO> listByPage(SysMenuPageDTO pageDTO) {
-        Page<SysMenu> page = sqlToyHelperDao.findPage(baseQueryWrapper(pageDTO.getPO()), new Page<SysMenu>());
+        Map<String, Object> map = BeanUtil.beanToMap(pageDTO.getSysMenu());
+        Page<Object> fastPage = ApiPage.create(pageDTO);
+        Page<SysMenu> page = lightDao.findPage(fastPage, "sys_menu_findList", map, SysMenu.class);
         return ApiPage.rest(page, SysMenuVO.class);
     }
 
     @Override
-    public List<SysMenuVO> listByTree(SysMenuPageDTO pageDTO) {
-        LambdaQueryWrapper<SysMenu> wrapper = baseQueryWrapper(pageDTO.getPO());
-        List<SysMenuVO> list = Convert.toList(SysMenuVO.class, sqlToyHelperDao.findList(wrapper));
+    public List<SysMenuVO> listByTree(SysMenuTreeDTO treeDTO) {
+        Map<String, Object> map = BeanUtil.beanToMap(treeDTO);
+        List<SysMenuVO> list = lightDao.find("sys_menu_findList", map, SysMenuVO.class);
         return new TreeBuilder<SysMenuVO>().get(list);
     }
 
@@ -175,22 +185,11 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
-    public List<SysMenuVO> listByTreeAsRoleSelection(SysMenuPageDTO pageDTO) {
-        List<SysMenu> list = sqlToyHelperDao.findList(baseQueryWrapper(pageDTO.getPO()));
+    public List<SysMenuVO> listByTreeAsRoleSelection(SysMenuTreeDTO treeDTO) {
+        Map<String, Object> map = BeanUtil.beanToMap(treeDTO);
+        List<SysMenu> list = lightDao.find("sys_menu_findList", map, SysMenu.class);
         List<SysMenuVO> sysMenuVOList = Convert.toList(SysMenuVO.class, list);
         return new TreeBuilder<SysMenuVO>().get(sysMenuVOList);
-    }
-
-    private LambdaQueryWrapper<SysMenu> baseQueryWrapper(SysMenu sysMenu) {
-        return new LambdaQueryWrapper<>(SysMenu.class)
-                .select()
-                .eq(SysMenu::getIsDeleted, IsEnum.N.getCode())
-                .eq(SysMenu::getIsMenu, sysMenu.getIsMenu())
-                .eq(SysMenu::getPermissionCode, sysMenu.getPermissionCode())
-                .like(SysMenu::getMenuName, sysMenu.getMenuName())
-                .eq(SysMenu::getMenuStatus, sysMenu.getMenuStatus())
-                .orderByDesc(SysMenu::getSort)
-                .orderByDesc(SysMenu::getId);
     }
 
 }
