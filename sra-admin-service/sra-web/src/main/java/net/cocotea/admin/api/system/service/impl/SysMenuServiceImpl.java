@@ -187,9 +187,8 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public List<SysMenuVO> listByTreeAsRoleSelection(SysMenuTreeDTO treeDTO) {
         Map<String, Object> map = BeanUtil.beanToMap(treeDTO);
-        List<SysMenu> list = lightDao.find("sys_menu_findList", map, SysMenu.class);
-        List<SysMenuVO> sysMenuVOList = Convert.toList(SysMenuVO.class, list);
-        return new TreeBuilder<SysMenuVO>().get(sysMenuVOList);
+        List<SysMenuVO> list = lightDao.find("sys_menu_findList", map, SysMenuVO.class);
+        return new TreeBuilder<SysMenuVO>().get(list);
     }
 
 }
