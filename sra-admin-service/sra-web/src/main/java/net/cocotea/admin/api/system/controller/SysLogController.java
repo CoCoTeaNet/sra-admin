@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/log")
 public class SysLogController {
+
     @Resource
     private SysLogService sysLogService;
 

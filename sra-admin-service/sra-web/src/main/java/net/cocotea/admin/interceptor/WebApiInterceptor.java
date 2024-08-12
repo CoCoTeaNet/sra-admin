@@ -49,7 +49,7 @@ public class WebApiInterceptor implements HandlerInterceptor {
         boolean staticApi = isStaticApi(requestURL);
         // 打印请求内容
         logger.info(
-                "### 请求IP：{}，请求地址：{}，请求方式，{}，请求方法：{}，是否静态地址：{}",
+                "preHandle >>> 请求IP：{}，请求地址：{}，请求方式，{}，请求方法：{}，是否静态地址：{}",
                 request.getRemoteAddr(),
                 requestURL,
                 request.getMethod(),
@@ -68,10 +68,11 @@ public class WebApiInterceptor implements HandlerInterceptor {
         }
         // 在线用户续期
         if (StpUtil.isLogin()) {
-            if (StrUtil.isBlank(redisService.get(RedisKeyConst.ONLINE_USER))) {
-                String loginId = String.valueOf(StpUtil.getLoginId());
-                redisService.save(String.format(RedisKeyConst.ONLINE_USER, loginId), loginId, 30L);
-            }
+            String loginId = String.valueOf(StpUtil.getLoginId());
+            ThreadUtil.execAsync(() -> {
+                String key = String.format(RedisKeyConst.ONLINE_USER, loginId);
+                redisService.save(key, loginId, 30L);
+            });
         }
         // 保存登录日志与操作日志,如果没有登录不去保存
         saveSystemLog(request, handler);

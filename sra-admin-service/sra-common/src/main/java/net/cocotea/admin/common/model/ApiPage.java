@@ -74,4 +74,11 @@ public class ApiPage<T> {
         return new ApiPage<>(page, elementType);
     }
 
+    public static <T> Page<T> create(ApiPageDTO pageDTO) {
+        Page<T> page = new Page<>();
+        page.setPageNo(pageDTO.getPageNo());
+        page.setPageSize(pageDTO.getPageSize());
+        return page;
+    }
+
 }

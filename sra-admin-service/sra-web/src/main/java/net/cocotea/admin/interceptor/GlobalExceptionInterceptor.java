@@ -13,6 +13,7 @@ import net.cocotea.admin.common.model.NotLogException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +41,11 @@ public class GlobalExceptionInterceptor {
         logger.error(">>>>> Exception msg:{}", ex.getMessage(), ex);
         saveLog();
         return ApiResult.error("系统异常，请联系管理员~");
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ApiResult<?> handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        return ApiResult.error(ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
