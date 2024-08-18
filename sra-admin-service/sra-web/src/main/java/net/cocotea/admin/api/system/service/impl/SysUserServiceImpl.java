@@ -135,18 +135,19 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public ApiPage<SysUserVO> listByPage(SysUserPageDTO param) {
+    public ApiPage<SysUserVO> listByPage(SysUserPageDTO pageDTO) {
         // 系统用户查询条件
         LambdaQueryWrapper<SysUser> userWrapper = Wrappers.lambdaWrapper(SysUser.class)
                 .select()
-                .like(SysUser::getNickname, param.getSysUser().getNickname())
-                .like(SysUser::getUsername, param.getSysUser().getUsername())
-                .eq(SysUser::getSex, param.getSysUser().getSex())
-                .eq(SysUser::getMobilePhone, param.getSysUser().getMobilePhone())
-                .eq(SysUser::getAccountStatus, param.getSysUser().getAccountStatus())
+                .like(SysUser::getNickname, pageDTO.getSysUser().getNickname())
+                .like(SysUser::getUsername, pageDTO.getSysUser().getUsername())
+                .like(SysUser::getEmail, pageDTO.getSysUser().getEmail())
+                .like(SysUser::getMobilePhone, pageDTO.getSysUser().getMobilePhone())
+                .eq(SysUser::getSex, pageDTO.getSysUser().getSex())
+                .eq(SysUser::getAccountStatus, pageDTO.getSysUser().getAccountStatus())
                 .eq(SysUser::getIsDeleted, IsEnum.N.getCode())
                 .orderByDesc(SysUser::getId);
-        Page<SysUser> page = sqlToyHelperDao.findPage(userWrapper, new Page<>(param.getPageSize(), param.getPageNo()));
+        Page<SysUser> page = sqlToyHelperDao.findPage(userWrapper, new Page<>(pageDTO.getPageSize(), pageDTO.getPageNo()));
         List<SysUserVO> voList = new ArrayList<>(page.getRows().size());
         page.getRows().forEach(row -> {
             SysUserVO vo = Convert.convert(SysUserVO.class, row);

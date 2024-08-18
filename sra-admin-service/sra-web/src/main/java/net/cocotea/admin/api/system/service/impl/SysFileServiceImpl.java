@@ -15,6 +15,7 @@ import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.properties.FileProp;
 import net.cocotea.admin.util.LoginUtils;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,9 @@ public class SysFileServiceImpl implements SysFileService {
 
     @Resource
     private SqlToyHelperDao sqlToyHelperDao;
+
+    @Resource
+    private LightDao lightDao;
 
     @Resource
     private FileProp fileProp;
@@ -71,8 +75,9 @@ public class SysFileServiceImpl implements SysFileService {
     public ApiPage<SysFileVO> listByPage(SysFilePageDTO pageDTO) {
         Map<String, Object> sysFileMap = BeanUtil.beanToMap(pageDTO.getSysFile());
         sysFileMap.put("userId", LoginUtils.loginId());
-        Page<SysFileVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_file_JOIN_findList", sysFileMap, SysFileVO.class);
-        return ApiPage.rest(page, SysFileVO.class);
+
+        Page<SysFileVO> page = lightDao.findPage(ApiPage.create(pageDTO), "sys_file_JOIN_findList", sysFileMap, SysFileVO.class);
+        return ApiPage.rest(page);
     }
 
     @Override

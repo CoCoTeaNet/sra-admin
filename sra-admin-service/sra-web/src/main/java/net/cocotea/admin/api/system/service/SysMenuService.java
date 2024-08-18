@@ -2,6 +2,7 @@ package net.cocotea.admin.api.system.service;
 
 import net.cocotea.admin.api.system.model.dto.SysMenuAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuPageDTO;
+import net.cocotea.admin.api.system.model.dto.SysMenuTreeDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuUpdateDTO;
 import net.cocotea.admin.api.system.model.vo.SysMenuVO;
 import net.cocotea.admin.common.model.ApiPage;
@@ -21,7 +22,7 @@ public interface SysMenuService extends BaseService<ApiPage<SysMenuVO>, SysMenuP
      * @param pageParam 分页参数
      * @return 分页结果集
      */
-    List<SysMenuVO> listByTree(SysMenuPageDTO param);
+    List<SysMenuVO> listByTree(SysMenuTreeDTO menuTreeDTO);
 
     /**
      * 获取用户的所有菜单
@@ -61,5 +62,5 @@ public interface SysMenuService extends BaseService<ApiPage<SysMenuVO>, SysMenuP
      * @param pageDTO {@linkplain SysMenuPageDTO}
      * @return {@link SysMenuVO}
      */
-    List<SysMenuVO> listByTreeAsRoleSelection(SysMenuPageDTO pageDTO);
+    List<SysMenuVO> listByTreeAsRoleSelection(SysMenuTreeDTO menuTreeDTO);
 }

@@ -99,7 +99,8 @@ public class SysRoleServiceImpl implements SysRoleService {
                 .select(SysRole::getId).select(SysRole::getRoleName).select(SysRole::getRoleKey)
                 .in(SysRole::getId, roleIds)
                 .eq(SysRole::getIsDeleted, IsEnum.N.getCode());
-        return Convert.toList(SysRoleVO.class, sqlToyHelperDao.findList(roleWrapper));
+        List<SysRole> list = sqlToyHelperDao.findList(roleWrapper);
+        return Convert.toList(SysRoleVO.class, list);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -115,13 +116,13 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public ApiPage<SysRoleVO> listByPage(SysRolePageDTO param) {
+    public ApiPage<SysRoleVO> listByPage(SysRolePageDTO pageDTO) {
         LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>(SysRole.class)
                 .select()
                 .eq(SysRole::getIsDeleted, IsEnum.N.getCode())
-                .like(SysRole::getRoleName, param.getSysRole().getRoleName())
-                .like(SysRole::getRoleKey, param.getSysRole().getRoleKey())
-                .like(SysRole::getRemark, param.getSysRole().getRemark())
+                .like(SysRole::getRoleName, pageDTO.getSysRole().getRoleName())
+                .like(SysRole::getRoleKey, pageDTO.getSysRole().getRoleKey())
+                .like(SysRole::getRemark, pageDTO.getSysRole().getRemark())
                 .orderByDesc(SysRole::getSort)
                 .orderByDesc(SysRole::getId);
         Page<SysRole> page = sqlToyHelperDao.findPage(wrapper, new Page<SysRole>());

@@ -11,19 +11,25 @@ import net.cocotea.admin.api.system.model.vo.SysVersionVO;
 import net.cocotea.admin.api.system.service.SysVersionService;
 import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.model.BusinessException;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.Resource;
+
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class SysVersionServiceImpl implements SysVersionService {
+
     @Resource
     private SqlToyHelperDao sqlToyHelperDao;
+
+    @Resource
+    private LightDao lightDao;
 
     @Override
     public boolean add(SysVersionAddDTO param) throws BusinessException {
@@ -51,8 +57,8 @@ public class SysVersionServiceImpl implements SysVersionService {
     @Override
     public ApiPage<SysVersionVO> listByPage(SysVersionPageDTO pageDTO) throws BusinessException {
         Map<String, Object> map = BeanUtil.beanToMap(pageDTO.getSysVersion());
-        Page<SysVersionVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "sys_version_findList", map, SysVersionVO.class);
-        return ApiPage.rest(page, SysVersionVO.class);
+        Page<SysVersionVO> page = lightDao.findPage(ApiPage.create(pageDTO), "sys_version_findList", map, SysVersionVO.class);
+        return ApiPage.rest(page);
     }
 
     @Override

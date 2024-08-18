@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import net.cocotea.admin.api.system.model.dto.SysMenuAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuPageDTO;
+import net.cocotea.admin.api.system.model.dto.SysMenuTreeDTO;
 import net.cocotea.admin.api.system.model.dto.SysMenuUpdateDTO;
 import net.cocotea.admin.api.system.model.vo.SysMenuVO;
 import net.cocotea.admin.api.system.service.SysMenuService;
@@ -90,7 +91,7 @@ public class SysMenuController {
      */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTree")
-    public ApiResult<List<SysMenuVO>> listByTree(@Valid @RequestBody SysMenuPageDTO pageDTO) {
+    public ApiResult<List<SysMenuVO>> listByTree(@Valid @RequestBody SysMenuTreeDTO pageDTO) {
         List<SysMenuVO> menus = sysMenuService.listByTree(pageDTO);
         return ApiResult.ok(menus);
     }
@@ -103,7 +104,7 @@ public class SysMenuController {
      */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("listByTreeAsRoleSelection")
-    public ApiResult<List<SysMenuVO>> listByTreeAsRoleSelection(@Valid @RequestBody SysMenuPageDTO pageDTO) {
+    public ApiResult<List<SysMenuVO>> listByTreeAsRoleSelection(@Valid @RequestBody SysMenuTreeDTO pageDTO) {
         List<SysMenuVO> menus = sysMenuService.listByTreeAsRoleSelection(pageDTO);
         return ApiResult.ok(menus);
     }
