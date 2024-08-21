@@ -1,6 +1,16 @@
 ## 更新日志
 
 
+#### v2.0.7
+- 变更：springmvc默认的Tomcat容器改成Undertow
+- 变更：spring-boot-starter升级至3.3.2
+- 变更：sqltoy框架升级至5.6.20
+- 变更：hutool框架升级到5.8.31
+- 变更：bouncycastle升级到1.78
+- 变更：mysql-connector升级到8.3.0
+- 变更：logback升级到1.5.6
+
+
 #### v2.0.6
 - 新增：ApiPage模型增加create方法创建sqltoy的Page对象
 - 新增：ApiPageDTO基础分页模型

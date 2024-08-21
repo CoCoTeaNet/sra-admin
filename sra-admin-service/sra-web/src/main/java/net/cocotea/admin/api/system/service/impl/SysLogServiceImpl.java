@@ -2,7 +2,6 @@ package net.cocotea.admin.api.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
 import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
 import net.cocotea.admin.api.system.model.dto.SysLogAddDTO;
 import net.cocotea.admin.api.system.model.dto.SysLogPageDTO;
@@ -14,7 +13,7 @@ import net.cocotea.admin.common.enums.LogStatusEnum;
 import net.cocotea.admin.common.enums.LogTypeEnum;
 import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.model.BusinessException;
-import net.cocotea.admin.common.util.IpUtils;
+import net.cocotea.admin.util.IpUtils;
 import net.cocotea.admin.properties.DefaultProp;
 import net.cocotea.admin.util.LoginUtils;
 import org.sagacity.sqltoy.dao.LightDao;
