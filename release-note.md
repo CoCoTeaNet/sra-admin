@@ -9,6 +9,7 @@
 - 变更：bouncycastle升级到1.78
 - 变更：mysql-connector升级到8.3.0
 - 变更：logback升级到1.5.6
+- 优化：Maven打包时指定includeScope为runtime（排除测试时的依赖，降低lib体积）
 
 
 #### v2.0.6
