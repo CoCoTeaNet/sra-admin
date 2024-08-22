@@ -7,7 +7,7 @@
     <groupId>net.cocotea</groupId>
     <artifactId>sra-admin-service</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
 
     <modules>
         <module>sra-web</module>
@@ -17,22 +17,24 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <skipTests>true</skipTests>
         <!-- 内部模块版本 -->
-        <sra-admin.version>2.0.6</sra-admin.version>
+        <sra-admin.version>2.0.7</sra-admin.version>
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
-        <spring-boot-starter.version>3.2.5</spring-boot-starter.version>
-        <logback-classic.version>1.4.12</logback-classic.version>
-        <sqltoy.version>5.6.9</sqltoy.version>
-        <mysql-connector.version>8.0.33</mysql-connector.version>
+        <springboot3.version>3.3.2</springboot3.version>
+        <logback.version>1.5.6</logback.version>
+        <sqltoy.version>5.6.20</sqltoy.version>
+        <sqltoy-plus.version>5.6.16</sqltoy-plus.version>
+        <mysql-connector.version>8.3.0</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.37.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <hutool.version>5.8.25</hutool.version>
-        <hutool-oshi.version>5.6.1</hutool-oshi.version>
+        <hutool.version>5.8.31</hutool.version>
+        <oshi.version>5.6.1</oshi.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
-        <bouncycastle.version>1.69</bouncycastle.version>
+        <bouncycastle.version>1.78</bouncycastle.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -51,29 +53,37 @@
                 <artifactId>sra-common</artifactId>
                 <version>${sra-admin.version}</version>
             </dependency>
+
             <!-- 插件使用 -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-            <!-- 外部框架 -->
-            <!-- springboot -->
+
+            <!-- 外部依赖框架 -->
+            <!-- springboot3 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot-starter.version}</version>
+                <version>${springboot3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-undertow</artifactId>
+                <version>${springboot3.version}</version>
             </dependency>
             <!-- 字段传参校验框架 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
-                <version>${spring-boot-starter.version}</version>
+                <version>${springboot3.version}</version>
             </dependency>
+            <!-- 日志框架 -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${logback-classic.version}</version>
+                <version>${logback.version}</version>
             </dependency>
             <!-- sqltoy spring boot starter -->
             <dependency>
@@ -84,7 +94,7 @@
             <dependency>
                 <groupId>com.sagframe</groupId>
                 <artifactId>sqltoy-plus-core</artifactId>
-                <version>${sqltoy.version}</version>
+                <version>${sqltoy-plus.version}</version>
             </dependency>
             <!-- Sa-Token 权限认证-->
             <dependency>
@@ -100,8 +110,8 @@
             </dependency>
             <!-- mysql连接器 -->
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql-connector.version}</version>
                 <scope>runtime</scope>
             </dependency>
@@ -126,7 +136,7 @@
             <dependency>
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
-                <version>${hutool-oshi.version}</version>
+                <version>${oshi.version}</version>
             </dependency>
             <!-- 轻量级密码术包 -->
             <dependency>
@@ -144,7 +154,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${spring-boot-starter.version}</version>
+                <version>${springboot3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,4 +1,4 @@
-package net.cocotea.admin.common.util;
+package net.cocotea.admin.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 

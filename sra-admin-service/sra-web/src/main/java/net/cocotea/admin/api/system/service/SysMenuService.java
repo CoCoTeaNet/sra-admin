@@ -59,7 +59,7 @@ public interface SysMenuService extends BaseService<ApiPage<SysMenuVO>, SysMenuP
     /**
      * 通关角色获取菜单下拉选项
      *
-     * @param pageDTO {@linkplain SysMenuPageDTO}
+     * @param menuTreeDTO {@linkplain SysMenuTreeDTO}
      * @return {@link SysMenuVO}
      */
     List<SysMenuVO> listByTreeAsRoleSelection(SysMenuTreeDTO menuTreeDTO);
