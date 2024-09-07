@@ -17,7 +17,7 @@ import net.cocotea.admin.common.model.ApiPage;
 import net.cocotea.admin.common.model.ApiResult;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.model.FileInfo;
-import net.cocotea.admin.common.util.FileUploadUtils;
+import net.cocotea.admin.util.FileUploadUtils;
 import net.cocotea.admin.properties.FileProp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

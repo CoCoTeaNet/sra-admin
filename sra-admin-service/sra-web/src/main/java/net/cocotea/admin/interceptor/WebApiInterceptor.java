@@ -16,7 +16,7 @@ import net.cocotea.admin.common.enums.LogStatusEnum;
 import net.cocotea.admin.common.enums.LogTypeEnum;
 import net.cocotea.admin.common.model.BusinessException;
 import net.cocotea.admin.common.service.RedisService;
-import net.cocotea.admin.common.util.IpUtils;
+import net.cocotea.admin.util.IpUtils;
 import net.cocotea.admin.properties.DefaultProp;
 import net.cocotea.admin.util.LoginUtils;
 import org.slf4j.Logger;

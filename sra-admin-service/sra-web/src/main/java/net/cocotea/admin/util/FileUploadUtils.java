@@ -1,4 +1,4 @@
-package net.cocotea.admin.common.util;
+package net.cocotea.admin.util;
 
 import cn.hutool.core.text.CharPool;
 import cn.hutool.core.util.IdUtil;
@@ -81,39 +81,6 @@ public class FileUploadUtils {
         }
         return fileInfo;
     }
-
-    /**
-     * MultipartFile类转File
-     *
-     * @param multipartFile MultipartFile类
-     * @return File
-     */
-    // public static File multipartFileToFile(MultipartFile multipartFile) {
-    //     File file = null;
-    //     try {
-    //         String originalFilename = multipartFile.getOriginalFilename();
-    //         if (originalFilename != null) {
-    //             String[] filename = originalFilename.split("\\.");
-    //             file = File.createTempFile(filename[0], filename[1]);
-    //             multipartFile.transferTo(file);
-    //             file.deleteOnExit();
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return file;
-    // }
-
-    // private static void existFile(FileInfo fileInfo) {
-    //     if (new File(fileInfo.getRealPath()).exists()) {
-    //         String newName = fileInfo.getFileName() + CharConst.UNDERLINE;
-    //         String newBasePath = createRealPath(newName, fileInfo.getFileSuffix());
-    //         String newRealPath = fileInfo.getRealPath().replace(fileInfo.getFileBasePath(), newBasePath);
-    //         fileInfo.setFileBasePath(newBasePath).setFileName(newName).setRealPath(newRealPath);
-    //         // 递归判断是否存在同文件
-    //         existFile(fileInfo);
-    //     }
-    // }
 
     /**
      * 创建文件储存真实路径
