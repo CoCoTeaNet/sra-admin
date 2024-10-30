@@ -7,6 +7,7 @@
 - 变更 sqltoy-plus升级到 >> 5.6.22
 - 变更 hutool升级到 >> 5.8.32
 - 优化 增加NoResourceFoundException全局拦截
+- 修复 500状态码时默认响应“ERROR”消息提示问题
 
 
 #### v2.0.7
