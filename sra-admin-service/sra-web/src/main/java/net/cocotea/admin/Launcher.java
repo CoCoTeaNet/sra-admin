@@ -19,7 +19,7 @@ public class Launcher {
         ConfigurableApplicationContext context = SpringApplication.run(Launcher.class, args);
         DefaultProp defaultProp = (DefaultProp) context.getBean("defaultProp");
         logger.info("强密码：{}, 权限缓存状态：{}", defaultProp.getStrongPassword(), defaultProp.getPermissionCache());
-        logger.info(String.format("API文档地址：http://localhost:%s/v2-api/doc/api.html", context.getEnvironment().getProperty("server.port")));
+        logger.info("API文档地址：http://localhost:{}/v2-api/doc/api.html", context.getEnvironment().getProperty("server.port"));
         GlobalConst.START_TIME = System.currentTimeMillis();
     }
 

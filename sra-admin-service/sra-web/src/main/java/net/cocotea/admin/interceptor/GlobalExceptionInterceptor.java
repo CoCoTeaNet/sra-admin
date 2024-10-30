@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Objects;
 
@@ -41,6 +42,12 @@ public class GlobalExceptionInterceptor {
         logger.error(">>>>> Exception msg:{}", ex.getMessage(), ex);
         saveLog();
         return ApiResult.error("系统异常，请联系管理员~");
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ApiResult<?> handlerNoResourceFoundException(Exception ex) {
+        logger.error(">>>>> NoResourceFoundException msg:{}", ex.getMessage());
+        return ApiResult.error(ApiResultEnum.NOT_FOUNT.getCode(), ApiResultEnum.NOT_FOUNT.getDesc());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

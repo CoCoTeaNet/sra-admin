@@ -1,6 +1,15 @@
 ## 更新日志
 
 
+#### v2.0.8
+- 变更 springboot框架升级到 >> 3.3.5
+- 变更 sagacity-sqltoy-spring-starter升级到 >> 5.6.22
+- 变更 sqltoy-plus升级到 >> 5.6.22
+- 变更 hutool升级到 >> 5.8.32
+- 优化 增加NoResourceFoundException全局拦截
+- 修复 500状态码时默认响应“ERROR”消息提示问题
+
+
 #### v2.0.7
 - 变更：springmvc默认的Tomcat容器改成Undertow
 - 变更：spring-boot-starter升级至3.3.2
