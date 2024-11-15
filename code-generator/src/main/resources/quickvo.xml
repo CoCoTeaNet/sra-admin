@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quickvo xmlns="http://www.sagframe.com/schema/quickvo"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.sagframe.com/schema/quickvo http://www.sagframe.com/schema/sqltoy/quickvo.xsd">
+
+    <!-- 配置数据源 -->
+    <property name="db.url"><![CDATA[ jdbc:mysql://172.16.77.57:3306/DB_SRA_V2?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true ]]></property>
+    <property name="db.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+    <property name="db.schema" value="DB_SRA_V2"/>
+    <property name="db.username" value="root"/>
+    <property name="db.password" value="root"/>
+
+    <!-- 配置项目信息 -->
+    <property name="project.version" value="1.0.0"/>
+    <property name="project.name" value="SraAdmin"/>
+    <property name="project.package" value="net.cocotea.admin.api.example.model"/>
+    <property name="include.schema" value="false"/>
+
+    <!-- set method 是否支持返回对象自身(默认是true),即: public VO setName(String name){this.name=name;return this;} -->
+    <property name="field.support.linked.set" value="true"/>
+
+    <!-- schema 对照关系:mysql 对应 db 名称; oracle 对应 用户名称，如出现字段重复等情况，请结合schema和catalog进行配置过滤 -->
+    <!-- 注意:当在多schema或tablespace场景下,在POJO中会出现重复字段，是因为schema和catalog 配置不正确，没有完成隔离 -->
+    <datasource name="strict" url="${db.url}" driver="${db.driver_class}"
+                schema="${db.schema}" catalog="${db.schema}" username="${db.username}" password="${db.password}"/>
+
+    <!-- TODO 配置生成模型类 -->
+    <tasks dist="src/main/java" encoding="UTF-8">
+        <task active="true" author="CoCoTea" include="^sys_\w+" datasource="strict">
+            <entity package="${project.package}.example.po" lombok="true" name="#{subName}" substr=""/>
+            <vo package="${project.package}.example.vo" lombok="true" name="#{subName}VO" substr=""/>
+        </task>
+    </tasks>
+    
+    <!-- 主键策略配置: identity类型的会自动产生主键策略，其他场景sqltoy根据主键类型和长度自动分配相应的策略方式.
+         strategy分:sequence\assign\generator 三种策略：
+         sequence 需要指定数据库对应的sequence名称。
+         assign 为手工赋值
+         generator为指定具体产生策略,目前分:default:22位长度的主键\nanotime:26位纳秒形式\snowflake雪花算法\uuid\redis -->
+    <primary-key>
+        <table name="SAG_\w+|SYS_\w+" strategy="generator" generator="default"/>
+        <!--<table name="xxxTABLE" strategy="sequence" sequence="SEQ_XXXX"/> -->
+        <!--<table name="sys_staff_info" strategy="generator" generator="snowflake"/> -->
+    </primary-key>
+
+    <!-- 数据类型对应关系
+        native-types表示特定数据库返回的字段类型;
+        jdbc-type：表示对应jdbc标准的类型(见:java.sql.Types),主要用于vo @Column注解中，设置其类型,方便操作数据库插入或修改时设置类型;
+        java-type:表示对应java对象的属性类型(非java.lang的需要将包名写完整便于import)
+        import-types: 可以自行定义需要引入的类型，多个用逗号分隔
+        -->
+    <type-mapping>
+        <!-- 保留1个范例,一般无需配置 -->
+        <sql-type native-types="NUMBER,DECIMAL,NUMERIC" precision="1..8" scale="0" jdbc-type="INTEGER"
+                  java-type="Integer"/>
+        <!-- 增加雪花算法的演示 -->
+        <sql-type native-types="BIGINT" jdbc-type="BIGINT" java-type="java.math.BigInteger"/>
+        <!-- 泛型注意xml转义符号，table-field指定具体表和字段; jdbc-type 可以直接填数字(jdbc.Types没有明显区分的类型)-->
+        <sql-type table-field="sqltoy_jsontype_showcae.staff_set" native-types="json" jdbc-type="1021"
+                  java-type="List&lt;StaffInfoVO&gt;" import-types="com.sqltoy.quickstart.vo.StaffInfoVO"/>
+    </type-mapping>
+</quickvo>

@@ -1,6 +1,10 @@
 ## 更新日志
 
 
+#### v2.0.9
+- 新增 code-generator模块（Maven插件生成实体类）
+
+
 #### v2.0.8
 - 变更 springboot框架升级到 >> 3.3.5
 - 变更 sagacity-sqltoy-spring-starter升级到 >> 5.6.22
