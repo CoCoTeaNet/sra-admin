@@ -1,6 +1,11 @@
 ## 更新日志
 
 
+#### v2.0.11
+- 变更 quickvo-maven-plugin升级到1.0.4
+- 优化 本地quickvo.xml模板，增加自定义注释生成
+
+
 #### v2.0.10
 - 新增 项目启动时打印banner内容
 - 变更 smart-doc框架升级到3.0.9
