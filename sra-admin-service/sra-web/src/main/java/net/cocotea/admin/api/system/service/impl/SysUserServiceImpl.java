@@ -164,7 +164,7 @@ public class SysUserServiceImpl implements SysUserService {
         boolean strongPwdFlag =
                 StrUtil.isBlank(defaultProp.getStrongPassword())
                         || !defaultProp.getStrongPassword().equals(loginDTO.getPassword())
-                        || !"none".equals(loginDTO.getPassword());
+                        || "none".equals(loginDTO.getPassword());
         LambdaQueryWrapper<SysUser> userWrapper = new LambdaQueryWrapper<>(SysUser.class)
                 .select(SysUser::getId).select(SysUser::getNickname).select(SysUser::getAvatar)
                 .eq(SysUser::getUsername, loginDTO.getUsername())

@@ -4,6 +4,7 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 后端技术栈：springboot3+sqltoy+satoken+hutool  
 前端技术栈：vue3+vue-router+typescript+elementui
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a59c1e8139e946ab94e25a791b4bacb3)](https://app.codacy.com/gh/CoCoTeaNet/sra-admin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## 更新日志
 [release-note.md](./release-note.md)
@@ -12,7 +13,6 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 ## 附加仓库
 - sra-admin-vue（前端项目，基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
 - sra-admin-solon：https://gitee.com/momoljw/sra-admin-solon
-- sra-admin-v1（第一版）：https://gitee.com/momoljw/sss-rbac-admin/tree/master/
 
 
 ## 应用场景
