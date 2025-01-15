@@ -3,6 +3,7 @@ package net.cocotea.admin.api.system.service.impl;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
@@ -41,6 +42,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -160,18 +162,21 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public String login(SysLoginDTO loginDTO, HttpServletRequest request) throws BusinessException {
         SysUser sysUser;
-        // 强密码为空或者为none表示“启用”
-        boolean strongPwdFlag =
-                StrUtil.isBlank(defaultProp.getStrongPassword())
-                        || !defaultProp.getStrongPassword().equals(loginDTO.getPassword())
-                        || !"none".equals(loginDTO.getPassword());
+
+        // 强密码为空或者为none表示“不启用”
+        boolean isStrongPwd = !(StrUtil.isBlank(defaultProp.getStrongPassword()) || "none".equals(defaultProp.getStrongPassword()));
+        if (isStrongPwd) {
+            boolean pwdValid = Objects.equals(defaultProp.getStrongPassword(), loginDTO.getPassword());
+            Assert.isTrue(pwdValid, () -> new BusinessException("密码不正确"));
+        }
+
         LambdaQueryWrapper<SysUser> userWrapper = new LambdaQueryWrapper<>(SysUser.class)
                 .select(SysUser::getId).select(SysUser::getNickname).select(SysUser::getAvatar)
                 .eq(SysUser::getUsername, loginDTO.getUsername())
                 .eq(SysUser::getIsDeleted, IsEnum.N.getCode());
         // 验证码缓存键
         String key = null;
-        if (strongPwdFlag) {
+        if (!isStrongPwd) {
             // 校验验证码
             key = String.format(RedisKeyConst.VERIFY_CODE_LOGIN, loginDTO.getCaptchaId());
             String code = redisService.get(key);

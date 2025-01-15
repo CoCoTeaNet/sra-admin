@@ -26,7 +26,7 @@
 
     <!-- TODO 配置生成模型类 -->
     <tasks dist="src/main/java" encoding="UTF-8">
-        <task active="true" author="CoCoTea" include="^sys_\w+" datasource="strict">
+        <task active="true" author="CoCoTea" include="^sys_\w+" datasource="strict" api-doc="custom">
             <entity package="${project.package}.example.po" lombok="true" name="#{subName}" substr=""/>
             <vo package="${project.package}.example.vo" lombok="true" name="#{subName}VO" substr=""/>
         </task>
@@ -59,4 +59,12 @@
         <sql-type table-field="sqltoy_jsontype_showcae.staff_set" native-types="json" jdbc-type="1021"
                   java-type="List&lt;StaffInfoVO&gt;" import-types="com.sqltoy.quickstart.vo.StaffInfoVO"/>
     </type-mapping>
+
+    <!-- 自定义字段文档 -->
+    <api-doc>
+        <doc-field-template>
+            /** ${colRemark} **/
+        </doc-field-template>
+    </api-doc>
+
 </quickvo>
