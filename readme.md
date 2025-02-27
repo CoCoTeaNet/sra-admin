@@ -11,8 +11,8 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 
 
 ## 附加仓库
-- sra-admin-vue（前端项目，基于VUE开发）：https://gitee.com/momoljw/sra-admin-vue
-- sra-admin-solon：https://gitee.com/momoljw/sra-admin-solon
+- sra-admin-vue（前端项目，基于VUE开发）：https://github.com/CoCoTeaNet/sra-admin-vue.git
+- sra-admin-solon：https://github.com/CoCoTeaNet/sra-admin-solon
 
 
 ## 应用场景
@@ -92,8 +92,7 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 3. 提交代码
 4. 新建 Pull Request
 
-- [贡献指南](https://gitee.com/gitee-community/opensource-guide/blob/master/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97.md)
-- 如有更好的想法，欢迎提[issue](https://gitee.com/momoljw/sss-rbac-admin/issues)
+- 如有更好的想法，欢迎提[issue](https://github.com/CoCoTeaNet/sra-admin/issues)
 
 
 ## SraAdmin交流群
