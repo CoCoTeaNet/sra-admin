@@ -1,6 +1,13 @@
 ## 更新日志
 
 
+#### v2.0.12
+- 变更 springboot升级到3.4.3
+- 变更 sqltoy、sqltoy-plus升级到5.6.40
+- 变更 satoken升级到1.40.0
+- 变更 hutool升级到5.8.35
+
+
 #### v2.0.11
 - 变更 quickvo-maven-plugin升级到1.0.4
 - 优化 本地quickvo.xml模板，增加自定义注释生成
