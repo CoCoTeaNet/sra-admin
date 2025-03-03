@@ -2,8 +2,8 @@
 
 
 #### v2.0.12
-- 变更 springboot升级到3.3.8
-- 变更 sqltoy、sqltoy-plus升级到5.6.33
+- 变更 springboot升级到3.4.3
+- 变更 sqltoy、sqltoy-plus升级到5.6.40
 - 变更 satoken升级到1.40.0
 - 变更 hutool升级到5.8.35
 

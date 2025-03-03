@@ -21,9 +21,9 @@
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
-        <springboot3.version>3.3.8</springboot3.version>
+        <springboot3.version>3.4.3</springboot3.version>
         <logback.version>1.5.6</logback.version>
-        <sqltoy.version>5.6.33</sqltoy.version>
+        <sqltoy.version>5.6.40</sqltoy.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
         <satoken.version>1.40.0</satoken.version>
