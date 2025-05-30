@@ -1,5 +1,8 @@
 ## 更新日志
 
+#### v2.0.13
+- 变更 fastjson升级到fastjson2
+
 
 #### v2.0.12
 - 变更 springboot升级到3.4.3
