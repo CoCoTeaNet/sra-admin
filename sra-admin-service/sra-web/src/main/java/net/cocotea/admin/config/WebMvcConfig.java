@@ -59,7 +59,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 JSONWriter.Feature.WriteMapNullValue,
                 JSONWriter.Feature.WriteNullNumberAsZero,
                 JSONWriter.Feature.WriteNullStringAsEmpty,
-                JSONWriter.Feature.WriteLongAsString,
                 JSONWriter.Feature.WriteBigDecimalAsPlain,
                 JSONWriter.Feature.BrowserCompatible
         );
