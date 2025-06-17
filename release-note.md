@@ -1,5 +1,14 @@
 ## 更新日志
 
+#### v2.0.13
+- 变更 springboot3升级到3.5.0
+- 变更 fastjson升级到fastjson2
+- 变更 satoken升级到1.43.0
+- 变更 sqltoy、sqltoy-plus升级到5.6.47
+- 变更 sa-token-redis换成sa-token-redis-template
+- 变更 sa-token使用fastjson2序列化对象
+- 变更 smart-doc升级到3.1.0
+
 
 #### v2.0.12
 - 变更 springboot升级到3.4.3

@@ -5,11 +5,9 @@ import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DatePattern;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.support.config.FastJsonConfig;
+import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
 import jakarta.annotation.Resource;
 import net.cocotea.admin.interceptor.WebApiInterceptor;
 import net.cocotea.admin.properties.DefaultProp;
@@ -44,24 +42,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
-        fastJsonConfig.setSerializerFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.WriteNullNumberAsZero,
-                SerializerFeature.WriteNullStringAsEmpty
-        );
-        // 解决长整型精度丢失的问题
-        SerializeConfig serializeConfig = SerializeConfig.globalInstance;
-        serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
-        fastJsonConfig.setSerializeConfig(serializeConfig);
+        FastJsonConfig fastJsonConfig = getFastJsonConfig();
         // 处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON);
         fastConverter.setSupportedMediaTypes(fastMediaTypes);
         fastConverter.setFastJsonConfig(fastJsonConfig);
         return fastConverter;
+    }
+
+    private static FastJsonConfig getFastJsonConfig() {
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
+        fastJsonConfig.setWriterFeatures(
+                JSONWriter.Feature.PrettyFormat,
+                JSONWriter.Feature.WriteMapNullValue,
+                JSONWriter.Feature.WriteNullNumberAsZero,
+                JSONWriter.Feature.WriteNullStringAsEmpty,
+                JSONWriter.Feature.WriteBigDecimalAsPlain,
+                JSONWriter.Feature.BrowserCompatible
+        );
+        return fastJsonConfig;
     }
 
     @Override

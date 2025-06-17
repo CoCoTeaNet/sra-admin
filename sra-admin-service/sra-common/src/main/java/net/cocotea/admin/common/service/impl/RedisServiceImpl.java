@@ -1,7 +1,7 @@
 package net.cocotea.admin.common.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import net.cocotea.admin.common.service.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +97,7 @@ public class RedisServiceImpl implements RedisService {
             logger.warn("service[hashPut]key is empty");
             return;
         }
-        stringRedisTemplate.opsForHash().put(key, hashKey, JSONObject.toJSONString(value));
+        stringRedisTemplate.opsForHash().put(key, hashKey, JSON.toJSONString(value));
     }
 
     @Override
