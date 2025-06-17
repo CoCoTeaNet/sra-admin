@@ -21,12 +21,12 @@
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
-        <springboot3.version>3.4.3</springboot3.version>
+        <springboot3.version>3.5.0</springboot3.version>
         <logback.version>1.5.6</logback.version>
-        <sqltoy.version>5.6.40</sqltoy.version>
+        <sqltoy.version>5.6.47</sqltoy.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <alibaba-druid.version>1.2.6</alibaba-druid.version>
-        <satoken.version>1.40.0</satoken.version>
+        <satoken.version>1.43.0</satoken.version>
         <fastjson2.version>2.0.57</fastjson2.version>
         <hutool.version>5.8.35</hutool.version>
         <oshi.version>5.6.1</oshi.version>
@@ -99,10 +99,15 @@
                 <artifactId>sa-token-spring-boot3-starter</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
-            <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
+            <!-- Sa-Token 整合 Redis -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-redis</artifactId>
+                <artifactId>sa-token-redis-template</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-fastjson2</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <!-- mysql连接器 -->

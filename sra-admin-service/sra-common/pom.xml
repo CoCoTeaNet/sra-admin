@@ -37,6 +37,16 @@
         <dependency>
             <groupId>com.sagframe</groupId>
             <artifactId>sqltoy-plus-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-context</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- alibaba连接池 -->
         <dependency>
