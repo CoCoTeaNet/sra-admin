@@ -1,5 +1,17 @@
 ## 更新日志
 
+
+#### v2.0.14
+- 变更 springboot3 >> 3.5.3
+- 变更 sqltoy >> 5.6.50
+- 变更 logback-classic >> 1.5.18
+- 变更 mysql-connector >> 8.4.0
+- 变更 quickvo-maven-plugin >> 1.0.7
+- 变更 hutool >> 5.8.39
+- 变更 oshi-core >> 6.8.2
+- 变更 bcprov-jdk15to18 >> 1.81
+
+
 #### v2.0.13
 - 变更 springboot3升级到3.5.0
 - 变更 fastjson升级到fastjson2
