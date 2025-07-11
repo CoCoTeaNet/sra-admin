@@ -98,7 +98,3 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 ## SraAdmin交流群
 QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq)
 
-
-## 感谢支持
-- [JetBrain Idea](https://jb.gg/OpenSourceSupport)  
-![jetbrains](./doc/imgs/jb_beam.svg)
