@@ -2,8 +2,6 @@ name: Generate Changelog
 
 on:
   push:
-    branches:
-      - dev
     tags:
       - '[0-9]+.[0-9]+.[0-9]+' 
 
@@ -33,7 +31,14 @@ jobs:
           git checkout 'origin/main'
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          set +e
+
           git add CHANGELOG.md
-          git commit -m "Update changelog"
+
+          # 如果没有更改，跳过提交
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "docs: update CHANGELOG.md"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git 'origin/dev'
