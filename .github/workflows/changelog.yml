@@ -33,7 +33,15 @@ jobs:
           git checkout 'origin/main'
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          set +e
+
           git add CHANGELOG.md
-          git commit -m "Update changelog"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git 'main'
+
+          # 如果没有更改，跳过提交
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "docs: update CHANGELOG.md"
+          git push origin main  # 推送到 main 分支
+          # git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git 'main'
