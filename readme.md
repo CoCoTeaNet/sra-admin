@@ -21,23 +21,6 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 - XXX管理系统
 
 
-## 图片演示
-<table>
-    <tr>
-        <td><img src="./doc/imgs/ys_21.jpg" alt="ys_1"/></td>
-        <td><img src="./doc/imgs/ys_22.png" alt="ys_2"/></td>
-    </tr>
-    <tr>
-        <td><img src="./doc/imgs/ys_23.jpg" alt="ys_3"/></td>
-        <td><img src="./doc/imgs/ys_24.jpg" alt="ys_4"/></td>
-    </tr>
-</table>
-
-
-## 软件架构
-[![image.png](https://i.postimg.cc/Bn7TLCXv/image.png)](https://i.postimg.cc/Bn7TLCXv/image.png)
-
-
 ## 启动说明
 ### 步骤
 1. 运行数据库脚本：表结构、初始化数据
@@ -97,4 +80,5 @@ SraAdmin是一个前后端分离的后台管理系统，引入了市面上常用
 
 ## SraAdmin交流群
 QQ群：[![加入QQ群](https://img.shields.io/badge/-543112505-brightgreen)](https://jq.qq.com/?_wv=1027&k=lxODRWpq)
+
 
